@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "PriceTrendCam (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "PriceTrendCam (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
