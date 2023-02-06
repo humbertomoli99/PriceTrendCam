@@ -130,4 +130,24 @@ public class HtmlDocumentTests
         }
     }
 
+    [TestClass]
+    public class RemoveDuplicateUrlsTests
+    {
+        [TestMethod]
+        public async Task TestRemoveDuplicateUrls_ValidInput()
+        {
+            // Arrange
+            var url = "https://listado.mercadolibre.com.mx/gtx-1060-6gb#D[A:gtx%201060%206gb,L:undefined]";
+
+            // Act
+            var result = await HtmlDocumentService.RemoveDuplicateUrls(url);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+            CollectionAssert.AllItemsAreUnique(result);
+        }
+    }
+
+
 }
