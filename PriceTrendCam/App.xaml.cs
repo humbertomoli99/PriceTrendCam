@@ -23,6 +23,10 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
     // https://docs.microsoft.com/dotnet/core/extensions/configuration
     // https://docs.microsoft.com/dotnet/core/extensions/logging
+
+    private static readonly Lazy<PriceTrackerDbService> _priceTrackerService = new(() => new PriceTrackerDbService());
+    public static PriceTrackerDbService Instance => _priceTrackerService.Value;
+
     public IHost Host
     {
         get;
