@@ -23,6 +23,11 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
     // https://docs.microsoft.com/dotnet/core/extensions/configuration
     // https://docs.microsoft.com/dotnet/core/extensions/logging
+
+    private static readonly PriceTrackerDbService _productService =
+    new(Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Product.db3"));
+
+    public static PriceTrackerDbService PriceTrackerService => _productService;
     public IHost Host
     {
         get;
