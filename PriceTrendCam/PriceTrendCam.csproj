@@ -21,6 +21,10 @@
     <Content Remove="Assets\BadgeLogo.scale-150.png" />
     <Content Remove="Assets\BadgeLogo.scale-200.png" />
     <Content Remove="Assets\BadgeLogo.scale-400.png" />
+    <Content Remove="Assets\WindowIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\WindowIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
