@@ -149,4 +149,19 @@ public class HtmlDocumentService
     {
         return GetMetaValue(DocumentNode, "head > meta[property='og:image']", "content");
     }
+
+    public static async Task<List<string>> RemoveDuplicateUrls(string url)
+    {
+        //Carga la página HTML y la asigna a un objeto HtmlNode
+        var htmlNode = await LoadPageAsync(url);
+
+        //Obtiene todas las URLs encontradas en la página HTML
+        var allUrls = GetUrls(htmlNode);
+
+        //Elimina duplicados de la lista de URLs
+        allUrls = allUrls.Distinct().ToList();
+
+        //Retorna la lista de URLs sin duplicados
+        return allUrls;
+    }
 }
