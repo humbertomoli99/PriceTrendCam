@@ -5,15 +5,9 @@ namespace PriceTrendCam.Core.Services;
 public class PriceTrackerDbService
 {
     private SQLiteAsyncConnection _database;
-
-    private readonly string _defaultLocalDatabaseFile = "LocalDatabase.db3";
-    private readonly string _defaultApplicationDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-    private readonly string _localDatabaseFile;
-
-    public PriceTrackerDbService()
+    public PriceTrackerDbService(string DbPath)
     {
-        _localDatabaseFile = Path.Combine(_defaultApplicationDataFolder, _defaultLocalDatabaseFile);
-        _database = new SQLiteAsyncConnection(_localDatabaseFile);
+        _database = new SQLiteAsyncConnection(DbPath);
         _ = CreateTablesAsync();
     }
 

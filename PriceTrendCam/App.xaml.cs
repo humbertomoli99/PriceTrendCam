@@ -24,9 +24,10 @@ public partial class App : Application
     // https://docs.microsoft.com/dotnet/core/extensions/configuration
     // https://docs.microsoft.com/dotnet/core/extensions/logging
 
-    private static readonly Lazy<PriceTrackerDbService> _priceTrackerService = new(() => new PriceTrackerDbService());
-    public static PriceTrackerDbService Instance => _priceTrackerService.Value;
+    private static readonly PriceTrackerDbService _productService =
+    new(Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Product.db3"));
 
+    public static PriceTrackerDbService PriceTrackerService => _productService;
     public IHost Host
     {
         get;
