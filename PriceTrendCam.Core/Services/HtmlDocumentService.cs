@@ -19,12 +19,16 @@ public class HtmlDocumentService
         document.LoadHtml(await content.ReadAsStringAsync());
         return document.DocumentNode;
     }
-
-    public static List<string> GetUrls(HtmlNode htmlUrl)
+    /// <summary>
+    /// Obtiene una lista de URLs de un nodo HTML dado.
+    /// </summary>
+    /// <param name="htmlUrl">Nodo HTML a examinar.</param>
+    /// <returns>Lista de URLs encontrados en el nodo HTML.</returns>
+    public static List<string> GetUrls(HtmlNode DocumentNode)
     {
         var listUrl = new List<string>();
 
-        foreach (var node in htmlUrl.QuerySelectorAll("a"))
+        foreach (var node in DocumentNode.QuerySelectorAll("a"))
         {
             listUrl.Add(node.GetAttributeValue("href", ""));
         }
