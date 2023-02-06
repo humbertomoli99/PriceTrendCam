@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>PriceTrendCam.Core</RootNamespace>
@@ -6,7 +6,9 @@
     <Platforms>x86;x64;arm64;AnyCPU</Platforms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
