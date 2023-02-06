@@ -22,7 +22,7 @@ public class HtmlDocumentService
     /// <summary>
     /// Obtiene una lista de URLs de un nodo HTML dado.
     /// </summary>
-    /// <param name="htmlUrl">Nodo HTML a examinar.</param>
+    /// <param name="DocumentNode">Nodo HTML a examinar.</param>
     /// <returns>Lista de URLs encontrados en el nodo HTML.</returns>
     public static List<string> GetUrls(HtmlNode DocumentNode)
     {
