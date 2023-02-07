@@ -16,6 +16,12 @@ public class Store
     {
         get; set;
     }
+
+    public string Favicon
+    {
+        get; set;
+    }
+
     [OneToMany(CascadeOperations = CascadeOperation.All)]
     public List<Selector> Selectors
     {
