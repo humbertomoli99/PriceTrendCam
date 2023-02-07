@@ -75,6 +75,12 @@ public class ProductInfo
     {
         get; set;
     }
+    [OneToOne]
+
+    public Store Favicon
+    {
+        get; set;
+    }
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
     public List<History> Histories
