@@ -9,6 +9,11 @@ using HtmlAgilityPack;
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
 {
+    /// <summary>
+    /// Carga una página web en forma asíncrona y devuelve el nodo HTML raíz.
+    /// </summary>
+    /// <param name="RequestUri">Dirección URL de la página web a cargar.</param>
+    /// <returns>Nodo HTML raíz de la página web cargada.</returns>
     public static async Task<HtmlNode> LoadPageAsync(string RequestUri)
     {
         var client = new HttpClient();
