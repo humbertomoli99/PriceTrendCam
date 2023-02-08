@@ -10,18 +10,18 @@ namespace PriceTrendCam.ViewModels;
 
 public class ProductDetailsViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ISampleDataService _sampleDataService;
-    private SampleOrder? _selected;
+    private readonly ISampleDataService<ProductInfo> _sampleDataService;
+    private ProductInfo? _selected;
 
-    public SampleOrder? Selected
+    public ProductInfo? Selected
     {
         get => _selected;
         set => SetProperty(ref _selected, value);
     }
 
-    public ObservableCollection<SampleOrder> SampleItems { get; private set; } = new ObservableCollection<SampleOrder>();
+    public ObservableCollection<ProductInfo> SampleItems { get; private set; } = new ObservableCollection<ProductInfo>();
 
-    public ProductDetailsViewModel(ISampleDataService sampleDataService)
+    public ProductDetailsViewModel(ISampleDataService<ProductInfo> sampleDataService)
     {
         _sampleDataService = sampleDataService;
     }

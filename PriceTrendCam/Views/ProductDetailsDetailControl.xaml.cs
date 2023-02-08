@@ -7,13 +7,13 @@ namespace PriceTrendCam.Views;
 
 public sealed partial class ProductDetailsDetailControl : UserControl
 {
-    public SampleOrder? ListDetailsMenuItem
+    public ProductInfo? ListDetailsMenuItem
     {
-        get => GetValue(ListDetailsMenuItemProperty) as SampleOrder;
+        get => GetValue(ListDetailsMenuItemProperty) as ProductInfo;
         set => SetValue(ListDetailsMenuItemProperty, value);
     }
 
-    public static readonly DependencyProperty ListDetailsMenuItemProperty = DependencyProperty.Register("ListDetailsMenuItem", typeof(SampleOrder), typeof(ProductDetailsDetailControl), new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
+    public static readonly DependencyProperty ListDetailsMenuItemProperty = DependencyProperty.Register("ListDetailsMenuItem", typeof(ProductInfo), typeof(ProductDetailsDetailControl), new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
 
     public ProductDetailsDetailControl()
     {
