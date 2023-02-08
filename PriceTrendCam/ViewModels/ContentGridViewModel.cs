@@ -14,7 +14,7 @@ namespace PriceTrendCam.ViewModels;
 public class ContentGridViewModel : ObservableRecipient, INavigationAware
 {
     private readonly INavigationService _navigationService;
-    private readonly ISampleDataService _sampleDataService;
+    private readonly ISampleDataService<SampleOrder> _sampleDataService;
 
     public ICommand ItemClickCommand
     {
@@ -23,7 +23,7 @@ public class ContentGridViewModel : ObservableRecipient, INavigationAware
 
     public ObservableCollection<SampleOrder> Source { get; } = new ObservableCollection<SampleOrder>();
 
-    public ContentGridViewModel(INavigationService navigationService, ISampleDataService sampleDataService)
+    public ContentGridViewModel(INavigationService navigationService, ISampleDataService<SampleOrder> sampleDataService)
     {
         _navigationService = navigationService;
         _sampleDataService = sampleDataService;

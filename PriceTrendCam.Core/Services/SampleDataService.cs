@@ -10,7 +10,7 @@ namespace PriceTrendCam.Core.Services;
 // 3. Models/SampleCompany.cs
 // 4. Models/SampleOrder.cs
 // 5. Models/SampleOrderDetail.cs
-public class SampleDataService : ISampleDataService
+public class SampleDataService : ISampleDataService<SampleOrder>
 {
     private List<SampleOrder> _allOrders;
 

@@ -3,11 +3,11 @@
 namespace PriceTrendCam.Core.Contracts.Services;
 
 // Remove this class once your pages/features are using your data.
-public interface ISampleDataService
+public interface ISampleDataService<T>
 {
-    Task<IEnumerable<SampleOrder>> GetContentGridDataAsync();
+    Task<IEnumerable<T>> GetContentGridDataAsync();
 
-    Task<IEnumerable<SampleOrder>> GetGridDataAsync();
+    Task<IEnumerable<T>> GetGridDataAsync();
 
-    Task<IEnumerable<SampleOrder>> GetListDetailsDataAsync();
+    Task<IEnumerable<T>> GetListDetailsDataAsync();
 }
