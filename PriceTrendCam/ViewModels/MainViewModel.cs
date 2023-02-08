@@ -16,7 +16,9 @@ public class MainViewModel : ObservableRecipient
         {
             Id= 3,
             Name = "producto1",
-            Description = "producto de prueba"
+            Description = "producto de prueba",
+            Date= DateTime.Now,
+            ShippingPrice = 100
         };
 
         await App.PriceTrackerService.InsertAsync<ProductInfo>(producto1);

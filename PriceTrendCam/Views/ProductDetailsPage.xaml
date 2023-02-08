@@ -11,7 +11,7 @@
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="ItemTemplate" x:DataType="models:SampleOrder">
+        <DataTemplate x:Key="ItemTemplate" x:DataType="models:ProductInfo">
             <Grid Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -21,14 +21,14 @@
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     FontSize="32"
-                    Glyph="{x:Bind Symbol}"
-                    AutomationProperties.Name="{x:Bind SymbolName}" />
+                    Glyph="{x:Bind Favicon}"
+                    AutomationProperties.Name="{x:Bind StoreName}" />
                 <StackPanel
                     Grid.Column="1"
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
-                    <TextBlock Text="{x:Bind Company}" Style="{StaticResource ListTitleStyle}" />
-                    <TextBlock Text="{x:Bind Status}" Style="{StaticResource ListSubTitleStyle}" />
+                    <TextBlock Text="{x:Bind Name}" Style="{StaticResource ListTitleStyle}" />
+                    <TextBlock Text="{x:Bind Description}" Style="{StaticResource ListSubTitleStyle}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>

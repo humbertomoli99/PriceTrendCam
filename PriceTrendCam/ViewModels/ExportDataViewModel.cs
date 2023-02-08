@@ -10,11 +10,11 @@ namespace PriceTrendCam.ViewModels;
 
 public class ExportDataViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ISampleDataService _sampleDataService;
+    private readonly ISampleDataService<SampleOrder> _sampleDataService;
 
     public ObservableCollection<SampleOrder> Source { get; } = new ObservableCollection<SampleOrder>();
 
-    public ExportDataViewModel(ISampleDataService sampleDataService)
+    public ExportDataViewModel(ISampleDataService<SampleOrder> sampleDataService)
     {
         _sampleDataService = sampleDataService;
     }

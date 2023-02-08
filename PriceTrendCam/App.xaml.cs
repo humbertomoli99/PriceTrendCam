@@ -5,11 +5,13 @@ using Microsoft.UI.Xaml;
 using PriceTrendCam.Activation;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Contracts.Services;
+using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 using PriceTrendCam.Helpers;
 using PriceTrendCam.Models;
 using PriceTrendCam.Notifications;
 using PriceTrendCam.Services;
+using PriceTrendCam.Services.DataService;
 using PriceTrendCam.ViewModels;
 using PriceTrendCam.Views;
 
@@ -73,7 +75,8 @@ public partial class App : Application
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services
-            services.AddSingleton<ISampleDataService, SampleDataService>();
+            services.AddSingleton<ISampleDataService<SampleOrder>, SampleDataService>();
+            services.AddSingleton<ISampleDataService<ProductInfo>, ProductInfoDataService>();
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels

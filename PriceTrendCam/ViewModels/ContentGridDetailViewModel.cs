@@ -8,7 +8,7 @@ namespace PriceTrendCam.ViewModels;
 
 public class ContentGridDetailViewModel : ObservableRecipient, INavigationAware
 {
-    private readonly ISampleDataService _sampleDataService;
+    private readonly ISampleDataService<SampleOrder> _sampleDataService;
     private SampleOrder? _item;
 
     public SampleOrder? Item
@@ -17,7 +17,7 @@ public class ContentGridDetailViewModel : ObservableRecipient, INavigationAware
         set => SetProperty(ref _item, value);
     }
 
-    public ContentGridDetailViewModel(ISampleDataService sampleDataService)
+    public ContentGridDetailViewModel(ISampleDataService<SampleOrder> sampleDataService)
     {
         _sampleDataService = sampleDataService;
     }
