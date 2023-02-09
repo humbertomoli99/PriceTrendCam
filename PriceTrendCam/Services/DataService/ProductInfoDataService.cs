@@ -10,7 +10,7 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
     {
     }
 
-    public async Task<IEnumerable<ProductInfo>> AllOrders()
+    public async Task<IEnumerable<ProductInfo>> AllProducts()
     {
         var data = await App.PriceTrackerService.GetAllAsync<ProductInfo>();
         return data.AsEnumerable();
@@ -18,7 +18,7 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
 
     public async Task<IEnumerable<ProductInfo>> GetContentGridDataAsync()
     {
-        _allProducts = new List<ProductInfo>(await AllOrders());
+        _allProducts = new List<ProductInfo>(await AllProducts());
 
         await Task.CompletedTask;
         return _allProducts;
@@ -26,14 +26,14 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
 
     public async Task<IEnumerable<ProductInfo>> GetGridDataAsync()
     {
-        _allProducts = new List<ProductInfo>(await AllOrders());
+        _allProducts = new List<ProductInfo>(await AllProducts());
 
         await Task.CompletedTask;
         return _allProducts;
     }
     public async Task<IEnumerable<ProductInfo>> GetListDetailsDataAsync()
     {
-        _allProducts = new List<ProductInfo>(await AllOrders());
+        _allProducts = new List<ProductInfo>(await AllProducts());
 
         await Task.CompletedTask;
         return _allProducts;
