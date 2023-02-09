@@ -20,6 +20,7 @@
     <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PriceTrendCam.Core\PriceTrendCam.Core.csproj" />
     <ProjectReference Include="..\PriceTrendCam\PriceTrendCam.csproj" />
   </ItemGroup>
 </Project>
