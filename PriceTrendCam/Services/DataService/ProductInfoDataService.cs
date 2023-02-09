@@ -18,11 +18,7 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
 
     public async Task<IEnumerable<ProductInfo>> GetContentGridDataAsync()
     {
-
-        if (_allProducts == null)
-        {
-            _allProducts = new List<ProductInfo>(await AllOrders());
-        }
+        _allProducts = new List<ProductInfo>(await AllOrders());
 
         await Task.CompletedTask;
         return _allProducts;
@@ -30,21 +26,14 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
 
     public async Task<IEnumerable<ProductInfo>> GetGridDataAsync()
     {
-        if (_allProducts == null)
-        {
-            _allProducts = new List<ProductInfo>(await AllOrders());
-        }
+        _allProducts = new List<ProductInfo>(await AllOrders());
 
         await Task.CompletedTask;
         return _allProducts;
     }
     public async Task<IEnumerable<ProductInfo>> GetListDetailsDataAsync()
     {
-
-        if (_allProducts == null)
-        {
-            _allProducts = new List<ProductInfo>(await AllOrders());
-        }
+        _allProducts = new List<ProductInfo>(await AllOrders());
 
         await Task.CompletedTask;
         return _allProducts;
