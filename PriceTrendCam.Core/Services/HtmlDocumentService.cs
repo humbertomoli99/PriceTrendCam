@@ -96,8 +96,8 @@ public class HtmlDocumentService
             var response = await client.GetAsync(faviconUrl);
             var favicon = await response.Content.ReadAsByteArrayAsync();
 
-            string websiteUrl = $"https://{new Uri(url).Host}";
-            string fileName = websiteUrl.Replace("https://", "").Replace("www.", "").Replace(".", "_") + $"_favicon.{format}";
+            var websiteUrl = $"https://{new Uri(url).Host}";
+            var fileName = websiteUrl.Replace("https://", "").Replace("www.", "").Replace(".", "_") + $"_favicon.{format}";
 
             File.WriteAllBytes(Path.Combine(Path1, fileName), favicon);
         }
