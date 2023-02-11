@@ -70,25 +70,26 @@ public class HtmlDocumentTests
     public async Task TestDownloadFaviconAsyncSuccess()
     {
         var url = "https://www.google.com";
-        await HtmlDocumentService.DownloadFaviconAsync(url);
-        Assert.IsTrue(File.Exists("google_com_favicon.ico"));
-        File.Delete("google_com_favicon.ico");
+        await HtmlDocumentService.DownloadFaviconAsync(url, $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/");
+        Assert.IsTrue(File.Exists(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico")));
+        File.Delete(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico"));
     }
 
     [TestMethod]
     public async Task TestDownloadFaviconAsyncNoFaviconFound()
     {
         var url = "https://www.example.com";
-        await HtmlDocumentService.DownloadFaviconAsync(url);
-        Assert.IsFalse(File.Exists("favicon.ico"));
+        var path1 = $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/";
+        await HtmlDocumentService.DownloadFaviconAsync(url, path1);
+        Assert.IsFalse(File.Exists(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico")));
     }
 
     [TestMethod]
     public async Task TestDownloadFaviconAsyncInvalidUrl()
     {
         var url = "invalid url";
-        await HtmlDocumentService.DownloadFaviconAsync(url);
-        Assert.IsFalse(File.Exists("favicon.ico"));
+        await HtmlDocumentService.DownloadFaviconAsync(url, $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/");
+        Assert.IsFalse(File.Exists(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico")));
     }
     [TestClass]
     public class LoadPageAsyncTests

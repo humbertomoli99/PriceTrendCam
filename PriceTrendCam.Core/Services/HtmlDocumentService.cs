@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Fizzler.Systems.HtmlAgilityPack;
@@ -71,7 +72,7 @@ public class HtmlDocumentService
     /// Descarga el favicon de una URL específica.
     /// </summary>
     /// <param name="url">La URL de la página para descargar el favicon.</param>
-    public static async Task DownloadFaviconAsync(string url)
+    public static async Task DownloadFaviconAsync(string url, string Path1)
     {
         try
         {
@@ -98,7 +99,7 @@ public class HtmlDocumentService
             string websiteUrl = $"https://{new Uri(url).Host}";
             string fileName = websiteUrl.Replace("https://", "").Replace("www.", "").Replace(".", "_") + $"_favicon.{format}";
 
-            System.IO.File.WriteAllBytes(fileName, favicon);
+            File.WriteAllBytes(Path.Combine(Path1, fileName), favicon);
         }
         catch (Exception ex)
         {
