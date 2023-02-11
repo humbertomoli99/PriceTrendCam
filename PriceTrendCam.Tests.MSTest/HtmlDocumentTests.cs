@@ -75,7 +75,20 @@ public class HtmlDocumentTests
         Assert.IsTrue(File.Exists(Path.Combine(pathFolder, "google_com_favicon.ico")));
         File.Delete(Path.Combine(pathFolder, "google_com_favicon.ico"));
     }
-
+    public async Task TestDownloadFaviconAsyncSuccess1()
+    {
+        var url = "https://www.mercadolibre.com.mx/";
+        await HtmlDocumentService.DownloadFaviconAsync(url, pathFolder);
+        Assert.IsTrue(File.Exists(Path.Combine(pathFolder, "mercadolibre_com_mx.ico")));
+        File.Delete(Path.Combine(pathFolder, "mercadolibre_com_mx.ico"));
+    }
+    public async Task TestDownloadFaviconAsyncSuccess2()
+    {
+        var url = "https://www.cyberpuerta.mx/";
+        await HtmlDocumentService.DownloadFaviconAsync(url, pathFolder);
+        Assert.IsTrue(File.Exists(Path.Combine(pathFolder, "cyberpuerta_mx.ico")));
+        File.Delete(Path.Combine(pathFolder, "cyberpuerta_mx.ico"));
+    }
     [TestMethod]
     public async Task TestDownloadFaviconAsyncNoFaviconFound()
     {
