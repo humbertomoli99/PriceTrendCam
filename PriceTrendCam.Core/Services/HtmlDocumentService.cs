@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -103,7 +104,7 @@ public class HtmlDocumentService
             var filePath = Path.Combine(folderPath, fileName);
 
             File.WriteAllBytes(filePath, favicon);
-            Console.WriteLine("Favicon descargado en: " + filePath);
+            Debug.WriteLine("Favicon descargado en: " + filePath);
         }
         catch (Exception ex)
         {
