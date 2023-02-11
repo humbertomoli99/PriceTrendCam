@@ -72,7 +72,8 @@ public class HtmlDocumentService
     /// Descarga el favicon de una URL específica.
     /// </summary>
     /// <param name="url">La URL de la página para descargar el favicon.</param>
-    public static async Task DownloadFaviconAsync(string url, string Path1)
+    /// <param name="folderPath">La Carpeta donde se va a guardar el favicon.</param>
+    public static async Task DownloadFaviconAsync(string url, string folderPath)
     {
         try
         {
@@ -99,8 +100,10 @@ public class HtmlDocumentService
             var websiteUrl = $"https://{new Uri(url).Host}";
             var fileName = websiteUrl.Replace("https://", "").Replace("www.", "").Replace(".", "_") + $"_favicon.{format}";
 
-            File.WriteAllBytes(Path.Combine(Path1, fileName), favicon);
-            Console.WriteLine("Favicon descargado en: " + Path.Combine(Path1, fileName));
+            var filePath = Path.Combine(folderPath, fileName);
+
+            File.WriteAllBytes(filePath, favicon);
+            Console.WriteLine("Favicon descargado en: " + filePath);
         }
         catch (Exception ex)
         {
