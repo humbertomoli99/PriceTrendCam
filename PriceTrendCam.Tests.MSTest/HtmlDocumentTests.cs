@@ -71,8 +71,8 @@ public class HtmlDocumentTests
     {
         var url = "https://www.google.com";
         await HtmlDocumentService.DownloadFaviconAsync(url);
-        Assert.IsTrue(File.Exists("favicon.ico"));
-        File.Delete("favicon.ico");
+        Assert.IsTrue(File.Exists("google_com_favicon.ico"));
+        File.Delete("google_com_favicon.ico");
     }
 
     [TestMethod]
