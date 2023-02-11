@@ -100,6 +100,7 @@ public class HtmlDocumentService
             var fileName = websiteUrl.Replace("https://", "").Replace("www.", "").Replace(".", "_") + $"_favicon.{format}";
 
             File.WriteAllBytes(Path.Combine(Path1, fileName), favicon);
+            Console.WriteLine("Favicon descargado en: " + Path.Combine(Path1, fileName));
         }
         catch (Exception ex)
         {
