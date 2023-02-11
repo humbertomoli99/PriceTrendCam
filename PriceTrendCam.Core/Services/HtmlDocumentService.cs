@@ -39,6 +39,34 @@ public class HtmlDocumentService
         }
         return listUrl;
     }
+    public static async Task<string> GetFaviconUrlAsync(string url)
+    {
+        var faviconUrl = $"https://{new Uri(url).Host}/favicon.ico";
+        var client = new HttpClient();
+        var response = await client.GetAsync(faviconUrl);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            response = await client.GetAsync(url);
+            var html = await response.Content.ReadAsStringAsync();
+
+            var htmlDoc = new HtmlAgilityPack.HtmlDocument();
+            htmlDoc.LoadHtml(html);
+
+            var linkNode = htmlDoc.DocumentNode.SelectSingleNode("//link[@rel='shortcut icon']");
+            if (linkNode != null)
+            {
+                faviconUrl = linkNode.Attributes["href"].Value;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        return faviconUrl;
+    }
+
     /// <summary>
     /// Descarga el favicon de una URL específica.
     /// </summary>
@@ -47,51 +75,30 @@ public class HtmlDocumentService
     {
         try
         {
-            // Intenta descargar el favicon directamente a partir de la URL https://www.example.com/favicon.ico
-            var faviconUrl = $"https://{new Uri(url).Host}/favicon.ico";
-            var client = new HttpClient();
-            var response = await client.GetAsync(faviconUrl);
+            var faviconUrl = await GetFaviconUrlAsync(url);
 
-            // Si la descarga directa falla, busca el elemento "link" con "rel=shortcut icon"
-            if (!response.IsSuccessStatusCode)
+            if (faviconUrl == "")
             {
-                // Descargar el HTML de la página
-                response = await client.GetAsync(url);
-                var html = await response.Content.ReadAsStringAsync();
-
-                // Analizar el HTML
-                var htmlDoc = new HtmlAgilityPack.HtmlDocument();
-                htmlDoc.LoadHtml(html);
-
-                // Buscar el elemento "link" con "rel=shortcut icon"
-                var linkNode = htmlDoc.DocumentNode.SelectSingleNode("//link[@rel='shortcut icon']");
-                if (linkNode != null)
-                {
-                    faviconUrl = linkNode.Attributes["href"].Value;
-                }
-                else
-                {
-                    Console.WriteLine("No se encontró ningún favicon en la página");
-                    return;
-                }
+                Console.WriteLine("No se encontró ningún favicon en la página");
+                return;
             }
 
-            // Determinar el formato de descarga basándose en la extensión original
             var format = GetFaviconFormat(faviconUrl);
 
-            // Si el formato no es soportado, muestra un error
             if (format == "")
             {
                 Console.WriteLine("Formato de favicon no soportado");
                 return;
             }
 
-            // Descargar el favicon
-            response = await client.GetAsync(faviconUrl);
+            var client = new HttpClient();
+            var response = await client.GetAsync(faviconUrl);
             var favicon = await response.Content.ReadAsByteArrayAsync();
 
-            // Guardar el favicon en el disco local
-            System.IO.File.WriteAllBytes($"favicon.{format}", favicon);
+            string websiteUrl = $"https://{new Uri(url).Host}";
+            string fileName = websiteUrl.Replace("https://", "").Replace("www.", "").Replace(".", "_") + $"_favicon.{format}";
+
+            System.IO.File.WriteAllBytes(fileName, favicon);
         }
         catch (Exception ex)
         {
