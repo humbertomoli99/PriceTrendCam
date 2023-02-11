@@ -11,10 +11,11 @@ namespace PriceTrendCam.Tests.MSTest;
 public class HtmlDocumentTests
 {
     private HtmlDocument _htmlDocument;
-
+    private string pathFolder;
     [TestInitialize]
     public void Initialize()
     {
+        pathFolder = $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/";
         var html = @"<html>
                         <head>
                             <title>Test Title</title>
@@ -70,26 +71,25 @@ public class HtmlDocumentTests
     public async Task TestDownloadFaviconAsyncSuccess()
     {
         var url = "https://www.google.com";
-        await HtmlDocumentService.DownloadFaviconAsync(url, $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/");
-        Assert.IsTrue(File.Exists(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico")));
-        File.Delete(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico"));
+        await HtmlDocumentService.DownloadFaviconAsync(url, pathFolder);
+        Assert.IsTrue(File.Exists(Path.Combine(pathFolder, "google_com_favicon.ico")));
+        File.Delete(Path.Combine(pathFolder, "google_com_favicon.ico"));
     }
 
     [TestMethod]
     public async Task TestDownloadFaviconAsyncNoFaviconFound()
     {
         var url = "https://www.example.com";
-        var path1 = $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/";
-        await HtmlDocumentService.DownloadFaviconAsync(url, path1);
-        Assert.IsFalse(File.Exists(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico")));
+        await HtmlDocumentService.DownloadFaviconAsync(url, pathFolder);
+        Assert.IsFalse(File.Exists(Path.Combine(pathFolder, "google_com_favicon.ico")));
     }
 
     [TestMethod]
     public async Task TestDownloadFaviconAsyncInvalidUrl()
     {
         var url = "invalid url";
-        await HtmlDocumentService.DownloadFaviconAsync(url, $"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/");
-        Assert.IsFalse(File.Exists(Path.Combine($"C:/Users/humbe/AppData/Local/Packages/5F0BDD47-3323-4D23-87E2-10643AB2F138_penprprrxct9c/LocalState/", "google_com_favicon.ico")));
+        await HtmlDocumentService.DownloadFaviconAsync(url, pathFolder);
+        Assert.IsFalse(File.Exists(Path.Combine(pathFolder, "google_com_favicon.ico")));
     }
     [TestClass]
     public class LoadPageAsyncTests
