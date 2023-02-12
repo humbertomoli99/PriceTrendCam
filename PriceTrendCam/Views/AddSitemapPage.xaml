@@ -13,12 +13,12 @@
                 <StackPanel
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top">
-                    <Grid>
+                    <Grid MaxWidth="800">
                         <Grid.RowDefinitions>
                             <RowDefinition
-                                Height="auto" />
+                                Height="Auto" />
                             <RowDefinition
-                                Height="*" />
+                                Height="1*" />
                         </Grid.RowDefinitions>
                         <StackPanel
                             Grid.Row="0"
