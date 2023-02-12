@@ -70,7 +70,7 @@ public class PriceTrackerDbService
     /// </summary>
     /// <typeparam name="T">The type of the item to be inserted.</typeparam>
     /// <param name="item">The item to be inserted.</param>
-    /// <returns>A task that represents the asynchronous insert operation. The task result contains the ID of the inserted item.</returns>
+    /// <returns>A task that represents the asynchronous insert operation. The task result contains the number of rows inserted, which should be 1 for a successful insert.</returns>
     public async Task<int> InsertAsync<T>(T item) where T : class, new()
     {
         return await _database.InsertAsync(item).ConfigureAwait(false);
