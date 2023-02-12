@@ -97,4 +97,11 @@ public class PriceTrackerDbService
         var result = await _database.DeleteAsync(item).ConfigureAwait(false);
         return result > 0;
     }
+    /// <summary>
+    /// Closes the connection to the database.
+    /// </summary>
+    public async Task CloseAsync()
+    {
+        await _database.CloseAsync().ConfigureAwait(false);
+    }
 }
