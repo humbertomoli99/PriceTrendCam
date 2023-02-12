@@ -6,7 +6,82 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-        
+    <Grid
+        x:Name="ContentArea">
+        <Grid>
+            <ScrollViewer>
+                <StackPanel
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="auto" />
+                            <RowDefinition
+                                Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel
+                            Grid.Row="0"
+                            Margin="0,16">
+                            <Grid
+                                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1,1,1,1"
+                                CornerRadius="5,5,5,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="auto" />
+                                    <RowDefinition
+                                        Height="auto" />
+                                </Grid.RowDefinitions>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Width="172"
+                                    Height="172"
+                                    Margin="50"
+                                    BorderBrush="#FFC5C2C2"
+                                    BorderThickness="1,1,1,1"
+                                    CornerRadius="5,5,5,5">
+                                    <Image
+                                        Width="170"
+                                        Height="170"
+                                        Source="{Binding Imagen}"
+                                        Stretch="Uniform" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="1"
+                            Padding="16"
+                            Margin="0,16"
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="6">
+                            <StackPanel Margin="0,6">
+                                <TextBlock>Sitemap Name</TextBlock>
+                                <TextBox
+                                    x:Name="StoreName"
+                                    PlaceholderText="Sitemap Name"
+                                    Text="{Binding nameStore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel Margin="0,6">
+                                <TextBlock>Start URL</TextBlock>
+                                <TextBox
+                                    x:Name="StoreURL"
+                                    PlaceholderText="URL"
+                                    Text="{Binding startUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel Margin="0,6">
+                                <Button
+                                    Command="{Binding ICommandAddStore}"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    Content="Add Sitemap"></Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>

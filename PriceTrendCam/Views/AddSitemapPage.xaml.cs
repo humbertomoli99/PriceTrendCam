@@ -13,7 +13,9 @@ public sealed partial class AddSitemapPage : Page
 
     public AddSitemapPage()
     {
-        ViewModel = App.GetService<AddSitemapViewModel>();
         InitializeComponent();
+        object[] campos = { StoreName, StoreURL };
+        ViewModel = App.GetService<AddSitemapViewModel>();
+        DataContext = new AddSitemapViewModel(campos);
     }
 }
