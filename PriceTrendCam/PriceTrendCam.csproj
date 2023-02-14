@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\WindowIcon.ico" />
+    <None Remove="Views\SitemapDetailsDetailControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,5 +67,11 @@
 
   <ItemGroup>
     <_DeploymentManifestIconFile Remove="Assets\WindowIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\SitemapDetailsDetailControl.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 </Project>
