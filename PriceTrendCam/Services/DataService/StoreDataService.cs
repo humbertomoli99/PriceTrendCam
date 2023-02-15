@@ -1,5 +1,6 @@
 ﻿using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
+using Windows.Services.Store;
 
 namespace PriceTrendCam.Services.DataService;
 public class StoreDataService : ISampleDataService<Store>
@@ -12,9 +13,17 @@ public class StoreDataService : ISampleDataService<Store>
 
     public async Task<IEnumerable<Store>> AllProducts()
     {
-        var data = await App.PriceTrackerService.GetAllAsync<Store>();
-        return data.AsEnumerable();
+        var stores = await App.PriceTrackerService.GetAllAsync<Store>();
+        var selectors = await App.PriceTrackerService.GetAllAsync<Selector>();
+        var storeUrls = await App.PriceTrackerService.GetAllAsync<StoreUrl>();
+
+        foreach (var store in stores)
+        {
+            store.Selectors = selectors.Where(x => x.StoreId == store.Id).ToList();
+            store.Urls = storeUrls.Where(x => x.StoreId == store.Id).ToList();
+        }
         await App.PriceTrackerService.CloseAsync();
+        return stores.AsEnumerable();
     }
 
     public async Task<IEnumerable<Store>> GetContentGridDataAsync()
