@@ -19,23 +19,17 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
     public async Task<IEnumerable<ProductInfo>> GetContentGridDataAsync()
     {
         _allProducts = new List<ProductInfo>(await AllProducts());
-
-        await Task.CompletedTask;
         return _allProducts;
     }
 
     public async Task<IEnumerable<ProductInfo>> GetGridDataAsync()
     {
         _allProducts = new List<ProductInfo>(await AllProducts());
-
-        await Task.CompletedTask;
         return _allProducts;
     }
     public async Task<IEnumerable<ProductInfo>> GetListDetailsDataAsync()
     {
         _allProducts = new List<ProductInfo>(await AllProducts());
-
-        await Task.CompletedTask;
         return _allProducts;
     }
 }
