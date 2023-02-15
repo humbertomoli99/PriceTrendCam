@@ -14,6 +14,7 @@ public class StoreDataService : ISampleDataService<Store>
     {
         var data = await App.PriceTrackerService.GetAllAsync<Store>();
         return data.AsEnumerable();
+        await App.PriceTrackerService.CloseAsync();
     }
 
     public async Task<IEnumerable<Store>> GetContentGridDataAsync()
