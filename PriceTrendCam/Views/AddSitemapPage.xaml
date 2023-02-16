@@ -13,7 +13,8 @@
                 <StackPanel
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top">
-                    <Grid MaxWidth="800">
+                    <Grid
+                        MaxWidth="800">
                         <Grid.RowDefinitions>
                             <RowDefinition
                                 Height="Auto" />
@@ -58,25 +59,49 @@
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1"
                             CornerRadius="6">
-                            <StackPanel Margin="0,6">
-                                <TextBlock>Sitemap Name</TextBlock>
-                                <TextBox
-                                    x:Name="StoreName"
-                                    PlaceholderText="Sitemap Name"
-                                    Text="{Binding nameStore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <StackPanel
+                                Margin="0,6">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height="Auto" />
+                                        <RowDefinition
+                                            Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Grid.Row="0">Sitemap Name</TextBlock>
+                                    <TextBox
+                                        Grid.Row="1"
+                                        x:Name="StoreName"
+                                        PlaceholderText="Sitemap Name"
+                                        Text="{x:Bind StoreName.Text, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
                             </StackPanel>
-                            <StackPanel Margin="0,6">
-                                <TextBlock>Start URL</TextBlock>
-                                <TextBox
-                                    x:Name="StoreURL"
-                                    PlaceholderText="URL"
-                                    Text="{Binding startUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <StackPanel
+                                Margin="0,6">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height="Auto" />
+                                        <RowDefinition
+                                            Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Grid.Row="0">Start URL
+                                    </TextBlock>
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Stretch"
+                                        Name="textBoxesStackPanel" />
+                                </Grid>
                             </StackPanel>
-                            <StackPanel Margin="0,6">
+                            <StackPanel
+                                Margin="0,6">
                                 <Button
-                                    Command="{Binding ICommandAddStore}"
+                                    Click="Guardar_Click"
                                     Style="{StaticResource AccentButtonStyle}"
-                                    Content="Add Sitemap"></Button>
+                                    Content="Add Sitemap">
+                                </Button>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

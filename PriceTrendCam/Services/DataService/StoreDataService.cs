@@ -5,7 +5,7 @@ using Windows.Services.Store;
 namespace PriceTrendCam.Services.DataService;
 public class StoreDataService : ISampleDataService<Store>
 {
-    private List<Store> _allProducts;
+    private List<Store>? _allProducts;
 
     public StoreDataService()
     {
@@ -13,7 +13,7 @@ public class StoreDataService : ISampleDataService<Store>
 
     public async Task<IEnumerable<Store>> AllProducts()
     {
-        var data = await App.PriceTrackerService.GetAllAsync<Store>();
+        var data = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
         return data.AsEnumerable();
     }
 

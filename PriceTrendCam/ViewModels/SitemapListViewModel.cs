@@ -44,7 +44,7 @@ public class SitemapListViewModel : ObservableRecipient, INavigationAware
     {
         if (Selected == null)
         {
-            Selected = SampleItems.First();
+            Selected = SampleItems.FirstOrDefault<Store>();
         }
     }
 }

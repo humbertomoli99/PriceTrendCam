@@ -47,7 +47,7 @@ public class ProductDetailsViewModel : ObservableRecipient, INavigationAware
     {
         if (Selected == null)
         {
-            Selected = SampleItems.First();
+            Selected = SampleItems.FirstOrDefault<ProductInfo>();
         }
     }
 }

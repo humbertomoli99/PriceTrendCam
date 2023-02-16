@@ -4,7 +4,7 @@ using PriceTrendCam.Core.Models;
 namespace PriceTrendCam.Services.DataService;
 public class ProductInfoDataService : ISampleDataService<ProductInfo>
 {
-    private List<ProductInfo> _allProducts;
+    private List<ProductInfo>? _allProducts;
 
     public ProductInfoDataService()
     {
@@ -12,7 +12,7 @@ public class ProductInfoDataService : ISampleDataService<ProductInfo>
 
     public async Task<IEnumerable<ProductInfo>> AllProducts()
     {
-        var data = await App.PriceTrackerService.GetAllAsync<ProductInfo>();
+        var data = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         return data.AsEnumerable();
     }
 

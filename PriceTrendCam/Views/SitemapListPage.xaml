@@ -15,27 +15,56 @@
             x:Key="ItemTemplate"
             x:DataType="models:Store">
             <Grid
-                Height="60">
+                VerticalAlignment="Center"
+                Margin="{StaticResource SmallTopBottomMargin}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
                         Width="Auto" />
                     <ColumnDefinition
                         Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
                 <FontIcon
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    FontSize="32"/>
+                    FontSize="32" />
                 <StackPanel
-                    Grid.Column="1"
+                    Grid.Row="0"
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
                     <TextBlock
                         Text="{x:Bind Name}"
                         Style="{StaticResource ListTitleStyle}" />
                     <TextBlock
-                        Text="{x:Bind Urls.Count.ToString()}"
-                        Style="{StaticResource ListSubTitleStyle}" />
+                        Style="{StaticResource ListSubTitleStyle}">
+                            <Run
+                            Text="URLs:" />
+                            <Run
+                            Text=" " /> <!-- space -->
+                            <Run
+                            Text="{x:Bind Path=Urls.Count}" />
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center">
+                    <TextBlock
+                        Style="{StaticResource ListSubTitleStyle}">
+                        <Run
+                            Text="Selectors:" />
+                        <Run
+                            Text=" " /> <!-- space -->
+                        <Run
+                            Text="{x:Bind Path=Selectors.Count}" />
+                    </TextBlock>
                 </StackPanel>
             </Grid>
         </DataTemplate>

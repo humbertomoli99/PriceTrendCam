@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:PriceTrendCam.Core.Models"
     mc:Ignorable="d">
     <ScrollViewer
         Name="ForegroundElement"
@@ -12,11 +13,11 @@
         IsTabStop="True">
         <StackPanel HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <FontIcon
+                <ImageIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="48"
-                    Glyph="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"
+                    Width="48"
+                    Source="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"
                     AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"  />
                 <TextBlock
                     Margin="{StaticResource SmallLeftMargin}"
@@ -25,19 +26,40 @@
                     Style="{ThemeResource TitleTextBlockStyle}" />
             </StackPanel>
             <StackPanel Padding="0,15,0,0">
-                
+
                 <TextBlock
                     Text="Urls"
                     Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.Urls.Count, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                
+                <ListView
+                    ItemsSource="{x:Bind ListDetailsMenuItem.Urls, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                    Text="{Binding Url}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
                     Text="Selectors"
                     Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock
-                    Text="{x:Bind ListDetailsMenuItem.Selectors.Count, Mode=OneWay}"
-                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                <ListView
+                    ItemsSource="{x:Bind ListDetailsMenuItem.Selectors, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                    Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
