@@ -1,5 +1,7 @@
-﻿using PriceTrendCam.Core.Models;
+﻿using System.Diagnostics;
+using PriceTrendCam.Core.Models;
 using SQLite;
+using SQLiteNetExtensionsAsync.Extensions;
 
 namespace PriceTrendCam.Core.Services;
 /// <summary>
@@ -43,6 +45,18 @@ public class PriceTrackerDbService
     {
         return await _database.Table<T>().ToListAsync().ConfigureAwait(false);
     }
+    public async Task<List<T>> GetAllWithChildrenAsync<T>() where T : class, new()
+    {
+        try
+        {
+            return await _database.GetAllWithChildrenAsync<T>();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error al obtener los datos de la tabla {typeof(T).Name}: {ex.Message}");
+            return null;
+        }
+    }
 
     /// <summary>
     /// Gets a single record of the specified type from the database, based on its ID.
@@ -65,6 +79,14 @@ public class PriceTrackerDbService
     {
         await _database.InsertAllAsync(items).ConfigureAwait(false);
     }
+    public async Task InsertAllWithChildrenAsync<T>(IEnumerable<T> items) where T : class, new()
+    {
+        await _database.InsertAllWithChildrenAsync(items).ConfigureAwait(false);
+    }
+    public async Task InsertWithChildrenAsync<T>(T item, bool recursive) where T : class, new()
+    {
+        await _database.InsertWithChildrenAsync(item, recursive: false).ConfigureAwait(false);
+    }
     /// <summary>
     /// Inserts a single item into the database.
     /// </summary>
@@ -85,6 +107,10 @@ public class PriceTrackerDbService
     {
         var result = await _database.UpdateAsync(item).ConfigureAwait(false);
         return result > 0;
+    }
+    public async Task UpdateWithChildrenAsync<T>(T item) where T : class, new()
+    {
+        await _database.UpdateWithChildrenAsync(item);
     }
     /// <summary>
     /// Deletes a single item from the database.
