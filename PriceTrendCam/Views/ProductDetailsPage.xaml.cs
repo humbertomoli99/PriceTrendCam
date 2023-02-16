@@ -18,12 +18,4 @@ public sealed partial class ProductDetailsPage : Page
         ViewModel = App.GetService<ProductDetailsViewModel>();
         InitializeComponent();
     }
-
-    private void OnViewStateChanged(object sender, ListDetailsViewState e)
-    {
-        if (e == ListDetailsViewState.Both)
-        {
-            ViewModel.EnsureItemSelected();
-        }
-    }
 }

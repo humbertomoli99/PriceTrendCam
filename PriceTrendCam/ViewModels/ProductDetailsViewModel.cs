@@ -37,6 +37,7 @@ public class ProductDetailsViewModel : ObservableRecipient, INavigationAware
         {
             SampleItems.Add(item);
         }
+        EnsureItemSelected();
     }
 
     public void OnNavigatedFrom()
@@ -47,7 +48,15 @@ public class ProductDetailsViewModel : ObservableRecipient, INavigationAware
     {
         if (Selected == null)
         {
-            Selected = SampleItems.FirstOrDefault<ProductInfo>();
+            if (SampleItems != null && SampleItems.Count > 0)
+            {
+                Selected = SampleItems.First();
+            }
+            else
+            {
+                // Si SampleItems es null o está vacía, no hay ningún elemento que seleccionar.
+                // Aquí puedes establecer el valor predeterminado para Selected o lanzar una excepción.
+            }
         }
     }
 }

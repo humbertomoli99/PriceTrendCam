@@ -141,7 +141,6 @@
             ItemTemplate="{StaticResource ItemTemplate}"
             ListHeaderTemplate="{StaticResource MinimalListHeaderTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
-            ViewStateChanged="OnViewStateChanged" />
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}" />
     </Grid>
 </Page>

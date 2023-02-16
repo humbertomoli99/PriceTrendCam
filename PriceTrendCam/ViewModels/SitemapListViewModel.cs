@@ -34,6 +34,7 @@ public class SitemapListViewModel : ObservableRecipient, INavigationAware
         {
             SampleItems.Add(item);
         }
+        EnsureItemSelected();
     }
 
     public void OnNavigatedFrom()
