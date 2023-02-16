@@ -80,10 +80,14 @@ public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
         OpenInBrowserCommand = new RelayCommand(async () => await Windows.System.Launcher.LaunchUriAsync(WebViewService.Source), () => WebViewService.Source != null);
     }
 
-    public void OnNavigatedTo(object parameter)
+    public async Task OnNavigatedTo(object parameter)
     {
-        WebViewService.NavigationCompleted += OnNavigationCompleted;
+        await Task.Run(() =>
+        {
+            WebViewService.NavigationCompleted += OnNavigationCompleted;
+        });
     }
+
 
     public void OnNavigatedFrom()
     {

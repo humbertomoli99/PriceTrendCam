@@ -19,7 +19,7 @@ public class ExportDataViewModel : ObservableRecipient, INavigationAware
         _sampleDataService = sampleDataService;
     }
 
-    public async void OnNavigatedTo(object parameter)
+    public async Task OnNavigatedTo(object parameter)
     {
         Source.Clear();
 

@@ -31,7 +31,7 @@ public class ContentGridViewModel : ObservableRecipient, INavigationAware
         ItemClickCommand = new RelayCommand<SampleOrder>(OnItemClick);
     }
 
-    public async void OnNavigatedTo(object parameter)
+    public async Task OnNavigatedTo(object parameter)
     {
         Source.Clear();
 
