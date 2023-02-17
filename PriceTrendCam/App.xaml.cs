@@ -75,6 +75,7 @@ public partial class App : Application
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services
+            services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<ISampleDataService<SampleOrder>, SampleDataService>();
             services.AddSingleton<ISampleDataService<ProductInfo>, ProductInfoDataService>();
             services.AddSingleton<ISampleDataService<Store>, StoreDataService>();
