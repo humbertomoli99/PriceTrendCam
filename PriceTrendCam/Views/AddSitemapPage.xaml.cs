@@ -3,26 +3,23 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Core.Models;
+using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 
 namespace PriceTrendCam.Views;
 
 public sealed partial class AddSitemapPage : Page
 {
-    public AddSitemapViewModel ViewModel
-    {
-        get;
-    }
     private async Task AddStoreAsync(Store parameter)
     {
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(parameter, true);
     }
+    public AddSitemapViewModel ViewModel => (AddSitemapViewModel)DataContext;
 
     public AddSitemapPage()
     {
         InitializeComponent();
-        ViewModel = App.GetService<AddSitemapViewModel>();
-        DataContext = new AddSitemapViewModel();
+        DataContext = App.GetService<AddSitemapViewModel>();
         Agregar_Click(null, null);
     }
     private int textBoxCount = 0;
