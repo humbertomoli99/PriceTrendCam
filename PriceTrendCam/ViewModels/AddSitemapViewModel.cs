@@ -17,7 +17,8 @@ public partial class AddSitemapViewModel : ObservableValidator
         TextBoxUrl = new();
         DialogService = dialogService;
     }
-
+    public event EventHandler? FormSubmissionCompleted;
+    public event EventHandler? FormSubmissionFailed;
     private Store? ObjectStore
     {
         get; set;
@@ -38,12 +39,12 @@ public partial class AddSitemapViewModel : ObservableValidator
 
         if (HasErrors)
         {
-            //FormSubmissionFailed?.Invoke(this, EventArgs.Empty);
+            FormSubmissionFailed?.Invoke(this, EventArgs.Empty);
             return;
         }
         else
         {
-            //FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
+            FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         var textBoxUrls = new List<StoreUrl>();
@@ -71,7 +72,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         string message = string.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
 
-        _ = DialogService.ShowMessageDialogAsync("Validation errors", message);
+        //_ = DialogService.ShowMessageDialogAsync("Validation errors", message);
     }
 
 }
