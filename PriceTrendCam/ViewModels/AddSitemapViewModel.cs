@@ -18,12 +18,13 @@ public partial class AddSitemapViewModel : ObservableValidator
     }
     public event EventHandler? FormSubmissionCompleted;
     public event EventHandler? FormSubmissionFailed;
+
     private Store? ObjectStore
     {
         get; set;
     }
     [ObservableProperty]
-    [Required]
+    [Required(ErrorMessage = "El campo de texto es obligatorio.")]
     private string textBoxStoreName;
     public List<string> TextBoxUrl
     {
@@ -33,8 +34,12 @@ public partial class AddSitemapViewModel : ObservableValidator
     [RelayCommand]
     private async Task Save()
     {
+        // Validar todas las propiedades del modelo, incluyendo los nuevos TextBox
+        //ValidateProperty(nameof(textBoxStoreName));
+        //ValidateProperty(nameof(TextBoxUrl));
         ValidateAllProperties();
 
+        // Comprobar si hay errores de validación
         if (HasErrors)
         {
             FormSubmissionFailed?.Invoke(this, EventArgs.Empty);
@@ -45,6 +50,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
         }
 
+        // Crear la lista de StoreUrl a partir de los valores de los TextBox
         var textBoxUrls = new List<StoreUrl>();
 
         foreach (var items in TextBoxUrl)
@@ -55,6 +61,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             });
         }
 
+        // Crear el objeto Store a partir de los valores de los TextBox
         ObjectStore = new Store
         {
             Name = textBoxStoreName,
@@ -62,8 +69,14 @@ public partial class AddSitemapViewModel : ObservableValidator
             Selectors = new List<Selector>(),
             Urls = textBoxUrls
         };
-
+        // Insertar el objeto Store en la base de datos
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
+
+        // Limpiar los valores de los TextBox
+        textBoxStoreName = null;
+        TextBoxUrl.Clear();
+
+        FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }
     [RelayCommand]
     private void ShowErrors()
@@ -72,5 +85,4 @@ public partial class AddSitemapViewModel : ObservableValidator
 
         //_ = DialogService.ShowMessageDialogAsync("Validation errors", message);
     }
-
 }
