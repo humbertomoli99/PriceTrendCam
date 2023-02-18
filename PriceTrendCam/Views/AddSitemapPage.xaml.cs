@@ -68,7 +68,6 @@ public sealed partial class AddSitemapPage : Page
         {
             ViewModel.TextBoxUrl?.Add(items);
         }
-        _ = ViewModel.SaveCommand;
     }
     private void Agregar_Click1(object? sender, RoutedEventArgs? e)
     {
