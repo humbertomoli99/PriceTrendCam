@@ -13,7 +13,6 @@ public partial class AddSitemapViewModel : ObservableValidator
 
     public AddSitemapViewModel(IDialogService dialogService)
     {
-        SaveCommand = new AsyncRelayCommand(Save);
         TextBoxUrl = new();
         DialogService = dialogService;
     }
@@ -31,8 +30,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         get; set;
     }
 
-    public IAsyncRelayCommand SaveCommand { get; }
-
+    [RelayCommand]
     private async Task Save()
     {
         ValidateAllProperties();
