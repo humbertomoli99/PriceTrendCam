@@ -74,7 +74,7 @@
                                         Grid.Row="1"
                                         x:Name="StoreName"
                                         PlaceholderText="Sitemap Name"
-                                        Text="{x:Bind StoreName.Text, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                        Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
                             </StackPanel>
                             <StackPanel
@@ -99,6 +99,8 @@
                                 Margin="0,6">
                                 <Button
                                     Click="Guardar_Click"
+                                    Command="{x:Bind ViewModel.SaveCommand}"
+                                    Name="SaveStore"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add Sitemap">
                                 </Button>

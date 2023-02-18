@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
@@ -10,21 +11,66 @@ namespace PriceTrendCam.Views;
 
 public sealed partial class AddSitemapPage : Page
 {
-    private async Task AddStoreAsync(Store parameter)
-    {
-        await App.PriceTrackerService.InsertWithChildrenAsync<Store>(parameter, true);
-    }
-    public AddSitemapViewModel ViewModel => (AddSitemapViewModel)DataContext;
-
+    private AddSitemapViewModel ViewModel => (AddSitemapViewModel)DataContext;
     public AddSitemapPage()
     {
         InitializeComponent();
-        DataContext = App.GetService<AddSitemapViewModel>();
-        Agregar_Click(null, null);
+        DataContext = new AddSitemapViewModel();
+        ViewModel.TextBoxUrl = new();
+        Agregar_Click1(null, null);
     }
+
     private int textBoxCount = 0;
-    private Store ObjectStore = new();
-    private void Agregar_Click(object? sender, RoutedEventArgs? e)
+    private void Eliminar_Click1(object sender, RoutedEventArgs e)
+    {
+        Button? deleteButton = (Button)sender;
+        Grid? grid = (Grid)deleteButton.Tag;
+        textBoxesStackPanel.Children.Remove(grid);
+
+        textBoxCount--;
+
+        if (textBoxCount == 1)
+        {
+            foreach (UIElement element in textBoxesStackPanel.Children)
+            {
+                if (element is Grid)
+                {
+                    Grid g = (Grid)element;
+                    Button button = (Button)g.Children[1];
+                    button.IsEnabled = false;
+                    break;
+                }
+            }
+        }
+    }
+    private void Guardar_Click(object sender, RoutedEventArgs e)
+    {
+        List<string> textBoxValues = new List<string>();
+
+        foreach (UIElement element in textBoxesStackPanel.Children)
+        {
+            if (element is Grid)
+            {
+                Grid grid = (Grid)element;
+                TextBox textBox = (TextBox)grid.Children[0];
+                textBoxValues.Add(textBox.Text);
+            }
+        }
+        List<StoreUrl> textBoxUrls = new List<StoreUrl>();
+        foreach (var items in textBoxValues)
+        {
+            textBoxUrls.Add(new StoreUrl()
+            {
+                Url = items.ToString(),
+            });
+        }
+        foreach(var items in textBoxValues)
+        {
+            ViewModel.TextBoxUrl?.Add(items);
+        }
+        _ = ViewModel.SaveCommand;
+    }
+    private void Agregar_Click1(object? sender, RoutedEventArgs? e)
     {
         // Crear un nuevo grid para cada TextBox y botón
         Grid newGrid = new Grid();
@@ -53,7 +99,7 @@ public sealed partial class AddSitemapPage : Page
 
         deleteButton.Content = "🗑";
         deleteButton.Tag = newGrid;
-        deleteButton.Click += Eliminar_Click;
+        deleteButton.Click += Eliminar_Click1;
 
         // Agregar el botón a la segunda columna del nuevo Grid
         Grid.SetColumn(deleteButton, 1);
@@ -76,7 +122,7 @@ public sealed partial class AddSitemapPage : Page
 
             addButton.Content = "➕";
             addButton.Tag = newGrid;
-            addButton.Click += Agregar_Click;
+            addButton.Click += Agregar_Click1;
 
             Grid.SetColumn(addButton, 2);
             newGrid.Children.Add(addButton);
@@ -85,61 +131,4 @@ public sealed partial class AddSitemapPage : Page
             newTextBox.Margin = new Thickness(0, 0, 0, 0);
         }
     }
-
-    private void Eliminar_Click(object sender, RoutedEventArgs e)
-    {
-        Button? deleteButton = (Button)sender;
-        Grid? grid = (Grid)deleteButton.Tag;
-        textBoxesStackPanel.Children.Remove(grid);
-
-        textBoxCount--;
-
-        if (textBoxCount == 1)
-        {
-            foreach (UIElement element in textBoxesStackPanel.Children)
-            {
-                if (element is Grid)
-                {
-                    Grid g = (Grid)element;
-                    Button button = (Button)g.Children[1];
-                    button.IsEnabled = false;
-                    break;
-                }
-            }
-        }
-    }
-
-    private void Guardar_Click(object sender, RoutedEventArgs e)
-    {
-        List<string> textBoxValues = new List<string>();
-
-        foreach (UIElement element in textBoxesStackPanel.Children)
-        {
-            if (element is Grid)
-            {
-                Grid grid = (Grid)element;
-                TextBox textBox = (TextBox)grid.Children[0];
-                textBoxValues.Add(textBox.Text);
-            }
-        }
-
-        List<StoreUrl> textBoxUrls = new List<StoreUrl>();
-        foreach (var items in textBoxValues)
-        {
-            textBoxUrls.Add(new StoreUrl()
-            {
-                Url = items.ToString(),
-            });
-        }
-
-        ObjectStore = new Store
-        {
-            Name = StoreName.Text,
-            Favicon = "favicon.png",
-            Selectors = new List<Selector>(),
-            Urls = textBoxUrls
-        };
-        _ = AddStoreAsync(ObjectStore);
-    }
-
 }
