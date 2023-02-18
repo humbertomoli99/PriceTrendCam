@@ -15,7 +15,7 @@ public sealed partial class AddSitemapPage : Page
     public AddSitemapPage()
     {
         InitializeComponent();
-        DataContext = new AddSitemapViewModel();
+        DataContext = App.GetService<AddSitemapViewModel>();
         ViewModel.TextBoxUrl = new();
         Agregar_Click1(null, null);
     }
