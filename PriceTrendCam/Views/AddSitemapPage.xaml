@@ -63,39 +63,19 @@
                             CornerRadius="6">
                             <StackPanel
                                 Margin="0,6">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition
-                                            Height="Auto" />
-                                        <RowDefinition
-                                            Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0">Sitemap Name</TextBlock>
-                                    <TextBox
+                                <TextBox
+                                        Header="Sitemap Name"
                                         Grid.Row="1"
                                         x:Name="StoreName"
                                         PlaceholderText="Sitemap Name"
                                         Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
                             </StackPanel>
                             <StackPanel
                                 Margin="0,6">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition
-                                            Height="Auto" />
-                                        <RowDefinition
-                                            Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0">Start URL
-                                    </TextBlock>
-                                    <StackPanel
-                                        Grid.Row="1"
-                                        HorizontalAlignment="Stretch"
-                                        Name="textBoxesStackPanel" />
-                                </Grid>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Stretch"
+                                    Name="textBoxesStackPanel" />
                             </StackPanel>
                             <StackPanel
                                 Margin="0,6">

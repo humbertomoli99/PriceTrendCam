@@ -117,6 +117,7 @@ public sealed partial class AddSitemapPage : Page
 
             // Crear un nuevo botón Añadir junto al primer textbox
             Button addButton = new Button();
+            addButton.VerticalAlignment = VerticalAlignment.Bottom;
             addButton.Margin = new Thickness(6, 0, 0, 0);
 
             addButton.Content = "➕";
@@ -127,6 +128,7 @@ public sealed partial class AddSitemapPage : Page
             newGrid.Children.Add(addButton);
 
             newTextBox.PlaceholderText = "Url";
+            newTextBox.Header = "Start URL";
             newTextBox.Margin = new Thickness(0, 0, 0, 0);
         }
     }
