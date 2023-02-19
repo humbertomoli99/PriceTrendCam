@@ -27,6 +27,7 @@ public class PageService : IPageService
         Configure<NotificationsViewModel, NotificationsPage>();
         Configure<PackageTrackerViewModel, PackageTrackerPage>();
         Configure<SettingsViewModel, SettingsPage>();
+        Configure<PostManFormViewModel, PostManFormPage>();
     }
 
     public Type GetPageType(string key)
