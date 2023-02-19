@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
@@ -186,4 +187,44 @@ public class HtmlDocumentService
         //Retorna la lista de URLs sin duplicados
         return allUrls;
     }
+    /// <summary>
+    /// Parses the JSON-LD content from a webpage to retrieve the search action information for a site search box.
+    /// </summary>
+    /// <param name="DocumentNode">El nodo raíz del documento HTML.</param>
+    public List<string> ParseWebSiteJsonLdForSearchAction(HtmlNode DocumentNode)
+    {
+        List<string> result = new List<string>();
+        // Buscar el fragmento de código JSON-LD con la información del sitio web
+        var scriptTag = DocumentNode.Descendants("script").FirstOrDefault(
+            script => script.GetAttributeValue("type", "") == "application/ld+json");
+        if (scriptTag != null)
+        {
+            // Parsear el contenido JSON-LD
+            JObject json = JObject.Parse(scriptTag.InnerHtml);
+            if (json.GetValue("@type").ToString() == "WebSite")
+            {
+                // Obtener el nombre y la URL del sitio web
+                var name = json.GetValue("name").ToString();
+                var websiteUrl = json.GetValue("url").ToString();
+                result.Add(name);
+                result.Add(websiteUrl);
+                //Console.WriteLine("Nombre del sitio web: " + name);
+                //Console.WriteLine("URL del sitio web: " + websiteUrl);
+
+                // Buscar la acción de búsqueda y obtener la URL y el parámetro de consulta
+                JToken action = json.GetValue("potentialAction");
+                if (action != null && action["query-input"] != null && action["@type"].ToString() == "SearchAction")
+                {
+                    var targetUrl = action["target"].ToString();
+                    var queryParam = action["query-input"].ToString();
+                    result.Add(targetUrl);
+                    result.Add(queryParam);
+                    //Console.WriteLine("URL de búsqueda: " + targetUrl);
+                    //Console.WriteLine("Parámetro de consulta: " + queryParam);
+                }
+            }
+        }
+        return result;
+    }
+
 }
