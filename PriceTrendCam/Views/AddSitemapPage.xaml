@@ -81,7 +81,7 @@
                                 Margin="0,6">
                                 <Button
                                     Click="Guardar_Click"
-                                    Command="{x:Bind ViewModel.SaveCommand}"
+                                    Command="{x:Bind ViewModel.SaveSitemapCommand}"
                                     Name="SaveStore"
                                     Style="{StaticResource AccentButtonStyle}"
                                     Content="Add Sitemap">

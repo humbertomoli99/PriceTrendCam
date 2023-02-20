@@ -15,6 +15,19 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         TextBoxUrl = new();
         DialogService = dialogService;
+
+        //metodos asincronos mvvm community
+        SaveSitemapCommand = new AsyncRelayCommand(SaveSitemapAsync);
+        ShowErrorsCommand = new AsyncRelayCommand(ShowErrorsAsync);
+    }
+
+    public IAsyncRelayCommand SaveSitemapCommand
+    {
+        get;
+    }
+    public IAsyncRelayCommand ShowErrorsCommand
+    {
+        get;
     }
     public event EventHandler? FormSubmissionCompleted;
     public event EventHandler? FormSubmissionFailed;
@@ -31,8 +44,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         get; set;
     }
 
-    [RelayCommand]
-    private async Task Save()
+    private async Task SaveSitemapAsync()
     {
         // Validar todas las propiedades del modelo, incluyendo los nuevos TextBox
         //ValidateProperty(nameof(textBoxStoreName));
@@ -78,11 +90,10 @@ public partial class AddSitemapViewModel : ObservableValidator
 
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }
-    [RelayCommand]
-    private void ShowErrors()
+    private async Task ShowErrorsAsync()
     {
         string message = string.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
 
-        //_ = DialogService.ShowMessageDialogAsync("Validation errors", message);
+        await DialogService.ShowMessageDialogAsync("Validation errors", message);
     }
 }
