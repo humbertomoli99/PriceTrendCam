@@ -24,6 +24,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\WindowIcon.ico" />
+    <None Remove="Controls\DocumentationBlock.xaml" />
+    <None Remove="Controls\InteractiveSample.xaml" />
+    <None Remove="Controls\ValidationTextBox.xaml" />
     <None Remove="Views\Controls\AddSitemapControl.xaml" />
     <None Remove="Views\SitemapDetailsDetailControl.xaml" />
   </ItemGroup>
@@ -50,6 +53,15 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Controls\DocumentationBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\InteractiveSample.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\ValidationTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\Widgets\AddSitemapWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
