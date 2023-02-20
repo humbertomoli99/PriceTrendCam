@@ -9,7 +9,6 @@ public class MainViewModel : ObservableRecipient
 {
     public MainViewModel()
     {
-        //GetDataProducts();
         AdvancedSearchCommand = new AsyncRelayCommand(AdvancedSearchAsync);
     }
     public IAsyncRelayCommand AdvancedSearchCommand
