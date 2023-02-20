@@ -94,6 +94,6 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         string message = string.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
 
-        await DialogService.ShowMessageDialogAsync("Validation errors", message);
+        //await DialogService.ShowMessageDialogAsync("Validation errors", message);
     }
 }
