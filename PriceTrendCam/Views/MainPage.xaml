@@ -6,7 +6,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-        
+    <Grid x:Name="ContentArea" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBox
+                Height="60"
+                FontSize="35"
+                TextAlignment="Center"
+                TextWrapping="NoWrap"
+                PlaceholderText="Add product URL or search for product here"
+                x:Name="search" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+            <Button
+                Width="60"
+                Height="60"
+                Margin="6,0,0,0"
+                VerticalAlignment="Bottom"
+                Command="{x:Bind ViewModel.AdvancedSearchCommand}"
+                Click="Button_Click"
+                Content="🔎" />
+        </StackPanel>
     </Grid>
 </Page>
