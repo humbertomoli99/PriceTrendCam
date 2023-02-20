@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
+using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
@@ -188,12 +189,13 @@ public class HtmlDocumentService
         return allUrls;
     }
     /// <summary>
-    /// Parses the JSON-LD content from a webpage to retrieve the search action information for a site search box.
+    /// Parses the JSON-LD fragment of a website to obtain search action data.
     /// </summary>
-    /// <param name="DocumentNode">El nodo raíz del documento HTML.</param>
-    public List<string> ParseWebSiteJsonLdForSearchAction(HtmlNode DocumentNode)
+    /// <param name="documentNode">The HTML node of the document to parse.</param>
+    /// <returns>A <see cref="SearchActionData"/> object with the parsed data.</returns>
+    public static Task<SearchActionData> ParseWebSiteJsonLdForSearchAction(HtmlNode DocumentNode)
     {
-        List<string> result = new List<string>();
+        SearchActionData searchActionData = new SearchActionData();
         // Buscar el fragmento de código JSON-LD con la información del sitio web
         var scriptTag = DocumentNode.Descendants("script").FirstOrDefault(
             script => script.GetAttributeValue("type", "") == "application/ld+json");
@@ -204,27 +206,19 @@ public class HtmlDocumentService
             if (json.GetValue("@type").ToString() == "WebSite")
             {
                 // Obtener el nombre y la URL del sitio web
-                var name = json.GetValue("name").ToString();
-                var websiteUrl = json.GetValue("url").ToString();
-                result.Add(name);
-                result.Add(websiteUrl);
-                //Console.WriteLine("Nombre del sitio web: " + name);
-                //Console.WriteLine("URL del sitio web: " + websiteUrl);
+                searchActionData.Name = json.GetValue("name").ToString();
+                searchActionData.WebsiteUrl = json.GetValue("url").ToString();
 
                 // Buscar la acción de búsqueda y obtener la URL y el parámetro de consulta
                 JToken action = json.GetValue("potentialAction");
                 if (action != null && action["query-input"] != null && action["@type"].ToString() == "SearchAction")
                 {
-                    var targetUrl = action["target"].ToString();
-                    var queryParam = action["query-input"].ToString();
-                    result.Add(targetUrl);
-                    result.Add(queryParam);
-                    //Console.WriteLine("URL de búsqueda: " + targetUrl);
-                    //Console.WriteLine("Parámetro de consulta: " + queryParam);
+                    searchActionData.SearchUrl = action["target"].ToString();
+                    searchActionData.QueryParam = action["query-input"].ToString();
                 }
             }
         }
-        return result;
+        return Task.FromResult(searchActionData);
     }
 
 }
