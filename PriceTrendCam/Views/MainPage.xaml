@@ -27,7 +27,6 @@
                 Margin="6,0,0,0"
                 VerticalAlignment="Bottom"
                 Command="{x:Bind ViewModel.AdvancedSearchCommand}"
-                Click="Button_Click"
                 Content="🔎" />
         </StackPanel>
     </Grid>
