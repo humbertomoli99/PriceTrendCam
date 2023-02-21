@@ -9,7 +9,7 @@ public class Url
         if (string.IsNullOrEmpty(url)) { return false; }
 
         // Comprobar si la URL es válida según la sintaxis de una URL
-        var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$");
+        var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
 
         if (!regex.IsMatch(url)) { return false; }
 
