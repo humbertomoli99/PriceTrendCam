@@ -32,14 +32,7 @@
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1,1,1,1"
                                 CornerRadius="5,5,5,5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition
-                                        Height="auto" />
-                                    <RowDefinition
-                                        Height="auto" />
-                                </Grid.RowDefinitions>
                                 <StackPanel
-                                    Grid.Row="0"
                                     Width="172"
                                     Height="172"
                                     Margin="50"
@@ -49,7 +42,7 @@
                                     <Image
                                         Width="170"
                                         Height="170"
-                                        Source="{Binding Imagen}"
+                                        x:Name="FaviconUrl"
                                         Stretch="Uniform" />
                                 </StackPanel>
                             </Grid>
@@ -67,9 +60,9 @@
                                 <TextBox
                                     Header="Sitemap Name"
                                     Grid.Row="1"
-                                    x:Name="StoreName"
+                                    x:Name="TextBoxStoreName"
                                     PlaceholderText="Sitemap Name"
-                                    Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                                    Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <!--<controls:ValidationTextBox
                                     HeaderText="Sitemap Name"
                                     PropertyName="StoreName"

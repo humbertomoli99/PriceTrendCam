@@ -3,7 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media.Imaging;
 using PriceTrendCam.Core.Models;
+using PriceTrendCam.Core.Services;
 using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 
@@ -12,6 +14,7 @@ namespace PriceTrendCam.Views;
 public sealed partial class AddSitemapPage : Page
 {
     private AddSitemapViewModel ViewModel => (AddSitemapViewModel)DataContext;
+
     public AddSitemapPage()
     {
         InitializeComponent();
@@ -130,6 +133,28 @@ public sealed partial class AddSitemapPage : Page
             newTextBox.PlaceholderText = "Url";
             newTextBox.Header = "Start URL";
             newTextBox.Margin = new Thickness(0, 0, 0, 0);
+            newTextBox.TextChanged += StoreUrlTextBox_TextChanged;
         }
     }
+
+    private async void StoreUrlTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        try
+        {
+            Grid firstGrid = textBoxesStackPanel.Children[0] as Grid;
+            TextBox firstTextBox = firstGrid.Children[0] as TextBox;
+
+            // Utiliza el primer TextBox aquí
+            string url = firstTextBox.Text;
+            string faviconUrlString = await HtmlDocumentService.GetFaviconUrlAsync(url);
+            BitmapImage faviconImage = new BitmapImage(new Uri(faviconUrlString));
+            FaviconUrl.Source = faviconImage;
+
+        }
+        catch
+        {
+            //Aquí puedes manejar las excepciones si ocurren
+        }
+    }
+
 }
