@@ -12,22 +12,23 @@
         IsTabStop="True">
         <StackPanel HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <FontIcon
+                <Image
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="48"
-                    Glyph="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"
-                    AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Name, Mode=OneWay}"  />
+                    Width="200"
+                    Height="200"
+                    Source="{x:Bind ListDetailsMenuItem.Image, Mode=OneWay}"
+                    AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Image, Mode=OneWay}"  />
                 <TextBlock
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center"
-                    Text="{x:Bind ListDetailsMenuItem.StoreName, Mode=OneWay}"
+                    Text="{x:Bind ListDetailsMenuItem.Name, Mode=OneWay}"
                     Style="{ThemeResource TitleTextBlockStyle}" />
             </StackPanel>
             <StackPanel Padding="0,15,0,0">
                 <TextBlock Text="Status" Style="{StaticResource DetailSubTitleStyle}" />
 
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.Status, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                <TextBlock Text="{x:Bind ListDetailsMenuItem.Description, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
