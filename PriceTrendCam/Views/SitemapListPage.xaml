@@ -32,6 +32,8 @@
                         Height="Auto" />
                 </Grid.RowDefinitions>
                 <Image
+                    Width="18"
+                    Height="18"
                     Source="{x:Bind Favicon, Mode=OneWay}"
                     Grid.Column="0"/>
                 <StackPanel
