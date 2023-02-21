@@ -31,12 +31,11 @@
                     <RowDefinition
                         Height="Auto" />
                 </Grid.RowDefinitions>
-                <FontIcon
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontSize="32" />
+                <Image
+                    Source="{x:Bind Favicon, Mode=OneWay}"
+                    Grid.Column="0"/>
                 <StackPanel
-                    Grid.Row="0"
+                    Grid.Column="1"
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center">
                     <TextBlock
@@ -51,11 +50,6 @@
                             <Run
                             Text="{x:Bind Path=Urls.Count}" />
                     </TextBlock>
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="{StaticResource SmallLeftMargin}"
-                    VerticalAlignment="Center">
                     <TextBlock
                         Style="{StaticResource ListSubTitleStyle}">
                         <Run

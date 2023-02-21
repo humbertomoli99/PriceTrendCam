@@ -13,10 +13,11 @@
         IsTabStop="True">
         <StackPanel HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                <ImageIcon
+                <Image
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Width="48"
+                    Width="50"
+                    Height="50"
                     Source="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"
                     AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"  />
                 <TextBlock

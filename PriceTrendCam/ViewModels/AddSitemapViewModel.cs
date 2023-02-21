@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
-using PriceTrendCam.Services;
+using PriceTrendCam.Core.Services;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -36,6 +38,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         get; set;
     }
+
     [ObservableProperty]
     [Required(ErrorMessage = "El campo de texto es obligatorio.")]
     private string textBoxStoreName;
@@ -72,12 +75,15 @@ public partial class AddSitemapViewModel : ObservableValidator
                 Url = items.ToString(),
             });
         }
+        var FirstUrl = textBoxUrls.First().Url;
 
-        // Crear el objeto Store a partir de los valores de los TextBox
+        //var node = await HtmlDocumentService.LoadPageAsync(FirstUrl);
+        var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
+
         ObjectStore = new Store
         {
             Name = textBoxStoreName,
-            Favicon = "favicon.png",
+            Favicon = favicon,
             Selectors = new List<Selector>(),
             Urls = textBoxUrls
         };
