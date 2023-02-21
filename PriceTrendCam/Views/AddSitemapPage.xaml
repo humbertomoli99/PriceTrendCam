@@ -86,7 +86,8 @@
                                     Content="Add Sitemap">
                                 </Button>
                             </StackPanel>
-                            <StackPanel>
+                            <StackPanel
+                                Margin="0,6">
                                 <!--  Popups  -->
                                 <Grid>
                                     <InfoBar
