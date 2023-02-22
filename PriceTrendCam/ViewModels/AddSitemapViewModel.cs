@@ -102,7 +102,7 @@ public partial class AddSitemapViewModel : ObservableValidator
 
         // Limpiar los valores de los TextBox
         textBoxStoreName = null;
-        TextBoxUrl.Clear();
+        textBoxUrls.Clear();
 
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }
