@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.Services;
+using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 using PriceTrendCam.Views;
@@ -79,7 +81,13 @@ public partial class AddSitemapViewModel : ObservableValidator
         }
         var FirstUrl = textBoxUrls.First().Url;
 
+        if(await Url.IsValid(FirstUrl) == false)
+        {
+            Debug.WriteLine("the url is invalid");
+            return;
+        }
         //var node = await HtmlDocumentService.LoadPageAsync(FirstUrl);
+
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
         ObjectStore = new Store
