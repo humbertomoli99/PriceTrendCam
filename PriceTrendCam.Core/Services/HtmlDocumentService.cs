@@ -221,32 +221,30 @@ public class HtmlDocumentService
     /// </summary>
     /// <param name="documentNode">The HTML node of the document to parse.</param>
     /// <returns>A <see cref="SearchActionData"/> object with the parsed data.</returns>
-    public static Task<SearchActionData> ParseWebSiteJsonLdForSearchAction(HtmlNode DocumentNode)
+    public static async Task<SearchActionData> ParseWebSiteJsonLdForSearchAction(HtmlNode documentNode)
     {
-        SearchActionData searchActionData = new SearchActionData();
-        // Buscar el fragmento de código JSON-LD con la información del sitio web
-        var scriptTag = DocumentNode.Descendants("script").FirstOrDefault(
-            script => script.GetAttributeValue("type", "") == "application/ld+json");
-        if (scriptTag != null)
-        {
-            // Parsear el contenido JSON-LD
-            JObject json = JObject.Parse(scriptTag.InnerHtml);
-            if (json.GetValue("@type").ToString() == "WebSite")
-            {
-                // Obtener el nombre y la URL del sitio web
-                searchActionData.Name = json.GetValue("name").ToString();
-                searchActionData.WebsiteUrl = json.GetValue("url").ToString();
+        var searchActionData = new SearchActionData();
 
-                // Buscar la acción de búsqueda y obtener la URL y el parámetro de consulta
-                JToken action = json.GetValue("potentialAction");
-                if (action != null && action["query-input"] != null && action["@type"].ToString() == "SearchAction")
-                {
-                    searchActionData.SearchUrl = action["target"].ToString();
-                    searchActionData.QueryParam = action["query-input"].ToString();
-                }
+        // Obtener el nombre y la URL del sitio web
+        var nameScript = "document.querySelector('meta[property=\"og:site_name\"]').content";
+        var urlScript = "document.querySelector('meta[property=\"og:url\"]').content";
+        searchActionData.Name = await ExecuteJavaScriptAsync(documentNode, nameScript);
+        searchActionData.WebsiteUrl = await ExecuteJavaScriptAsync(documentNode, urlScript);
+
+        // Obtener la acción de búsqueda y obtener la URL y el parámetro de consulta
+        var searchScript = "document.querySelector('script[type=\"application/ld+json\"]').innerText";
+        var searchJsonString = await ExecuteJavaScriptAsync(documentNode, searchScript);
+        var searchJson = JObject.Parse(searchJsonString);
+        if (searchJson.GetValue("@type").ToString() == "WebSite")
+        {
+            var action = searchJson.SelectToken("$.potentialAction[@type='SearchAction']");
+            if (action != null && action["query-input"] != null)
+            {
+                searchActionData.SearchUrl = action["target"].ToString();
+                searchActionData.QueryParam = action["query-input"].ToString();
             }
         }
-        return Task.FromResult(searchActionData);
-    }
 
+        return searchActionData;
+    }
 }
