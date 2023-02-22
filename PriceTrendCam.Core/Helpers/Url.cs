@@ -29,4 +29,9 @@ public class Url
 
         return false;
     }
+    public static string LimpiarUrl(string url)
+    {
+        var uri = new Uri(url);
+        return uri.GetLeftPart(UriPartial.Path);
+    }
 }
