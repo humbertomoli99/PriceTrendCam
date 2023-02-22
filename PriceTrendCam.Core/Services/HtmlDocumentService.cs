@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using JavaScriptEngineSwitcher.Core;
+using JavaScriptEngineSwitcher.Jint;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -187,6 +190,31 @@ public class HtmlDocumentService
 
         //Retorna la lista de URLs sin duplicados
         return allUrls;
+    }
+    public static async Task<string> ExecuteJavaScriptAsync(HtmlNode documentNode, string script)
+    {
+        // Obtener todos los scripts de la página web
+        var scripts = documentNode.Descendants("script")
+                                  .Select(s => s.InnerText)
+                                  .ToList();
+
+        // Agregar el script pasado como parámetro
+        scripts.Add(script);
+
+        // Crear una instancia de JintJsEngine y ejecutar los scripts
+        using (var engine = new JintJsEngine())
+        {
+            foreach (var s in scripts)
+            {
+                engine.Execute(s);
+            }
+
+            // Ejecutar el código JavaScript pasado como parámetro en un hilo separado
+            var task = Task.Run(() => engine.Evaluate<string>(script));
+
+            // Esperar el resultado y devolverlo
+            return await task;
+        }
     }
     /// <summary>
     /// Parses the JSON-LD fragment of a website to obtain search action data.
