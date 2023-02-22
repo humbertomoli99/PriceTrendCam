@@ -1,15 +1,10 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
-using PriceTrendCam.Views;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -44,8 +39,9 @@ public partial class AddSitemapViewModel : ObservableValidator
     }
 
     [ObservableProperty]
-    [Required(ErrorMessage = "El campo de texto es obligatorio.")]
     private string textBoxStoreName;
+    private string message;
+
     public List<string> TextBoxUrls
     {
         get; set;
@@ -54,9 +50,12 @@ public partial class AddSitemapViewModel : ObservableValidator
     private async Task SaveSitemapAsync()
     {
         // Validar todas las propiedades del modelo
-        ValidateAllProperties();
+        //ValidateAllProperties();
+        message = string.Empty;
 
         bool anyUrlInvalid = false;
+        bool anyUrlEmpty = false;
+
         foreach (var url in TextBoxUrls)
         {
             if (!await Url.IsValid(url))
@@ -65,7 +64,26 @@ public partial class AddSitemapViewModel : ObservableValidator
                 break; // salimos del loop porque encontramos una URL inválida
             }
         }
-
+        foreach (var url in TextBoxUrls)
+        {
+            if (url == string.Empty)
+            {
+                anyUrlEmpty = true;
+                break; // salimos del loop porque encontramos una URL inválida
+            }
+        }
+        if (textBoxStoreName == string.Empty || textBoxStoreName == null)
+        {
+            message += "The text field is required.\n";
+        }
+        if (anyUrlEmpty)
+        {
+            message += "Not all textboxes have urls\n";
+        }
+        else if (anyUrlInvalid)
+        {
+            message += "Invalid Url\n";
+        }
         // Comprobar si hay errores de validación
         if (HasErrors || anyUrlInvalid)
         {
@@ -80,16 +98,16 @@ public partial class AddSitemapViewModel : ObservableValidator
         }
 
         // Crear la lista de StoreUrl a partir de los valores de los TextBox
-        var textBoxUrls = new List<StoreUrl>();
+        var ListUrls = new List<StoreUrl>();
 
         foreach (var items in TextBoxUrls)
         {
-            textBoxUrls.Add(new StoreUrl()
+            ListUrls.Add(new StoreUrl()
             {
                 Url = items.ToString(),
             });
         }
-        var FirstUrl = textBoxUrls.First().Url;
+        var FirstUrl = ListUrls.First().Url;
 
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
@@ -98,21 +116,19 @@ public partial class AddSitemapViewModel : ObservableValidator
             Name = textBoxStoreName,
             Favicon = favicon,
             Selectors = new List<Selector>(),
-            Urls = textBoxUrls
+            Urls = ListUrls
         };
         // Insertar el objeto Store en la base de datos
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
 
         // Limpiar los valores de los TextBox
-        textBoxUrls.Clear();
+        ListUrls.Clear();
         TextBoxUrls.Clear();
 
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }
     public async Task ShowErrorsAsync(XamlRoot xamlRoot)
     {
-        var message = string.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
-
         await DialogService.ShowMessageDialogAsync("Validation errors", message, xamlRoot);
     }
 }
