@@ -1,4 +1,6 @@
-﻿namespace PriceTrendCam.Core.Contracts.Services;
+﻿using Microsoft.UI.Xaml;
+
+namespace PriceTrendCam.Contracts.Services;
 /// <summary>
 /// The default <see langword="interface"/> for a service that shows dialogs
 /// </summary>
@@ -9,5 +11,5 @@ public interface IDialogService
     /// </summary>
     /// <param name="title">The title of the message dialog.</param>
     /// <param name="message">The content of the message dialog.</param>
-    Task ShowMessageDialogAsync(string title, string message);
+    Task ShowMessageDialogAsync(string title, string message, XamlRoot xamlRoot);
 }

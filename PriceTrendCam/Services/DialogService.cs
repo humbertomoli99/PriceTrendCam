@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using PriceTrendCam.Core.Contracts.Services;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using PriceTrendCam.Contracts.Services;
+using PriceTrendCam.Views;
 
 namespace PriceTrendCam.Services;
 /// <summary>
@@ -8,13 +10,17 @@ namespace PriceTrendCam.Services;
 public sealed class DialogService : IDialogService
 {
     /// <inheritdoc/>
-    public Task ShowMessageDialogAsync(string title, string message)
+    public Task ShowMessageDialogAsync(string title, string message,XamlRoot xamlRoot)
     {
-        ContentDialog dialog = new();
-        dialog.Title = title;
-        dialog.CloseButtonText = "Close";
-        dialog.DefaultButton = ContentDialogButton.Close;
-        dialog.Content = message;
+
+        ContentDialog dialog = new()
+        {
+            Title = title,
+            XamlRoot = xamlRoot.Content.XamlRoot,
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close,
+            Content = message
+        };
 
         return dialog.ShowAsync().AsTask();
     }

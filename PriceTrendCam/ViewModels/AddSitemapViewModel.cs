@@ -2,10 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using PriceTrendCam.Core.Contracts.Services;
+using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
+using PriceTrendCam.Views;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -20,17 +22,17 @@ public partial class AddSitemapViewModel : ObservableValidator
 
         //metodos asincronos mvvm community
         SaveSitemapCommand = new AsyncRelayCommand(SaveSitemapAsync);
-        ShowErrorsCommand = new AsyncRelayCommand(ShowErrorsAsync);
+        //ShowErrorsCommand = new AsyncRelayCommand(ShowErrorsAsync);
     }
 
     public IAsyncRelayCommand SaveSitemapCommand
     {
         get;
     }
-    public IAsyncRelayCommand ShowErrorsCommand
-    {
-        get;
-    }
+    //public IAsyncRelayCommand ShowErrorsCommand
+    //{
+    //    get;
+    //}
     public event EventHandler? FormSubmissionCompleted;
     public event EventHandler? FormSubmissionFailed;
 
@@ -96,10 +98,10 @@ public partial class AddSitemapViewModel : ObservableValidator
 
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }
-    private async Task ShowErrorsAsync()
+    public async Task ShowErrorsAsync(XamlRoot xamlRoot)
     {
-        string message = string.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
+        var message = string.Join(Environment.NewLine, GetErrors().Select(e => e.ErrorMessage));
 
-        //await DialogService.ShowMessageDialogAsync("Validation errors", message);
+        await DialogService.ShowMessageDialogAsync("Validation errors", message, xamlRoot);
     }
 }
