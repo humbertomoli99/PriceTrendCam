@@ -19,7 +19,7 @@ public partial class AddSitemapViewModel : ObservableValidator
 
     public AddSitemapViewModel(IDialogService dialogService)
     {
-        TextBoxUrl = new();
+        TextBoxUrls = new();
         DialogService = dialogService;
 
         //metodos asincronos mvvm community
@@ -46,22 +46,32 @@ public partial class AddSitemapViewModel : ObservableValidator
     [ObservableProperty]
     [Required(ErrorMessage = "El campo de texto es obligatorio.")]
     private string textBoxStoreName;
-    public List<string> TextBoxUrl
+    public List<string> TextBoxUrls
     {
         get; set;
     }
 
     private async Task SaveSitemapAsync()
     {
-        // Validar todas las propiedades del modelo, incluyendo los nuevos TextBox
-        //ValidateProperty(nameof(textBoxStoreName));
-        //ValidateProperty(nameof(TextBoxUrl));
+        // Validar todas las propiedades del modelo
         ValidateAllProperties();
 
+        bool anyUrlInvalid = false;
+        foreach (var url in TextBoxUrls)
+        {
+            if (!await Url.IsValid(url))
+            {
+                anyUrlInvalid = true;
+                break; // salimos del loop porque encontramos una URL inválida
+            }
+        }
+
         // Comprobar si hay errores de validación
-        if (HasErrors)
+        if (HasErrors || anyUrlInvalid)
         {
             FormSubmissionFailed?.Invoke(this, EventArgs.Empty);
+            // Limpiar los valores de los TextBox
+            TextBoxUrls.Clear();
             return;
         }
         else
@@ -72,7 +82,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         // Crear la lista de StoreUrl a partir de los valores de los TextBox
         var textBoxUrls = new List<StoreUrl>();
 
-        foreach (var items in TextBoxUrl)
+        foreach (var items in TextBoxUrls)
         {
             textBoxUrls.Add(new StoreUrl()
             {
@@ -80,13 +90,6 @@ public partial class AddSitemapViewModel : ObservableValidator
             });
         }
         var FirstUrl = textBoxUrls.First().Url;
-
-        if(await Url.IsValid(FirstUrl) == false)
-        {
-            Debug.WriteLine("the url is invalid");
-            return;
-        }
-        //var node = await HtmlDocumentService.LoadPageAsync(FirstUrl);
 
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
@@ -101,8 +104,8 @@ public partial class AddSitemapViewModel : ObservableValidator
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
 
         // Limpiar los valores de los TextBox
-        textBoxStoreName = null;
         textBoxUrls.Clear();
+        TextBoxUrls.Clear();
 
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }

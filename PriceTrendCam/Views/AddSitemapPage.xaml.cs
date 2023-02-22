@@ -19,7 +19,7 @@ public sealed partial class AddSitemapPage : Page
     {
         InitializeComponent();
         DataContext = App.GetService<AddSitemapViewModel>();
-        ViewModel.TextBoxUrl = new();
+        ViewModel.TextBoxUrls = new();
         Agregar_Click1(null, null);
     }
 
@@ -69,7 +69,7 @@ public sealed partial class AddSitemapPage : Page
         }
         foreach(var items in textBoxValues)
         {
-            ViewModel.TextBoxUrl?.Add(items);
+            ViewModel.TextBoxUrls?.Add(items);
         }
     }
     private void Agregar_Click1(object? sender, RoutedEventArgs? e)
