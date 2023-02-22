@@ -17,7 +17,7 @@
                 FontSize="35"
                 TextAlignment="Center"
                 TextWrapping="NoWrap"
-                PlaceholderText="Add product URL or search for product here"
+                PlaceholderText="Search for products, brands or paste a link"
                 Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
