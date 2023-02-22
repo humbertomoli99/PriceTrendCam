@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HtmlAgilityPack;
-using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
@@ -54,25 +51,63 @@ public class MainViewModel : ObservableRecipient
 
             var node = await HtmlDocumentService.LoadPageAsync(textBoxSearch);
 
-            var MetaTitle = HtmlDocumentService.GetMetaTitle(node);
-            var MetaDescription = HtmlDocumentService.GetMetaDescription(node);
-            var MetaImage = HtmlDocumentService.GetMetaImage(node);
+            var ScriptMetaDescription = "document.querySelector('meta[name=\"description\"]').content;";
+            var ScriptMetaTitle = "document.title";
+            var ScriptMetaImage = "document.querySelector('meta[property=\"og:image\"]').content;";
+
+            var MetaTitle = await HtmlDocumentService.ExecuteJavaScriptAsync(node, ScriptMetaTitle);
+            var MetaDescription = await HtmlDocumentService.ExecuteJavaScriptAsync(node, ScriptMetaDescription);
+            var MetaImage = await HtmlDocumentService.ExecuteJavaScriptAsync(node, ScriptMetaImage);
 
             //descargar la meta imagen o obtener de internet?
-            var producto1 = new ProductInfo()
+            //var producto1 = new ProductInfo()
+            //{
+            //    Name = MetaTitle,
+            //    Description = MetaDescription,
+            //    Url = textBoxSearch,
+            //    Image = MetaImage,
+            //    Date = DateTime.Now,
+            //    StoreId = id_sitemap,
+            //    Histories = new List<History>
+            //    {
+            //        new History()
+            //        {
+            //            Price = 100,
+            //            Stock = 10,
+            //            Date  = DateTime.Now,
+            //            ShippingPrice = 100,
+            //        }
+            //    },
+            //    Status = "Aviable",
+            //    Stock = 5,
+            //    Photos = new List<ProductPhoto> { },
+            //    Notifications = new List<Notification> { }
+            //};
+
+            var producto1 = new ProductInfo
             {
                 Name = MetaTitle,
                 Description = MetaDescription,
+                Url = textBoxSearch,
+                Price = 100.0,
+                PriceCurrency = "MXN",
+                Date = DateTime.UtcNow,
+                ShippingPrice = 119,
+                ShippingCurrency = "MXN",
+                StoreName = "nombre de la tienda",
+                Status = "In stock",
+                Stock = 100,
                 Image = MetaImage,
-                Date = DateTime.Now
+                StoreId = id_sitemap,
             };
 
-            await App.PriceTrackerService.InsertAsync<ProductInfo>(producto1);
+            await App.PriceTrackerService.InsertWithChildrenAsync<ProductInfo>(producto1,true);
         }
         //si la url no es valida eso quiere decir que se ha ingresado un termino de busqueda
         //lo siguiente es utilizar los diccionarios ParseWebSiteJsonLdForSearchAction para obtener una url de busqueda y obtener el buscador de la web
-        
+
         // si no hay ningun sitemap informar al usuario de como realizar este proceso
         var data = await App.PriceTrackerService.GetAllAsync<ProductInfo>();
+        //si no hay buscadores solo le decimos al usuario los productos que tiene en seguimiento
     }
 }
