@@ -50,7 +50,7 @@ public class ProductDetailsViewModel : ObservableRecipient, INavigationAware
         {
             if (SampleItems != null && SampleItems.Count > 0)
             {
-                Selected = SampleItems.First();
+                Selected = SampleItems.FirstOrDefault();
             }
             else
             {
