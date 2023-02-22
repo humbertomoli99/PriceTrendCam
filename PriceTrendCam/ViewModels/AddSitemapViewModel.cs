@@ -49,68 +49,23 @@ public partial class AddSitemapViewModel : ObservableValidator
 
     private async Task SaveSitemapAsync()
     {
-        // Validar todas las propiedades del modelo
-        //ValidateAllProperties();
-        message = string.Empty;
-
-        bool anyUrlInvalid = false;
-        bool anyUrlEmpty = false;
-
-        foreach (var url in TextBoxUrls)
-        {
-            if (!await Url.IsValid(url))
-            {
-                anyUrlInvalid = true;
-                break; // salimos del loop porque encontramos una URL inválida
-            }
-        }
-        foreach (var url in TextBoxUrls)
-        {
-            if (url == string.Empty)
-            {
-                anyUrlEmpty = true;
-                break; // salimos del loop porque encontramos una URL inválida
-            }
-        }
-        if (textBoxStoreName == string.Empty || textBoxStoreName == null)
-        {
-            message += "The text field is required.\n";
-        }
-        if (anyUrlEmpty)
-        {
-            message += "Not all textboxes have urls\n";
-        }
-        else if (anyUrlInvalid)
-        {
-            message += "Invalid Url\n";
-        }
-        // Comprobar si hay errores de validación
-        if (HasErrors || anyUrlInvalid)
+        // Validar entrada
+        if (!ValidateForm())
         {
             FormSubmissionFailed?.Invoke(this, EventArgs.Empty);
-            // Limpiar los valores de los TextBox
-            TextBoxUrls.Clear();
             return;
         }
-        else
-        {
-            FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
-        }
 
-        // Crear la lista de StoreUrl a partir de los valores de los TextBox
-        var ListUrls = new List<StoreUrl>();
+        // Crear lista de StoreUrl
+        var ListUrls = TextBoxUrls
+            .Select(url => new StoreUrl { Url = url.ToString() })
+            .ToList();
 
-        foreach (var items in TextBoxUrls)
-        {
-            ListUrls.Add(new StoreUrl()
-            {
-                Url = items.ToString(),
-            });
-        }
+        // Obtener favicon de la primera URL
         var FirstUrl = ListUrls.First().Url;
-
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
+        // Crear objeto Store y guardarlo en la base de datos
         ObjectStore = new Store
         {
             Name = textBoxStoreName,
@@ -118,14 +73,45 @@ public partial class AddSitemapViewModel : ObservableValidator
             Selectors = new List<Selector>(),
             Urls = ListUrls
         };
-        // Insertar el objeto Store en la base de datos
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
 
-        // Limpiar los valores de los TextBox
-        ListUrls.Clear();
-        TextBoxUrls.Clear();
-
+        // Limpiar valores y llamar a eventos de formulario
+        ClearFormValues();
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
+    private bool ValidateForm()
+    {
+        message = string.Empty;
+        
+        bool hasEmptyName = string.IsNullOrEmpty(textBoxStoreName);
+        bool hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
+        bool hasInvalidUrls = TextBoxUrls.Any(url => !Url.IsValid(url).Result);
+
+        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls)
+        {
+            if (hasEmptyName)
+            {
+                message += "The text field is required.\n";
+            }
+            if (hasEmptyUrls)
+            {
+                message += "Not all textboxes have urls\n";
+            }
+            else if (hasInvalidUrls)
+            {
+                message += "Invalid Url\n";
+            }
+            ClearFormValues();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ClearFormValues()
+    {
+        TextBoxUrls.Clear();
     }
     public async Task ShowErrorsAsync(XamlRoot xamlRoot)
     {
