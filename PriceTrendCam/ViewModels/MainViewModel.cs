@@ -58,9 +58,9 @@ public class MainViewModel : ObservableRecipient
 
         var node = await HtmlDocumentService.LoadPageAsync(url);
 
-        var metaTitle = await HtmlDocumentService.GetMetaTitleAsync(node);
-        var metaDescription = await HtmlDocumentService.GetMetaDescriptionAsync(node);
-        var metaImage = await HtmlDocumentService.GetMetaImageAsync(node);
+        var metaTitle = HtmlDocumentService.GetMetaTitle(node);
+        var metaDescription = HtmlDocumentService.GetMetaDescription(node);
+        var metaImage = HtmlDocumentService.GetMetaImage(node);
 
         var product = new ProductInfo
         {

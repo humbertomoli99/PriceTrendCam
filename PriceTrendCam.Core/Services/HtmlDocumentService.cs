@@ -161,22 +161,19 @@ public class HtmlDocumentService
         return result ?? string.Empty;
     }
 
-    public static async Task<string> GetMetaTitleAsync(HtmlNode node)
+    public static string GetMetaTitle(HtmlNode DocumentNode)
     {
-        var script = "document.title";
-        return await HtmlDocumentService.ExecuteJavaScriptAsync(node, script);
+        return GetMetaValue(DocumentNode, "head > title", "innerHTML");
     }
 
-    public static async Task<string> GetMetaDescriptionAsync(HtmlNode node)
+    public static string GetMetaDescription(HtmlNode DocumentNode)
     {
-        var script = "document.querySelector('meta[name=\"description\"]').content;";
-        return await HtmlDocumentService.ExecuteJavaScriptAsync(node, script);
+        return GetMetaValue(DocumentNode, "head > meta[name='description']", "content");
     }
 
-    public static async Task<string> GetMetaImageAsync(HtmlNode node)
+    public static string GetMetaImage(HtmlNode DocumentNode)
     {
-        var script = "document.querySelector('meta[property=\"og:image\"]').content;";
-        return await HtmlDocumentService.ExecuteJavaScriptAsync(node, script);
+        return GetMetaValue(DocumentNode, "head > meta[property='og:image']", "content");
     }
 
     public static async Task<List<string>> RemoveDuplicateUrls(string url)
