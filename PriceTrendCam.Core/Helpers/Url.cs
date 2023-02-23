@@ -65,13 +65,6 @@ public class Url
         // Convertir el host a minúsculas
         var host = uri.Host.ToLower();
 
-        // Verificar si el prefijo "www" está presente en el host
-        if (host.StartsWith("www."))
-        {
-            // Eliminar el prefijo "www" del host si está presente
-            host = host.Substring(4);
-        }
-
         // Reconstruir la URL con el host en minúsculas y sin el prefijo "www"
         var builder = new UriBuilder(uri.Scheme, host, uri.Port == 443 ? -1 : uri.Port, uri.PathAndQuery);
         var normalizedUrl = builder.ToString();
