@@ -1,12 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
+using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
-using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 
 namespace PriceTrendCam.Views;
@@ -67,7 +64,7 @@ public sealed partial class AddSitemapPage : Page
                 Url = items.ToString(),
             });
         }
-        foreach(var items in textBoxValues)
+        foreach (var items in textBoxValues)
         {
             ViewModel.TextBoxUrls?.Add(items);
         }
@@ -90,6 +87,7 @@ public sealed partial class AddSitemapPage : Page
         // Crear un nuevo TextBox
         TextBox newTextBox = new TextBox();
         newTextBox.Margin = new Thickness(0, 6, 0, 0);
+        newTextBox.LostFocus += NewTextBox_LostFocus;
 
         // Agregar el TextBox a la primera columna del nuevo Grid
         Grid.SetColumn(newTextBox, 0);
@@ -134,6 +132,24 @@ public sealed partial class AddSitemapPage : Page
             newTextBox.Header = "Start URL";
             newTextBox.Margin = new Thickness(0, 0, 0, 0);
             newTextBox.TextChanged += StoreUrlTextBox_TextChanged;
+            newTextBox.LostFocus += NewTextBox_LostFocus;
+        }
+    }
+
+    private async void NewTextBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        for (int i = 0; i < textBoxesStackPanel.Children.Count; i++)
+        {
+            Grid currentGrid = textBoxesStackPanel.Children[i] as Grid;
+
+            foreach (UIElement child in currentGrid.Children)
+            {
+                if (child is TextBox textBox)
+                {
+                    string normalizedUrl = await Url.NormalizeUrl(textBox.Text);
+                    textBox.Text = normalizedUrl;
+                }
+            }
         }
     }
 
@@ -149,7 +165,6 @@ public sealed partial class AddSitemapPage : Page
             string faviconUrlString = await HtmlDocumentService.GetFaviconUrlAsync(url);
             BitmapImage faviconImage = new BitmapImage(new Uri(faviconUrlString));
             FaviconUrl.Source = faviconImage;
-
         }
         catch
         {

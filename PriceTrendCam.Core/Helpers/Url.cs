@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace PriceTrendCam.Core.Helpers;
@@ -9,9 +10,17 @@ public class Url
         if (string.IsNullOrEmpty(url)) { return false; }
 
         // Comprobar si la URL es válida según la sintaxis de una URL
+        //var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
+
+        url = await NormalizeUrl(url);
+        
         var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
 
-        if (!regex.IsMatch(url)) { return false; }
+        if (!regex.IsMatch(url))
+        {
+            Debug.WriteLine($"La URL no es válida según la expresión regular: {url}");
+            return false;
+        }
 
         try
         {
@@ -19,12 +28,15 @@ public class Url
             // Enviar una solicitud HTTP GET a la URL
             var response = await client.GetAsync(url);
 
+            // Imprimir el código de estado de la respuesta
+            Debug.WriteLine($"Código de estado de la respuesta: {response.StatusCode}");
+
             // Comprobar si la respuesta tiene un código de estado válido
             if (response.StatusCode == HttpStatusCode.OK) { return true; }
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
-            // Si se produce una excepción al enviar la solicitud HTTP, la URL no es válida
+            Debug.WriteLine($"Se produjo una excepción al enviar la solicitud HTTP a {url}: {ex.Message}");
         }
 
         return false;
