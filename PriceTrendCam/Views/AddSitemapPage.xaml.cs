@@ -129,7 +129,7 @@ public sealed partial class AddSitemapPage : Page
             Grid.SetColumn(addButton, 2);
             newGrid.Children.Add(addButton);
 
-            newTextBox.PlaceholderText = "Url";
+            newTextBox.PlaceholderText = "https://";
             newTextBox.Header = "Start URL";
             newTextBox.Margin = new Thickness(0, 0, 0, 0);
             newTextBox.TextChanged += StoreUrlTextBox_TextChanged;
