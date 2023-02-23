@@ -10,7 +10,7 @@ public class Url
     {
         if (string.IsNullOrEmpty(url)) { return false; }
 
-        url = NormalizeUrl(url);
+        url = await NormalizeUrl(url);
         
         // Comprobar si la URL es válida según la sintaxis de una URL
         var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
@@ -53,7 +53,7 @@ public class Url
         var uri = new Uri(url);
         return uri.GetLeftPart(UriPartial.Path);
     }
-    public static string NormalizeUrl(string url)
+    public static async Task<string> NormalizeUrl(string url)
     {
         if (string.IsNullOrWhiteSpace(url))
         {
@@ -75,9 +75,13 @@ public class Url
         // Convertir el host a minúsculas
         var host = uri.Host.ToLower();
 
-        // Reconstruir la URL con el host en minúsculas y sin el prefijo "www"
-        var builder = new UriBuilder(uri.Scheme, host, uri.Port == 443 ? -1 : uri.Port, uri.PathAndQuery);
-        var normalizedUrl = builder.ToString();
+        // Reconstruir la URL con el host en minúsculas y con el prefijo "www"
+        var path = uri.AbsolutePath + uri.Query;
+        var normalizedUrl = new UriBuilder(string.Format("{0}://{1}:{2}{3}", uri.Scheme, host, uri.Port, path)).ToString();
+
+        // Eliminar el puerto 80 o 443 al final de la URL
+        normalizedUrl = normalizedUrl.Replace(":80", "");
+        normalizedUrl = normalizedUrl.Replace(":443", "");
 
         return normalizedUrl;
     }

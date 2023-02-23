@@ -43,7 +43,7 @@ public class HtmlDocumentService
     }
     public static async Task<string> GetFaviconUrlAsync(string RequestUri)
     {
-        var hostUrl = Url.NormalizeUrl(RequestUri);
+        var hostUrl = await Url.NormalizeUrl(RequestUri);
         var client = new HttpClient();
 
         try

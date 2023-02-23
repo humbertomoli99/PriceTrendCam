@@ -148,7 +148,7 @@ public sealed partial class AddSitemapPage : Page
             {
                 if (child is TextBox textBox)
                 {
-                    string normalizedUrl = Url.NormalizeUrl(textBox.Text);
+                    string normalizedUrl = await Url.NormalizeUrl(textBox.Text);
                     textBox.Text = normalizedUrl;
                 }
             }
