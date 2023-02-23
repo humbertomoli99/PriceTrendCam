@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using JavaScriptEngineSwitcher.Core;
-using JavaScriptEngineSwitcher.Jint;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
+using JavaScriptEngineSwitcher.Jint;
 using Newtonsoft.Json.Linq;
+using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.Core.Services;
@@ -48,32 +41,36 @@ public class HtmlDocumentService
         }
         return listUrl;
     }
-    public static async Task<string> GetFaviconUrlAsync(string url)
+    public static async Task<string> GetFaviconUrlAsync(string RequestUri)
     {
-        var faviconUrl = $"https://{new Uri(url).Host}/favicon.ico";
+        var hostUrl = Url.NormalizeUrl(RequestUri);
         var client = new HttpClient();
-        var response = await client.GetAsync(faviconUrl);
 
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            response = await client.GetAsync(url);
-            var html = await response.Content.ReadAsStringAsync();
+            var faviconUrl = $"https://{new Uri(RequestUri).Host}/favicon.ico";
+            var response = await client.GetAsync(faviconUrl);
 
-            var htmlDoc = new HtmlAgilityPack.HtmlDocument();
-            htmlDoc.LoadHtml(html);
-
-            var linkNode = htmlDoc.DocumentNode.SelectSingleNode("//link[@rel='shortcut icon']");
-            if (linkNode != null)
+            if (response.IsSuccessStatusCode)
             {
-                faviconUrl = linkNode.Attributes["href"].Value;
-            }
-            else
-            {
-                return "";
+                return faviconUrl;
             }
         }
+        catch
+        {
+            // Omitimos el error y seguimos
+        }
 
-        return faviconUrl;
+        var htmlNode = await LoadPageAsync(RequestUri);
+        var linkNode = htmlNode.QuerySelector("link[rel='icon'], link[rel='shortcut icon']");
+        var href = linkNode?.GetAttributeValue("href", null);
+
+        if (href == null)
+        {
+            return "";
+        }
+
+        return hostUrl + href;
     }
 
     /// <summary>
