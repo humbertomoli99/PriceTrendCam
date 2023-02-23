@@ -33,6 +33,7 @@ public class Url
 
             // Comprobar si la respuesta tiene un código de estado válido
             if (response.StatusCode == HttpStatusCode.OK) { return true; }
+            if (response.StatusCode == HttpStatusCode.Moved) { return true; }
         }
         catch (HttpRequestException ex)
         {
