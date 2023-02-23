@@ -88,6 +88,7 @@ public sealed partial class AddSitemapPage : Page
         TextBox newTextBox = new TextBox();
         newTextBox.Margin = new Thickness(0, 6, 0, 0);
         newTextBox.LostFocus += NewTextBox_LostFocus;
+        newTextBox.IsTextPredictionEnabled = false;
 
         // Agregar el TextBox a la primera columna del nuevo Grid
         Grid.SetColumn(newTextBox, 0);
@@ -133,6 +134,7 @@ public sealed partial class AddSitemapPage : Page
             newTextBox.Margin = new Thickness(0, 0, 0, 0);
             newTextBox.TextChanged += StoreUrlTextBox_TextChanged;
             newTextBox.LostFocus += NewTextBox_LostFocus;
+            newTextBox.IsTextPredictionEnabled = false;
         }
     }
 
