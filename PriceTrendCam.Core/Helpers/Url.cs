@@ -66,8 +66,11 @@ public class Url
             url = "https://" + url;
         }
 
-        // Crear un objeto Uri con la URL
-        var uri = new Uri(url);
+        // Validar la URL antes de crear el objeto Uri
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+        {
+            return null; // la URL no es válida, retornar null o lanzar una excepción si es necesario
+        }
 
         // Convertir el host a minúsculas
         var host = uri.Host.ToLower();
