@@ -57,7 +57,10 @@ public class PriceTrackerDbService
             return null;
         }
     }
-
+    public async Task<T> GetWithChildrenAsync<T>(int id) where T : class, new()
+    {
+        return await _database.FindWithChildrenAsync<T>(id).ConfigureAwait(false);
+    }
     /// <summary>
     /// Gets a single record of the specified type from the database, based on its ID.
     /// </summary>

@@ -48,12 +48,12 @@ public class MainViewModel : ObservableRecipient
         var stores = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
         var matchingUrls = stores.SelectMany(s => s.Urls).Where(u => url.Contains(u.Url)).ToList();
         var firstUrlStoreId = matchingUrls.FirstOrDefault().StoreId;
-        var partnerStore = await App.PriceTrackerService.GetAsync<Store>(firstUrlStoreId);
+        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(firstUrlStoreId);
 
         if (partnerStore?.Urls?.Count == 0 || partnerStore?.Urls == null)
         {
             Console.Write("No selectors assigned to Store");
-            return;
+            //return;
         }
 
         var node = await HtmlDocumentService.LoadPageAsync(url);
