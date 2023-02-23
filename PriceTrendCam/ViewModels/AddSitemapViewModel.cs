@@ -50,7 +50,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     private async Task SaveSitemapAsync()
     {
         // Validar entrada
-        if (!ValidateForm())
+        if ( await ValidateForm() == false )
         {
             FormSubmissionFailed?.Invoke(this, EventArgs.Empty);
             return;
@@ -80,13 +80,16 @@ public partial class AddSitemapViewModel : ObservableValidator
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
     }
 
-    private bool ValidateForm()
+    private async Task<bool> ValidateForm()
     {
         message = string.Empty;
         
-        bool hasEmptyName = string.IsNullOrEmpty(textBoxStoreName);
-        bool hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
-        bool hasInvalidUrls = TextBoxUrls.Any(url => !Url.IsValid(url).Result);
+        var tasks = TextBoxUrls.Select(async url => await Url.IsValid(url)).ToList();
+        await Task.WhenAll(tasks);
+
+        var hasInvalidUrls = tasks.Any(task => !task.Result);
+        var hasEmptyName = string.IsNullOrEmpty(textBoxStoreName);
+        var hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
 
         if (hasEmptyName || hasEmptyUrls || hasInvalidUrls)
         {
