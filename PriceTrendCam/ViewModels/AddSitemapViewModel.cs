@@ -74,10 +74,14 @@ public partial class AddSitemapViewModel : ObservableValidator
             Urls = ListUrls
         };
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
-
+        
         // Limpiar valores y llamar a eventos de formulario
         ClearFormValues();
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
+
+        var newstoreId = ObjectStore.Id;
+        var navigationService = App.GetService<INavigationService>();
+        navigationService.NavigateTo(typeof(AddSelectorsViewModel).FullName!, newstoreId);
     }
 
     private async Task<bool> ValidateForm()

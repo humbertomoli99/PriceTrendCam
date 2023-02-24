@@ -7,6 +7,7 @@ using Microsoft.Web.WebView2.Core;
 
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Contracts.ViewModels;
+using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -20,6 +21,8 @@ public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
     private Uri _source = new("https://docs.microsoft.com/windows/apps/");
     private bool _isLoading = true;
     private bool _hasFailures;
+    private int _newstoreId;
+
 
     public IWebViewService WebViewService
     {
@@ -82,10 +85,19 @@ public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
 
     public async Task OnNavigatedTo(object parameter)
     {
-        await Task.Run(() =>
+        if (parameter != null && parameter is int)
         {
-            WebViewService.NavigationCompleted += OnNavigationCompleted;
-        });
+            _newstoreId = (int)parameter;
+            // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
+            var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
+            var firstUrl = store.Urls.First().Url.ToString();
+            Source = new Uri(firstUrl);
+
+            await Task.Run(() =>
+            {
+                WebViewService.NavigationCompleted += OnNavigationCompleted;
+            });
+        }
     }
 
 
