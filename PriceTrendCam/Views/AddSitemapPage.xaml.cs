@@ -140,19 +140,11 @@ public sealed partial class AddSitemapPage : Page
 
     private async void NewTextBox_LostFocus(object sender, RoutedEventArgs e)
     {
-        for (int i = 0; i < textBoxesStackPanel.Children.Count; i++)
-        {
-            Grid currentGrid = textBoxesStackPanel.Children[i] as Grid;
-
-            foreach (UIElement child in currentGrid.Children)
-            {
-                if (child is TextBox textBox)
-                {
-                    string normalizedUrl = await Url.NormalizeUrl(textBox.Text);
-                    textBox.Text = normalizedUrl;
-                }
-            }
-        }
+        textBoxesStackPanel.Children
+            .OfType<Grid>()
+            .SelectMany(grid => grid.Children.OfType<TextBox>())
+            .ToList()
+            .ForEach(async textBox => textBox.Text = await Url.NormalizeUrl(textBox.Text));
     }
 
     private async void StoreUrlTextBox_TextChanged(object sender, TextChangedEventArgs e)
