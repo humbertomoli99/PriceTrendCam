@@ -92,12 +92,11 @@ public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
             var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
             var firstUrl = store.Urls.First().Url.ToString();
             Source = new Uri(firstUrl);
-
-            await Task.Run(() =>
-            {
-                WebViewService.NavigationCompleted += OnNavigationCompleted;
-            });
         }
+        await Task.Run(() =>
+        {
+            WebViewService.NavigationCompleted += OnNavigationCompleted;
+        });
     }
 
 
