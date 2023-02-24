@@ -6,29 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea" VerticalAlignment="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <TextBox
-                Height="60"
-                FontSize="35"
-                TextAlignment="Center"
-                TextWrapping="NoWrap"
-                PlaceholderText="Search for products, brands or paste a link"
-                KeyDown="TextBox_KeyDown"
-                Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
-            <Button
-                Width="60"
-                Height="60"
-                Margin="6,0,0,0"
-                VerticalAlignment="Bottom"
-                Command="{x:Bind ViewModel.AdvancedSearchCommand}"
-                Content="🔎" />
-        </StackPanel>
+    <Grid
+        x:Name="ContentArea"
+        VerticalAlignment="Top">
+        <AutoSuggestBox
+            QueryIcon="Find"
+            PlaceholderText="Search for products, brands or paste a link"
+            QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+            Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </Page>

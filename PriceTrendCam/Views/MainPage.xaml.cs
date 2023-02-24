@@ -17,11 +17,8 @@ public sealed partial class MainPage : Page
         InitializeComponent();
     }
 
-    private void TextBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        if (e.Key == Windows.System.VirtualKey.Enter)
-        {
-            _ = ViewModel.AdvancedSearchAsync();
-        }
+        _ = ViewModel.AdvancedSearchAsync();
     }
 }
