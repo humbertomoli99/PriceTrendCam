@@ -6,7 +6,7 @@ using PriceTrendCam.Core.Services;
 
 
 namespace PriceTrendCam.ViewModels;
-public class MainViewModel : ObservableRecipient
+public partial class MainViewModel : ObservableObject
 {
     public MainViewModel()
     {
@@ -16,12 +16,8 @@ public class MainViewModel : ObservableRecipient
     {
         get;
     }
+    [ObservableProperty]
     private string textBoxSearch;
-    public string TextBoxSearch
-    {
-        get => textBoxSearch;
-        set => SetProperty(ref textBoxSearch, value);
-    }
     public async Task AdvancedSearchAsync()
     {
         if (await Url.IsValid(textBoxSearch))
