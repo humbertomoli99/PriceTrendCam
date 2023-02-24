@@ -22,7 +22,7 @@ public class MainViewModel : ObservableRecipient
         get => textBoxSearch;
         set => SetProperty(ref textBoxSearch, value);
     }
-    private async Task AdvancedSearchAsync()
+    public async Task AdvancedSearchAsync()
     {
         if (await Url.IsValid(textBoxSearch))
         {

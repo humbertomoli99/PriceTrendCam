@@ -18,6 +18,7 @@
                 TextAlignment="Center"
                 TextWrapping="NoWrap"
                 PlaceholderText="Search for products, brands or paste a link"
+                KeyDown="TextBox_KeyDown"
                 Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
