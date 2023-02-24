@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using PriceTrendCam.Core.Services;
 
 namespace PriceTrendCam.Tests.MSTest;
@@ -173,6 +168,61 @@ public class HtmlDocumentTests
             CollectionAssert.AllItemsAreUnique(result);
         }
     }
+    [TestClass]
+    public class SearchActionTests
+    {
+        [TestMethod]
+        public async Task TestParseWebSiteJsonLdForSearchAction()
+        {
+            // Arrange
+            var html = @"
+                <html>
+                    <head>
+                        <meta property=""og:site_name"" content=""Test Site"" />
+                        <meta property=""og:url"" content=""https://www.testsite.com"" />
+                    </head>
+                    <body>
+                        <script type=""application/ld+json"">
+                            {
+                                ""@context"": ""https://schema.org"",
+                                ""@type"": ""WebSite"",
+                                ""potentialAction"": {
+                                    ""@type"": ""SearchAction"",
+                                    ""target"": ""https://www.testsite.com/search?q={search_term_string}"",
+                                    ""query-input"": ""required name=search_term_string""
+                                }
+                            }
+                        </script>
+                    </body>
+                </html>";
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
 
+            // Act
+            var searchActionData = await HtmlDocumentService.ParseWebSiteJsonLdForSearchAction(doc.DocumentNode);
 
+            // Assert
+            Assert.AreEqual("Test Site", searchActionData.Name);
+            Assert.AreEqual("https://www.testsite.com", searchActionData.WebsiteUrl);
+            Assert.AreEqual("https://www.testsite.com/search?q={search_term_string}", searchActionData.SearchUrl);
+            Assert.AreEqual("required name=search_term_string", searchActionData.QueryParam);
+        }
+        [TestMethod]
+        public async Task ExecuteJavaScriptAsync_ShouldReturnExpectedOutput()
+        {
+            // Arrange
+            //var html = "<html><head><title>Test page</title></head><body><script>var x = 1 + 2;</script></body></html>";
+            //var documentNode = HtmlNode.CreateNode(html);
+            var script = "document.querySelector('meta[property=\"og:site_name\"]').content";
+            var script2 = $"document.querySelector('meta[property=\"og:site_name\"]').content";
+
+            var documentNode = await HtmlDocumentService.LoadPageAsync("https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Enfriamiento-y-Ventilacion/Disipadores-para-CPU/Disipador-CPU-be-quiet-Dark-Rock-Pro-4-120-135mm-1500RPM-Negro.html");
+
+            // Act
+            var result = await HtmlDocumentService.ExecuteJavaScriptAsync(documentNode, script);
+
+            // Assert
+            Assert.AreEqual("3", result);
+        }
+    }
 }
