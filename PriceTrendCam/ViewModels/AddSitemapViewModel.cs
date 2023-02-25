@@ -37,7 +37,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     }
 
     [ObservableProperty]
-    private readonly string textBoxStoreName;
+    private string textBoxStoreName;
     private string message;
 
     public List<string> TextBoxUrls
