@@ -5,31 +5,29 @@ using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
+using PriceTrendCam.Views;
 
 namespace PriceTrendCam.ViewModels;
 
 public partial class AddSitemapViewModel : ObservableValidator
 {
-    private readonly IDialogService DialogService;
+    private readonly IDialogService dialogService;
 
-    public AddSitemapViewModel(IDialogService dialogService)
+    private readonly INavigationService navigationService;
+
+    public AddSitemapViewModel(INavigationService navigationService, IDialogService dialogService)
     {
-        TextBoxUrls = new();
-        DialogService = dialogService;
+        this.navigationService = navigationService;
+        this.dialogService = dialogService;
 
         //metodos asincronos mvvm community
         SaveSitemapCommand = new AsyncRelayCommand(SaveSitemapAsync);
-        //ShowErrorsCommand = new AsyncRelayCommand(ShowErrorsAsync);
     }
 
     public IAsyncRelayCommand SaveSitemapCommand
     {
         get;
     }
-    //public IAsyncRelayCommand ShowErrorsCommand
-    //{
-    //    get;
-    //}
     public event EventHandler? FormSubmissionCompleted;
     public event EventHandler? FormSubmissionFailed;
 
@@ -80,7 +78,6 @@ public partial class AddSitemapViewModel : ObservableValidator
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
 
         var newstoreId = ObjectStore.Id;
-        var navigationService = App.GetService<INavigationService>();
         navigationService.NavigateTo(typeof(AddSelectorsViewModel).FullName!, newstoreId);
     }
 
@@ -122,6 +119,6 @@ public partial class AddSitemapViewModel : ObservableValidator
     }
     public async Task ShowErrorsAsync(XamlRoot xamlRoot)
     {
-        await DialogService.ShowMessageDialogAsync("Validation errors", message, xamlRoot);
+        await dialogService.ShowMessageDialogAsync("Validation errors", message, xamlRoot);
     }
 }
