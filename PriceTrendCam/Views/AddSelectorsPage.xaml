@@ -103,12 +103,139 @@
                     </StackPanel>
                 </Grid>
             </Grid>
+            <ScrollViewer
+                Grid.Row="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="*" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBox
+                        x:Name="IdTextBox"
+                        PlaceholderText="Selector ID"
+                        Header="ID:"
+                        Grid.Row="0"
+                        Margin="0,5" />
+
+                    <ComboBox
+                        x:Name="TypeComboBox"
+                        Header="Type:"
+                        Grid.Row="1"
+                        Margin="0,5">
+                        <ComboBoxItem>Text</ComboBoxItem>
+                        <ComboBoxItem>Link</ComboBoxItem>
+                        <ComboBoxItem>Popup Link</ComboBoxItem>
+                        <ComboBoxItem>Image</ComboBoxItem>
+                        <ComboBoxItem>Table</ComboBoxItem>
+                        <ComboBoxItem>Element Attribute</ComboBoxItem>
+                        <ComboBoxItem>HTML</ComboBoxItem>
+                        <ComboBoxItem>Element</ComboBoxItem>
+                        <ComboBoxItem>Element Scrolldown</ComboBoxItem>
+                        <ComboBoxItem>Element Click</ComboBoxItem>
+                        <ComboBoxItem>Grouped</ComboBoxItem>
+                        <ComboBoxItem>Sitemap.xml Links</ComboBoxItem>
+                        <ComboBoxItem>Pagination (Beta)</ComboBoxItem>
+                    </ComboBox>
 
 
-            <Rectangle
-                Grid.Row="2"
-                Fill="LightGray" />
+                    <TextBlock
+                        Grid.Row="2">Selector:</TextBlock>
+                    <Grid
+                        Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            x:Name="SelectButton"
+                            Content="Select"
+                            Margin="0,0,10,0"
+                            Click="SelectButton_Click"
+                            Grid.Column="0" />
+                        <Button
+                            x:Name="ElementPreviewButton"
+                            Content="Element Preview"
+                            Margin="0,0,10,0"
+                            Click="ElementPreviewButton_Click"
+                            Grid.Column="1" />
+                        <Button
+                            x:Name="DataPreviewButton"
+                            Content="Data Preview"
+                            Margin="0,0,10,0"
+                            Click="DataPreviewButton_Click"
+                            Grid.Column="2" />
+                        <TextBox
+                            x:Name="SelectorTextBox"
+                            IsReadOnly="True"
+                            HorizontalAlignment="Stretch"
+                            Grid.Column="3" />
+                    </Grid>
 
+                    <CheckBox
+                        x:Name="MultipleCheckBox"
+                        Content="Multiple"
+                        Grid.Row="4" />
+
+                    <TextBox
+                        x:Name="RegexTextBox"
+                        PlaceholderText="Regular Expression"
+                        Header="Regex:"
+                        Grid.Row="5"
+                        Margin="0,5" />
+
+                    <ListView
+                        x:Name="ParentSelectorsListView"
+                        Header="Parent Selectors:"
+                        Grid.Row="6"
+                        Margin="0,5">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Margin="0,5"
+                        Grid.Row="7">
+                        <Button
+                            x:Name="SaveButton"
+                            Content="Save Selector"
+                            Margin="0,0,10,0"
+                            Style="{StaticResource AccentButtonStyle}"
+                            Click="SaveButton_Click" />
+                        <Button
+                            x:Name="CancelButton"
+                            Content="Cancel"
+                            Click="CancelButton_Click" />
+                    </StackPanel>
+
+                </Grid>
+            </ScrollViewer>
+            
             <controls:GridSplitter
                 Grid.Row="1"
                 Height="5"
@@ -116,5 +243,6 @@
                 VerticalAlignment="Center"
                 Background="Black" />
         </Grid>
+        
     </Grid>
 </Page>
