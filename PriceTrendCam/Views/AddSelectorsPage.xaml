@@ -30,6 +30,7 @@
 
                 <WebView2
                     x:Name="WebView"
+                    PointerPressed="WebView_PointerPressed"
                     Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
 
                 <StackPanel
