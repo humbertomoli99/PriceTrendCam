@@ -27,6 +27,7 @@
     <None Remove="Controls\DocumentationBlock.xaml" />
     <None Remove="Controls\InteractiveSample.xaml" />
     <None Remove="Controls\ValidationTextBox.xaml" />
+    <None Remove="Scripts\getSelector.js" />
     <None Remove="Views\Controls\AddSitemapControl.xaml" />
     <None Remove="Views\SitemapDetailsDetailControl.xaml" />
   </ItemGroup>
@@ -83,6 +84,12 @@
 
   <ItemGroup>
     <_DeploymentManifestIconFile Remove="Assets\WindowIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Scripts\getSelector.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
