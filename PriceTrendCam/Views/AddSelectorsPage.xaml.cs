@@ -67,16 +67,15 @@ public sealed partial class AddSelectorsPage : Page
         // Concatena la parte adicional del script con el contenido original
         getSelectorScriptContent += getCssSelectorScriptPart;
 
-        // Crea el script que se encarga de resaltar el elemento en la página
-        string highlightScript = @"document.elementFromPoint(" + xCoord + ", " + yCoord + ").style.border='solid red 1px'";
-
-        // Ejecuta el script que resalta el elemento en la página
-        _ = await WebView.ExecuteScriptAsync(highlightScript);
-
         // Ejecuta el script que obtiene el selector CSS del elemento
         string cssSelector = await WebView.ExecuteScriptAsync(getSelectorScriptContent);
 
         // Actualiza el cuadro de texto con el selector CSS
         SelectorTextBox.Text = cssSelector;
+
+        // Crea el script que se encarga de resaltar el elemento en la página
+        string getCssSelectorScriptPart2 = @"addMarginToSelector(" + cssSelector + ");";
+        getSelectorScriptContent += getCssSelectorScriptPart2;
+        await WebView.ExecuteScriptAsync(getSelectorScriptContent);
     }
 }
