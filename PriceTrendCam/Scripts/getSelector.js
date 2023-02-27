@@ -28,24 +28,28 @@
 }
 
 (function () {
-    if (!document.getElementById('rectangulos-svg')) {
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    let svg = document.getElementById('rectangulos-svg');
+    if (!svg) {
+        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('id', 'rectangulos-svg');
-        svg.setAttribute('width', document.documentElement.clientWidth);
-
-        var body = document.body,
-            html = document.documentElement;
-        var height2 = Math.max(body.scrollHeight, body.offsetHeight,
-            html.clientHeight, html.scrollHeight, html.offsetHeight);
-
-        svg.setAttribute('height', height2);
         svg.style.position = "absolute";
         svg.style.top = "0";
         svg.style.left = "0";
         svg.style.pointerEvents = "none";
         document.body.appendChild(svg);
     }
+
+    const height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
+    const width = Math.max(document.documentElement.clientWidth, document.body.scrollWidth);
+
+    if (svg.getAttribute('height') !== height.toString() || svg.getAttribute('width') !== width.toString()) {
+        svg.setAttribute('height', height);
+        svg.setAttribute('width', width);
+    }
+
+    return svg;
 })();
+
 
 function addMarginToSelector(selector) {
     const svg = document.getElementById('rectangulos-svg');
