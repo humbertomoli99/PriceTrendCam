@@ -2,6 +2,7 @@
 
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
+using Windows.Storage;
 
 namespace PriceTrendCam.Views;
 
@@ -52,31 +53,32 @@ public sealed partial class AddSelectorsPage : Page
     private async Task OnPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         // Obtiene las coordenadas del click
-        int xCoord = (int)e.GetCurrentPoint(WebView).Position.X;
-        int yCoord = (int)e.GetCurrentPoint(WebView).Position.Y;
+        var point = e.GetCurrentPoint(WebView).Position;
+        int xCoord = (int)point.X;
+        int yCoord = (int)point.Y;
 
         // Ruta del archivo JavaScript
-        string getSelectorScriptPath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
+        string scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
 
         // Lee el contenido del archivo JavaScript
-        string getSelectorScriptContent = File.ReadAllText(getSelectorScriptPath);
+        StorageFile scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
+        string scriptContent = await FileIO.ReadTextAsync(scriptFile);
 
         // Crea la parte adicional del script que llama a la función "getCssSelector"
         string getCssSelectorScriptPart = @"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));";
 
         // Concatena la parte adicional del script con el contenido original
-        getSelectorScriptContent += getCssSelectorScriptPart;
+        scriptContent += getCssSelectorScriptPart;
 
         // Ejecuta el script que obtiene el selector CSS del elemento
-        string cssSelector = await WebView.ExecuteScriptAsync(getSelectorScriptContent);
+        string cssSelector = await WebView.ExecuteScriptAsync(scriptContent);
 
         // Actualiza el cuadro de texto con el selector CSS
         SelectorTextBox.Text = cssSelector;
 
         // Crea el script que se encarga de resaltar el elemento en la página
-        string getCssSelectorScriptPart2 = @"addMarginToSelector(" + cssSelector + ");";
-        getSelectorScriptContent += getCssSelectorScriptPart2;
-        await WebView.ExecuteScriptAsync(getSelectorScriptContent);
+        scriptContent += @"addMarginToSelector(" + cssSelector + ");";
+        await WebView.ExecuteScriptAsync(scriptContent);
     }
 
     private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
