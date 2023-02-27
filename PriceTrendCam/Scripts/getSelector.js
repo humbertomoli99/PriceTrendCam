@@ -52,57 +52,40 @@
 
 function addMarginToSelector(selector) {
     const svg = document.getElementById('rectangulos-svg');
-
-    // Comprobar si ya existen los elementos
-    let rectanguloParentSVG = document.getElementById('parent-element');
-    let rectanguloSVG = document.getElementById('main-element');
-    let rectanguloChildrenSVG = document.getElementById('children-element');
-
     const rectanguloHTML = document.querySelector(selector);
 
-    // Si los elementos no existen, crear nuevos
-    if (!rectanguloParentSVG) {
-        rectanguloParentSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rectanguloParentSVG.setAttribute('id', 'parent-element');
-        svg.appendChild(rectanguloParentSVG);
-    }
-
-    if (!rectanguloSVG) {
-        rectanguloSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rectanguloSVG.setAttribute('id', 'main-element');
-        svg.appendChild(rectanguloSVG);
-    }
-
-    if (!rectanguloChildrenSVG) {
-        rectanguloChildrenSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rectanguloChildrenSVG.setAttribute('id', 'children-element');
-        svg.appendChild(rectanguloChildrenSVG);
-    }
+    const createSVGElement = (id, fill, stroke) => {
+        let svgElement = document.getElementById(id);
+        if (!svgElement) {
+            svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            svgElement.setAttribute('id', id);
+            svg.appendChild(svgElement);
+        }
+        svgElement.setAttribute('fill', fill);
+        svgElement.setAttribute('stroke', stroke);
+        svgElement.setAttribute('stroke-width', '1');
+        return svgElement;
+    };
 
     const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
+    const rectanguloChildrenSVG = createSVGElement('children-element', 'transparent', 'blue');
     rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
     rectanguloChildrenSVG.setAttribute('y', rectanguloChildren.top + window.scrollY);
     rectanguloChildrenSVG.setAttribute('width', rectanguloChildren.width);
     rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
-    rectanguloChildrenSVG.setAttribute('fill', 'transparent');
-    rectanguloChildrenSVG.setAttribute('stroke', 'blue');
-    rectanguloChildrenSVG.setAttribute('stroke-width', '1');
 
     const rectanguloParent = rectanguloHTML.parentNode.getBoundingClientRect();
+    const rectanguloParentSVG = createSVGElement('parent-element', 'transparent', 'red');
     rectanguloParentSVG.setAttribute('x', rectanguloParent.left + window.scrollX);
     rectanguloParentSVG.setAttribute('y', rectanguloParent.top + window.scrollY);
     rectanguloParentSVG.setAttribute('width', rectanguloParent.width);
     rectanguloParentSVG.setAttribute('height', rectanguloParent.height);
-    rectanguloParentSVG.setAttribute('fill', 'transparent');
-    rectanguloParentSVG.setAttribute('stroke', 'red');
-    rectanguloParentSVG.setAttribute('stroke-width', '1');
 
     const rectanguloPosicion = rectanguloHTML.getBoundingClientRect();
+    const rectanguloSVG = createSVGElement('main-element', 'transparent', 'yellow');
     rectanguloSVG.setAttribute('x', rectanguloPosicion.left + window.scrollX);
     rectanguloSVG.setAttribute('y', rectanguloPosicion.top + window.scrollY);
     rectanguloSVG.setAttribute('width', rectanguloPosicion.width);
     rectanguloSVG.setAttribute('height', rectanguloPosicion.height);
-    rectanguloSVG.setAttribute('fill', 'transparent');
-    rectanguloSVG.setAttribute('stroke', 'yellow');
-    rectanguloSVG.setAttribute('stroke-width', '1');
 }
+
