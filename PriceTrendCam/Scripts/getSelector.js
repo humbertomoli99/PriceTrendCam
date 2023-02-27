@@ -50,14 +50,34 @@
     return svg;
 })();
 
-
 function addMarginToSelector(selector) {
     const svg = document.getElementById('rectangulos-svg');
 
+    // Comprobar si ya existen los elementos
+    let rectanguloParentSVG = document.getElementById('parent-element');
+    let rectanguloSVG = document.getElementById('main-element');
+    let rectanguloChildrenSVG = document.getElementById('children-element');
+
     const rectanguloHTML = document.querySelector(selector);
 
+    // Si los elementos no existen, crear nuevos
+    if (!rectanguloParentSVG) {
+        rectanguloParentSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rectanguloParentSVG.setAttribute('id', 'parent-element');
+        svg.appendChild(rectanguloParentSVG);
+    }
 
-    const rectanguloChildrenSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    if (!rectanguloSVG) {
+        rectanguloSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rectanguloSVG.setAttribute('id', 'main-element');
+        svg.appendChild(rectanguloSVG);
+    }
+
+    if (!rectanguloChildrenSVG) {
+        rectanguloChildrenSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rectanguloChildrenSVG.setAttribute('id', 'children-element');
+        svg.appendChild(rectanguloChildrenSVG);
+    }
 
     const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
     rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
@@ -68,10 +88,6 @@ function addMarginToSelector(selector) {
     rectanguloChildrenSVG.setAttribute('stroke', 'blue');
     rectanguloChildrenSVG.setAttribute('stroke-width', '1');
 
-
-
-    const rectanguloParentSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-
     const rectanguloParent = rectanguloHTML.parentNode.getBoundingClientRect();
     rectanguloParentSVG.setAttribute('x', rectanguloParent.left + window.scrollX);
     rectanguloParentSVG.setAttribute('y', rectanguloParent.top + window.scrollY);
@@ -81,8 +97,6 @@ function addMarginToSelector(selector) {
     rectanguloParentSVG.setAttribute('stroke', 'red');
     rectanguloParentSVG.setAttribute('stroke-width', '1');
 
-    const rectanguloSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-
     const rectanguloPosicion = rectanguloHTML.getBoundingClientRect();
     rectanguloSVG.setAttribute('x', rectanguloPosicion.left + window.scrollX);
     rectanguloSVG.setAttribute('y', rectanguloPosicion.top + window.scrollY);
@@ -91,8 +105,4 @@ function addMarginToSelector(selector) {
     rectanguloSVG.setAttribute('fill', 'transparent');
     rectanguloSVG.setAttribute('stroke', 'yellow');
     rectanguloSVG.setAttribute('stroke-width', '1');
-
-    svg.appendChild(rectanguloSVG);
-    svg.appendChild(rectanguloParentSVG);
-    svg.appendChild(rectanguloChildrenSVG);
 }
