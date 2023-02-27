@@ -55,6 +55,32 @@ function addMarginToSelector(selector) {
     const svg = document.getElementById('rectangulos-svg');
 
     const rectanguloHTML = document.querySelector(selector);
+
+
+    const rectanguloChildrenSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+    const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
+    rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
+    rectanguloChildrenSVG.setAttribute('y', rectanguloChildren.top + window.scrollY);
+    rectanguloChildrenSVG.setAttribute('width', rectanguloChildren.width);
+    rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
+    rectanguloChildrenSVG.setAttribute('fill', 'transparent');
+    rectanguloChildrenSVG.setAttribute('stroke', 'blue');
+    rectanguloChildrenSVG.setAttribute('stroke-width', '1');
+
+
+
+    const rectanguloParentSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+    const rectanguloParent = rectanguloHTML.parentNode.getBoundingClientRect();
+    rectanguloParentSVG.setAttribute('x', rectanguloParent.left + window.scrollX);
+    rectanguloParentSVG.setAttribute('y', rectanguloParent.top + window.scrollY);
+    rectanguloParentSVG.setAttribute('width', rectanguloParent.width);
+    rectanguloParentSVG.setAttribute('height', rectanguloParent.height);
+    rectanguloParentSVG.setAttribute('fill', 'transparent');
+    rectanguloParentSVG.setAttribute('stroke', 'red');
+    rectanguloParentSVG.setAttribute('stroke-width', '1');
+
     const rectanguloSVG = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
     const rectanguloPosicion = rectanguloHTML.getBoundingClientRect();
@@ -63,8 +89,10 @@ function addMarginToSelector(selector) {
     rectanguloSVG.setAttribute('width', rectanguloPosicion.width);
     rectanguloSVG.setAttribute('height', rectanguloPosicion.height);
     rectanguloSVG.setAttribute('fill', 'transparent');
-    rectanguloSVG.setAttribute('stroke', 'red');
+    rectanguloSVG.setAttribute('stroke', 'yellow');
     rectanguloSVG.setAttribute('stroke-width', '1');
 
     svg.appendChild(rectanguloSVG);
+    svg.appendChild(rectanguloParentSVG);
+    svg.appendChild(rectanguloChildrenSVG);
 }
