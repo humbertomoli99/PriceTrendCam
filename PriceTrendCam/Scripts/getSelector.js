@@ -67,13 +67,6 @@ function addMarginToSelector(selector) {
         return svgElement;
     };
 
-    const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
-    const rectanguloChildrenSVG = createSVGElement('children-element', 'rgba(0,0,255,0.3)', 'blue');
-    rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
-    rectanguloChildrenSVG.setAttribute('y', rectanguloChildren.top + window.scrollY);
-    rectanguloChildrenSVG.setAttribute('width', rectanguloChildren.width);
-    rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
-
     const rectanguloParent = rectanguloHTML.parentNode.getBoundingClientRect();
     const rectanguloParentSVG = createSVGElement('parent-element', 'rgba(255,0,0,0.3)', 'red');
     rectanguloParentSVG.setAttribute('x', rectanguloParent.left + window.scrollX);
@@ -87,5 +80,12 @@ function addMarginToSelector(selector) {
     rectanguloSVG.setAttribute('y', rectanguloPosicion.top + window.scrollY);
     rectanguloSVG.setAttribute('width', rectanguloPosicion.width);
     rectanguloSVG.setAttribute('height', rectanguloPosicion.height);
+
+    const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
+    const rectanguloChildrenSVG = createSVGElement('children-element', 'rgba(0,0,255,0.3)', 'blue');
+    rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
+    rectanguloChildrenSVG.setAttribute('y', rectanguloChildren.top + window.scrollY);
+    rectanguloChildrenSVG.setAttribute('width', rectanguloChildren.width);
+    rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
 }
 
