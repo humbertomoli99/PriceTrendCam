@@ -95,15 +95,7 @@ public sealed partial class AddSelectorsPage : Page
         var point = e.GetCurrentPoint(WebView).Position;
         int xCoord = (int)point.X;
         int yCoord = (int)point.Y;
-
-        // Ruta del archivo JavaScript
-        var scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
-
-        // Lee el contenido del archivo JavaScript
-        StorageFile scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
-        var scriptContent = await FileIO.ReadTextAsync(scriptFile);
-        await WebView.ExecuteScriptAsync(scriptContent);
-
+        
         // Ejecuta el script que obtiene el selector CSS del elemento
         var cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
 
@@ -186,5 +178,15 @@ public sealed partial class AddSelectorsPage : Page
             default:
                 break;
         }
+    }
+    private async void WebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
+    {
+        // Ruta del archivo JavaScript
+        var scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
+
+        // Lee el contenido del archivo JavaScript
+        StorageFile scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
+        var scriptContent = await FileIO.ReadTextAsync(scriptFile);
+        await WebView.ExecuteScriptAsync(scriptContent);
     }
 }
