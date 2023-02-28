@@ -48,7 +48,7 @@ public sealed partial class AddSelectorsPage : Page
     }
     private void WebView_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        //_ = OnPointerPressed(sender, e);
+        _ = OnPointerPressed(sender, e);
     }
     private async Task OnPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
@@ -83,7 +83,7 @@ public sealed partial class AddSelectorsPage : Page
 
     private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        _ = OnPointerPressed(sender, e);
+        //_ = OnPointerPressed(sender, e);
     }
 
     private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
