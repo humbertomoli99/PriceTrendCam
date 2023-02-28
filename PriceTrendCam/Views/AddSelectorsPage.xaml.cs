@@ -97,27 +97,21 @@ public sealed partial class AddSelectorsPage : Page
         int yCoord = (int)point.Y;
 
         // Ruta del archivo JavaScript
-        string scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
+        var scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
 
         // Lee el contenido del archivo JavaScript
         StorageFile scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
-        string scriptContent = await FileIO.ReadTextAsync(scriptFile);
-
-        // Crea la parte adicional del script que llama a la función "getCssSelector"
-        string getCssSelectorScriptPart = @"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));";
-
-        // Concatena la parte adicional del script con el contenido original
-        scriptContent += getCssSelectorScriptPart;
+        var scriptContent = await FileIO.ReadTextAsync(scriptFile);
+        await WebView.ExecuteScriptAsync(scriptContent);
 
         // Ejecuta el script que obtiene el selector CSS del elemento
-        string cssSelector = await WebView.ExecuteScriptAsync(scriptContent);
+        var cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
 
         // Actualiza el cuadro de texto con el selector CSS
         SelectorTextBox.Text = cssSelector;
 
         // Crea el script que se encarga de resaltar el elemento en la página
-        scriptContent += @"addMarginToSelector(" + cssSelector + ");";
-        await WebView.ExecuteScriptAsync(scriptContent);
+        await WebView.ExecuteScriptAsync(@"addMarginToSelector(" + cssSelector + ");");
     }
 
     private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
