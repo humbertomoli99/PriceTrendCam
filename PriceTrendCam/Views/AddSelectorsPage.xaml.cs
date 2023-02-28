@@ -85,4 +85,57 @@ public sealed partial class AddSelectorsPage : Page
     {
         _ = OnPointerPressed(sender, e);
     }
+
+    private void TypeComboBox_DataContextChanged(Microsoft.UI.Xaml.FrameworkElement sender, Microsoft.UI.Xaml.DataContextChangedEventArgs args)
+    {
+        string selectedValue = TypeComboBox.SelectedValue as string;
+
+        switch (selectedValue)
+        {
+            case "Text":
+                // Hacer algo cuando se selecciona Text
+                break;
+            case "Link":
+                // Hacer algo cuando se selecciona Link
+                break;
+            case "Popup Link":
+                // Hacer algo cuando se selecciona Popup Link
+                break;
+            case "Image":
+                // Hacer algo cuando se selecciona Image
+                break;
+            case "Table":
+                // Hacer algo cuando se selecciona Table
+                break;
+            case "Element Attribute":
+                // Hacer algo cuando se selecciona Element Attribute
+                break;
+            case "HTML":
+                // Hacer algo cuando se selecciona HTML
+                break;
+            case "Element":
+                // Hacer algo cuando se selecciona Element
+                break;
+            case "Element Scrolldown":
+                // Hacer algo cuando se selecciona Element Scrolldown
+                break;
+            case "Element Click":
+                // Hacer algo cuando se selecciona Element Click
+                break;
+            case "Grouped":
+                // Hacer algo cuando se selecciona Grouped
+                break;
+            case "Sitemap.xml Links":
+                // Hacer algo cuando se selecciona Sitemap.xml Links
+                break;
+            case "Pagination (Beta)":
+                // Hacer algo cuando se selecciona Pagination (Beta)
+                break;
+            case "Console Command":
+                // Hacer algo cuando se selecciona Console Command
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -138,6 +138,7 @@
                         x:Name="TypeComboBox"
                         Header="Type:"
                         Grid.Row="1"
+                        DataContextChanged="TypeComboBox_DataContextChanged"
                         Margin="0,5">
                         <ComboBoxItem>Text</ComboBoxItem>
                         <ComboBoxItem>Link</ComboBoxItem>
