@@ -152,6 +152,7 @@
                         <ComboBoxItem>Grouped</ComboBoxItem>
                         <ComboBoxItem>Sitemap.xml Links</ComboBoxItem>
                         <ComboBoxItem>Pagination (Beta)</ComboBoxItem>
+                        <ComboBoxItem>Console Command</ComboBoxItem>
                     </ComboBox>
 
 
