@@ -138,22 +138,36 @@
                         x:Name="TypeComboBox"
                         Header="Type:"
                         Grid.Row="1"
-                        DataContextChanged="TypeComboBox_DataContextChanged"
+                        SelectionChanged="TypeComboBox_SelectionChanged"
                         Margin="0,5">
-                        <ComboBoxItem>Text</ComboBoxItem>
-                        <ComboBoxItem>Link</ComboBoxItem>
-                        <ComboBoxItem>Popup Link</ComboBoxItem>
-                        <ComboBoxItem>Image</ComboBoxItem>
-                        <ComboBoxItem>Table</ComboBoxItem>
-                        <ComboBoxItem>Element Attribute</ComboBoxItem>
-                        <ComboBoxItem>HTML</ComboBoxItem>
-                        <ComboBoxItem>Element</ComboBoxItem>
-                        <ComboBoxItem>Element Scrolldown</ComboBoxItem>
-                        <ComboBoxItem>Element Click</ComboBoxItem>
-                        <ComboBoxItem>Grouped</ComboBoxItem>
-                        <ComboBoxItem>Sitemap.xml Links</ComboBoxItem>
-                        <ComboBoxItem>Pagination (Beta)</ComboBoxItem>
-                        <ComboBoxItem>Console Command</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="1">Text</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="2">Link</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="3">Popup Link</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="4">Image</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="5">Table</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="6">Element Attribute</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="7">HTML</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="8">Element</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="9">Element Scrolldown</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="10">Element Click</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="11">Grouped</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="12">Sitemap.xml Links</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="13">Pagination (Beta)</ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="14">Console Command</ComboBoxItem>
                     </ComboBox>
 
 

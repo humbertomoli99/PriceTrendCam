@@ -86,53 +86,69 @@ public sealed partial class AddSelectorsPage : Page
         _ = OnPointerPressed(sender, e);
     }
 
-    private void TypeComboBox_DataContextChanged(Microsoft.UI.Xaml.FrameworkElement sender, Microsoft.UI.Xaml.DataContextChangedEventArgs args)
+    private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        string selectedValue = TypeComboBox.SelectedValue as string;
+        ComboBoxItem selectedItem = TypeComboBox.SelectedItem as ComboBoxItem;
+        int tagValue = Convert.ToInt32(selectedItem.Tag);
 
-        switch (selectedValue)
+        // Haz algo con el valor de tagValue
+        switch (tagValue)
         {
-            case "Text":
+            case 1:
                 // Hacer algo cuando se selecciona Text
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 break;
-            case "Link":
+            case 2:
                 // Hacer algo cuando se selecciona Link
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Popup Link":
+            case 3:
                 // Hacer algo cuando se selecciona Popup Link
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Image":
+            case 4:
                 // Hacer algo cuando se selecciona Image
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Table":
+            case 5:
                 // Hacer algo cuando se selecciona Table
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Element Attribute":
+            case 6:
                 // Hacer algo cuando se selecciona Element Attribute
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "HTML":
+            case 7:
                 // Hacer algo cuando se selecciona HTML
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 break;
-            case "Element":
+            case 8:
                 // Hacer algo cuando se selecciona Element
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Element Scrolldown":
+            case 9:
                 // Hacer algo cuando se selecciona Element Scrolldown
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Element Click":
+            case 10:
                 // Hacer algo cuando se selecciona Element Click
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Grouped":
+            case 11:
                 // Hacer algo cuando se selecciona Grouped
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Sitemap.xml Links":
+            case 12:
                 // Hacer algo cuando se selecciona Sitemap.xml Links
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Pagination (Beta)":
+            case 13:
                 // Hacer algo cuando se selecciona Pagination (Beta)
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
-            case "Console Command":
+            case 14:
                 // Hacer algo cuando se selecciona Console Command
+                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 break;
             default:
                 break;
