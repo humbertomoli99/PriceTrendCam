@@ -144,11 +144,11 @@
                             Tag="1">Text</ComboBoxItem>
                         <ComboBoxItem
                             Tag="2">Link</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="3">Popup Link</ComboBoxItem>
+                        <!--<ComboBoxItem
+                            Tag="3">Popup Link</ComboBoxItem>-->
                         <ComboBoxItem
                             Tag="4">Image</ComboBoxItem>
-                        <ComboBoxItem
+                        <!--<ComboBoxItem
                             Tag="5">Table</ComboBoxItem>
                         <ComboBoxItem
                             Tag="6">Element Attribute</ComboBoxItem>
@@ -165,7 +165,7 @@
                         <ComboBoxItem
                             Tag="12">Sitemap.xml Links</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="13">Pagination (Beta)</ComboBoxItem>
+                            Tag="13">Pagination (Beta)</ComboBoxItem>-->
                         <ComboBoxItem
                             Tag="14">Console Command</ComboBoxItem>
                     </ComboBox>
