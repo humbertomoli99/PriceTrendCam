@@ -27,9 +27,48 @@ public sealed partial class AddSelectorsPage : Page
 
     }
 
-    private void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        if (!(TypeComboBox.SelectedItem is ComboBoxItem selectedItem))
+        {
+            return;
+        }
 
+        int tagValue = Convert.ToInt32(selectedItem.Tag);
+        string cssSelector;
+
+        switch (tagValue)
+        {
+            case 1:
+                cssSelector = await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").innerText");
+                break;
+            case 2:
+                cssSelector = await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").innerText") + "\n" +
+                              "Href: " + await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").href");
+                break;
+            case 4:
+                cssSelector = await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").innerText") + "\n" +
+                              "Src: " + await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").src");
+                break;
+            default:
+                return;
+        }
+
+        var dialog = new ContentDialog
+        {
+            Title = "Data Preview",
+            XamlRoot = this.XamlRoot,
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close,
+            Content = cssSelector
+        };
+
+        await dialog.ShowAsync();
+
+        async Task<string> ExecuteSelectorAsync(string selector)
+        {
+            return await WebView.ExecuteScriptAsync(selector);
+        }
     }
 
     private void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
