@@ -35,6 +35,7 @@
         svg.style.position = "absolute";
         svg.style.top = "0";
         svg.style.left = "0";
+        svg.style.background = "rgba(0,0,0,0.3)";
         svg.style.pointerEvents = "none";
         document.body.appendChild(svg);
     }
