@@ -11,10 +11,10 @@ namespace PriceTrendCam.Views;
 // To learn more about WebView2, see https://docs.microsoft.com/microsoft-edge/webview2/.
 public sealed partial class AddSelectorsPage : Page
 {
-    private string cssSelector;
     private bool isWebViewReady = false;
     private List<string>? selectoresCSSArbol;
     private int posicionDeSelector;
+    private bool showElementPreview;
 
     public AddSelectorsViewModel ViewModel
     {
@@ -27,6 +27,8 @@ public sealed partial class AddSelectorsPage : Page
         InitializeComponent();
 
         ViewModel.WebViewService.Initialize(WebView);
+        showElementPreview = true;
+        TypeComboBox.SelectedIndex = 0;
     }
 
     private void SaveButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -42,20 +44,22 @@ public sealed partial class AddSelectorsPage : Page
         }
 
         int tagValue = Convert.ToInt32(selectedItem.Tag);
-        string cssSelector;
 
+        var TextInner = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementInnerText('" + selectoresCSSArbol[posicionDeSelector] + "');");
+        var TextHref = await WebView.CoreWebView2.ExecuteScriptAsync(@"getLinkHref('" + selectoresCSSArbol[posicionDeSelector] + "');");
+        var TextSrc = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementSrc('" + selectoresCSSArbol[posicionDeSelector] + "');");
+
+        string cssSelector = string.Empty;
         switch (tagValue)
         {
             case 1:
-                cssSelector = await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").innerText");
+                cssSelector = TextInner;
                 break;
             case 2:
-                cssSelector = await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").innerText") + "\n" +
-                              "Href: " + await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").href");
+                cssSelector = TextInner + "\n" + "Href: " + TextHref;
                 break;
             case 4:
-                cssSelector = await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").innerText") + "\n" +
-                              "Src: " + await ExecuteSelectorAsync("document.querySelector(" + SelectorTextBox.Text + ").src");
+                cssSelector = TextInner + "\n" + "Src: " + TextSrc;
                 break;
             default:
                 return;
@@ -71,21 +75,39 @@ public sealed partial class AddSelectorsPage : Page
         };
 
         await dialog.ShowAsync();
+    }
 
-        async Task<string> ExecuteSelectorAsync(string selector)
+    private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        if (showElementPreview)
         {
-            return await WebView.ExecuteScriptAsync(selector);
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
+            showElementPreview = false;
+        }
+        else
+        {
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(false)");
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
+            showElementPreview = true;
         }
     }
 
-    private void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void SelectButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
-    }
+        // Activar los enlaces
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleLinks(false)");
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
 
-    private void SelectButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-
+        if (selectoresCSSArbol == null) return;
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
     }
 
     private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -106,16 +128,19 @@ public sealed partial class AddSelectorsPage : Page
         posicionDeSelector = 0;
 
         // Ejecuta el script que obtiene el selector CSS del elemento
-        cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
+        var cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
 
         // Llamar a la función JavaScript para obtener el árbol de elementos como una cadena JSON
         var json = await WebView.CoreWebView2.ExecuteScriptAsync("obtenerArbolElementos(" + cssSelector + ")");
 
         // Analizar la cadena JSON en una lista de strings
         selectoresCSSArbol = JsonSerializer.Deserialize<List<string>>(json);
-
+        if (selectoresCSSArbol == null)
+        {
+            return;
+        }
         // Actualiza el cuadro de texto con el selector CSS
-        SelectorTextBox.Text = cssSelector;
+        TxtSelectedElement.Text = cssSelector;
 
         // Crea el script que se encarga de resaltar el elemento en la página
         var firstSelector = selectoresCSSArbol[0];
@@ -216,7 +241,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             posicionDeSelector += 1;
 
-            SelectorTextBox.Text = selectoresCSSArbol[posicionDeSelector];
+            TxtSelectedElement.Text = selectoresCSSArbol[posicionDeSelector];
 
             // Crea el script que se encarga de resaltar el elemento en la página
             await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
@@ -233,7 +258,22 @@ public sealed partial class AddSelectorsPage : Page
 
             // Crea el script que se encarga de resaltar el elemento en la página
             await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
-            SelectorTextBox.Text = selectoresCSSArbol[posicionDeSelector];
+            TxtSelectedElement.Text = selectoresCSSArbol[posicionDeSelector];
         }
+    }
+    private async void DoneButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+
+        // Activar los enlaces
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleLinks(true)");
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(false)");
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
+
+        SelectorTextBox.Text = selectoresCSSArbol[posicionDeSelector];
+        //deshabilitar el visualizar script y el visualizador
     }
 }

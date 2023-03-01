@@ -82,15 +82,29 @@
                                 Glyph="&#xE72A;" />
                         </Button>
                         <Button
-                            x:Uid="ParentButton"
+                            x:Name="ParentButton"
                             Content="Parent"
+                            Visibility="Collapsed"
                             Click="ParentButton_Click"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                             Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
                         <Button
-                            x:Uid="ChildrenButton"
+                            x:Name="ChildrenButton"
                             Content="Children"
+                            Visibility="Collapsed"
                             Click="ChildrenButton_Click"
+                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                        <Button
+                            x:Name="DoneButton"
+                            Content="Done"
+                            Visibility="Collapsed"
+                            Click="DoneButton_Click"
+                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                        <TextBox
+                            Visibility="Collapsed"
+                            x:Name="TxtSelectedElement"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                             Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
                     </StackPanel >

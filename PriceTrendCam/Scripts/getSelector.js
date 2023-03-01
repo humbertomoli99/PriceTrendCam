@@ -1,4 +1,6 @@
-﻿function getCssSelector(el) {
+﻿let isMarginActive = true;
+
+function getCssSelector(el) {
     var path = [];
     while (el.nodeType === Node.ELEMENT_NODE) {
         var selector = el.nodeName.toLowerCase();
@@ -29,72 +31,116 @@
     return cssSelector;
 }
 
-(function () {
+//(function () {
+//    let svg = document.getElementById('rectangulos-svg');
+//    if (!svg) {
+//        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+//        svg.setAttribute('id', 'rectangulos-svg');
+//        svg.style.position = "absolute";
+//        svg.style.top = "0";
+//        svg.style.left = "0";
+//        svg.style.background = "rgba(0,0,0,0.3)";
+//        svg.style.pointerEvents = "none";
+//        document.body.appendChild(svg);
+//    }
+
+//    const height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
+//    const width = Math.max(document.documentElement.clientWidth, document.body.scrollWidth);
+
+//    if (svg.getAttribute('height') !== height.toString() || svg.getAttribute('width') !== width.toString()) {
+//        svg.setAttribute('height', height);
+//        svg.setAttribute('width', width);
+//    }
+
+//    return svg;
+//})();
+
+function toggleSvg(enabled) {
     let svg = document.getElementById('rectangulos-svg');
-    if (!svg) {
-        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('id', 'rectangulos-svg');
-        svg.style.position = "absolute";
-        svg.style.top = "0";
-        svg.style.left = "0";
-        svg.style.background = "rgba(0,0,0,0.3)";
-        svg.style.pointerEvents = "none";
-        document.body.appendChild(svg);
-    }
+    if (enabled) {
+        if (!svg) {
+            svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('id', 'rectangulos-svg');
+            svg.style.position = "absolute";
+            svg.style.top = "0";
+            svg.style.left = "0";
+            svg.style.background = "rgba(0,0,0,0.3)";
+            svg.style.pointerEvents = "none";
+            document.body.appendChild(svg);
+        }
 
-    const height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
-    const width = Math.max(document.documentElement.clientWidth, document.body.scrollWidth);
+        const height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
+        const width = Math.max(document.documentElement.clientWidth, document.body.scrollWidth);
 
-    if (svg.getAttribute('height') !== height.toString() || svg.getAttribute('width') !== width.toString()) {
-        svg.setAttribute('height', height);
-        svg.setAttribute('width', width);
+        if (svg.getAttribute('height') !== height.toString() || svg.getAttribute('width') !== width.toString()) {
+            svg.setAttribute('height', height);
+            svg.setAttribute('width', width);
+        }
+
+        return svg;
+    } else {
+        if (svg) {
+            svg.remove();
+        }
     }
+}
+
+function toggleLinks(enabled) {
     var links = document.getElementsByTagName("a");
 
     for (var i = 0; i < links.length; i++) {
-        links[i].setAttribute("onclick", "return false;");
+        if (enabled) {
+            links[i].removeAttribute("onclick");
+            links[i].style.pointerEvents = "auto";
+            links[i].style.opacity = 1;
+        } else {
+            links[i].setAttribute("onclick", "return false;");
+            links[i].style.opacity = 0.5;
+        }
     }
+}
 
-    return svg;
-})();
 
 function addMarginToSelector(selector) {
-    const svg = document.getElementById('rectangulos-svg');
-    const rectanguloHTML = document.querySelector(selector);
+        const svg = document.getElementById('rectangulos-svg');
+        const rectanguloHTML = document.querySelector(selector);
 
-    const createSVGElement = (id, fill, stroke) => {
-        let svgElement = document.getElementById(id);
-        if (!svgElement) {
-            svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            svgElement.setAttribute('id', id);
-            svg.appendChild(svgElement);
+        const createSVGElement = (id, fill, stroke) => {
+            let svgElement = document.getElementById(id);
+            if (!svgElement) {
+                svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                svgElement.setAttribute('id', id);
+                svg.appendChild(svgElement);
+            }
+            svgElement.setAttribute('fill', fill);
+            svgElement.setAttribute('stroke', stroke);
+            svgElement.setAttribute('stroke-width', '1');
+            return svgElement;
+        };
+
+        if (!isMarginActive) {
+            return;
         }
-        svgElement.setAttribute('fill', fill);
-        svgElement.setAttribute('stroke', stroke);
-        svgElement.setAttribute('stroke-width', '1');
-        return svgElement;
-    };
+        //const rectanguloParent = rectanguloHTML.parentNode.getBoundingClientRect();
+        //const rectanguloParentSVG = createSVGElement('parent-element', 'rgba(255,0,0,0.3)', 'red');
+        //rectanguloParentSVG.setAttribute('x', rectanguloParent.left + window.scrollX);
+        //rectanguloParentSVG.setAttribute('y', rectanguloParent.top + window.scrollY);
+        //rectanguloParentSVG.setAttribute('width', rectanguloParent.width);
+        //rectanguloParentSVG.setAttribute('height', rectanguloParent.height);
 
-    //const rectanguloParent = rectanguloHTML.parentNode.getBoundingClientRect();
-    //const rectanguloParentSVG = createSVGElement('parent-element', 'rgba(255,0,0,0.3)', 'red');
-    //rectanguloParentSVG.setAttribute('x', rectanguloParent.left + window.scrollX);
-    //rectanguloParentSVG.setAttribute('y', rectanguloParent.top + window.scrollY);
-    //rectanguloParentSVG.setAttribute('width', rectanguloParent.width);
-    //rectanguloParentSVG.setAttribute('height', rectanguloParent.height);
+        const rectanguloPosicion = rectanguloHTML.getBoundingClientRect();
+        const rectanguloSVG = createSVGElement('main-element', 'rgba(255,255,0,0.3)', 'yellow');
+        rectanguloSVG.setAttribute('x', rectanguloPosicion.left + window.scrollX);
+        rectanguloSVG.setAttribute('y', rectanguloPosicion.top + window.scrollY);
+        rectanguloSVG.setAttribute('width', rectanguloPosicion.width);
+        rectanguloSVG.setAttribute('height', rectanguloPosicion.height);
 
-    const rectanguloPosicion = rectanguloHTML.getBoundingClientRect();
-    const rectanguloSVG = createSVGElement('main-element', 'rgba(255,255,0,0.3)', 'yellow');
-    rectanguloSVG.setAttribute('x', rectanguloPosicion.left + window.scrollX);
-    rectanguloSVG.setAttribute('y', rectanguloPosicion.top + window.scrollY);
-    rectanguloSVG.setAttribute('width', rectanguloPosicion.width);
-    rectanguloSVG.setAttribute('height', rectanguloPosicion.height);
-
-    //const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
-    //const rectanguloChildrenSVG = createSVGElement('children-element', 'rgba(0,0,255,0.3)', 'blue');
-    //rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
-    //rectanguloChildrenSVG.setAttribute('y', rectanguloChildren.top + window.scrollY);
-    //rectanguloChildrenSVG.setAttribute('width', rectanguloChildren.width);
-    //rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
+        //const rectanguloChildren = rectanguloHTML.children[0].getBoundingClientRect();
+        //const rectanguloChildrenSVG = createSVGElement('children-element', 'rgba(0,0,255,0.3)', 'blue');
+        //rectanguloChildrenSVG.setAttribute('x', rectanguloChildren.left + window.scrollX);
+        //rectanguloChildrenSVG.setAttribute('y', rectanguloChildren.top + window.scrollY);
+        //rectanguloChildrenSVG.setAttribute('width', rectanguloChildren.width);
+        //rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
 }
 
 function obtenerElementoPadre(selectorCSS) {
@@ -133,4 +179,32 @@ function obtenerArbolElementos(selectorCSS) {
 
     // Devolver la lista de selectores CSS del árbol de elementos
     return selectoresCSSArbol;
+}
+
+
+function getElementInnerText(selector) {
+    const element = document.querySelector(selector);
+    if (!element) {
+        console.error(`Element with selector ${selector} not found`);
+        return null;
+    }
+    return element.innerText;
+}
+
+function getLinkHref(selector) {
+    const link = document.querySelector(selector);
+    if (!link) {
+        console.error(`Link with selector ${selector} not found`);
+        return null;
+    }
+    return link.href;
+}
+
+function getElementSrc(selector) {
+    const element = document.querySelector(selector);
+    if (!element) {
+        console.error(`Element with selector ${selector} not found`);
+        return null;
+    }
+    return element.src;
 }
