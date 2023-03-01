@@ -1,14 +1,21 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using System.Text.Json;
+using Microsoft.UI.Xaml.Controls;
 
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.WebUI;
 
 namespace PriceTrendCam.Views;
 
 // To learn more about WebView2, see https://docs.microsoft.com/microsoft-edge/webview2/.
 public sealed partial class AddSelectorsPage : Page
 {
+    private string cssSelector;
+    private bool isWebViewReady = false;
+    private List<string>? selectoresCSSArbol;
+    private int posicionDeSelector;
+
     public AddSelectorsViewModel ViewModel
     {
         get;
@@ -95,15 +102,24 @@ public sealed partial class AddSelectorsPage : Page
         var point = e.GetCurrentPoint(WebView).Position;
         int xCoord = (int)point.X;
         int yCoord = (int)point.Y;
-        
+
+        posicionDeSelector = 0;
+
         // Ejecuta el script que obtiene el selector CSS del elemento
-        var cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
+        cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
+
+        // Llamar a la función JavaScript para obtener el árbol de elementos como una cadena JSON
+        var json = await WebView.CoreWebView2.ExecuteScriptAsync("obtenerArbolElementos(" + cssSelector + ")");
+
+        // Analizar la cadena JSON en una lista de strings
+        selectoresCSSArbol = JsonSerializer.Deserialize<List<string>>(json);
 
         // Actualiza el cuadro de texto con el selector CSS
         SelectorTextBox.Text = cssSelector;
 
         // Crea el script que se encarga de resaltar el elemento en la página
-        await WebView.ExecuteScriptAsync(@"addMarginToSelector(" + cssSelector + ");");
+        var firstSelector = selectoresCSSArbol[0];
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + firstSelector + "');");
     }
 
     private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -188,5 +204,36 @@ public sealed partial class AddSelectorsPage : Page
         StorageFile scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
         var scriptContent = await FileIO.ReadTextAsync(scriptFile);
         await WebView.ExecuteScriptAsync(scriptContent);
+        // Establecer la variable de estado en verdadero
+        isWebViewReady = true;
+    }
+    private async void ParentButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        // Comprobar si el WebView2 está listo
+        if (!isWebViewReady) return;
+
+        if ((selectoresCSSArbol.Count - 1) > posicionDeSelector)
+        {
+            posicionDeSelector += 1;
+
+            SelectorTextBox.Text = selectoresCSSArbol[posicionDeSelector];
+
+            // Crea el script que se encarga de resaltar el elemento en la página
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
+        }
+    }
+    private async void ChildrenButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        // Comprobar si el WebView2 está listo
+        if (!isWebViewReady) return;
+
+        if (posicionDeSelector > 0)
+        {
+            posicionDeSelector -= 1;
+
+            // Crea el script que se encarga de resaltar el elemento en la página
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
+            SelectorTextBox.Text = selectoresCSSArbol[posicionDeSelector];
+        }
     }
 }

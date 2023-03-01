@@ -81,6 +81,18 @@
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Glyph="&#xE72A;" />
                         </Button>
+                        <Button
+                            x:Uid="ParentButton"
+                            Content="Parent"
+                            Click="ParentButton_Click"
+                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                        <Button
+                            x:Uid="ChildrenButton"
+                            Content="Children"
+                            Click="ChildrenButton_Click"
+                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
                     </StackPanel >
                     <StackPanel
                         Orientation="Horizontal"

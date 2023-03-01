@@ -24,7 +24,9 @@
         }
         el = el.parentNode;
     }
-    return path.join(' > ');
+    var cssSelector = path.join(' > ');
+    console.log(cssSelector); // Imprime el selector CSS en la consola
+    return cssSelector;
 }
 
 (function () {
@@ -95,3 +97,40 @@ function addMarginToSelector(selector) {
     //rectanguloChildrenSVG.setAttribute('height', rectanguloChildren.height);
 }
 
+function obtenerElementoPadre(selectorCSS) {
+    var elementoHijo = document.querySelector(selectorCSS);
+    var elementoPadre = elementoHijo.parentNode;
+    console.log(elementoPadre);
+    return elementoPadre;
+}
+
+function obtenerArbolElementos(selectorCSS) {
+    // Obtener el elemento seleccionado
+    var elementoSeleccionado = document.querySelector(selectorCSS);
+
+    // Obtener el selector CSS del elemento seleccionado
+    var selectorCSSActual = getCssSelector(elementoSeleccionado);
+
+    // Obtener el árbol de padre y hijos del elemento seleccionado
+    var arbolElementos = [elementoSeleccionado];
+    var selectoresCSS = [selectorCSSActual];
+    var elementoPadre = obtenerElementoPadre(selectorCSSActual);
+    while (elementoPadre.tagName.toLowerCase() !== 'body') {
+        arbolElementos.push(elementoPadre);
+        selectorCSSActual = getCssSelector(elementoPadre);
+        selectoresCSS.push(selectorCSSActual);
+        elementoPadre = obtenerElementoPadre(selectorCSSActual);
+    }
+    arbolElementos.push(elementoPadre);
+    selectoresCSS.push('body');
+
+    // Obtener los selectores CSS de cada elemento en el árbol
+    var selectoresCSSArbol = [];
+    for (var i = 0; i < arbolElementos.length; i++) {
+        var selectorCSS = getCssSelector(arbolElementos[i]);
+        selectoresCSSArbol.push(selectorCSS);
+    }
+
+    // Devolver la lista de selectores CSS del árbol de elementos
+    return selectoresCSSArbol;
+}
