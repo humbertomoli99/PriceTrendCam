@@ -81,16 +81,19 @@ public sealed partial class AddSelectorsPage : Page
     {
         if (showElementPreview)
         {
+            showElementPreview = false;
+
             await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
             await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
+            if (selectoresCSSArbol == null) return;
             await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + selectoresCSSArbol[posicionDeSelector] + "');");
-            showElementPreview = false;
         }
         else
         {
+            showElementPreview = true;
+
             await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(false)");
             await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
-            showElementPreview = true;
         }
     }
 
@@ -135,10 +138,9 @@ public sealed partial class AddSelectorsPage : Page
 
         // Analizar la cadena JSON en una lista de strings
         selectoresCSSArbol = JsonSerializer.Deserialize<List<string>>(json);
-        if (selectoresCSSArbol == null)
-        {
-            return;
-        }
+
+        if (selectoresCSSArbol == null) return;
+
         // Actualiza el cuadro de texto con el selector CSS
         TxtSelectedElement.Text = cssSelector;
 
