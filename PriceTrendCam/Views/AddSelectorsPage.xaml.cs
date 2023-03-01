@@ -45,9 +45,9 @@ public sealed partial class AddSelectorsPage : Page
 
         int tagValue = Convert.ToInt32(selectedItem.Tag);
 
-        var TextInner = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementInnerText('" + selectoresCSSArbol[posicionDeSelector] + "');");
-        var TextHref = await WebView.CoreWebView2.ExecuteScriptAsync(@"getLinkHref('" + selectoresCSSArbol[posicionDeSelector] + "');");
-        var TextSrc = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementSrc('" + selectoresCSSArbol[posicionDeSelector] + "');");
+        var TextInner = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementInnerText('" + SelectorTextBox.Text + "');");
+        var TextHref = await WebView.CoreWebView2.ExecuteScriptAsync(@"getLinkHref('" + SelectorTextBox.Text + "');");
+        var TextSrc = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementSrc('" + SelectorTextBox.Text + "');");
 
         string cssSelector = string.Empty;
         switch (tagValue)
