@@ -59,7 +59,7 @@ public sealed partial class AddSelectorsPage : Page
                 cssSelector = TextInner + "\n" + "Href: " + TextHref;
                 break;
             case 4:
-                cssSelector = TextInner + "\n" + "Src: " + TextSrc;
+                cssSelector = "Src: " + TextSrc;
                 break;
             default:
                 return;
