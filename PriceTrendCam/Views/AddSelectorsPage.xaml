@@ -232,7 +232,6 @@
                             Grid.Column="2" />
                         <TextBox
                             x:Name="SelectorTextBox"
-                            IsReadOnly="True"
                             HorizontalAlignment="Stretch"
                             Grid.Column="3" />
                     </Grid>

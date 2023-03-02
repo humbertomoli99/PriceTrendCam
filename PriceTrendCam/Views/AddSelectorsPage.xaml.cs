@@ -61,6 +61,10 @@ public sealed partial class AddSelectorsPage : Page
             case 4:
                 cssSelector = "Src: " + TextSrc;
                 break;
+            case 14:
+                //cssSelector = "Src: " + TextSrc;
+                cssSelector = await WebView.CoreWebView2.ExecuteScriptAsync(SelectorTextBox.Text);
+                break;
             default:
                 return;
         }
