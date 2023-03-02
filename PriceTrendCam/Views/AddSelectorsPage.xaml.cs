@@ -49,7 +49,7 @@ public sealed partial class AddSelectorsPage : Page
         var TextHref = await WebView.CoreWebView2.ExecuteScriptAsync(@"getLinkHref('" + SelectorTextBox.Text + "');");
         var TextSrc = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementSrc('" + SelectorTextBox.Text + "');");
 
-        string cssSelector = string.Empty;
+        string cssSelector;
         switch (tagValue)
         {
             case 1:
