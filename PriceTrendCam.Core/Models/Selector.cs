@@ -18,6 +18,10 @@ public class Selector
     {
         get; set;
     }
+    public string Type
+    {
+        get; set;
+    }
 
     [ForeignKey(typeof(Store))]
     public int StoreId
