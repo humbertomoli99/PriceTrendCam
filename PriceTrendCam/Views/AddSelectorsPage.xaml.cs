@@ -130,7 +130,7 @@ public sealed partial class AddSelectorsPage : Page
 
             await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
             await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
-            if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+            if (_selectorsTree?.Count == 0) return;
             await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
         }
         else
@@ -154,7 +154,7 @@ public sealed partial class AddSelectorsPage : Page
         await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
         await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
 
-        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+        if (_selectorsTree?.Count == 0) return;
         await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_selectorPosition] + "');");
     }
 
@@ -184,7 +184,7 @@ public sealed partial class AddSelectorsPage : Page
         // Analizar la cadena JSON en una lista de strings
         _selectorsTree = JsonSerializer.Deserialize<List<string>>(json);
 
-        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+        if (_selectorsTree?.Count == 0) return;
 
         // Actualiza el cuadro de texto con el selector CSS
         TxtSelectedElement.Text = cssSelector;
@@ -251,7 +251,7 @@ public sealed partial class AddSelectorsPage : Page
         await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(false)");
         await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
 
-        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+        if (_selectorsTree?.Count == 0) return;
         SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_selectorPosition] + "')";
         _selectedCssSelector = _selectorsTree[_selectorPosition];
         //deshabilitar el visualizar script y el visualizador
