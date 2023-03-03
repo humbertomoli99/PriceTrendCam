@@ -16,7 +16,7 @@ public sealed partial class AddSelectorsPage : Page
     private int _activeSelection;
     private bool _showElementPreview;
     private string _selectedCssSelector;
-    private string _messageSelectorValue;
+    private string _messagePreviewSelectorValue;
 
 
     public ObservableCollection<string> AttributesComboBox
@@ -49,7 +49,7 @@ public sealed partial class AddSelectorsPage : Page
         _activeSelection = 0;
         _showElementPreview = true;
         _selectedCssSelector = string.Empty;
-        _messageSelectorValue = string.Empty;
+        _messagePreviewSelectorValue = string.Empty;
         AttributesComboBox = new ObservableCollection<string>();
         InitializeTypeDataComboBox();
     }
@@ -108,7 +108,7 @@ public sealed partial class AddSelectorsPage : Page
             "data-linktype" => "dataset.linktype",
             _ => GetAttributeComboBox.Text
         };
-        _messageSelectorValue = attribute + ": " + await WebView.CoreWebView2.ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+        _messagePreviewSelectorValue = attribute + ": " + await WebView.CoreWebView2.ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
 
         var dialog = new ContentDialog
         {
@@ -116,7 +116,7 @@ public sealed partial class AddSelectorsPage : Page
             XamlRoot = XamlRoot,
             CloseButtonText = "Close",
             DefaultButton = ContentDialogButton.Close,
-            Content = _messageSelectorValue
+            Content = _messagePreviewSelectorValue
         };
 
         await dialog.ShowAsync();
