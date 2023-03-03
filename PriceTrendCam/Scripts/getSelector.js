@@ -208,3 +208,16 @@ function getElementSrc(selector) {
     }
     return element.src;
 }
+
+function getAttributeNames(selector) {
+    var element = document.querySelector(selector);
+    var attributes = element.attributes;
+    var attributeNames = [];
+
+    Array.from(attributes).forEach(function (attribute) {
+        var attributeName = attribute.name;
+        attributeNames.push(attributeName);
+    });
+
+    return attributeNames;
+}
