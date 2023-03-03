@@ -255,12 +255,21 @@ public sealed partial class AddSelectorsPage : Page
         SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_selectorPosition] + "')";
         _selectedCssSelector = _selectorsTree[_selectorPosition];
         //deshabilitar el visualizar script y el visualizador
-        GetAttributeComboBox.SelectedIndex = 0;
         await GetAttributes();
     }
 
     private async void SelectorTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         await GetAttributes();
+    }
+
+    private void GetTypeDataComboBox_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        GetTypeDataComboBox.SelectedIndex = 0;
+    }
+
+    private void GetAttributeComboBox_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        GetAttributeComboBox.SelectedIndex = 0;
     }
 }

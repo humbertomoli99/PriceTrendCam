@@ -164,23 +164,8 @@
                         ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
                         SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Grid.Row="0"
+                        Loaded="GetTypeDataComboBox_Loaded"
                         Margin="0,5">
-                        <ComboBoxItem
-                            Tag="1">Title</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="2">Description</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="3">Image</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="4">Price</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="5">Price Currency</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="6">Shipping</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="7">Shipping Currency</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="8">Stock</ComboBoxItem>
                     </ComboBox>
 
                     <TextBlock
@@ -223,6 +208,7 @@
                         ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
                         SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Header="Get Attribute"
+                        Loaded="GetAttributeComboBox_Loaded"
                         Grid.Row="4"
                         Margin="0,5">
                     </ComboBox>
