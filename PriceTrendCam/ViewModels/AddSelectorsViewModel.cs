@@ -1,8 +1,7 @@
-﻿using System.Windows.Input;
-
+﻿using System.Diagnostics;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
 using Microsoft.Web.WebView2.Core;
 
 using PriceTrendCam.Contracts.Services;
@@ -15,7 +14,7 @@ namespace PriceTrendCam.ViewModels;
 // https://docs.microsoft.com/microsoft-edge/webview2/get-started/winui
 // https://docs.microsoft.com/microsoft-edge/webview2/concepts/developer-guide
 // https://docs.microsoft.com/microsoft-edge/webview2/concepts/distribution
-public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
+public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAware
 {
     // TODO: Set the default URL to display.
     private Uri _source = new("https://docs.microsoft.com/windows/apps/");
@@ -23,6 +22,25 @@ public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
     private bool _hasFailures;
     private int _newstoreId;
 
+    [ObservableProperty]
+    private string typeDataComboBox;
+
+    [ObservableProperty]
+    private string selectorTextBox;
+
+    [ObservableProperty]
+    private string getAttributeComboBox;
+
+    [ObservableProperty]
+    private string regexTextBox;
+
+    [ObservableProperty]
+    private bool isNotNullCheckBox;
+
+    public IAsyncRelayCommand SaveSelectorsCommand
+    {
+        get;
+    }
 
     public IWebViewService WebViewService
     {
@@ -81,6 +99,16 @@ public class AddSelectorsViewModel : ObservableRecipient, INavigationAware
         ReloadCommand = new RelayCommand(() => WebViewService.Reload());
         RetryCommand = new RelayCommand(OnRetry);
         OpenInBrowserCommand = new RelayCommand(async () => await Windows.System.Launcher.LaunchUriAsync(WebViewService.Source), () => WebViewService.Source != null);
+        SaveSelectorsCommand = new AsyncRelayCommand(SaveSelectorsAsync);
+    }
+
+    private async Task SaveSelectorsAsync()
+    {
+        Debug.WriteLine(typeDataComboBox);
+        Debug.WriteLine(selectorTextBox);
+        Debug.WriteLine(getAttributeComboBox);
+        Debug.WriteLine(regexTextBox);
+        Debug.WriteLine(isNotNullCheckBox);
     }
 
     public async Task OnNavigatedTo(object parameter)

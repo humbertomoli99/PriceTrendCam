@@ -162,6 +162,7 @@
                         x:Name="GetTypeDataComboBox"
                         Header="Type:"
                         ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
+                        SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Grid.Row="0"
                         Margin="0,5">
                         <ComboBoxItem
@@ -211,6 +212,7 @@
                     <TextBox
                         x:Name="SelectorTextBox"
                         HorizontalAlignment="Stretch"
+                        Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         TextChanged="SelectorTextBox_TextChanged"
                         Margin="0,5"
                         Grid.Row="3" />
@@ -219,6 +221,7 @@
                         x:Name="GetAttributeComboBox"
                         IsEditable="True"
                         ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
+                        SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Header="Get Attribute"
                         Grid.Row="4"
                         Margin="0,5">
@@ -226,6 +229,7 @@
 
                     <TextBox
                         x:Name="RegexTextBox"
+                        Text="{x:Bind ViewModel.RegexTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         PlaceholderText="Regular Expression"
                         Header="Regex:"
                         Grid.Row="5"
@@ -234,6 +238,7 @@
                     <CheckBox
                         x:Name="IsNotNullCheckBox"
                         Content="Not Null"
+                        IsChecked="{x:Bind ViewModel.IsNotNullCheckBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Grid.Row="6" />
 
                     <Button
@@ -252,6 +257,7 @@
                             Content="Save Selector"
                             Margin="0,0,10,0"
                             Style="{StaticResource AccentButtonStyle}"
+                            Command="{x:Bind ViewModel.SaveSelectorsCommand}"
                             Click="SaveButton_Click" />
                         <Button
                             x:Name="CancelButton"
