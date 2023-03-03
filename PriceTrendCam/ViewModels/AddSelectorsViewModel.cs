@@ -26,6 +26,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty]
     private string selectorTextBox;
 
+    public string selectedCssSelector
+    {
+        get;set;
+    }
+
     [ObservableProperty]
     private string getAttributeComboBox;
 
@@ -96,6 +101,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         Debug.WriteLine(getAttributeComboBox);
         Debug.WriteLine(regexTextBox);
         Debug.WriteLine(isNotNullCheckBox);
+        Debug.WriteLine(selectedCssSelector);
     }
 
     public async Task OnNavigatedTo(object parameter)
