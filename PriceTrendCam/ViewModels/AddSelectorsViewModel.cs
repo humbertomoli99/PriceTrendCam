@@ -101,6 +101,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         Debug.WriteLine(getAttributeComboBox);
         Debug.WriteLine(regexTextBox);
         Debug.WriteLine(isNotNullCheckBox);
+        Debug.WriteLine(_newstoreId);
         Debug.WriteLine(selectedCssSelector);
     }
 
