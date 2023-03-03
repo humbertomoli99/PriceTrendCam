@@ -55,7 +55,7 @@ public sealed partial class AddSelectorsPage : Page
     }
     private void InitializeTypeDataComboBox()
     {
-        TypeDataComboBox = new ObservableCollection<string>()
+        TypeDataComboBox = new ObservableCollection<string>
         {
             "Title",
             "Description",
