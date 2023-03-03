@@ -55,7 +55,7 @@ public sealed partial class AddSelectorsPage : Page
         AttributesComboBox.Clear();
 
         if (result != null)
-    {
+        {
             var regex = new Regex("[\"\\[\\]]");
             var cleanResult = regex.Replace(result, "");
             var attributes = cleanResult.Split(',').ToList();
@@ -66,9 +66,9 @@ public sealed partial class AddSelectorsPage : Page
             if (!attributes.Contains("outerHTML")) AttributesComboBox.Add("outerHTML");
 
             foreach (var attribute in attributes)
-    {
+            {
                 AttributesComboBox.Add(attribute);
-        }
+            }
             GetAttributeComboBox.SelectedIndex = 0;
         }
     }
@@ -79,7 +79,7 @@ public sealed partial class AddSelectorsPage : Page
     }
 
     private async void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-        {
+    {
 
         var attribute = GetAttributeComboBox.Text switch
         {
@@ -91,16 +91,11 @@ public sealed partial class AddSelectorsPage : Page
             _ => GetAttributeComboBox.Text
         };
         _messageSelectorValue = attribute + ": " + await WebView.CoreWebView2.ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
-                cssSelector = await WebView.CoreWebView2.ExecuteScriptAsync(SelectorTextBox.Text);
-                break;
-            default:
-                return;
-        }
 
         var dialog = new ContentDialog
         {
             Title = "Data Preview",
-            XamlRoot = this.XamlRoot,
+            XamlRoot = XamlRoot,
             CloseButtonText = "Close",
             DefaultButton = ContentDialogButton.Close,
             Content = _messageSelectorValue
@@ -157,8 +152,8 @@ public sealed partial class AddSelectorsPage : Page
     {
         // Obtiene las coordenadas del click
         var point = e.GetCurrentPoint(WebView).Position;
-        int xCoord = (int)point.X;
-        int yCoord = (int)point.Y;
+        var xCoord = (int)point.X;
+        var yCoord = (int)point.Y;
 
         _selectorPosition = 0;
 
@@ -185,82 +180,13 @@ public sealed partial class AddSelectorsPage : Page
     {
         //_ = OnPointerPressed(sender, e);
     }
-
-    private void TypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        ComboBoxItem selectedItem = TypeComboBox.SelectedItem as ComboBoxItem;
-        int tagValue = Convert.ToInt32(selectedItem.Tag);
-
-        // Haz algo con el valor de tagValue
-        switch (tagValue)
-        {
-            case 1:
-                // Hacer algo cuando se selecciona Text
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-                break;
-            case 2:
-                // Hacer algo cuando se selecciona Link
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 3:
-                // Hacer algo cuando se selecciona Popup Link
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 4:
-                // Hacer algo cuando se selecciona Image
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 5:
-                // Hacer algo cuando se selecciona Table
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 6:
-                // Hacer algo cuando se selecciona Element Attribute
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 7:
-                // Hacer algo cuando se selecciona HTML
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-                break;
-            case 8:
-                // Hacer algo cuando se selecciona Element
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 9:
-                // Hacer algo cuando se selecciona Element Scrolldown
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 10:
-                // Hacer algo cuando se selecciona Element Click
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 11:
-                // Hacer algo cuando se selecciona Grouped
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 12:
-                // Hacer algo cuando se selecciona Sitemap.xml Links
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 13:
-                // Hacer algo cuando se selecciona Pagination (Beta)
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            case 14:
-                // Hacer algo cuando se selecciona Console Command
-                RegexTextBox.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                break;
-            default:
-                break;
-        }
-    }
     private async void WebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
     {
         // Ruta del archivo JavaScript
         var scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
 
         // Lee el contenido del archivo JavaScript
-        StorageFile scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
+        var scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
         var scriptContent = await FileIO.ReadTextAsync(scriptFile);
         await WebView.ExecuteScriptAsync(scriptContent);
         // Establecer la variable de estado en verdadero
