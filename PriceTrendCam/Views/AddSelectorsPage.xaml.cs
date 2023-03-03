@@ -13,7 +13,7 @@ public sealed partial class AddSelectorsPage : Page
 {
     private bool isWebViewReady;
     private List<string> _selectorsTree;
-    private int _selectorPosition;
+    private int _activeSelection;
     private bool _showElementPreview;
     private string _selectedCssSelector;
     private string _messageSelectorValue;
@@ -46,7 +46,7 @@ public sealed partial class AddSelectorsPage : Page
     {
         isWebViewReady = false;
         _selectorsTree = new List<string>();
-        _selectorPosition = 0;
+        _activeSelection = 0;
         _showElementPreview = true;
         _selectedCssSelector = string.Empty;
         _messageSelectorValue = string.Empty;
@@ -155,7 +155,7 @@ public sealed partial class AddSelectorsPage : Page
         await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
 
         if (_selectorsTree?.Count == 0) return;
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_selectorPosition] + "');");
+        await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
     }
 
     private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -173,7 +173,7 @@ public sealed partial class AddSelectorsPage : Page
         var xCoord = (int)point.X;
         var yCoord = (int)point.Y;
 
-        _selectorPosition = 0;
+        _activeSelection = 0;
 
         // Ejecuta el script que obtiene el selector CSS del elemento
         var cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
@@ -215,14 +215,14 @@ public sealed partial class AddSelectorsPage : Page
         // Comprobar si el WebView2 está listo
         if (!isWebViewReady) return;
 
-        if ((_selectorsTree.Count - 1) > _selectorPosition)
+        if ((_selectorsTree.Count - 1) > _activeSelection)
         {
-            _selectorPosition += 1;
+            _activeSelection += 1;
 
-            TxtSelectedElement.Text = _selectorsTree[_selectorPosition];
+            TxtSelectedElement.Text = _selectorsTree[_activeSelection];
 
             // Crea el script que se encarga de resaltar el elemento en la página
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_selectorPosition] + "');");
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
         }
     }
     private async void ChildrenButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -230,13 +230,13 @@ public sealed partial class AddSelectorsPage : Page
         // Comprobar si el WebView2 está listo
         if (!isWebViewReady) return;
 
-        if (_selectorPosition > 0)
+        if (_activeSelection > 0)
         {
-            _selectorPosition -= 1;
+            _activeSelection -= 1;
 
             // Crea el script que se encarga de resaltar el elemento en la página
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_selectorPosition] + "');");
-            TxtSelectedElement.Text = _selectorsTree[_selectorPosition];
+            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+            TxtSelectedElement.Text = _selectorsTree[_activeSelection];
         }
     }
     private async void DoneButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -252,8 +252,9 @@ public sealed partial class AddSelectorsPage : Page
         await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
 
         if (_selectorsTree?.Count == 0) return;
-        SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_selectorPosition] + "')";
-        _selectedCssSelector = _selectorsTree[_selectorPosition];
+        SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
+        _selectedCssSelector = _selectorsTree[_activeSelection];
+        ViewModel.selectedCssSelector= _selectedCssSelector;
         //deshabilitar el visualizar script y el visualizador
         await GetAttributes();
     }
