@@ -159,8 +159,9 @@
                     </Grid.RowDefinitions>
 
                     <ComboBox
-                        x:Name="TypeDataComboBox"
+                        x:Name="GetTypeDataComboBox"
                         Header="Type:"
+                        ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
                         Grid.Row="0"
                         Margin="0,5">
                         <ComboBoxItem

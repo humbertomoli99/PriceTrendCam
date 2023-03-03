@@ -24,6 +24,11 @@ public sealed partial class AddSelectorsPage : Page
         get;
         set;
     }
+    public ObservableCollection<string> TypeDataComboBox
+    {
+        get;
+        set;
+    }
     public AddSelectorsViewModel ViewModel
     {
         get;
@@ -46,8 +51,21 @@ public sealed partial class AddSelectorsPage : Page
         _selectedCssSelector = string.Empty;
         _messageSelectorValue = string.Empty;
         AttributesComboBox = new ObservableCollection<string>();
-        GetAttributeComboBox.SelectedIndex = 0;
-        TypeDataComboBox.SelectedIndex = 0;
+        InitializeTypeDataComboBox();
+    }
+    private void InitializeTypeDataComboBox()
+    {
+        TypeDataComboBox = new ObservableCollection<string>()
+        {
+            "Title",
+            "Description",
+            "Image",
+            "Price",
+            "Price Currency",
+            "Shipping",
+            "Shipping Currency",
+            "Stock",
+        };
     }
     private async Task GetAttributes()
     {
