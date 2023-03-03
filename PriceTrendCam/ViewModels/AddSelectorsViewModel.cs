@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Web.WebView2.Core;
@@ -19,7 +18,6 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     // TODO: Set the default URL to display.
     private Uri _source = new("https://docs.microsoft.com/windows/apps/");
     private bool _isLoading = true;
-    private bool _hasFailures;
     private int _newstoreId;
 
     [ObservableProperty]
@@ -36,11 +34,6 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     [ObservableProperty]
     private bool isNotNullCheckBox;
-
-    public IAsyncRelayCommand SaveSelectorsCommand
-    {
-        get;
-    }
 
     public IWebViewService WebViewService
     {
@@ -59,50 +52,44 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         set => SetProperty(ref _isLoading, value);
     }
 
-    public bool HasFailures
-    {
-        get => _hasFailures;
-        set => SetProperty(ref _hasFailures, value);
-    }
-
-    public ICommand BrowserBackCommand
-    {
-        get;
-    }
-
-    public ICommand BrowserForwardCommand
-    {
-        get;
-    }
-
-    public ICommand ReloadCommand
-    {
-        get;
-    }
-
-    public ICommand RetryCommand
-    {
-        get;
-    }
-
-    public ICommand OpenInBrowserCommand
-    {
-        get;
-    }
+    [ObservableProperty]
+    private bool hasFailures;
 
     public AddSelectorsViewModel(IWebViewService webViewService)
     {
         WebViewService = webViewService;
-
-        BrowserBackCommand = new RelayCommand(() => WebViewService.GoBack(), () => WebViewService.CanGoBack);
-        BrowserForwardCommand = new RelayCommand(() => WebViewService.GoForward(), () => WebViewService.CanGoForward);
-        ReloadCommand = new RelayCommand(() => WebViewService.Reload());
-        RetryCommand = new RelayCommand(OnRetry);
-        OpenInBrowserCommand = new RelayCommand(async () => await Windows.System.Launcher.LaunchUriAsync(WebViewService.Source), () => WebViewService.Source != null);
-        SaveSelectorsCommand = new AsyncRelayCommand(SaveSelectorsAsync);
     }
-
-    private async Task SaveSelectorsAsync()
+    [RelayCommand]
+    private async Task OpenInBrowser()
+    {
+        if (WebViewService.Source != null)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(WebViewService.Source);
+        }
+    }
+    [RelayCommand]
+    private void Reload()
+    {
+        WebViewService.Reload();
+    }
+    [RelayCommand]
+    private void BrowserForward()
+    {
+        if (WebViewService.CanGoForward)
+        {
+            WebViewService.GoForward();
+        }
+    }
+    [RelayCommand]
+    private void BrowserBack()
+    {
+        if (WebViewService.CanGoBack)
+        {
+            WebViewService.GoBack();
+        }
+    }
+    [RelayCommand]
+    private void SaveSelectors()
     {
         Debug.WriteLine(typeDataComboBox);
         Debug.WriteLine(selectorTextBox);
@@ -137,17 +124,18 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     private void OnNavigationCompleted(object? sender, CoreWebView2WebErrorStatus webErrorStatus)
     {
         IsLoading = false;
-        OnPropertyChanged(nameof(BrowserBackCommand));
-        OnPropertyChanged(nameof(BrowserForwardCommand));
+        OnPropertyChanged(nameof(BrowserBack));
+        OnPropertyChanged(nameof(BrowserForward));
         if (webErrorStatus != default)
         {
-            HasFailures = true;
+           hasFailures = true;
         }
     }
 
+    [RelayCommand]
     private void OnRetry()
     {
-        HasFailures = false;
+        hasFailures = false;
         IsLoading = true;
         WebViewService?.Reload();
     }
