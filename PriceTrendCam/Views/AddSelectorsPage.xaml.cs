@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Web.WebView2.Core;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -69,7 +70,7 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async Task GetAttributes()
     {
-        var result = await WebView.CoreWebView2.ExecuteScriptAsync(@"getAttributeNames('" + _selectedCssSelector + "');");
+        var result = await ExecuteScriptAsync(@"getAttributeNames('" + _selectedCssSelector + "');");
         AttributesComboBox.Clear();
 
         if (result != null)
@@ -108,7 +109,7 @@ public sealed partial class AddSelectorsPage : Page
             "data-linktype" => "dataset.linktype",
             _ => GetAttributeComboBox.Text
         };
-        _messagePreviewSelectorValue = attribute + ": " + await WebView.CoreWebView2.ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+        _messagePreviewSelectorValue = attribute + ": " + await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
 
         var dialog = new ContentDialog
         {
@@ -128,17 +129,17 @@ public sealed partial class AddSelectorsPage : Page
         {
             _showElementPreview = false;
 
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
+            await ExecuteScriptAsync(@"toggleSvg(true)");
+            await ExecuteScriptAsync(@"isMarginActive = true;");
             if (_selectorsTree?.Count == 0) return;
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
         }
         else
         {
             _showElementPreview = true;
 
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(false)");
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
+            await ExecuteScriptAsync(@"toggleSvg(false)");
+            await ExecuteScriptAsync(@"isMarginActive = false;");
         }
     }
 
@@ -150,12 +151,12 @@ public sealed partial class AddSelectorsPage : Page
         TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
         // Activar los enlaces
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleLinks(false)");
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(true)");
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = true;");
+        await ExecuteScriptAsync(@"toggleLinks(false)");
+        await ExecuteScriptAsync(@"toggleSvg(true)");
+        await ExecuteScriptAsync(@"isMarginActive = true;");
 
         if (_selectorsTree?.Count == 0) return;
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+        await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
     }
 
     private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -176,10 +177,10 @@ public sealed partial class AddSelectorsPage : Page
         _activeSelection = 0;
 
         // Ejecuta el script que obtiene el selector CSS del elemento
-        var cssSelector = await WebView.ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
+        var cssSelector = await ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
 
         // Llamar a la función JavaScript para obtener el árbol de elementos como una cadena JSON
-        var json = await WebView.CoreWebView2.ExecuteScriptAsync("obtenerArbolElementos(" + cssSelector + ")");
+        var json = await ExecuteScriptAsync("obtenerArbolElementos(" + cssSelector + ")");
 
         // Analizar la cadena JSON en una lista de strings
         _selectorsTree = JsonSerializer.Deserialize<List<string>>(json);
@@ -191,14 +192,14 @@ public sealed partial class AddSelectorsPage : Page
 
         // Crea el script que se encarga de resaltar el elemento en la página
         var firstSelector = _selectorsTree[0];
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + firstSelector + "');");
+        await ExecuteScriptAsync(@"addMarginToSelector('" + firstSelector + "');");
     }
 
     private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         //_ = OnPointerPressed(sender, e);
     }
-    private async void WebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
+    private async void WebView_NavigationCompleted(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
         // Ruta del archivo JavaScript
         var scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
@@ -206,7 +207,7 @@ public sealed partial class AddSelectorsPage : Page
         // Lee el contenido del archivo JavaScript
         var scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
         var scriptContent = await FileIO.ReadTextAsync(scriptFile);
-        await WebView.ExecuteScriptAsync(scriptContent);
+        await ExecuteScriptAsync(scriptContent);
         // Establecer la variable de estado en verdadero
         isWebViewReady = true;
     }
@@ -222,7 +223,7 @@ public sealed partial class AddSelectorsPage : Page
             TxtSelectedElement.Text = _selectorsTree[_activeSelection];
 
             // Crea el script que se encarga de resaltar el elemento en la página
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
         }
     }
     private async void ChildrenButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -235,7 +236,7 @@ public sealed partial class AddSelectorsPage : Page
             _activeSelection -= 1;
 
             // Crea el script que se encarga de resaltar el elemento en la página
-            await WebView.CoreWebView2.ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
             TxtSelectedElement.Text = _selectorsTree[_activeSelection];
         }
     }
@@ -247,9 +248,9 @@ public sealed partial class AddSelectorsPage : Page
         TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
 
         // Activar los enlaces
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleLinks(true)");
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"toggleSvg(false)");
-        await WebView.CoreWebView2.ExecuteScriptAsync(@"isMarginActive = false;");
+        await ExecuteScriptAsync(@"toggleLinks(true)");
+        await ExecuteScriptAsync(@"toggleSvg(false)");
+        await ExecuteScriptAsync(@"isMarginActive = false;");
 
         if (_selectorsTree?.Count == 0) return;
         SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
@@ -272,5 +273,9 @@ public sealed partial class AddSelectorsPage : Page
     private void GetAttributeComboBox_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         GetAttributeComboBox.SelectedIndex = 0;
+    }
+    private async Task<string> ExecuteScriptAsync(string script)
+    {
+        return await WebView.CoreWebView2.ExecuteScriptAsync(script);
     }
 }
