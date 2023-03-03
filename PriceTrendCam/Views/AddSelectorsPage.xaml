@@ -149,62 +149,43 @@
                         <RowDefinition
                             Height="Auto" />
                         <RowDefinition
-                            Height="*" />
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
                         <RowDefinition
                             Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <TextBox
-                        x:Name="IdTextBox"
-                        PlaceholderText="Selector ID"
-                        Header="ID:"
-                        Grid.Row="0"
-                        Margin="0,5" />
-
                     <ComboBox
-                        x:Name="TypeComboBox"
+                        x:Name="TypeDataComboBox"
                         Header="Type:"
-                        Grid.Row="1"
-                        SelectionChanged="TypeComboBox_SelectionChanged"
+                        Grid.Row="0"
                         Margin="0,5">
                         <ComboBoxItem
-                            Tag="1">Text</ComboBoxItem>
+                            Tag="1">Title</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="2">Link</ComboBoxItem>
-                        <!--<ComboBoxItem
-                            Tag="3">Popup Link</ComboBoxItem>-->
+                            Tag="2">Description</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="4">Image</ComboBoxItem>
-                        <!--<ComboBoxItem
-                            Tag="5">Table</ComboBoxItem>
+                            Tag="3">Image</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="6">Element Attribute</ComboBoxItem>
+                            Tag="4">Price</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="7">HTML</ComboBoxItem>
+                            Tag="5">Price Currency</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="8">Element</ComboBoxItem>
+                            Tag="6">Shipping</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="9">Element Scrolldown</ComboBoxItem>
+                            Tag="7">Shipping Currency</ComboBoxItem>
                         <ComboBoxItem
-                            Tag="10">Element Click</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="11">Grouped</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="12">Sitemap.xml Links</ComboBoxItem>
-                        <ComboBoxItem
-                            Tag="13">Pagination (Beta)</ComboBoxItem>-->
-                        <ComboBoxItem
-                            Tag="14">Console Command</ComboBoxItem>
+                            Tag="8">Stock</ComboBoxItem>
                     </ComboBox>
 
-
                     <TextBlock
-                        Grid.Row="2">Selector:</TextBlock>
+                        Grid.Row="1">Selector:</TextBlock>
                     <Grid
-                        Grid.Row="3">
+                        Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
                             <ColumnDefinition
                                 Width="Auto" />
                             <ColumnDefinition
@@ -224,22 +205,23 @@
                             Margin="0,0,10,0"
                             Click="ElementPreviewButton_Click"
                             Grid.Column="1" />
-                        <Button
-                            x:Name="DataPreviewButton"
-                            Content="Data Preview"
-                            Margin="0,0,10,0"
-                            Click="DataPreviewButton_Click"
-                            Grid.Column="2" />
-                        <TextBox
-                            x:Name="SelectorTextBox"
-                            HorizontalAlignment="Stretch"
-                            Grid.Column="3" />
                     </Grid>
 
-                    <CheckBox
-                        x:Name="MultipleCheckBox"
-                        Content="Multiple"
-                        Grid.Row="4" />
+                    <TextBox
+                        x:Name="SelectorTextBox"
+                        HorizontalAlignment="Stretch"
+                        TextChanged="SelectorTextBox_TextChanged"
+                        Margin="0,5"
+                        Grid.Row="3" />
+
+                    <ComboBox
+                        x:Name="GetAttributeComboBox"
+                        IsEditable="True"
+                        ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
+                        Header="Get Attribute"
+                        Grid.Row="4"
+                        Margin="0,5">
+                    </ComboBox>
 
                     <TextBox
                         x:Name="RegexTextBox"
@@ -248,23 +230,22 @@
                         Grid.Row="5"
                         Margin="0,5" />
 
-                    <ListView
-                        x:Name="ParentSelectorsListView"
-                        Header="Parent Selectors:"
-                        Grid.Row="6"
-                        Margin="0,5">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock
-                                    Text="{Binding}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <CheckBox
+                        x:Name="IsNotNullCheckBox"
+                        Content="Not Null"
+                        Grid.Row="6" />
 
+                    <Button
+                        x:Name="DataPreviewButton"
+                        Content="Data Preview"
+                        Margin="0,0,10,0"
+                        Click="DataPreviewButton_Click"
+                        Grid.Row="7" />
+                    
                     <StackPanel
                         Orientation="Horizontal"
                         Margin="0,5"
-                        Grid.Row="7">
+                        Grid.Row="8">
                         <Button
                             x:Name="SaveButton"
                             Content="Save Selector"
@@ -276,7 +257,6 @@
                             Content="Cancel"
                             Click="CancelButton_Click" />
                     </StackPanel>
-
                 </Grid>
             </ScrollViewer>
             

@@ -73,11 +73,10 @@ public sealed partial class AddSelectorsPage : Page
         }
     }
 
-        int tagValue = Convert.ToInt32(selectedItem.Tag);
+    private void SaveButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
 
-        var TextInner = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementInnerText('" + SelectorTextBox.Text + "');");
-        var TextHref = await WebView.CoreWebView2.ExecuteScriptAsync(@"getLinkHref('" + SelectorTextBox.Text + "');");
-        var TextSrc = await WebView.CoreWebView2.ExecuteScriptAsync(@"getElementSrc('" + SelectorTextBox.Text + "');");
+    }
 
     private async void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
@@ -313,6 +312,11 @@ public sealed partial class AddSelectorsPage : Page
         _selectedCssSelector = _selectorsTree[_selectorPosition];
         //deshabilitar el visualizar script y el visualizador
         GetAttributeComboBox.SelectedIndex = 0;
+        await GetAttributes();
+    }
+
+    private async void SelectorTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
         await GetAttributes();
     }
 }
