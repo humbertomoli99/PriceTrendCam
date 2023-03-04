@@ -221,3 +221,33 @@ function getAttributeNames(selector) {
 
     return attributeNames;
 }
+
+// Seleccionar todos los elementos con la etiqueta "div"
+const elements = document.querySelectorAll("*");
+
+// Array vacío para almacenar los objetos de los elementos
+let elementObjects = [];
+
+// Recorrer los elementos y construir objetos para cada uno
+elements.forEach((element) => {
+    let elementObject = {
+        tagName: element.tagName,
+        id: element.id,
+        classes: [...element.classList],
+        text: element.innerText,
+        attributes: {},
+    };
+
+    // Recorrer los atributos del elemento y agregarlos al objeto
+    for (let i = 0; i < element.attributes.length; i++) {
+        let attribute = element.attributes[i];
+        elementObject.attributes[attribute.nodeName] = attribute.nodeValue;
+    }
+
+    // Agregar el objeto del elemento al array
+    elementObjects.push(elementObject);
+});
+
+// Convertir el array de objetos a JSON
+let json = JSON.stringify(elementObjects);
+console.log(json);
