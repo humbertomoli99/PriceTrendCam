@@ -271,3 +271,22 @@ function getElementsAsJson() {
     });
     return JSON.stringify(elementObjects);
 }
+function getElementsAsJson2() {
+    const elements = document.querySelectorAll("*");
+    let elementObjects = [];
+    elements.forEach((element) => {
+        let elementObject = {
+            tagName: element.tagName.toLowerCase(),
+            id: element.id,
+            classes: [...element.classList],
+            text: element.innerText,
+            attributes: {},
+        };
+        for (let i = 0; i < element.attributes.length; i++) {
+            let attribute = element.attributes[i];
+            elementObject.attributes[attribute.nodeName] = attribute.nodeValue;
+        }
+        elementObjects.push(elementObject);
+    });
+    return JSON.stringify(elementObjects);
+}
