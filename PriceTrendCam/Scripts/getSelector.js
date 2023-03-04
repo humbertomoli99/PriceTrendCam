@@ -251,3 +251,23 @@ elements.forEach((element) => {
 // Convertir el array de objetos a JSON
 let json = JSON.stringify(elementObjects);
 console.log(json);
+
+function getElementsAsJson() {
+    const elements = document.querySelectorAll("*");
+    let elementObjects = [];
+    elements.forEach((element) => {
+        let elementObject = {
+            tagName: element.tagName,
+            id: element.id,
+            classes: [...element.classList],
+            text: element.innerText,
+            attributes: {},
+        };
+        for (let i = 0; i < element.attributes.length; i++) {
+            let attribute = element.attributes[i];
+            elementObject.attributes[attribute.nodeName] = attribute.nodeValue;
+        }
+        elementObjects.push(elementObject);
+    });
+    return JSON.stringify(elementObjects);
+}
