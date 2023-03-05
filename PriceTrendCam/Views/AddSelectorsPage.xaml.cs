@@ -144,7 +144,7 @@ public sealed partial class AddSelectorsPage : Page
 
             await ExecuteScriptAsync(@"toggleSvg(true)");
             await ExecuteScriptAsync(@"isMarginActive = true;");
-            if (_selectorsTree?.Count == 0) return;
+            if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
         }
         else
@@ -168,7 +168,7 @@ public sealed partial class AddSelectorsPage : Page
         await ExecuteScriptAsync(@"toggleSvg(true)");
         await ExecuteScriptAsync(@"isMarginActive = true;");
 
-        if (_selectorsTree?.Count == 0) return;
+        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
     }
 
@@ -198,7 +198,7 @@ public sealed partial class AddSelectorsPage : Page
         // Analizar la cadena JSON en una lista de strings
         _selectorsTree = JsonSerializer.Deserialize<List<string>>(json);
 
-        if (_selectorsTree?.Count == 0) return;
+        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
 
         // Actualiza el cuadro de texto con el selector CSS
         TxtSelectedElement.Text = cssSelector;
@@ -244,11 +244,13 @@ public sealed partial class AddSelectorsPage : Page
         // Comprobar si el WebView2 está listo
         if (!isWebViewReady) return;
 
+        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
         if (_activeSelection > 0)
         {
             _activeSelection -= 1;
 
             // Crea el script que se encarga de resaltar el elemento en la página
+            
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
             TxtSelectedElement.Text = _selectorsTree[_activeSelection];
         }
@@ -265,7 +267,7 @@ public sealed partial class AddSelectorsPage : Page
         await ExecuteScriptAsync(@"toggleSvg(false)");
         await ExecuteScriptAsync(@"isMarginActive = false;");
 
-        if (_selectorsTree?.Count == 0) return;
+        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
         SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
         _selectedCssSelector = _selectorsTree[_activeSelection];
         ViewModel.selectedCssSelector= _selectedCssSelector;
