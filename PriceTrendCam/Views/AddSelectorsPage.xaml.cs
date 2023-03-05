@@ -142,8 +142,7 @@ public sealed partial class AddSelectorsPage : Page
     private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         SelectButton.IsChecked = false;
-
-        if (_showElementPreview)
+        if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
         {
             _showElementPreview = false;
             _elementPreviewModeIsActive = true;
@@ -152,12 +151,14 @@ public sealed partial class AddSelectorsPage : Page
             await ExecuteScriptAsync(@"isMarginActive = true;");
             if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+
         }
         else
         {
             _showElementPreview = true;
             await ExecuteScriptAsync(@"toggleLinks(true)");//desactivar los enlaces
             _elementPreviewModeIsActive = false;
+            ElementPreviewButton.IsChecked = false;
             await ExecuteScriptAsync(@"toggleSvg(false)");
             await ExecuteScriptAsync(@"isMarginActive = false;");
         }
@@ -168,6 +169,7 @@ public sealed partial class AddSelectorsPage : Page
         if (_selectionModeIsActive)
         {
             _elementPreviewModeIsActive = false;
+            ElementPreviewButton.IsChecked = false;
             ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
             ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
             DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -177,8 +179,8 @@ public sealed partial class AddSelectorsPage : Page
             await ExecuteScriptAsync(@"toggleLinks(false)");
             await ExecuteScriptAsync(@"toggleSvg(true)");
             await ExecuteScriptAsync(@"isMarginActive = true;");
-            if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
             _selectionModeIsActive = false;
+            if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
         }
         else
@@ -304,8 +306,9 @@ public sealed partial class AddSelectorsPage : Page
         _selectedCssSelector = _selectorsTree[_activeSelection];
         ViewModel.selectedCssSelector = _selectedCssSelector;
 
-        
+
         SelectButton.IsChecked = false;
+        ElementPreviewButton.IsChecked = false;
         //deshabilitar el visualizar script y el visualizador
         await GetAttributes();
     }
