@@ -18,7 +18,8 @@ public sealed partial class AddSelectorsPage : Page
     private bool _showElementPreview;
     private string _selectedCssSelector;
     private string _messagePreviewSelectorValue;
-
+    private bool _elementPreviewModeIsActive;
+    private bool _selectionModeIsActive;
 
     public ObservableCollection<string> AttributesComboBox
     {
@@ -51,6 +52,8 @@ public sealed partial class AddSelectorsPage : Page
         _showElementPreview = true;
         _selectedCssSelector = string.Empty;
         _messagePreviewSelectorValue = string.Empty;
+        _elementPreviewModeIsActive = false;
+        _selectionModeIsActive = true;
         AttributesComboBox = new ObservableCollection<string>();
         InitializeTypeDataComboBox();
     }
@@ -138,10 +141,13 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        SelectButton.IsChecked = false;
+
         if (_showElementPreview)
         {
             _showElementPreview = false;
-
+            _elementPreviewModeIsActive = true;
+            await ExecuteScriptAsync(@"toggleLinks(false)");//desactivar los enlaces
             await ExecuteScriptAsync(@"toggleSvg(true)");
             await ExecuteScriptAsync(@"isMarginActive = true;");
             if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
@@ -150,7 +156,8 @@ public sealed partial class AddSelectorsPage : Page
         else
         {
             _showElementPreview = true;
-
+            await ExecuteScriptAsync(@"toggleLinks(true)");//desactivar los enlaces
+            _elementPreviewModeIsActive = false;
             await ExecuteScriptAsync(@"toggleSvg(false)");
             await ExecuteScriptAsync(@"isMarginActive = false;");
         }
@@ -158,18 +165,35 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void SelectButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-        ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-        DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-        TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+        if (_selectionModeIsActive)
+        {
+            _elementPreviewModeIsActive = false;
+            ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
-        // Activar los enlaces
-        await ExecuteScriptAsync(@"toggleLinks(false)");
-        await ExecuteScriptAsync(@"toggleSvg(true)");
-        await ExecuteScriptAsync(@"isMarginActive = true;");
+            // Activar los enlaces
+            await ExecuteScriptAsync(@"toggleLinks(false)");
+            await ExecuteScriptAsync(@"toggleSvg(true)");
+            await ExecuteScriptAsync(@"isMarginActive = true;");
+            if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
+            _selectionModeIsActive = false;
+            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+        }
+        else
+        {
+            _selectionModeIsActive = true;
+            // Activar los enlaces
+            await ExecuteScriptAsync(@"toggleLinks(true)");
+            await ExecuteScriptAsync(@"toggleSvg(false)");
+            await ExecuteScriptAsync(@"isMarginActive = false;");
 
-        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
-        await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+            ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        }
     }
 
     private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -182,6 +206,11 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async Task OnPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
+        if (_elementPreviewModeIsActive)
+        {
+            return;
+        }
+        _selectionModeIsActive = true;
         // Obtiene las coordenadas del click
         var point = e.GetCurrentPoint(WebView).Position;
         var xCoord = (int)point.X;
@@ -206,6 +235,7 @@ public sealed partial class AddSelectorsPage : Page
         // Crea el script que se encarga de resaltar el elemento en la página
         var firstSelector = _selectorsTree[0];
         await ExecuteScriptAsync(@"addMarginToSelector('" + firstSelector + "');");
+
     }
 
     private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -250,7 +280,7 @@ public sealed partial class AddSelectorsPage : Page
             _activeSelection -= 1;
 
             // Crea el script que se encarga de resaltar el elemento en la página
-            
+
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
             TxtSelectedElement.Text = _selectorsTree[_activeSelection];
         }
@@ -267,10 +297,15 @@ public sealed partial class AddSelectorsPage : Page
         await ExecuteScriptAsync(@"toggleSvg(false)");
         await ExecuteScriptAsync(@"isMarginActive = false;");
 
+        _selectionModeIsActive = true;
+
         if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
         SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
         _selectedCssSelector = _selectorsTree[_activeSelection];
-        ViewModel.selectedCssSelector= _selectedCssSelector;
+        ViewModel.selectedCssSelector = _selectedCssSelector;
+
+        
+        SelectButton.IsChecked = false;
         //deshabilitar el visualizar script y el visualizador
         await GetAttributes();
     }
