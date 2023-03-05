@@ -49,7 +49,7 @@ public partial class MainViewModel : ObservableObject
         if (partnerStore?.Urls?.Count == 0 || partnerStore?.Urls == null)
         {
             Console.Write("No selectors assigned to Store");
-            //return;
+            return;
         }
 
         var node = await HtmlDocumentService.LoadPageAsync(url);
