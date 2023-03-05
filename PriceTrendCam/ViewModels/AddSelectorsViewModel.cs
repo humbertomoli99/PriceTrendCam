@@ -109,7 +109,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             CssSelector = selectedCssSelector,
             Type = typeDataComboBox,
             StoreId = store.Id,
-            Store = store
+            //Store = store
         };
 
         // Crear objeto Store y guardarlo en la base de datos
