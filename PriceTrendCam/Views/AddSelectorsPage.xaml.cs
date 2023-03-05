@@ -331,4 +331,17 @@ public sealed partial class AddSelectorsPage : Page
     {
         return await WebView.CoreWebView2.ExecuteScriptAsync(script);
     }
+
+    private async void WebView_NavigationStarting(WebView2 sender, CoreWebView2NavigationStartingEventArgs args)
+    {
+        // Ruta del archivo JavaScript
+        var scriptFilePath = Path.Combine(Package.Current.InstalledLocation.Path, "Scripts", "getSelector.js");
+
+        // Lee el contenido del archivo JavaScript
+        var scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
+        var scriptContent = await FileIO.ReadTextAsync(scriptFile);
+        await ExecuteScriptAsync(scriptContent);
+        // Establecer la variable de estado en verdadero
+        isWebViewReady = true;
+    }
 }

@@ -33,6 +33,7 @@
                     PointerPressed="WebView_PointerPressed"
                     PointerMoved="WebView_PointerMoved"
                     NavigationCompleted="WebView_NavigationCompleted"
+                    NavigationStarting="WebView_NavigationStarting"
                     Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
 
                 <StackPanel
