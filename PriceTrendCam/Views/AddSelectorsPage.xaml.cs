@@ -109,7 +109,20 @@ public sealed partial class AddSelectorsPage : Page
             "data-linktype" => "dataset.linktype",
             _ => GetAttributeComboBox.Text
         };
-        _messagePreviewSelectorValue = attribute + ": " + await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+        if (!string.IsNullOrWhiteSpace(RegexTextBox.Text))
+        {
+            var input = await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+            var pattern = RegexTextBox.Text;
+            var regex = new Regex(pattern);
+
+            Match match = regex.Match(input);
+
+            _messagePreviewSelectorValue = attribute + ": " + match.Value;
+        }
+        else
+        {
+            _messagePreviewSelectorValue = attribute + ": " + await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+        }
 
         var dialog = new ContentDialog
         {
