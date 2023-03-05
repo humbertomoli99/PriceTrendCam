@@ -100,6 +100,7 @@
                             Content="Done"
                             Visibility="Collapsed"
                             Click="DoneButton_Click"
+                            Style="{StaticResource AccentButtonStyle}"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                             Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
                         <TextBox
