@@ -14,7 +14,7 @@ public class Selector
     {
         get; set;
     }
-    public string Name
+    public string CssSelector
     {
         get; set;
     }

@@ -51,13 +51,50 @@
                     Style="{StaticResource DetailSubTitleStyle}" />
                 <ListView
                     ItemsSource="{x:Bind ListDetailsMenuItem.Selectors, Mode=OneWay}">
+                    <ListView.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition
+                                    Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Text="Type"
+                                Margin="6"
+                                TextAlignment="Center"
+                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="CSS Selector"
+                                Margin="6"
+                                TextAlignment="Center"
+                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                        </Grid>
+                    </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
                                 <TextBlock
-                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
-                                    Text="{Binding Name}" />
-                            </StackPanel>
+                                    Grid.Column="0"
+                                    Margin="6"
+                                    Text="{Binding Type}"
+                                    TextAlignment="Center"
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="6"
+                                    TextAlignment="Center"
+                                    Text="{Binding CssSelector}"
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

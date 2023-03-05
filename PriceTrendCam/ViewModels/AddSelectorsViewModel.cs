@@ -56,6 +56,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get => _isLoading;
         set => SetProperty(ref _isLoading, value);
     }
+    public Store ObjectSelector
+    {
+        get;
+        private set;
+    }
 
     [ObservableProperty]
     private bool hasFailures;
@@ -94,15 +99,32 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         }
     }
     [RelayCommand]
-    private void SaveSelectors()
+    private async void SaveSelectors()
     {
-        Debug.WriteLine(typeDataComboBox);
-        Debug.WriteLine(selectorTextBox);
-        Debug.WriteLine(getAttributeComboBox);
-        Debug.WriteLine(regexTextBox);
-        Debug.WriteLine(isNotNullCheckBox);
-        Debug.WriteLine(_newstoreId);
-        Debug.WriteLine(selectedCssSelector);
+        // Obtener la instancia de Store de la base de datos
+        var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
+
+        // Crear el nuevo Selector
+        var newSelector = new Selector
+        {
+            CssSelector = selectedCssSelector,
+            Type = typeDataComboBox,
+            StoreId = _newstoreId
+        };
+
+        // Agregar el nuevo Selector a la lista de Selectors de la instancia de Store
+        store.Selectors.Add(newSelector);
+
+        // Actualizar la instancia de Store en la base de datos
+        await App.PriceTrackerService.InsertWithChildrenAsync<Store>(store,false);
+
+        //Debug.WriteLine(typeDataComboBox);
+        //Debug.WriteLine(selectorTextBox);
+        //Debug.WriteLine(getAttributeComboBox);
+        //Debug.WriteLine(regexTextBox);
+        //Debug.WriteLine(isNotNullCheckBox);
+        //Debug.WriteLine(_newstoreId);
+        //Debug.WriteLine(selectedCssSelector);
     }
 
     public async Task OnNavigatedTo(object parameter)
