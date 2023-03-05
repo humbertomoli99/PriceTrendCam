@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Web.WebView2.Core;
 
@@ -28,7 +27,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     public string selectedCssSelector
     {
-        get;set;
+        get; set;
     }
 
     [ObservableProperty]
@@ -101,22 +100,22 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [RelayCommand]
     private async void SaveSelectors()
     {
-        // Obtener la instancia de Store de la base de datos
+        // Obtener la instancia de Store que deseas actualizar
         var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
 
-        // Crear el nuevo Selector
+        // Crear lista de Selectors
         var newSelector = new Selector
         {
             CssSelector = selectedCssSelector,
             Type = typeDataComboBox,
-            StoreId = _newstoreId
+            StoreId = store.Id,
+            Store = store
         };
 
-        // Agregar el nuevo Selector a la lista de Selectors de la instancia de Store
-        store.Selectors.Add(newSelector);
+        // Crear objeto Store y guardarlo en la base de datos
 
-        // Actualizar la instancia de Store en la base de datos
-        await App.PriceTrackerService.InsertWithChildrenAsync<Store>(store,false);
+        await App.PriceTrackerService.InsertAsync<Selector>(newSelector);
+
 
         //Debug.WriteLine(typeDataComboBox);
         //Debug.WriteLine(selectorTextBox);
@@ -157,7 +156,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         OnPropertyChanged(nameof(BrowserForward));
         if (webErrorStatus != default)
         {
-           hasFailures = true;
+            hasFailures = true;
         }
     }
 
