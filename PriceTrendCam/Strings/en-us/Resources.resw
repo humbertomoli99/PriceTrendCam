@@ -198,6 +198,9 @@
   <data name="Settings_Theme.Text" xml:space="preserve">
     <value>Theme</value>
   </data>
+  <data name="Settings_General.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
     <value>Light</value>
   </data>
