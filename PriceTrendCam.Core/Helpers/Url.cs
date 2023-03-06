@@ -88,4 +88,27 @@ public class Url
 
         return normalizedUrl;
     }
+    public static async Task<bool> HasRedirectToWww(string url)
+    {
+        // 1. Crear una instancia de HttpClient con HttpClientHandler configurado para no seguir automáticamente las redirecciones.
+        var httpClient = new HttpClient(new HttpClientHandler() { AllowAutoRedirect = false });
+
+        // 2. Configurar el encabezado User-Agent de la solicitud.
+        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+
+        // 3. Enviar una solicitud HTTP GET a la URL que se desea verificar.
+        var response = await httpClient.GetAsync(url);
+
+        // 4. Obtener la respuesta de la solicitud HTTP y verificar si se produjo una redirección.
+        if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.MovedPermanently)
+        {
+            // 5. Si se produjo una redirección, verificar si la URL final en la respuesta contiene el prefijo "www".
+            var locationHeader = response.Headers.Location?.ToString();
+            if (locationHeader != null && locationHeader.StartsWith("http://www.") || locationHeader.StartsWith("https://www."))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
