@@ -144,7 +144,7 @@ public sealed partial class AddSitemapPage : Page
             .OfType<Grid>()
             .SelectMany(grid => grid.Children.OfType<TextBox>())
             .ToList()
-            .ForEach(async textBox => textBox.Text = await Url.NormalizeUrl(textBox.Text));
+            .ForEach(async textBox => textBox.Text = await Url.GetRedirectUrl(await Url.NormalizeUrl(textBox.Text)));
     }
 
     private async void StoreUrlTextBox_TextChanged(object sender, TextChangedEventArgs e)
