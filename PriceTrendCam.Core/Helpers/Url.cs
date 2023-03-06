@@ -11,7 +11,7 @@ public class Url
         if (string.IsNullOrEmpty(url)) { return false; }
 
         url = await NormalizeUrl(url);
-        
+
         // Comprobar si la URL es válida según la sintaxis de una URL
         var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
 
@@ -24,22 +24,18 @@ public class Url
         try
         {
             // Enviar una solicitud HTTP GET a la URL
-            //var client = new HttpClient();
-            //var response = await client.GetAsync(url);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            int statusCode = (int)response.StatusCode;
+            var response = await client.GetAsync(url);
 
             // Imprimir el código de estado de la respuesta
             Debug.WriteLine($"Código de estado de la respuesta: {response.StatusCode}");
 
             // Comprobar si la respuesta tiene un código de estado válido
-            if (statusCode == 200) { return true; }
-            if (statusCode == 301) { return true; }
-            if (statusCode == 403) { return false; }
+            if (response.StatusCode == HttpStatusCode.OK) { return true; }
+            if (response.StatusCode == HttpStatusCode.MovedPermanently) { return true; }
+            if (response.StatusCode == HttpStatusCode.Forbidden) { return false; }
         }
         catch (HttpRequestException ex)
         {
