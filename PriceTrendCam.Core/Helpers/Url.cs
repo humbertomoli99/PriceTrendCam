@@ -75,6 +75,13 @@ public class Url
         // Convertir el host a minúsculas
         var host = uri.Host.ToLower();
 
+        // Agregar "www" al host si es un TLD
+        var parts = host.Split('.');
+        if (parts.Length <= 2)
+        {
+            host = "www." + host;
+        }
+
         // Reconstruir la URL con el host en minúsculas y con el prefijo "www"
         var path = uri.AbsolutePath + uri.Query;
         var normalizedUrl = new UriBuilder(string.Format("{0}://{1}:{2}{3}", uri.Scheme, host, uri.Port, path)).ToString();
