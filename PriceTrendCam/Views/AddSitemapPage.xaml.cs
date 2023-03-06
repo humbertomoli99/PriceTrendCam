@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PriceTrendCam.Core.Helpers;
@@ -156,6 +157,12 @@ public sealed partial class AddSitemapPage : Page
 
             // Utiliza el primer TextBox aquí
             string url = firstTextBox.Text;
+
+            var node = await HtmlDocumentService.LoadPageAsync(url);
+
+            MetaTitle.Text = HtmlDocumentService.GetMetaTitle(node).Trim();
+            MetaDescription.Text = HtmlDocumentService.GetMetaDescription(node);
+
             string faviconUrlString = await HtmlDocumentService.GetFaviconUrlAsync(url);
             BitmapImage faviconImage = new BitmapImage(new Uri(faviconUrlString));
             FaviconUrl.Source = faviconImage;
