@@ -45,7 +45,9 @@
                 -->
                 <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.MainViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                        <FontIcon
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE10F;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_ProductsList" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.ProductsListViewModel">
@@ -55,12 +57,16 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_ProductDetails" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.ProductDetailsViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xea37;"/>
+                        <FontIcon
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE74C;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_SitemapList" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.SitemapListViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                        <FontIcon
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE719;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_AddSitemap" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.AddSitemapViewModel">
@@ -80,7 +86,9 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_ExportData" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.ExportDataViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe80a;"/>
+                        <FontIcon
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xEA90;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_ContentGrid" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.ContentGridViewModel">
@@ -90,12 +98,16 @@
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_Notifications" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.NotificationsViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                        <FontIcon
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xEA8F;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_PackageTracker" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.PackageTrackerViewModel">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                        <FontIcon
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Glyph="&#xE7B8;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_PostManForm" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.PostManFormViewModel">
