@@ -17,7 +17,8 @@
             <StackPanel
                 Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock
-                    Style="{ThemeResource BodyTextBlockStyle}" Margin="{StaticResource SmallTopBottomMargin}" x:Uid="Settings_Theme" />
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    x:Uid="Settings_General" />
                 <Expander
                     x:Name="ExpanderThemeSettings"
                         IsExpanded="False"
