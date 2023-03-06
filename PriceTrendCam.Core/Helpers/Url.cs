@@ -82,27 +82,43 @@ public class Url
 
         return normalizedUrl;
     }
-    public static async Task<bool> HasRedirectToWww(string url)
+    public static async Task<string> GetRedirectUrl(string url)
     {
-        // 1. Crear una instancia de HttpClient con HttpClientHandler configurado para no seguir automáticamente las redirecciones.
-        var httpClient = new HttpClient(new HttpClientHandler() { AllowAutoRedirect = false });
+        if (string.IsNullOrEmpty(url)) { return null; }
 
-        // 2. Configurar el encabezado User-Agent de la solicitud.
-        httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+        url = await NormalizeUrl(url);
+
+        // Comprobar si la URL es válida según la sintaxis de una URL
+        var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
+
+        if (!regex.IsMatch(url))
+        {
+            Debug.WriteLine($"La URL no es válida según la expresión regular: {url}");
+            return null;
+        }
+
+        // 1. Crear un controlador con AllowAutoRedirect en true
+        var handler = new HttpClientHandler();
+        handler.AllowAutoRedirect = true;
+
+        // 2. Crear un cliente con el controlador
+        var client = new HttpClient(handler);
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
         // 3. Enviar una solicitud HTTP GET a la URL que se desea verificar.
-        var response = await httpClient.GetAsync(url);
+        var response = await client.GetAsync(url);
 
-        // 4. Obtener la respuesta de la solicitud HTTP y verificar si se produjo una redirección.
-        if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.MovedPermanently)
+        // 4. Obtener la URL a la que se redirecciona
+        var locationHeader = response.Headers.Location?.ToString();
+        if (!string.IsNullOrEmpty(locationHeader))
         {
-            // 5. Si se produjo una redirección, verificar si la URL final en la respuesta contiene el prefijo "www".
-            var locationHeader = response.Headers.Location?.ToString();
-            if (locationHeader != null && locationHeader.StartsWith("http://www.") || locationHeader.StartsWith("https://www."))
-            {
-                return true;
-            }
+            return locationHeader;
         }
-        return false;
+        else
+        {
+            // 5. Si no se produjo una redirección, devolver la URL original
+            var finalUrl = response.RequestMessage.RequestUri.AbsoluteUri;
+            return finalUrl;
+        }
     }
 }
