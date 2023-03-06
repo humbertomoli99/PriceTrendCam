@@ -41,12 +41,14 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        var stores = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
-        var matchingUrls = stores.SelectMany(s => s.Urls).Where(u => url.Contains(u.Url)).ToList();
-        var firstUrlStoreId = matchingUrls.FirstOrDefault().StoreId;
-        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(firstUrlStoreId);
+        var UrlShop = (await App.PriceTrackerService.GetAllWithChildrenAsync<Store>())
+            .SelectMany(s => s.Urls)
+            .Where(u => url.Contains(u.Url))
+            .ToList();
 
-        if (partnerStore?.Urls?.Count == 0 || partnerStore?.Urls == null)
+        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(UrlShop.First().StoreId);
+
+        if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
         {
             Console.Write("No selectors assigned to Store");
             return;
@@ -58,7 +60,7 @@ public partial class MainViewModel : ObservableObject
         var metaDescription = HtmlDocumentService.GetMetaDescription(node);
         var metaImage = HtmlDocumentService.GetMetaImage(node);
 
-        var product = new ProductInfo
+        var newProduct = new ProductInfo
         {
             Name = metaTitle,
             Description = metaDescription,
@@ -75,7 +77,7 @@ public partial class MainViewModel : ObservableObject
             StoreId = partnerStore.Id,
         };
 
-        await App.PriceTrackerService.InsertWithChildrenAsync<ProductInfo>(product, true);
+        await App.PriceTrackerService.InsertAsync(newProduct);
     }
     private static async Task SearchTermAsync()
     {
