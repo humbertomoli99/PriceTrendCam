@@ -208,6 +208,7 @@
                         Grid.Row="0"
                         HorizontalAlignment="Right"
                         Grid.RowSpan="2"
+                        FlowDirection="RightToLeft"
                         AutomationProperties.Name="simple ToggleSwitch" />
                 </Grid>
             </StackPanel>
