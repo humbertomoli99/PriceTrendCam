@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 
 using PriceTrendCam.ViewModels;
+using Windows.System;
 
 namespace PriceTrendCam.Views;
 
@@ -16,5 +17,11 @@ public sealed partial class SettingsPage : Page
     {
         ViewModel = App.GetService<SettingsViewModel>();
         InitializeComponent();
+    }
+
+    private void HyperlinkButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        Uri webPage = new Uri("ms-settings:notifications");
+        _ = Launcher.LaunchUriAsync(webPage);
     }
 }
