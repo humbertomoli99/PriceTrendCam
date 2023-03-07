@@ -65,6 +65,7 @@ public class LocalSettingsService : ILocalSettingsService
             {
                 return await Json.ToObjectAsync<T>((string)obj);
             }
+
         }
 
         return default;

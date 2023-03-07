@@ -69,6 +69,7 @@ public partial class App : Application
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddTransient<IWebViewService, WebViewService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
+            services.AddTransient<IClipboardSelectorService, ClipboardSelectorService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();
