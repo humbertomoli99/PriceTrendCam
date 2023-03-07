@@ -208,8 +208,9 @@
                         Grid.Row="0"
                         HorizontalAlignment="Right"
                         Grid.RowSpan="2"
-                        FlowDirection="RightToLeft"
-                        AutomationProperties.Name="simple ToggleSwitch" />
+                        Toggled="{x:Bind ViewModel.OnToggleSwitchToggled}"
+                        IsOn="{x:Bind ViewModel.ClipboardAutomatically, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        FlowDirection="RightToLeft" />
                 </Grid>
             </StackPanel>
 
