@@ -102,7 +102,117 @@
                         </StackPanel>
                     </Expander.Content>
                 </Expander>
-                
+                <Expander
+                    x:Name="ExpanderNotificationSettings"
+                    IsExpanded="False"
+                    Margin="{ThemeResource XSmallTopBottomMargin}"
+                        ExpandDirection="Down"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Stretch">
+                    <Expander.Header>
+                        <StackPanel MinHeight="60" HorizontalAlignment="Left">
+                            <Grid Padding="0,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="*" />
+                                <RowDefinition
+                                    Height="*" />
+                            </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.RowSpan="2"
+                                    Width="26"
+                                    Height="26"
+                                    Glyph="&#xEA8F;"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Stretch"/>
+                                <TextBlock
+                                Grid.Column="1"
+                                    Text="Notifications"
+                                Style="{ThemeResource BaseTextBlockStyle}"
+                                Margin="12,6,0,0" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                TextWrapping="Wrap"
+                                    Text="Change notification settings"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="12,0,0,6" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <StackPanel
+                            Padding="40,0"
+                            HorizontalAlignment="Stretch"
+                            Width="{Binding ElementName=ContentArea, Path=ActualWidth}"
+                            Margin="{StaticResource XSmallTopMargin}">
+                            
+                        </StackPanel>
+                    </Expander.Content>
+                </Expander>
+                <Expander
+                    x:Name="ExpanderClipboardSettings"
+                    IsExpanded="False"
+                    Margin="{ThemeResource XSmallTopBottomMargin}"
+                    ExpandDirection="Down"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch">
+                    <Expander.Header>
+                        <StackPanel
+                            MinHeight="60"
+                            HorizontalAlignment="Left">
+                            <Grid
+                                Padding="0,4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="*" />
+                                    <RowDefinition
+                                        Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.RowSpan="2"
+                                    Width="26"
+                                    Height="26"
+                                    Glyph="&#xF0E3;"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Stretch" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Text="Clipboard"
+                                    Style="{ThemeResource BaseTextBlockStyle}"
+                                    Margin="12,6,0,0" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    TextWrapping="Wrap"
+                                    Text="Change clipboard settings"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="12,0,0,6" />
+                            </Grid>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <StackPanel
+                            Padding="40,0"
+                            HorizontalAlignment="Stretch"
+                            Width="{Binding ElementName=ContentArea, Path=ActualWidth}"
+                            Margin="{StaticResource XSmallTopMargin}">
+
+                        </StackPanel>
+                    </Expander.Content>
+                </Expander>
             </StackPanel>
 
             <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
