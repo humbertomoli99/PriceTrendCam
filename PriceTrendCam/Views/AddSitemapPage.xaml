@@ -96,6 +96,20 @@
                             </StackPanel>
                             <StackPanel
                                 Margin="0,6">
+                                <ComboBox
+                                    Header="Web Browser Drive"
+                                    PlaceholderText="Pick a Web Drive"
+                                    Width="200">
+                                    <x:String>Internet Explorer</x:String>
+                                    <x:String>Mozilla Firefox</x:String>
+                                    <x:String>Google Chrome</x:String>
+                                    <x:String>Safari</x:String>
+                                    <x:String>Opera</x:String>
+                                    <x:String>Microsoft Edge (Chromium)</x:String>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0,6">
                                 <Button
                                     Click="Guardar_Click"
                                     Command="{x:Bind ViewModel.SaveSitemapCommand}"

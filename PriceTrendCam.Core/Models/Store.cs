@@ -22,6 +22,11 @@ public class Store
         get; set;
     }
 
+    public string DriveWebBrowser
+    {
+        get;set;
+    }
+
     [OneToMany(CascadeOperations = CascadeOperation.All)]
     public List<Selector> Selectors
     {
