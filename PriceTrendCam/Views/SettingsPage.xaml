@@ -23,13 +23,11 @@
                     IsExpanded="False"
                     Margin="{ThemeResource XXSmallTopBottomMargin}"
                     ExpandDirection="Down"
-                    VerticalAlignment="Top"
                     HorizontalAlignment="Stretch">
                     <Expander.Header>
-                        <StackPanel
-                            MinHeight="60"
-                            HorizontalAlignment="Left">
-                            <Grid
+                        <Grid
+                            HorizontalAlignment="Left"
+                                MinHeight="60"
                                 Padding="0,4">
                                 <Grid.RowDefinitions>
                                     <RowDefinition
@@ -39,7 +37,7 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition
-                                        Width="Auto" />
+                                        Width="*" />
                                     <ColumnDefinition
                                         Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -50,20 +48,23 @@
                                     Glyph="&#xE790;"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Stretch" />
-                                <TextBlock
+                                <StackPanel
+                                    VerticalAlignment="Center"
                                     Grid.Column="1"
-                                    Text="App theme"
-                                    Style="{ThemeResource BaseTextBlockStyle}"
-                                    Margin="12,6,0,0" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    TextWrapping="Wrap"
-                                    Text="Select the application theme to be displayed"
-                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                    Margin="12,0,0,6" />
+                                    Grid.RowSpan="2"
+                                    Margin="12,0,12,0">
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Text="App theme"
+                                        Style="{ThemeResource BodyTextBlockStyle}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        TextWrapping="Wrap"
+                                        Text="Select the application theme to be displayed"
+                                        Style="{ThemeResource CaptionTextBlockStyle}" />
+                                </StackPanel>
                             </Grid>
-                        </StackPanel>
                     </Expander.Header>
                     <Expander.Content>
                         <StackPanel
@@ -111,12 +112,13 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="4"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
                     Margin="{ThemeResource XXSmallTopBottomMargin}"
                     Padding="16,0"
                     MinHeight="60">
-                    <Grid>
+                    <Grid
+                        VerticalAlignment="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition
                                 Height="*" />
@@ -141,15 +143,15 @@
                         <TextBlock
                             Grid.Column="1"
                             Text="Notifications"
-                            Style="{ThemeResource BaseTextBlockStyle}"
-                            Margin="12,6,0,0" />
+                            Style="{ThemeResource BodyTextBlockStyle}"
+                            Margin="12,0,12,0" />
                         <TextBlock
                             Grid.Column="1"
                             Grid.Row="1"
                             TextWrapping="Wrap"
                             Text="Change notification settings"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Margin="12,0,0,6" />
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Margin="12,0,0,0" />
                         <HyperlinkButton
                             Grid.Column="2"
                             Grid.Row="0"
@@ -166,7 +168,7 @@
                     BorderThickness="1"
                     CornerRadius="4"
                     Margin="{ThemeResource XXSmallTopBottomMargin}"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Bottom"
                     HorizontalAlignment="Stretch"
                     Padding="16,0"
                     MinHeight="60">
@@ -176,33 +178,37 @@
                             <RowDefinition
                                 Height="*" />
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="*" />
-                            <ColumnDefinition
-                                Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <FontIcon
-                            Grid.RowSpan="2"
-                            Width="26"
-                            Height="26"
-                            Glyph="&#xF0E3;"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Stretch" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
+                        Grid.RowSpan="2"
+                        Width="26"
+                        Height="26"
+                        Glyph="&#xF0E3;"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Grid.RowSpan="2"
+                        Margin="12,0,12,0"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center">
                         <TextBlock
                             Grid.Column="1"
                             Text="Paste automatically"
-                            Style="{ThemeResource BaseTextBlockStyle}"
-                            Margin="12,6,0,0" />
+                            Style="{ThemeResource BodyTextBlockStyle}" />
                         <TextBlock
                             Grid.Column="1"
                             Grid.Row="1"
                             TextWrapping="Wrap"
                             Text="Paste links from the clipboard"
-                            Style="{ThemeResource BodyTextBlockStyle}"
-                            Margin="12,0,0,6" />
+                            Style="{ThemeResource CaptionTextBlockStyle}"/>
+
+                    </StackPanel>
                     <ToggleSwitch
                         Grid.Column="2"
                         Grid.Row="0"
