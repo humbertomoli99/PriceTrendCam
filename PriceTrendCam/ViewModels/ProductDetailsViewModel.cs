@@ -72,7 +72,7 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
             DefaultButton = ContentDialogButton.Close,
             PrimaryButtonText = "Delete",
             SecondaryButtonText = "Cancel",
-            Content = "Are you sure you want to delete the store?"
+            Content = "Are you sure you want to delete the Product?"
         };
 
         await dialog.ShowAsync().AsTask();
