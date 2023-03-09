@@ -19,14 +19,6 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         this.navigationService = navigationService;
         this.dialogService = dialogService;
-
-        //metodos asincronos mvvm community
-        SaveSitemapCommand = new AsyncRelayCommand(SaveSitemapAsync);
-    }
-
-    public IAsyncRelayCommand SaveSitemapCommand
-    {
-        get;
     }
     public event EventHandler? FormSubmissionCompleted;
     public event EventHandler? FormSubmissionFailed;
@@ -44,8 +36,8 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         get; set;
     }
-
-    private async Task SaveSitemapAsync()
+    [RelayCommand]
+    private async Task SaveSitemap()
     {
         // Validar entrada
         if ( await ValidateForm() == false )
