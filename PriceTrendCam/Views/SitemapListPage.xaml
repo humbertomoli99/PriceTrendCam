@@ -137,6 +137,38 @@
             ItemTemplate="{StaticResource ItemTemplate}"
             ListHeaderTemplate="{StaticResource MinimalListHeaderTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}" />
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}">
+            <controls:ListDetailsView.ListCommandBar>
+                <CommandBar>
+                    <!-- Button functionality to be implemented by developer -->
+                    <AppBarButton
+                        Icon="Back"
+                        Label="Back" />
+                    <AppBarButton
+                        Icon="Forward"
+                        Label="Forward" />
+                    <CommandBar.Content>
+                        <TextBlock
+                            Margin="12,14">
+                      <Run
+                                Text="{x:Bind ViewModel.SampleItems.Count, Mode=OneWay}" />
+                      <Run
+                                Text="Items" />
+                        </TextBlock>
+                    </CommandBar.Content>
+                </CommandBar>
+            </controls:ListDetailsView.ListCommandBar>
+            <controls:ListDetailsView.DetailsCommandBar>
+                <CommandBar>
+                    <!-- Button functionality to be implemented by developer -->
+                    <AppBarButton
+                        Icon="Delete"
+                        Label="Delete" />
+                    <AppBarButton
+                        Icon="Edit"
+                        Label="Edit" />
+                </CommandBar>
+            </controls:ListDetailsView.DetailsCommandBar>
+        </controls:ListDetailsView>
     </Grid>
 </Page>
