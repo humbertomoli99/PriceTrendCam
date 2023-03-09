@@ -130,7 +130,7 @@
     <value>ProductsList</value>
   </data>
   <data name="ProductDetails_NoSelection.Text" xml:space="preserve">
-    <value>Select an item from the list.</value>
+    <value>Select an product from the list.</value>
   </data>
   <data name="Shell_ProductDetails.Content" xml:space="preserve">
     <value>ProductDetails</value>
@@ -238,5 +238,8 @@
   </data>
   <data name="Shell_PostManForm.Content" xml:space="preserve">
     <value>PostManForm</value>
+  </data>
+  <data name="StoreDetails_NoSelection.Text" xml:space="preserve">
+    <value>Select an Store from the list.</value>
   </data>
 </root>
