@@ -11,15 +11,10 @@ using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.ViewModels;
 
-public class ContentGridViewModel : ObservableRecipient, INavigationAware
+public partial class ContentGridViewModel : ObservableRecipient, INavigationAware
 {
     private readonly INavigationService _navigationService;
     private readonly ISampleDataService<SampleOrder> _sampleDataService;
-
-    public ICommand ItemClickCommand
-    {
-        get;
-    }
 
     public ObservableCollection<SampleOrder> Source { get; } = new ObservableCollection<SampleOrder>();
 
@@ -27,8 +22,6 @@ public class ContentGridViewModel : ObservableRecipient, INavigationAware
     {
         _navigationService = navigationService;
         _sampleDataService = sampleDataService;
-
-        ItemClickCommand = new RelayCommand<SampleOrder>(OnItemClick);
     }
 
     public async Task OnNavigatedTo(object parameter)
@@ -46,8 +39,8 @@ public class ContentGridViewModel : ObservableRecipient, INavigationAware
     public void OnNavigatedFrom()
     {
     }
-
-    private void OnItemClick(SampleOrder? clickedItem)
+    [RelayCommand]
+    private void ItemClick(SampleOrder? clickedItem)
     {
         if (clickedItem != null)
         {

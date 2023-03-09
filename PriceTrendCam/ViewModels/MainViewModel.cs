@@ -10,15 +10,12 @@ public partial class MainViewModel : ObservableObject
 {
     public MainViewModel()
     {
-        AdvancedSearchCommand = new AsyncRelayCommand(AdvancedSearchAsync);
-    }
-    public IAsyncRelayCommand AdvancedSearchCommand
-    {
-        get;
     }
     [ObservableProperty]
     private string textBoxSearch;
-    public async Task AdvancedSearchAsync()
+
+    [RelayCommand]
+    public async Task AdvancedSearch()
     {
         if (await Url.IsValid(textBoxSearch))
         {

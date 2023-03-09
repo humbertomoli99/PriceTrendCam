@@ -12,7 +12,7 @@
         <AutoSuggestBox
             QueryIcon="Find"
             PlaceholderText="Search for products, brands or paste a link"
-            QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+            QuerySubmitted="{x:Bind ViewModel.AdvancedSearch}"
             Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </Page>
