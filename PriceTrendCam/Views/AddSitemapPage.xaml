@@ -148,12 +148,10 @@
                                         Message="The form was filled in with some errors."
                                         Severity="Error">
                                         <InfoBar.ActionButton>
-                                            <!--<Button
-                                                Command="{x:Bind ViewModel.ShowErrorsCommand}"
-                                                Content="Show errors" />-->
                                             <Button
                                                 Content="Show errors"
-                                                Click="Button_Click"/>
+                                                Command="{x:Bind ViewModel.ShowErrorsCommand}"
+                                                CommandParameter="{x:Bind XamlRoot}"/>
                                         </InfoBar.ActionButton>
                                         <interactivity:Interaction.Behaviors>
                                             <interactions:EventTriggerBehavior

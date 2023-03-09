@@ -172,8 +172,4 @@ public sealed partial class AddSitemapPage : Page
             //Aquí puedes manejar las excepciones si ocurren
         }
     }
-    private async void Button_Click(object sender, RoutedEventArgs e)
-    {
-        await ViewModel.ShowErrorsAsync(this.XamlRoot);
-    }
 }

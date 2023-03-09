@@ -117,8 +117,9 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         TextBoxUrls.Clear();
     }
-    public async Task ShowErrorsAsync(XamlRoot xamlRoot)
+    [RelayCommand]
+    public async Task ShowErrors(XamlRoot root)
     {
-        await dialogService.ShowMessageDialogAsync("Validation errors", message, xamlRoot);
+        await dialogService.ShowMessageDialogAsync("Validation errors", message, root);
     }
 }
