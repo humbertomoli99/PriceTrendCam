@@ -54,29 +54,27 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
     [RelayCommand]
     private async void DeleteStore(XamlRoot root)
     {
-        ContentDialog dialog = new()
+        ContentDialog deleteStoreDialog = new()
         {
             Title = "Delete Store",
             XamlRoot = root,
-            CloseButtonText = "Close",
-            DefaultButton = ContentDialogButton.Close,
             PrimaryButtonText = "Delete",
             SecondaryButtonText = "Cancel",
             Content = "Are you sure you want to delete the store?"
         };
 
-        await dialog.ShowAsync().AsTask();
+        ContentDialogResult dialogResult = await deleteStoreDialog.ShowAsync();
 
-        if (dialog.IsPrimaryButtonEnabled)
+        if (dialogResult == ContentDialogResult.Primary)
         {
             await App.PriceTrackerService.DeleteAsync(Selected);
 
             SampleItems.Clear();
 
             // TODO: Replace with real data.
-            var data = await _sampleDataService.GetListDetailsDataAsync();
+            var listDetailsData = await _sampleDataService.GetListDetailsDataAsync();
 
-            foreach (var item in data)
+            foreach (var item in listDetailsData)
             {
                 SampleItems.Add(item);
             }
