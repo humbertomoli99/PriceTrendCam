@@ -23,7 +23,18 @@ public class HtmlDocumentTests
         _htmlDocument = new HtmlDocument();
         _htmlDocument.LoadHtml(html);
     }
+    [TestMethod]
+    public void GetDocumentNode_ReturnsCorrectValue()
+    {
+        // Arrange
+        var expected = "Test Title";
 
+        // Act
+        var node = HtmlDocumentService.LoadPageAsync("https://www.google.com.mx/");
+
+        // Assert
+        Assert.IsNotNull(node);
+    }
     [TestMethod]
     public void GetMetaTitle_ReturnsCorrectValue()
     {
