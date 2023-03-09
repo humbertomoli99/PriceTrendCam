@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
@@ -50,20 +52,35 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
         }
     }
     [RelayCommand]
-    private async void DeleteStore()
+    private async void DeleteStore(XamlRoot root)
     {
-        //TODO: CONFIRMAR ELIMINAR LA STORE PARA QUE NO SE BORRE INSTANTANEAMENTE
-        await App.PriceTrackerService.DeleteAsync(Selected);
-
-        SampleItems.Clear();
-
-        // TODO: Replace with real data.
-        var data = await _sampleDataService.GetListDetailsDataAsync();
-
-        foreach (var item in data)
+        ContentDialog dialog = new()
         {
-            SampleItems.Add(item);
+            Title = "Delete Store",
+            XamlRoot = root,
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close,
+            PrimaryButtonText = "Delete",
+            SecondaryButtonText = "Cancel",
+            Content = "Are you sure you want to delete the store?"
+        };
+
+        await dialog.ShowAsync().AsTask();
+
+        if (dialog.IsPrimaryButtonEnabled)
+        {
+            await App.PriceTrackerService.DeleteAsync(Selected);
+
+            SampleItems.Clear();
+
+            // TODO: Replace with real data.
+            var data = await _sampleDataService.GetListDetailsDataAsync();
+
+            foreach (var item in data)
+            {
+                SampleItems.Add(item);
+            }
+            EnsureItemSelected();
         }
-        EnsureItemSelected();
     }
 }
