@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.ViewModels;
 
-public class SitemapListViewModel : ObservableRecipient, INavigationAware
+public partial class SitemapListViewModel : ObservableRecipient, INavigationAware
 {
     private readonly ISampleDataService<Store> _sampleDataService;
     private Store? _selected;
@@ -47,5 +48,22 @@ public class SitemapListViewModel : ObservableRecipient, INavigationAware
         {
             Selected = SampleItems.FirstOrDefault<Store>();
         }
+    }
+    [RelayCommand]
+    private async void DeleteStore()
+    {
+        //TODO: CONFIRMAR ELIMINAR LA STORE PARA QUE NO SE BORRE INSTANTANEAMENTE
+        await App.PriceTrackerService.DeleteAsync(Selected);
+
+        SampleItems.Clear();
+
+        // TODO: Replace with real data.
+        var data = await _sampleDataService.GetListDetailsDataAsync();
+
+        foreach (var item in data)
+        {
+            SampleItems.Add(item);
+        }
+        EnsureItemSelected();
     }
 }
