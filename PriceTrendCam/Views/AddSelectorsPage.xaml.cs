@@ -229,7 +229,8 @@ public sealed partial class AddSelectorsPage : Page
         // Analizar la cadena JSON en una lista de strings
         _selectorsTree = JsonSerializer.Deserialize<List<string>>(json);
 
-        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
+        if (_selectorsTree == null) return;
+        if (_selectorsTree.Count == 0) return;
 
         // Actualiza el cuadro de texto con el selector CSS
         TxtSelectedElement.Text = cssSelector;
