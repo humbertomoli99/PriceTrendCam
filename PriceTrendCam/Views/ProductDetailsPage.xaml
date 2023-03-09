@@ -120,7 +120,8 @@
                     <!-- Button functionality to be implemented by developer -->
                     <AppBarButton
                         Icon="Delete"
-                        Label="Delete" />
+                        Label="Delete"
+                        Command="{x:Bind ViewModel.DeleteProductCommand}"/>
                     <AppBarButton
                         Icon="Edit"
                         Label="Edit" />
