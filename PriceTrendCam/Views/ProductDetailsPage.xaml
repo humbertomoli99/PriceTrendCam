@@ -121,7 +121,8 @@
                     <AppBarButton
                         Icon="Delete"
                         Label="Delete"
-                        Command="{x:Bind ViewModel.DeleteProductCommand}"/>
+                        Command="{x:Bind ViewModel.DeleteProductCommand}"
+                        CommandParameter="{x:Bind XamlRoot}" />
                     <AppBarButton
                         Icon="Edit"
                         Label="Edit" />
