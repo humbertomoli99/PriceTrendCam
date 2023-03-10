@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
@@ -13,6 +14,7 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
 {
     private readonly ISampleDataService<Store> _sampleDataService;
     private Store? _selected;
+    private readonly INavigationService navigationService;
 
     public Store? Selected
     {
@@ -28,9 +30,10 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
 
     public ObservableCollection<Store> SampleItems { get; private set; } = new ObservableCollection<Store>();
 
-    public SitemapListViewModel(ISampleDataService<Store> sampleDataService)
+    public SitemapListViewModel(ISampleDataService<Store> sampleDataService, INavigationService navigationService)
     {
         _sampleDataService = sampleDataService;
+        this.navigationService = navigationService;
         StartIndex = 0;
     }
     public async Task OnNavigatedTo(object parameter)
@@ -56,6 +59,12 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
         {
             Selected = SampleItems.FirstOrDefault<Store>();
         }
+    }
+
+    [RelayCommand]
+    private async void EditStore()
+    {
+        navigationService.NavigateTo(typeof(AddSelectorsViewModel).FullName!, Selected.Id);
     }
     [RelayCommand]
     private async void DeleteStore(XamlRoot root)

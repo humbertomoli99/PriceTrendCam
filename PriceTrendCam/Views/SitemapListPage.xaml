@@ -173,7 +173,8 @@
                         Command="{x:Bind ViewModel.DeleteStoreCommand}" CommandParameter="{x:Bind XamlRoot}" />
                     <AppBarButton
                         Icon="Edit"
-                        Label="Edit" />
+                        Label="Edit"
+                        Command="{x:Bind ViewModel.EditStoreCommand}" />
                 </CommandBar>
             </controls:ListDetailsView.DetailsCommandBar>
         </controls:ListDetailsView>
