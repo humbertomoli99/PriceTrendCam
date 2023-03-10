@@ -168,6 +168,7 @@ public sealed partial class AddSelectorsPage : Page
     {
         if (_selectionModeIsActive)
         {
+            SelectButton.IsChecked = true;
             _elementPreviewModeIsActive = false;
             ElementPreviewButton.IsChecked = false;
             ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -185,6 +186,7 @@ public sealed partial class AddSelectorsPage : Page
         }
         else
         {
+            SelectButton.IsChecked = false;
             _selectionModeIsActive = true;
             // Activar los enlaces
             await ExecuteScriptAsync(@"toggleLinks(true)");
