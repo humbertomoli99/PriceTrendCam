@@ -496,7 +496,7 @@ public class SampleDataService : ISampleDataService<SampleOrder>
         };
     }
 
-    public async Task<IEnumerable<SampleOrder>> GetContentGridDataAsync()
+    public async Task<IEnumerable<SampleOrder>> GetContentGridDataAsync(int count = 10, int startIndex = 0)
     {
         if (_allOrders == null)
         {
@@ -507,7 +507,7 @@ public class SampleDataService : ISampleDataService<SampleOrder>
         return _allOrders;
     }
 
-    public async Task<IEnumerable<SampleOrder>> GetGridDataAsync()
+    public async Task<IEnumerable<SampleOrder>> GetGridDataAsync(int count = 10, int startIndex = 0)
     {
         if (_allOrders == null)
         {
@@ -518,7 +518,7 @@ public class SampleDataService : ISampleDataService<SampleOrder>
         return _allOrders;
     }
 
-    public async Task<IEnumerable<SampleOrder>> GetListDetailsDataAsync()
+    public async Task<IEnumerable<SampleOrder>> GetListDetailsDataAsync(int count = 10, int startIndex = 0)
     {
         if (_allOrders == null)
         {

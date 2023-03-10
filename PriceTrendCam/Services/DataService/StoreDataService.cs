@@ -17,18 +17,18 @@ public class StoreDataService : ISampleDataService<Store>
         return data.AsEnumerable();
     }
 
-    public async Task<IEnumerable<Store>> GetContentGridDataAsync()
+    public async Task<IEnumerable<Store>> GetContentGridDataAsync(int count = 10, int startIndex = 0)
     {
         _allProducts = new List<Store>(await AllProducts());
         return _allProducts;
     }
 
-    public async Task<IEnumerable<Store>> GetGridDataAsync()
+    public async Task<IEnumerable<Store>> GetGridDataAsync(int count = 10, int startIndex = 0)
     {
         _allProducts = new List<Store>(await AllProducts());
         return _allProducts;
     }
-    public async Task<IEnumerable<Store>> GetListDetailsDataAsync()
+    public async Task<IEnumerable<Store>> GetListDetailsDataAsync(int count = 10, int startIndex = 0)
     {
         _allProducts = new List<Store>(await AllProducts());
         return _allProducts;
