@@ -143,10 +143,12 @@
                     <!-- Button functionality to be implemented by developer -->
                     <AppBarButton
                         Icon="Back"
-                        Label="Back" />
+                        Label="Back"
+                        Command="{x:Bind ViewModel.BackCommand}"/>
                     <AppBarButton
                         Icon="Forward"
-                        Label="Forward" />
+                        Label="Forward"
+                        Command="{x:Bind ViewModel.ForwardCommand}"/>
                     <CommandBar.Content>
                         <TextBlock
                             Margin="12,14">
@@ -154,6 +156,10 @@
                                 Text="{x:Bind ViewModel.SampleItems.Count, Mode=OneWay}" />
                       <Run
                                 Text="Items" />
+                      <Run
+                                Text="Page" />
+                      <Run
+                                Text="{x:Bind ViewModel.StartIndex, Mode=OneWay}" />
                         </TextBlock>
                     </CommandBar.Content>
                 </CommandBar>

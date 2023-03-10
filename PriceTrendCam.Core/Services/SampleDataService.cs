@@ -18,11 +18,11 @@ public class SampleDataService : ISampleDataService<SampleOrder>
     {
     }
 
-    private static IEnumerable<SampleOrder> AllOrders()
+    private static Task<IEnumerable<SampleOrder>> AllOrders()
     {
         // The following is order summary data
         var companies = AllCompanies();
-        return companies.SelectMany(c => c.Orders);
+        return (Task<IEnumerable<SampleOrder>>)companies.SelectMany(c => c.Orders);
     }
 
     private static IEnumerable<SampleCompany> AllCompanies()
@@ -500,7 +500,7 @@ public class SampleDataService : ISampleDataService<SampleOrder>
     {
         if (_allOrders == null)
         {
-            _allOrders = new List<SampleOrder>(AllOrders());
+            _allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
         }
 
         await Task.CompletedTask;
@@ -511,7 +511,7 @@ public class SampleDataService : ISampleDataService<SampleOrder>
     {
         if (_allOrders == null)
         {
-            _allOrders = new List<SampleOrder>(AllOrders());
+            _allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
         }
 
         await Task.CompletedTask;
@@ -522,10 +522,22 @@ public class SampleDataService : ISampleDataService<SampleOrder>
     {
         if (_allOrders == null)
         {
-            _allOrders = new List<SampleOrder>(AllOrders());
+            _allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
         }
 
         await Task.CompletedTask;
         return _allOrders;
+    }
+
+    public Task<int> GetMaxPageCountAsync(int count = 10)
+    {
+        var allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
+        double totalOrders = allOrders.Count();
+        return Task.FromResult((int)Math.Ceiling(totalOrders / count));
+    }
+
+    public Task<int> GetMaxRecordCountAsync()
+    {
+        return AllOrders().ContinueWith(task => task.Result.Count());
     }
 }

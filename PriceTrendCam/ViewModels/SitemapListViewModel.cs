@@ -19,18 +19,24 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
         get => _selected;
         set => SetProperty(ref _selected, value);
     }
+    private int _startIndex;
+    public int StartIndex
+    {
+        get => _startIndex;
+        set => SetProperty(ref _startIndex, value);
+    }
 
     public ObservableCollection<Store> SampleItems { get; private set; } = new ObservableCollection<Store>();
 
     public SitemapListViewModel(ISampleDataService<Store> sampleDataService)
     {
         _sampleDataService = sampleDataService;
+        StartIndex = 0;
     }
     public async Task OnNavigatedTo(object parameter)
     {
         SampleItems.Clear();
 
-        // TODO: Replace with real data.
         var data = await _sampleDataService.GetListDetailsDataAsync();
 
         foreach (var item in data)
@@ -71,8 +77,7 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
 
             SampleItems.Clear();
 
-            // TODO: Replace with real data.
-            var listDetailsData = await _sampleDataService.GetListDetailsDataAsync();
+            var listDetailsData = await _sampleDataService.GetListDetailsDataAsync(startIndex: StartIndex);
 
             foreach (var item in listDetailsData)
             {
@@ -80,5 +85,49 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
             }
             EnsureItemSelected();
         }
+    }
+    [RelayCommand]
+    private async void Back()
+    {
+        if (StartIndex <= 0)
+        {
+            return;
+        }
+        else
+        {
+            StartIndex--;
+        }
+        SampleItems.Clear();
+
+        var data = await _sampleDataService.GetListDetailsDataAsync(count: 10, startIndex: StartIndex);
+
+        foreach (var item in data)
+        {
+            SampleItems.Add(item);
+        }
+        EnsureItemSelected();
+    }
+    [RelayCommand]
+    private async void Forward()
+    {
+        var DataMaxCount = await _sampleDataService.GetMaxPageCountAsync() - 1;
+
+        if (StartIndex >= DataMaxCount)
+        {
+            return;
+        }
+        else
+        {
+            StartIndex++;
+        }
+
+        SampleItems.Clear();
+        var data = await _sampleDataService.GetListDetailsDataAsync(count: 10, startIndex: StartIndex);
+
+        foreach (var item in data)
+        {
+            SampleItems.Add(item);
+        }
+        EnsureItemSelected();
     }
 }
