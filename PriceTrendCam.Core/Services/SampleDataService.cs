@@ -18,14 +18,14 @@ public class SampleDataService : ISampleDataService<SampleOrder>
     {
     }
 
-    private static Task<IEnumerable<SampleOrder>> AllOrders()
+    private static async Task<IEnumerable<SampleOrder>> AllOrders()
     {
         // The following is order summary data
-        var companies = AllCompanies();
-        return (Task<IEnumerable<SampleOrder>>)companies.SelectMany(c => c.Orders);
+        var companies = await AllCompaniesAsync().ConfigureAwait(false);
+        return companies.SelectMany(c => c.Orders);
     }
 
-    private static IEnumerable<SampleCompany> AllCompanies()
+    private static async Task<IEnumerable<SampleCompany>> AllCompaniesAsync()
     {
         return new List<SampleCompany>()
         {
@@ -496,37 +496,37 @@ public class SampleDataService : ISampleDataService<SampleOrder>
         };
     }
 
-    public async Task<IEnumerable<SampleOrder>> GetContentGridDataAsync(int count = 10, int startIndex = 0)
+    public async Task<IEnumerable<SampleOrder>> GetContentGridDataAsync(int count = 10, int pageIndex = 0)
     {
-        if (_allOrders == null)
-        {
-            _allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
-        }
-
-        await Task.CompletedTask;
-        return _allOrders;
+        _allOrders = new List<SampleOrder>(await AllOrders());
+        int startIndex = pageIndex * count;
+        return _allOrders.Skip(startIndex).Take(count);
     }
 
-    public async Task<IEnumerable<SampleOrder>> GetGridDataAsync(int count = 10, int startIndex = 0)
+    public async Task<IEnumerable<SampleOrder>> GetGridDataAsync(int count = 10, int pageIndex = 0)
     {
-        if (_allOrders == null)
-        {
-            _allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
-        }
-
-        await Task.CompletedTask;
-        return _allOrders;
+        _allOrders = new List<SampleOrder>(await AllOrders());
+        int startIndex = pageIndex * count;
+        return _allOrders.Skip(startIndex).Take(count);
     }
 
-    public async Task<IEnumerable<SampleOrder>> GetListDetailsDataAsync(int count = 10, int startIndex = 0)
+    public async Task<IEnumerable<SampleOrder>> GetListDetailsDataAsync(int count = 10, int pageIndex = 0)
     {
-        if (_allOrders == null)
-        {
-            _allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
-        }
+        _allOrders = new List<SampleOrder>(await AllOrders());
+        int startIndex = pageIndex * count;
+        return _allOrders.Skip(startIndex).Take(count);
+    }
 
-        await Task.CompletedTask;
-        return _allOrders;
+    public Task<int> GetMaxPageCountAsync(int count = 10)
+    {
+        var allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
+        double totalOrders = allOrders.Count();
+        return Task.FromResult((int)Math.Ceiling(totalOrders / count));
+    }
+
+    public Task<int> GetMaxRecordCountAsync()
+    {
+        return AllOrders().ContinueWith(task => task.Result.Count());
     }
 
     public Task<int> GetMaxPageCountAsync(int count = 10)
