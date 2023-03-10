@@ -528,16 +528,4 @@ public class SampleDataService : ISampleDataService<SampleOrder>
     {
         return AllOrders().ContinueWith(task => task.Result.Count());
     }
-
-    public Task<int> GetMaxPageCountAsync(int count = 10)
-    {
-        var allOrders = new List<SampleOrder>((IEnumerable<SampleOrder>)AllOrders());
-        double totalOrders = allOrders.Count();
-        return Task.FromResult((int)Math.Ceiling(totalOrders / count));
-    }
-
-    public Task<int> GetMaxRecordCountAsync()
-    {
-        return AllOrders().ContinueWith(task => task.Result.Count());
-    }
 }
