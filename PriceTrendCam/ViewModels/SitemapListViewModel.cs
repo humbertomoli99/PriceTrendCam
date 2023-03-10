@@ -66,7 +66,8 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
             XamlRoot = root,
             PrimaryButtonText = "Delete",
             SecondaryButtonText = "Cancel",
-            Content = "Are you sure you want to delete the store?"
+            DefaultButton = ContentDialogButton.Primary,
+        Content = "Are you sure you want to delete the store?"
         };
 
         ContentDialogResult dialogResult = await deleteStoreDialog.ShowAsync();

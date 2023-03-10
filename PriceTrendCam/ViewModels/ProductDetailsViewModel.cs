@@ -76,6 +76,7 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
             XamlRoot = root,
             PrimaryButtonText = "Delete",
             SecondaryButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
             Content = "Are you sure you want to delete the Product?"
         };
 
