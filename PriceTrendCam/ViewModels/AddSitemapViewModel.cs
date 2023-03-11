@@ -5,7 +5,6 @@ using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
-using PriceTrendCam.Views;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -30,6 +29,10 @@ public partial class AddSitemapViewModel : ObservableValidator
 
     [ObservableProperty]
     private string textBoxStoreName;
+
+    [ObservableProperty]
+    private string selectedWebBrowserDrive;
+
     private string message;
 
     public List<string> TextBoxUrls
@@ -61,10 +64,11 @@ public partial class AddSitemapViewModel : ObservableValidator
             Name = textBoxStoreName,
             Favicon = favicon,
             Selectors = new List<Selector>(),
-            Urls = ListUrls
+            Urls = ListUrls,
+            DriveWebBrowser = selectedWebBrowserDrive
         };
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
-        
+
         // Limpiar valores y llamar a eventos de formulario
         ClearFormValues();
         FormSubmissionCompleted?.Invoke(this, EventArgs.Empty);
@@ -76,7 +80,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     private async Task<bool> ValidateForm()
     {
         message = string.Empty;
-        
+
         var tasks = TextBoxUrls.Select(async url => await Url.IsValid(url)).ToList();
         await Task.WhenAll(tasks);
 
@@ -84,7 +88,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var hasEmptyName = string.IsNullOrEmpty(textBoxStoreName);
         var hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
 
-        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls)
+        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || SelectedWebBrowserDrive == null)
         {
             if (hasEmptyName)
             {
@@ -97,6 +101,10 @@ public partial class AddSitemapViewModel : ObservableValidator
             else if (hasInvalidUrls)
             {
                 message += "Invalid Url\n";
+            }
+            if (SelectedWebBrowserDrive == null)
+            {
+                message += "Select a web browser to track your product information\n";
             }
             ClearFormValues();
             return false;

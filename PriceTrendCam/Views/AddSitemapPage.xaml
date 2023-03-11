@@ -99,6 +99,7 @@
                                 <ComboBox
                                     Header="Web Browser Drive"
                                     PlaceholderText="Pick a Web Drive"
+                                    SelectedItem="{x:Bind ViewModel.SelectedWebBrowserDrive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="200">
                                     <x:String>Internet Explorer</x:String>
                                     <x:String>Mozilla Firefox</x:String>
