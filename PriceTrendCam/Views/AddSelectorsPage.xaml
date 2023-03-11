@@ -181,6 +181,8 @@
                             Height="Auto" />
                         <RowDefinition
                             Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <StackPanel
@@ -255,8 +257,6 @@
                         Grid.Row="5"
                         Margin="0,5" />
 
-
-
                     <Button
                         x:Name="DataPreviewButton"
                         Content="Data Preview"
@@ -264,10 +264,14 @@
                         Click="DataPreviewButton_Click"
                         Grid.Row="6" />
                     
+                    <ListBox
+                        Grid.Row="7"
+                        Height="164" />
+                    
                     <StackPanel
                         Orientation="Horizontal"
                         Margin="0,5"
-                        Grid.Row="7">
+                        Grid.Row="8">
                         <Button
                             x:Name="SaveButton"
                             Content="Save Selector"

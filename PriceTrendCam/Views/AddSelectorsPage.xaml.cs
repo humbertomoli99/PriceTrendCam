@@ -56,7 +56,7 @@ public sealed partial class AddSelectorsPage : Page
         _showElementPreview = true;
         _selectedCssSelector = string.Empty;
         _messagePreviewSelectorValue = string.Empty;
-        _elementPreviewModeIsActive = false;
+        _elementPreviewModeIsActive = true;
         _selectionModeIsActive = true;
         AttributesComboBox = new ObservableCollection<string>();
         InitializeTypeDataComboBox();
