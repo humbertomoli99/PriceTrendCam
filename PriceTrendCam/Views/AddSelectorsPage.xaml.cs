@@ -1,8 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using PriceTrendCam.Core.Helpers;
+using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -258,6 +261,9 @@ public sealed partial class AddSelectorsPage : Page
         var scriptFile = await StorageFile.GetFileFromPathAsync(scriptFilePath);
         var scriptContent = await FileIO.ReadTextAsync(scriptFile);
         await ExecuteScriptAsync(scriptContent);
+
+        AddressBar.Text = sender.Source.ToString();
+
         // Establecer la variable de estado en verdadero
         isWebViewReady = true;
     }
@@ -350,5 +356,10 @@ public sealed partial class AddSelectorsPage : Page
         await ExecuteScriptAsync(scriptContent);
         // Establecer la variable de estado en verdadero
         isWebViewReady = true;
+    }
+    private async void AddressBar_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        AddressBar.Text = await Url.GetRedirectUrl(await Url.NormalizeUrl(AddressBar.Text));
+        WebView.Source = new Uri(AddressBar.Text);
     }
 }

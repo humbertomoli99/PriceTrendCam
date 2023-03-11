@@ -76,9 +76,11 @@
                     <AutoSuggestBox
                         HorizontalAlignment="Stretch"
                         Grid.Column="3"
+                        x:Name="AddressBar"
                         Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                         Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
                         PlaceholderText="Write a web address"
+                        QuerySubmitted="AddressBar_QuerySubmitted"
                         QueryIcon="Find" />
                     <Button
                         x:Uid="OpenInBrowserButton"
