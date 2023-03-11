@@ -78,7 +78,7 @@
                         Grid.Column="3"
                         Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                         Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
-                        PlaceholderText="https://"
+                        PlaceholderText="Write a web address"
                         QueryIcon="Find" />
                     <Button
                         x:Uid="OpenInBrowserButton"
