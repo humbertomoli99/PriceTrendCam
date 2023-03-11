@@ -183,6 +183,8 @@
                             Height="Auto" />
                         <RowDefinition
                             Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <StackPanel
@@ -225,7 +227,7 @@
                         <ToggleButton
                             x:Name="ElementPreviewButton"
                             Content="Element Preview"
-                            Margin="0,0,10,0"
+                            Margin="{StaticResource XSmallTopBottomMargin}"
                             Click="ElementPreviewButton_Click"
                             Grid.Column="1" />
                     </Grid>
@@ -233,6 +235,7 @@
                     <TextBox
                         x:Name="SelectorTextBox"
                         HorizontalAlignment="Stretch"
+                        Header="JavaScript Path:"
                         Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         TextChanged="SelectorTextBox_TextChanged"
                         Margin="0,5"
@@ -243,35 +246,43 @@
                         IsEditable="True"
                         ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
                         SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Header="Get Attribute"
+                        Header="Get Attribute:"
                         Loaded="GetAttributeComboBox_Loaded"
                         Grid.Row="4"
                         Margin="0,5">
                     </ComboBox>
 
                     <TextBox
-                        x:Name="RegexTextBox"
+                        x:Name="PatternTextBox"
                         Text="{x:Bind ViewModel.RegexTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        PlaceholderText="Regular Expression"
-                        Header="Regex:"
+                        PlaceholderText="Pattern"
+                        Header="Pattern:"
                         Grid.Row="5"
                         Margin="0,5" />
 
+                    <TextBox
+                        x:Name="ReplacementTextBox"
+                        Text="{x:Bind ViewModel.RegexTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        PlaceholderText="Replacement"
+                        Header="Replacement:"
+                        Grid.Row="6"
+                        Margin="0,5" />
+                    
                     <Button
                         x:Name="DataPreviewButton"
                         Content="Data Preview"
-                        Margin="0,0,10,0"
+                        Margin="{StaticResource XSmallTopBottomMargin}"
                         Click="DataPreviewButton_Click"
-                        Grid.Row="6" />
+                        Grid.Row="7" />
                     
                     <ListBox
-                        Grid.Row="7"
+                        Grid.Row="8"
                         Height="164" />
                     
                     <StackPanel
                         Orientation="Horizontal"
-                        Margin="0,5"
-                        Grid.Row="8">
+                        Margin="{StaticResource XSmallTopBottomMargin}"
+                        Grid.Row="9">
                         <Button
                             x:Name="SaveButton"
                             Content="Save Selector"

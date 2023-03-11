@@ -116,10 +116,10 @@ public sealed partial class AddSelectorsPage : Page
             "data-linktype" => "dataset.linktype",
             _ => GetAttributeComboBox.Text
         };
-        if (!string.IsNullOrWhiteSpace(RegexTextBox.Text))
+        if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
         {
             var input = await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
-            var pattern = RegexTextBox.Text;
+            var pattern = PatternTextBox.Text;
             var regex = new Regex(pattern);
 
             Match match = regex.Match(input);
