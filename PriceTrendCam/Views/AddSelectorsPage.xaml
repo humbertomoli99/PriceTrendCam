@@ -23,45 +23,14 @@
                 Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
                         Height="*" />
                     <RowDefinition
                         Height="Auto" />
                 </Grid.RowDefinitions>
-
-                <WebView2
-                    x:Name="WebView"
-                    PointerPressed="WebView_PointerPressed"
-                    PointerMoved="WebView_PointerMoved"
-                    NavigationCompleted="WebView_NavigationCompleted"
-                    NavigationStarting="WebView_NavigationStarting"
-                    Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}">
-                    <ProgressRing
-                        IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
-                    <TextBlock
-                        x:Uid="WebView_Loading" />
-                </StackPanel>
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Visibility="{x:Bind ViewModel.HasFailures, Mode=OneWay}">
-                    <TextBlock
-                        x:Uid="WebView_FailedMessage"
-                        HorizontalAlignment="Center"
-                        TextWrapping="WrapWholeWords" />
-                    <HyperlinkButton
-                        x:Uid="WebView_Reload"
-                        Command="{x:Bind ViewModel.ReloadCommand}"
-                        HorizontalAlignment="Center" />
-                </StackPanel>
-
                 <Grid
-                    Grid.Row="1">
+                    Grid.Row="0">
                     <StackPanel
                         Orientation="Horizontal">
                         <Button
@@ -82,6 +51,66 @@
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Glyph="&#xE72A;" />
                         </Button>
+                        <Button
+                            x:Uid="ReloadButton"
+                            Command="{x:Bind ViewModel.ReloadCommand}"
+                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
+                            <FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Glyph="&#xE72C;" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                        <Button
+                            x:Uid="OpenInBrowserButton"
+                            Command="{x:Bind ViewModel.OpenInBrowserCommand}"
+                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
+                            <FontIcon
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                Glyph="&#xE774;" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid
+                    Grid.Row="1">
+                    <WebView2
+                        x:Name="WebView"
+                        PointerPressed="WebView_PointerPressed"
+                        PointerMoved="WebView_PointerMoved"
+                        NavigationCompleted="WebView_NavigationCompleted"
+                        NavigationStarting="WebView_NavigationStarting"
+                        Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}">
+                        <ProgressRing
+                            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+                        <TextBlock
+                            x:Uid="WebView_Loading" />
+                    </StackPanel>
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="{x:Bind ViewModel.HasFailures, Mode=OneWay}">
+                        <TextBlock
+                            x:Uid="WebView_FailedMessage"
+                            HorizontalAlignment="Center"
+                            TextWrapping="WrapWholeWords" />
+                        <HyperlinkButton
+                            x:Uid="WebView_Reload"
+                            Command="{x:Bind ViewModel.ReloadCommand}"
+                            HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <StackPanel
+                        Orientation="Horizontal">
                         <Button
                             x:Name="ParentButton"
                             Content="Parent"
@@ -109,28 +138,6 @@
                             x:Name="TxtSelectedElement"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                             Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
-                    </StackPanel >
-                    <StackPanel
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                        <Button
-                            x:Uid="ReloadButton"
-                            Command="{x:Bind ViewModel.ReloadCommand}"
-                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
-                            <FontIcon
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Glyph="&#xE72C;" />
-                        </Button>
-                        <Button
-                            x:Uid="OpenInBrowserButton"
-                            Command="{x:Bind ViewModel.OpenInBrowserCommand}"
-                            Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
-                            <FontIcon
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Glyph="&#xE774;" />
-                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>
