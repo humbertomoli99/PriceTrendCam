@@ -179,19 +179,26 @@
                             Height="Auto" />
                         <RowDefinition
                             Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <ComboBox
-                        x:Name="GetTypeDataComboBox"
-                        Header="Type:"
-                        ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
-                        SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Grid.Row="0"
-                        Loaded="GetTypeDataComboBox_Loaded"
-                        Margin="0,5">
-                    </ComboBox>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <ComboBox
+                            x:Name="GetTypeDataComboBox"
+                            Header="Type:"
+                            ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
+                            SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Grid.Row="0"
+                            Loaded="GetTypeDataComboBox_Loaded"
+                            Margin="0,5">
+                        </ComboBox>
+                        <CheckBox
+                            x:Name="IsNotNullCheckBox"
+                            Content="Not Null"
+                            VerticalAlignment="Bottom"
+                            Margin="{StaticResource SmallLeftRightMargin}"
+                            IsChecked="{x:Bind ViewModel.IsNotNullCheckBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
 
                     <TextBlock
                         Grid.Row="1">Selector:</TextBlock>
@@ -246,23 +253,19 @@
                         Grid.Row="5"
                         Margin="0,5" />
 
-                    <CheckBox
-                        x:Name="IsNotNullCheckBox"
-                        Content="Not Null"
-                        IsChecked="{x:Bind ViewModel.IsNotNullCheckBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Grid.Row="6" />
+
 
                     <Button
                         x:Name="DataPreviewButton"
                         Content="Data Preview"
                         Margin="0,0,10,0"
                         Click="DataPreviewButton_Click"
-                        Grid.Row="7" />
+                        Grid.Row="6" />
                     
                     <StackPanel
                         Orientation="Horizontal"
                         Margin="0,5"
-                        Grid.Row="8">
+                        Grid.Row="7">
                         <Button
                             x:Name="SaveButton"
                             Content="Save Selector"
