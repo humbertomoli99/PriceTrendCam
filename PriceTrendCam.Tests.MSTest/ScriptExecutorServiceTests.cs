@@ -95,4 +95,22 @@ public class ScriptExecutorServiceTests
         // Assert
         Assert.IsNotNull(engine.GetValue("moment"));
     }
+    [TestMethod]
+    public void ExecuteScript_MultipliesNumbers_ReturnsCorrectValue()
+    {
+        // Arrange
+        var engine = new Engine();
+        var script = @"
+            function multiply(a, b) {
+                return a * b;
+            }
+            multiply(3, 4);
+        ";
+
+        // Act
+        var result = ScriptExecutorService.ExecuteScript(script, engine).Result.ToString();
+
+        // Assert
+        Assert.AreEqual(12, int.Parse(result));
+    }
 }
