@@ -47,7 +47,7 @@
                         x:Uid="BrowserBackButton"
                         Grid.Column="0"
                         Command="{x:Bind ViewModel.BrowserBackCommand, Mode=OneWay}"
-                        Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                        Margin="{StaticResource XSmallTopBottomMargin}"
                         Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
                         <FontIcon
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
@@ -86,7 +86,7 @@
                         x:Uid="OpenInBrowserButton"
                         Grid.Column="4"
                         Command="{x:Bind ViewModel.OpenInBrowserCommand}"
-                        Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                        Margin="{StaticResource XSmallTopBottomMargin}"
                         Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
                         <FontIcon
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
