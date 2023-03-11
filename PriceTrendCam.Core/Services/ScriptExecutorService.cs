@@ -61,11 +61,11 @@ public class ScriptExecutorService
         // Execute each script in order
         foreach (var script in scripts)
         {
-            await ExecuteScript(script, engine);
+            await ExecuteScriptAsync(script, engine);
         }
     }
 
-    public static async Task<object> ExecuteScript(string script, Engine engine)
+    public static async Task<object> ExecuteScriptAsync(string script, Engine engine)
     {
         // Provide a custom implementation of the console object to Jint
         engine.SetValue("console", new CustomConsole());

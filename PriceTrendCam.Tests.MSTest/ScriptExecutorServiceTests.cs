@@ -58,7 +58,7 @@ public class ScriptExecutorServiceTests
         var script = "console.log('Hello, world!');";
 
         // Act
-        await ScriptExecutorService.ExecuteScript(script, engine);
+        await ScriptExecutorService.ExecuteScriptAsync(script, engine);
 
         // Assert
         // We can't actually test the console output, but we can check that the script ran without errors
@@ -90,7 +90,7 @@ public class ScriptExecutorServiceTests
         Engine engine = new Engine();
 
         // Act
-        await ScriptExecutorService.ExecuteScript(script, engine);
+        await ScriptExecutorService.ExecuteScriptAsync(script, engine);
 
         // Assert
         Assert.IsNotNull(engine.GetValue("moment"));
@@ -108,7 +108,7 @@ public class ScriptExecutorServiceTests
         ";
 
         // Act
-        var result = ScriptExecutorService.ExecuteScript(script, engine).Result.ToString();
+        var result = ScriptExecutorService.ExecuteScriptAsync(script, engine).Result.ToString();
 
         // Assert
         Assert.AreEqual(12, int.Parse(result));
