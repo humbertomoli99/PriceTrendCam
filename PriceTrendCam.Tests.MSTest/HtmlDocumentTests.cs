@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Jint;
 using PriceTrendCam.Core.Services;
 
 namespace PriceTrendCam.Tests.MSTest;
@@ -222,18 +223,32 @@ public class HtmlDocumentTests
         public async Task ExecuteJavaScriptAsync_ShouldReturnExpectedOutput()
         {
             // Arrange
-            //var html = "<html><head><title>Test page</title></head><body><script>var x = 1 + 2;</script></body></html>";
-            //var documentNode = HtmlNode.CreateNode(html);
             var script = "document.querySelector('meta[property=\"og:site_name\"]').content";
             var script2 = $"document.querySelector('meta[property=\"og:site_name\"]').content";
 
-            var documentNode = await HtmlDocumentService.LoadPageAsync("https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Enfriamiento-y-Ventilacion/Disipadores-para-CPU/Disipador-CPU-be-quiet-Dark-Rock-Pro-4-120-135mm-1500RPM-Negro.html");
+            var url = "https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Enfriamiento-y-Ventilacion/Disipadores-para-CPU/Disipador-CPU-be-quiet-Dark-Rock-Pro-4-120-135mm-1500RPM-Negro.html";
+            
+            var scriptExecutor = new ScriptExecutorService();
 
-            // Act
-            var result = await HtmlDocumentService.ExecuteJavaScriptAsync(documentNode, script);
+            // Get the HTML of the website
+            var html = scriptExecutor.GetHtmlFromSite(url).Result;
+
+            // Create an HTML document and load the website's HTML
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            // Get the root node of the HTML document
+            var siteNode = scriptExecutor.GetRootOfHtml(doc);
+
+            // Execute the website's scripts
+            await scriptExecutor.ExecuteSiteScripts(siteNode);
+
+
+
+            var result2 = await scriptExecutor.ExecuteScriptAsync(script);
 
             // Assert
-            Assert.AreEqual("3", result);
+            Assert.AreEqual("3", result2.ToString());
         }
     }
 }
