@@ -149,7 +149,10 @@ public sealed partial class AddSelectorsPage : Page
             await ExecuteScriptAsync(@"toggleLinks(false)");//desactivar los enlaces
             await ExecuteScriptAsync(@"toggleSvg(true)");
             await ExecuteScriptAsync(@"isMarginActive = true;");
-            if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
+
+            if (_selectorsTree == null) return;
+            if (_selectorsTree.Count == 0) return;
+
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
 
         }
@@ -181,7 +184,10 @@ public sealed partial class AddSelectorsPage : Page
             await ExecuteScriptAsync(@"toggleSvg(true)");
             await ExecuteScriptAsync(@"isMarginActive = true;");
             _selectionModeIsActive = false;
-            if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
+
+            if (_selectorsTree == null) return;
+            if (_selectorsTree.Count == 0) return;
+
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
         }
         else
@@ -304,7 +310,9 @@ public sealed partial class AddSelectorsPage : Page
 
         _selectionModeIsActive = true;
 
-        if (_selectorsTree.Count == 0 || _selectorsTree == null) return;
+        if (_selectorsTree == null) return;
+        if (_selectorsTree.Count == 0) return;
+
         SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
         _selectedCssSelector = _selectorsTree[_activeSelection];
         ViewModel.selectedCssSelector = _selectedCssSelector;
