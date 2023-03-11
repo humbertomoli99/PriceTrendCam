@@ -67,7 +67,7 @@
                         x:Uid="ReloadButton"
                         Grid.Column="2"
                         Command="{x:Bind ViewModel.ReloadCommand}"
-                        Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
+                        Margin="{StaticResource XSmallTopBottomMargin}"
                         Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
                         <FontIcon
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
