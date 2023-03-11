@@ -10,10 +10,11 @@ public class ScriptExecutorServiceTests
     public async Task GetHtmlFromSite_ReturnsNonEmptyString()
     {
         // Arrange
+        var scriptExecutor = new ScriptExecutorService();
         var url = "https://www.example.com";
 
         // Act
-        var html = await ScriptExecutorService.GetHtmlFromSite(url);
+        var html = await scriptExecutor.GetHtmlFromSite(url);
 
         // Assert
         Assert.IsFalse(string.IsNullOrEmpty(html));
@@ -23,11 +24,12 @@ public class ScriptExecutorServiceTests
     public void GetRootOfHtml_ReturnsRootNode()
     {
         // Arrange
+        var scriptExecutor = new ScriptExecutorService();
         var doc = new HtmlDocument();
         doc.LoadHtml("<html><head></head><body></body></html>");
 
         // Act
-        var rootNode = ScriptExecutorService.GetRootOfHtml(doc);
+        var rootNode = scriptExecutor.GetRootOfHtml(doc);
 
         // Assert
         Assert.AreEqual("#document", rootNode.Name);
@@ -37,13 +39,14 @@ public class ScriptExecutorServiceTests
     public void GetScriptsFromHtmlNode_ReturnsListOfScripts()
     {
         // Arrange
+        var scriptExecutor = new ScriptExecutorService();
         var html = "<html><head></head><body><script>console.log('Hello, world!');</script></body></html>";
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
-        var rootNode = ScriptExecutorService.GetRootOfHtml(doc);
+        var rootNode = scriptExecutor.GetRootOfHtml(doc);
 
         // Act
-        var scripts = ScriptExecutorService.GetScriptsFromHtmlNode(rootNode);
+        var scripts = scriptExecutor.GetScriptsFromHtmlNode(rootNode);
 
         // Assert
         Assert.AreEqual(1, scripts.Count);
@@ -54,11 +57,11 @@ public class ScriptExecutorServiceTests
     public async Task ExecuteScript_ExecutesScript()
     {
         // Arrange
-        var engine = new Engine();
+        var scriptExecutor = new ScriptExecutorService();
         var script = "console.log('Hello, world!');";
 
         // Act
-        await ScriptExecutorService.ExecuteScriptAsync(script, engine);
+        await scriptExecutor.ExecuteScriptAsync(script);
 
         // Assert
         // We can't actually test the console output, but we can check that the script ran without errors
@@ -69,13 +72,15 @@ public class ScriptExecutorServiceTests
     public async Task ExecuteSiteScripts_ExecutesAllScripts()
     {
         // Arrange
+        var scriptExecutor = new ScriptExecutorService();
         var html = "<html><head></head><body><script>console.log('Hello, world!');</script><script>console.log('Goodbye, world!');</script></body></html>";
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
-        var rootNode = ScriptExecutorService.GetRootOfHtml(doc);
+
+        var rootNode = scriptExecutor.GetRootOfHtml(doc);
 
         // Act
-        await ScriptExecutorService.ExecuteSiteScripts(rootNode);
+        await scriptExecutor.ExecuteSiteScripts(rootNode);
 
         // Assert
         // We can't actually test the console output, but we can check that both scripts ran without errors
@@ -86,11 +91,12 @@ public class ScriptExecutorServiceTests
     public async Task ExecuteScript_ExecutesExternalScript()
     {
         // Arrange
+        var scriptExecutor = new ScriptExecutorService();
         string script = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js\"></script>";
         Engine engine = new Engine();
 
         // Act
-        await ScriptExecutorService.ExecuteScriptAsync(script, engine);
+        await scriptExecutor.ExecuteScriptAsync(script);
 
         // Assert
         Assert.IsNotNull(engine.GetValue("moment"));
@@ -99,7 +105,8 @@ public class ScriptExecutorServiceTests
     public void ExecuteScript_MultipliesNumbers_ReturnsCorrectValue()
     {
         // Arrange
-        var engine = new Engine();
+        var scriptExecutor = new ScriptExecutorService();
+
         var script = @"
             function multiply(a, b) {
                 return a * b;
@@ -108,7 +115,7 @@ public class ScriptExecutorServiceTests
         ";
 
         // Act
-        var result = ScriptExecutorService.ExecuteScriptAsync(script, engine).Result.ToString();
+        var result = scriptExecutor.ExecuteScriptAsync(script).Result.ToString();
 
         // Assert
         Assert.AreEqual(12, int.Parse(result));
