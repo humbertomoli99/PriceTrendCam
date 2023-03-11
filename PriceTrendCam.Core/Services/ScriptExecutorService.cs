@@ -65,7 +65,7 @@ public class ScriptExecutorService
         }
     }
 
-    public static async Task ExecuteScript(string script, Engine engine)
+    public static async Task<object> ExecuteScript(string script, Engine engine)
     {
         // Provide a custom implementation of the console object to Jint
         engine.SetValue("console", new CustomConsole());
@@ -81,14 +81,14 @@ public class ScriptExecutorService
             {
                 var response = await httpClient.GetAsync(url);
                 var content = await response.Content.ReadAsStringAsync();
-                engine.Execute(content);
+                return engine.Execute(content).GetCompletionValue();
             }
         }
         else
         {
             // The script is contained within the HTML page
             script = script.Replace("<script>", "").Replace("</script>", "");
-            engine.Execute(script);
+            return engine.Execute(script).GetCompletionValue();
         }
     }
 
