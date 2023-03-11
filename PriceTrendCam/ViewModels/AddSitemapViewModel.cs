@@ -88,7 +88,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var hasEmptyName = string.IsNullOrEmpty(textBoxStoreName);
         var hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
 
-        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || SelectedWebBrowserDrive == null)
+        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || selectedWebBrowserDrive == null)
         {
             if (hasEmptyName)
             {
@@ -102,7 +102,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             {
                 message += "Invalid Url\n";
             }
-            if (SelectedWebBrowserDrive == null)
+            if (selectedWebBrowserDrive == null)
             {
                 message += "Select a web browser to track your product information\n";
             }
