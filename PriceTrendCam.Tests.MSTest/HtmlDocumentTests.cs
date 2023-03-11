@@ -219,36 +219,5 @@ public class HtmlDocumentTests
             Assert.AreEqual("https://www.testsite.com/search?q={search_term_string}", searchActionData.SearchUrl);
             Assert.AreEqual("required name=search_term_string", searchActionData.QueryParam);
         }
-        [TestMethod]
-        public async Task ExecuteJavaScriptAsync_ShouldReturnExpectedOutput()
-        {
-            // Arrange
-            var script = "document.querySelector('meta[property=\"og:site_name\"]').content";
-            var script2 = $"document.querySelector('meta[property=\"og:site_name\"]').content";
-
-            var url = "https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Enfriamiento-y-Ventilacion/Disipadores-para-CPU/Disipador-CPU-be-quiet-Dark-Rock-Pro-4-120-135mm-1500RPM-Negro.html";
-            
-            var scriptExecutor = new ScriptExecutorService();
-
-            // Get the HTML of the website
-            var html = scriptExecutor.GetHtmlFromSite(url).Result;
-
-            // Create an HTML document and load the website's HTML
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-
-            // Get the root node of the HTML document
-            var siteNode = scriptExecutor.GetRootOfHtml(doc);
-
-            // Execute the website's scripts
-            await scriptExecutor.ExecuteSiteScripts(siteNode);
-
-
-
-            var result2 = await scriptExecutor.ExecuteScriptAsync(script);
-
-            // Assert
-            Assert.AreEqual("3", result2.ToString());
-        }
     }
 }

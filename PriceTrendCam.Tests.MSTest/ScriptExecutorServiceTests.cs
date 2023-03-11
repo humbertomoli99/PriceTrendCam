@@ -54,7 +54,7 @@ public class ScriptExecutorServiceTests
     }
 
     [TestMethod]
-    public async Task ExecuteScript_ExecutesScript()
+    public async Task ExecuteScriptAsync_ExecutesScript()
     {
         // Arrange
         var scriptExecutor = new ScriptExecutorService();
@@ -88,7 +88,7 @@ public class ScriptExecutorServiceTests
     }
 
     [TestMethod]
-    public async Task ExecuteScript_ExecutesExternalScript()
+    public async Task ExecuteScriptAsync_ExecutesExternalScript()
     {
         // Arrange
         var scriptExecutor = new ScriptExecutorService();
@@ -102,7 +102,7 @@ public class ScriptExecutorServiceTests
         Assert.IsNotNull(engine.GetValue("moment"));
     }
     [TestMethod]
-    public void ExecuteScript_MultipliesNumbers_ReturnsCorrectValue()
+    public void ExecuteScriptAsync_MultipliesNumbers_ReturnsCorrectValue()
     {
         // Arrange
         var scriptExecutor = new ScriptExecutorService();
@@ -119,5 +119,23 @@ public class ScriptExecutorServiceTests
 
         // Assert
         Assert.AreEqual(12, int.Parse(result));
+    }
+    [TestMethod]
+    public async Task ExecuteSiteUrlScripts_ShouldReturnExpectedOutput()
+    {
+        // Arrange
+        var script = "document.title";
+        var title = "Disipador CPU be quiet! Dark Rock Pro 4 120/135mm 1500RPM Negro BK022 | Cyberpuerta.mx";
+        var url = "https://www.cyberpuerta.mx/Computo-Hardware/Componentes/Enfriamiento-y-Ventilacion/Disipadores-para-CPU/Disipador-CPU-be-quiet-Dark-Rock-Pro-4-120-135mm-1500RPM-Negro.html";
+
+        var scriptExecutor = new ScriptExecutorService();
+
+        // Execute the website's scripts
+        await scriptExecutor.ExecuteSiteUrlScripts(url);
+
+        var result2 = await scriptExecutor.ExecuteScriptAsync(script);
+
+        // Assert
+        Assert.AreEqual(title, result2.ToString());
     }
 }

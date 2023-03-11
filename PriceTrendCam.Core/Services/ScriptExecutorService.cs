@@ -10,7 +10,31 @@ public class ScriptExecutorService
     {
         _engine = new Engine();
     }
+    public async Task ExecuteSiteUrlScripts(string url)
+    {
+        // Get the website's HTML
+        var html = await GetHtmlFromSite(url);
 
+        // Load the HTML into a HtmlDocument
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+
+        // Get the root node of the HTML document
+        var rootNode = GetRootOfHtml(doc);
+
+        await ExecuteSiteScripts(rootNode);
+    }
+    public async Task ExecuteSiteScripts(HtmlNode siteNode)
+    {
+        // Get all scripts from the site
+        var scripts = GetScriptsFromHtmlNode(siteNode);
+
+        // Execute each script in order
+        foreach (var script in scripts)
+        {
+            await ExecuteScriptAsync(script);
+        }
+    }
     public async Task<string> GetHtmlFromSite(string url)
     {
         // Create an HTTP client and get the website's HTML
@@ -39,18 +63,6 @@ public class ScriptExecutorService
         }
 
         return scripts;
-    }
-
-    public async Task ExecuteSiteScripts(HtmlNode siteNode)
-    {
-        // Get all scripts from the site
-        var scripts = GetScriptsFromHtmlNode(siteNode);
-
-        // Execute each script in order
-        foreach (var script in scripts)
-        {
-            await ExecuteScriptAsync(script);
-        }
     }
 
     public async Task<object> ExecuteScriptAsync(string script)
