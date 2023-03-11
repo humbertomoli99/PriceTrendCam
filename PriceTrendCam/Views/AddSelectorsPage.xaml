@@ -191,10 +191,12 @@
                         Orientation="Horizontal">
                         <ComboBox
                             x:Name="GetTypeDataComboBox"
-                            Header="Type:"
+                            Header="Type"
+                            PlaceholderText="Select a data type"
                             ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
                             SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Grid.Row="0"
+                            MinWidth="200"
                             Loaded="GetTypeDataComboBox_Loaded"
                             Margin="0,5">
                         </ComboBox>
@@ -235,7 +237,7 @@
                     <TextBox
                         x:Name="SelectorTextBox"
                         HorizontalAlignment="Stretch"
-                        Header="JavaScript Path:"
+                        PlaceholderText="JavaScript Path:"
                         Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         TextChanged="SelectorTextBox_TextChanged"
                         Margin="0,5"
@@ -247,8 +249,10 @@
                         ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
                         SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Header="Get Attribute:"
+                        PlaceholderText="Select an attribute"
                         Loaded="GetAttributeComboBox_Loaded"
                         Grid.Row="4"
+                        MinWidth="200"
                         Margin="0,5">
                     </ComboBox>
 
@@ -256,7 +260,6 @@
                         x:Name="PatternTextBox"
                         Text="{x:Bind ViewModel.RegexTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         PlaceholderText="Pattern"
-                        Header="Pattern:"
                         Grid.Row="5"
                         Margin="0,5" />
 
@@ -264,7 +267,6 @@
                         x:Name="ReplacementTextBox"
                         Text="{x:Bind ViewModel.RegexTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         PlaceholderText="Replacement"
-                        Header="Replacement:"
                         Grid.Row="6"
                         Margin="0,5" />
                     
