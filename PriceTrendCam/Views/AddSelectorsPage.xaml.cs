@@ -15,6 +15,7 @@ public sealed partial class AddSelectorsPage : Page
     private bool isWebViewReady;
     private List<string> _selectorsTree;
     private int _activeSelection;
+    private string cssSelector;
     private bool _showElementPreview;
     private string _selectedCssSelector;
     private string _messagePreviewSelectorValue;
@@ -210,11 +211,12 @@ public sealed partial class AddSelectorsPage : Page
     {
 
     }
-    private void WebView_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private async void WebView_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        _ = OnPointerPressed(sender, e);
+        _elementPreviewModeIsActive = true;
     }
-    private async Task OnPointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+
+    private async void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
         if (_elementPreviewModeIsActive)
         {
@@ -229,7 +231,7 @@ public sealed partial class AddSelectorsPage : Page
         _activeSelection = 0;
 
         // Ejecuta el script que obtiene el selector CSS del elemento
-        var cssSelector = await ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
+        cssSelector = await ExecuteScriptAsync(@"getCssSelector(document.elementFromPoint(" + xCoord + ", " + yCoord + "));");
 
         // Llamar a la función JavaScript para obtener el árbol de elementos como una cadena JSON
         var json = await ExecuteScriptAsync("obtenerArbolElementos(" + cssSelector + ")");
@@ -246,12 +248,6 @@ public sealed partial class AddSelectorsPage : Page
         // Crea el script que se encarga de resaltar el elemento en la página
         var firstSelector = _selectorsTree[0];
         await ExecuteScriptAsync(@"addMarginToSelector('" + firstSelector + "');");
-
-    }
-
-    private void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        //_ = OnPointerPressed(sender, e);
     }
     private async void WebView_NavigationCompleted(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
     {
