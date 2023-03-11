@@ -257,6 +257,7 @@
                     </ComboBox>
 
                     <TextBox
+                        Header="Regex"
                         x:Name="PatternTextBox"
                         Text="{x:Bind ViewModel.RegexTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         PlaceholderText="Pattern"
