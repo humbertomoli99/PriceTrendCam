@@ -34,7 +34,14 @@ public class ScriptExecutorService
         // Execute each script in order
         foreach (var script in scripts)
         {
-            await ExecuteScriptAsync(script);
+            try
+            {
+                await ExecuteScriptAsync(script);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception occurred while executing script: {ex.Message}");
+            }
         }
     }
     public async Task<string> GetHtmlFromSite(string url)
