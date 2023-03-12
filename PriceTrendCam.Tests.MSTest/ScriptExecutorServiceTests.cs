@@ -138,4 +138,27 @@ public class ScriptExecutorServiceTests
         // Assert
         Assert.AreEqual(title, result2.ToString());
     }
+    [TestMethod]
+    public void Test_ExecuteScriptAsync_MultipliesNumbers_ReturnsGreaterThanExpectedValue()
+    {
+        // Arrange
+        var scriptExecutor = new ScriptExecutorService();
+
+        var script = @"
+            function multiply(a, b) {
+                if (a > b) {
+                    return 'a is greater than b';
+                } else {
+                    return 'b is greater than or equal to a';
+                }
+            }
+            multiply(3, 4);
+        ";
+
+        // Act
+        var result = scriptExecutor.ExecuteScriptAsync(script).Result.ToString();
+
+        // Assert
+        Assert.AreEqual("b is greater than or equal to a", result);
+    }
 }
