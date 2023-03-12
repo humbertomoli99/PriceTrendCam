@@ -118,7 +118,7 @@ public sealed partial class AddSelectorsPage : Page
         };
         if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
         {
-            var input = await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+            var input = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text + "." + attribute);
             var pattern = PatternTextBox.Text;
             var regex = new Regex(pattern);
 
@@ -128,7 +128,7 @@ public sealed partial class AddSelectorsPage : Page
         }
         else
         {
-            _messagePreviewSelectorValue = attribute + ": " + await ExecuteScriptAsync(SelectorTextBox.Text + "." + attribute);
+            _messagePreviewSelectorValue = attribute + ": " + await ExecuteScriptAsync(SelectorAutoSuggestBox.Text + "." + attribute);
         }
 
         var dialog = new ContentDialog
@@ -315,7 +315,7 @@ public sealed partial class AddSelectorsPage : Page
         if (_selectorsTree == null) return;
         if (_selectorsTree.Count == 0) return;
 
-        SelectorTextBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
+        SelectorAutoSuggestBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
         _selectedCssSelector = _selectorsTree[_activeSelection];
         ViewModel.selectedCssSelector = _selectedCssSelector;
 
@@ -323,11 +323,6 @@ public sealed partial class AddSelectorsPage : Page
         SelectButton.IsChecked = false;
         ElementPreviewButton.IsChecked = false;
         //deshabilitar el visualizar script y el visualizador
-        await GetAttributes();
-    }
-
-    private async void SelectorTextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
         await GetAttributes();
     }
 
@@ -361,5 +356,10 @@ public sealed partial class AddSelectorsPage : Page
     {
         AddressBar.Text = await Url.GetRedirectUrl(await Url.NormalizeUrl(AddressBar.Text));
         WebView.Source = new Uri(AddressBar.Text);
+    }
+
+    private async void SelectorAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        await GetAttributes();
     }
 }

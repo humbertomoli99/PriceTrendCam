@@ -234,12 +234,12 @@
                             Grid.Column="1" />
                     </Grid>
 
-                    <TextBox
-                        x:Name="SelectorTextBox"
+                    <AutoSuggestBox
+                        x:Name="SelectorAutoSuggestBox"
                         HorizontalAlignment="Stretch"
                         PlaceholderText="JavaScript Path:"
                         Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                        TextChanged="SelectorTextBox_TextChanged"
+                        TextChanged="SelectorAutoSuggestBox_TextChanged"
                         Margin="0,5"
                         Grid.Row="3" />
 
