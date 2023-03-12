@@ -75,17 +75,24 @@ public sealed partial class AddSelectorsPage : Page
             "Stock",
         };
     }
-    private async Task GetAttributes()
+
+    private async Task<List<string>> GetListAttributesAsync()
     {
         var result = await ExecuteScriptAsync(@"getAttributeNames('" + _selectedCssSelector + "');");
+        var regex = new Regex("[\"\\[\\]]");
+        var cleanResult = regex.Replace(result, "");
+        var attributes = cleanResult.Split(',').ToList();
+
+        return attributes;
+    }
+
+    private async Task GetAttributes()
+    {
         AttributesComboBox.Clear();
+        var attributes = await GetListAttributesAsync();
 
-        if (result != null)
+        if (attributes != null)
         {
-            var regex = new Regex("[\"\\[\\]]");
-            var cleanResult = regex.Replace(result, "");
-            var attributes = cleanResult.Split(',').ToList();
-
             // Agregar valor por defecto si no existe
             if (!attributes.Contains("innerText")) AttributesComboBox.Add("innerText");
             if (!attributes.Contains("innerHTML")) AttributesComboBox.Add("innerHTML");
