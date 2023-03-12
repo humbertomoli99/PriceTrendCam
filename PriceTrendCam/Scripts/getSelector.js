@@ -290,3 +290,12 @@ function getElementsAsJson2() {
     });
     return JSON.stringify(elementObjects);
 }
+
+function getPrototypeChain(obj) {
+    var chain = [];
+    while (obj !== null) {
+        chain.push(Object.getOwnPropertyNames(obj));
+        obj = Object.getPrototypeOf(obj);
+    }
+    return chain.flat().join(', ');
+}
