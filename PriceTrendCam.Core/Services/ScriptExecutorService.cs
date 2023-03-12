@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 using Jint;
 
 namespace PriceTrendCam.Core.Services;
@@ -67,28 +69,36 @@ public class ScriptExecutorService
 
     public async Task<object> ExecuteScriptAsync(string script)
     {
-        // Provide a custom implementation of the console object to Jint
-        _engine.SetValue("console", new CustomConsole());
-
-        if (script.StartsWith("<script") && script.Contains("src="))
+        try
         {
-            // The script is loaded from an external URL
-            var startIndex = script.IndexOf("src=") + 5;
-            var endIndex = script.IndexOf("\"", startIndex);
-            var url = script.Substring(startIndex, endIndex - startIndex);
+            // Provide a custom implementation of the console object to Jint
+            _engine.SetValue("console", new CustomConsole());
 
-            using (var httpClient = new HttpClient())
+            if (script.StartsWith("<script") && script.Contains("src="))
             {
-                var response = await httpClient.GetAsync(url);
-                var content = await response.Content.ReadAsStringAsync();
-                return _engine.Execute(content).GetCompletionValue();
+                // The script is loaded from an external URL
+                var startIndex = script.IndexOf("src=") + 5;
+                var endIndex = script.IndexOf("\"", startIndex);
+                var url = script.Substring(startIndex, endIndex - startIndex);
+
+                using (var httpClient = new HttpClient())
+                {
+                    var response = await httpClient.GetAsync(url);
+                    var content = await response.Content.ReadAsStringAsync();
+                    return _engine.Execute(content).GetCompletionValue();
+                }
+            }
+            else
+            {
+                // The script is contained within the HTML page
+                script = script.Replace("<script>", "").Replace("</script>", "");
+                return _engine.Execute(script).GetCompletionValue();
             }
         }
-        else
+        catch (Jint.Parser.ParserException ex)
         {
-            // The script is contained within the HTML page
-            script = script.Replace("<script>", "").Replace("</script>", "");
-            return _engine.Execute(script).GetCompletionValue();
+            Debug.WriteLine($"Jint ParserException occurred: {ex.Message}");
+            throw;
         }
     }
 
