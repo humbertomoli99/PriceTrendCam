@@ -78,9 +78,10 @@ public sealed partial class AddSelectorsPage : Page
         };
     }
 
-    private async Task<List<string>> GetListAttributesAsync()
+    private async Task<List<string>> GetListAttributesAsync(string element)
     {
-        var result = await ExecuteScriptAsync(@"getAttributeNames('" + _selectedCssSelector + "');");
+        var myElement = await ExecuteScriptAsync(@"getCssSelector( "+ element + ");");
+        var result = await ExecuteScriptAsync(@"getAttributeNames(" + myElement + ");");
         var regex = new Regex("[\"\\[\\]]");
         var cleanResult = regex.Replace(result, "");
         var attributes = cleanResult.Split(',').ToList();
@@ -91,15 +92,23 @@ public sealed partial class AddSelectorsPage : Page
     private async Task GetAttributes()
     {
         AttributesComboBox.Clear();
-        var attributes = await GetListAttributesAsync();
 
-        if (attributes != null)
+        string miCadena = SelectorAutoSuggestBox.Text;
+
+        if (miCadena.EndsWith("."))
         {
-            // Agregar valor por defecto si no existe
-            if (!attributes.Contains("innerText")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerText");
-            if (!attributes.Contains("innerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerHTML");
-            if (!attributes.Contains("outerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "outerHTML");
+            miCadena = miCadena.Substring(0, miCadena.Length - 1);
+        }
 
+        var attributes = await GetListAttributesAsync(miCadena);
+
+        // Agregar valor por defecto si no existe
+        if (!attributes.Contains("innerText")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerText");
+        if (!attributes.Contains("innerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerHTML");
+        if (!attributes.Contains("outerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "outerHTML");
+
+        if (attributes[0] != "null")
+        {
             foreach (var attribute in attributes)
             {
                 AttributesComboBox.Add(SelectorAutoSuggestBox.Text + attribute);
