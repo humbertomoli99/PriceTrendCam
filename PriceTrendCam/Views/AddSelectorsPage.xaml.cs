@@ -114,37 +114,56 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        var resultCommand = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
-
-        if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
+        try
         {
-            var input = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
+            var resultCommand = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
 
-            var pattern = PatternTextBox.Text;
-            var replace = ReplacementTextBox.Text;
+            if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
+            {
+                var input = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
+                var pattern = PatternTextBox.Text;
+                var replace = ReplacementTextBox.Text;
 
-            var regex = new Regex(pattern);
-            var newText = regex.Replace(input, replace);
+                var newText = ApplyRegex(input, pattern, replace);
+                _messagePreviewSelectorValue = newText;
+            }
+            else
+            {
+                _messagePreviewSelectorValue = resultCommand;
+            }
 
-            _messagePreviewSelectorValue = newText;
+            var dialog = new ContentDialog
+            {
+                Title = "Data Preview",
+                XamlRoot = XamlRoot,
+                CloseButtonText = "Close",
+                DefaultButton = ContentDialogButton.Close,
+                Content = _messagePreviewSelectorValue
+            };
+
+            await dialog.ShowAsync();
         }
-        else
+        catch (Exception ex)
         {
-            _messagePreviewSelectorValue = resultCommand;
+            // Manejo de excepciones
+            var dialog = new ContentDialog
+            {
+                Title = "Error",
+                XamlRoot = XamlRoot,
+                CloseButtonText = "Close",
+                DefaultButton = ContentDialogButton.Close,
+                Content = "An error occurred: " + ex.Message
+            };
+
+            await dialog.ShowAsync();
         }
-
-        var dialog = new ContentDialog
-        {
-            Title = "Data Preview",
-            XamlRoot = XamlRoot,
-            CloseButtonText = "Close",
-            DefaultButton = ContentDialogButton.Close,
-            Content = _messagePreviewSelectorValue
-        };
-
-        await dialog.ShowAsync();
     }
-
+    private string ApplyRegex(string input, string pattern, string replace)
+    {
+        var regex = new Regex(pattern);
+        var newText = regex.Replace(input, replace);
+        return newText;
+    }
     private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         SelectButton.IsChecked = false;
