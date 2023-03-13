@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -60,6 +61,7 @@ public sealed partial class AddSelectorsPage : Page
         _selectionModeIsActive = true;
         AttributesComboBox = new ObservableCollection<string>();
         InitializeTypeDataComboBox();
+
     }
     private void InitializeTypeDataComboBox()
     {
@@ -94,15 +96,14 @@ public sealed partial class AddSelectorsPage : Page
         if (attributes != null)
         {
             // Agregar valor por defecto si no existe
-            if (!attributes.Contains("innerText")) AttributesComboBox.Add("innerText");
-            if (!attributes.Contains("innerHTML")) AttributesComboBox.Add("innerHTML");
-            if (!attributes.Contains("outerHTML")) AttributesComboBox.Add("outerHTML");
+            if (!attributes.Contains("innerText")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerText");
+            if (!attributes.Contains("innerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerHTML");
+            if (!attributes.Contains("outerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "outerHTML");
 
             foreach (var attribute in attributes)
             {
-                AttributesComboBox.Add(attribute);
+                AttributesComboBox.Add(SelectorAutoSuggestBox.Text + attribute);
             }
-            GetAttributeComboBox.SelectedIndex = 0;
         }
     }
 
@@ -113,29 +114,23 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+        var resultCommand = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
 
-        var attribute = GetAttributeComboBox.Text switch
-        {
-            "innerText" => "innerText",
-            "innerHTML" => "innerHTML",
-            "outerHTML" => "outerHTML",
-            "class" => "classList",
-            "data-linktype" => "dataset.linktype",
-            _ => GetAttributeComboBox.Text
-        };
         if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
         {
-            var input = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text + "." + attribute);
+            var input = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
+
             var pattern = PatternTextBox.Text;
+            var replace = ReplacementTextBox.Text;
+
             var regex = new Regex(pattern);
+            var newText = regex.Replace(input, replace);
 
-            Match match = regex.Match(input);
-
-            _messagePreviewSelectorValue = attribute + ": " + match.Value;
+            _messagePreviewSelectorValue = newText;
         }
         else
         {
-            _messagePreviewSelectorValue = attribute + ": " + await ExecuteScriptAsync(SelectorAutoSuggestBox.Text + "." + attribute);
+            _messagePreviewSelectorValue = resultCommand;
         }
 
         var dialog = new ContentDialog
@@ -330,17 +325,11 @@ public sealed partial class AddSelectorsPage : Page
         SelectButton.IsChecked = false;
         ElementPreviewButton.IsChecked = false;
         //deshabilitar el visualizar script y el visualizador
-        await GetAttributes();
     }
 
     private void GetTypeDataComboBox_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         GetTypeDataComboBox.SelectedIndex = 0;
-    }
-
-    private void GetAttributeComboBox_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        GetAttributeComboBox.SelectedIndex = 0;
     }
     private async Task<string> ExecuteScriptAsync(string script)
     {
@@ -367,6 +356,16 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void SelectorAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
-        await GetAttributes();
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            // Obtener el texto actual del AutoSuggestBox
+            string currentText = SelectorAutoSuggestBox.Text;
+
+            // Verificar si el último carácter es un punto
+            if (currentText.EndsWith("."))
+            {
+                await GetAttributes();
+            }
+        }
     }
 }
