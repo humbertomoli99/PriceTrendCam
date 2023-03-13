@@ -162,6 +162,7 @@ public sealed partial class AddSitemapPage : Page
 
             MetaTitle.Text = HtmlDocumentService.GetMetaTitle(node).Trim();
             MetaDescription.Text = HtmlDocumentService.GetMetaDescription(node).Trim();
+            TextBoxStoreName.Text = MetaTitle.Text;
 
             string faviconUrlString = await HtmlDocumentService.GetFaviconUrlAsync(url);
             BitmapImage faviconImage = new BitmapImage(new Uri(faviconUrlString));

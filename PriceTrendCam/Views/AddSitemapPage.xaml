@@ -79,7 +79,7 @@
                                     Header="Sitemap Name"
                                     Grid.Row="1"
                                     x:Name="TextBoxStoreName"
-                                    PlaceholderText="Sitemap Name"
+                                    PlaceholderText="Sitemap Name(Optional)"
                                     Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <!--<controls:ValidationTextBox
                                     HeaderText="Sitemap Name"
