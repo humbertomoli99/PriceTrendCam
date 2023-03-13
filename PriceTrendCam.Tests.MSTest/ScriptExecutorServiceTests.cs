@@ -161,4 +161,23 @@ public class ScriptExecutorServiceTests
         // Assert
         Assert.AreEqual("b is greater than or equal to a", result);
     }
+    [TestMethod]
+    public void Test_ExecuteScriptAsync_ES6_ReturnsCorrectGreeting()
+    {
+        // Arrange
+        var scriptExecutor = new ScriptExecutorService();
+
+        var script = @"
+        function greeting(name) {
+            return `Hello, ${name}!`;
+        }
+        greeting('John');
+    ";
+
+        // Act
+        var result = scriptExecutor.ExecuteScriptAsync(script).Result.ToString();
+
+        // Assert
+        Assert.AreEqual("Hello, John!", result);
+    }
 }
