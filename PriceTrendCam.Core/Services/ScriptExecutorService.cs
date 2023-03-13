@@ -97,14 +97,14 @@ public class ScriptExecutorService
                 {
                     var response = await httpClient.GetAsync(url);
                     var content = await response.Content.ReadAsStringAsync();
-                    return _engine.Execute(content);
+                    return _engine.Evaluate(content);
                 }
             }
             else
             {
                 // The script is contained within the HTML page
                 script = script.Replace("<script>", "").Replace("</script>", "");
-                return _engine.Execute(script);
+                return _engine.Evaluate(script);
             }
         }
         catch (Jint.Runtime.JavaScriptException ex)
