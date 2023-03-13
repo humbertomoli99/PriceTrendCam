@@ -161,132 +161,172 @@
             </Grid>
             <ScrollViewer
                 Grid.Row="2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                    </Grid.RowDefinitions>
+                <TabView
+                    IsAddTabButtonVisible="False"
+                    TabWidthMode="Equal">
+                    <TabViewItem
+                        IsClosable="False"
+                        Header="Selectors">
+                        
+                        <TabViewItem.IconSource>
+                            <SymbolIconSource
+                                Symbol="ClearSelection" />
+                        </TabViewItem.IconSource>
 
-                    <StackPanel
-                        Orientation="Horizontal">
-                        <ComboBox
-                            x:Name="GetTypeDataComboBox"
-                            Header="Type"
-                            PlaceholderText="Select a data type"
-                            ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
-                            SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Grid.Row="0"
-                            MinWidth="200"
-                            Loaded="GetTypeDataComboBox_Loaded"
-                            Margin="0,5">
-                        </ComboBox>
-                        <CheckBox
-                            x:Name="IsNotNullCheckBox"
-                            Content="Not Null"
-                            VerticalAlignment="Bottom"
-                            Margin="{StaticResource SmallLeftRightMargin}"
-                            IsChecked="{x:Bind ViewModel.IsNotNullCheckBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
+                        <Grid
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,5,5,5"
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                    <TextBlock
-                        Grid.Row="1">Selector:</TextBlock>
-                    <Grid
-                        Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton
-                            x:Name="SelectButton"
-                            Content="Select"
-                            Margin="0,0,10,0"
-                            Click="SelectButton_Click"
-                            Grid.Column="0" />
-                        <ToggleButton
-                            x:Name="ElementPreviewButton"
-                            Content="Element Preview"
-                            Margin="{StaticResource XSmallTopBottomMargin}"
-                            Click="ElementPreviewButton_Click"
-                            Grid.Column="1" />
-                    </Grid>
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <ComboBox
+                                    x:Name="GetTypeDataComboBox"
+                                    Header="Type"
+                                    PlaceholderText="Select a data type"
+                                    ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
+                                    SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Grid.Row="0"
+                                    MinWidth="200"
+                                    Loaded="GetTypeDataComboBox_Loaded"
+                                    Margin="0,5">
+                                </ComboBox>
+                                <CheckBox
+                                    x:Name="IsNotNullCheckBox"
+                                    Content="Not Null"
+                                    VerticalAlignment="Bottom"
+                                    Margin="{StaticResource SmallLeftRightMargin}"
+                                    IsChecked="{x:Bind ViewModel.IsNotNullCheckBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
 
-                    <AutoSuggestBox
-                        x:Name="SelectorAutoSuggestBox"
-                        HorizontalAlignment="Stretch"
-                        PlaceholderText="JavaScript Path:"
-                        Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                        ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
-                        TextChanged="SelectorAutoSuggestBox_TextChanged"
-                        Margin="0,5"
-                        Grid.Row="3" />
+                            <TextBlock
+                                Grid.Row="1">Selector:</TextBlock>
+                            <Grid
+                                Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton
+                                    x:Name="SelectButton"
+                                    Content="Select"
+                                    Margin="0,0,10,0"
+                                    Click="SelectButton_Click"
+                                    Grid.Column="0" />
+                                <ToggleButton
+                                    x:Name="ElementPreviewButton"
+                                    Content="Element Preview"
+                                    Margin="{StaticResource XSmallTopBottomMargin}"
+                                    Click="ElementPreviewButton_Click"
+                                    Grid.Column="1" />
+                            </Grid>
 
-                    <TextBox
-                        Header="Regex"
-                        x:Name="PatternTextBox"
-                        Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        PlaceholderText="Pattern"
-                        Grid.Row="4"
-                        Margin="0,5" />
+                            <AutoSuggestBox
+                                x:Name="SelectorAutoSuggestBox"
+                                HorizontalAlignment="Stretch"
+                                PlaceholderText="JavaScript Path:"
+                                Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
+                                TextChanged="SelectorAutoSuggestBox_TextChanged"
+                                Margin="0,5"
+                                Grid.Row="3" />
 
-                    <TextBox
-                        x:Name="ReplacementTextBox"
-                        PlaceholderText="Replacement"
-                        Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Grid.Row="5"
-                        Margin="0,5" />
-                    
-                    <Button
-                        x:Name="DataPreviewButton"
-                        Content="Data Preview"
-                        Margin="{StaticResource XSmallTopBottomMargin}"
-                        Click="DataPreviewButton_Click"
-                        Grid.Row="6" />
-                    
-                    <ListBox
-                        Grid.Row="7"
-                        Height="164" />
-                    
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Margin="{StaticResource XSmallTopBottomMargin}"
-                        Grid.Row="8">
-                        <Button
-                            x:Name="SaveButton"
-                            Content="Save Selector"
-                            Margin="0,0,10,0"
-                            Style="{StaticResource AccentButtonStyle}"
-                            Command="{x:Bind ViewModel.SaveSelectorsCommand}"
-                            Click="SaveButton_Click" />
-                        <Button
-                            x:Name="CancelButton"
-                            Content="Cancel"
-                            Click="CancelButton_Click" />
-                    </StackPanel>
-                </Grid>
+                            <TextBox
+                                Header="Regex"
+                                x:Name="PatternTextBox"
+                                Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                PlaceholderText="Pattern"
+                                Grid.Row="4"
+                                Margin="0,5" />
+
+                            <TextBox
+                                x:Name="ReplacementTextBox"
+                                PlaceholderText="Replacement"
+                                Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Grid.Row="5"
+                                Margin="0,5" />
+
+                            <Button
+                                x:Name="DataPreviewButton"
+                                Content="Data Preview"
+                                Margin="{StaticResource XSmallTopBottomMargin}"
+                                Click="DataPreviewButton_Click"
+                                Grid.Row="6" />
+
+                            <ListBox
+                                Grid.Row="7"
+                                Height="164" />
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Margin="{StaticResource XSmallTopBottomMargin}"
+                                Grid.Row="8">
+                                <Button
+                                    x:Name="SaveButton"
+                                    Content="Save Selector"
+                                    Margin="0,0,10,0"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    Command="{x:Bind ViewModel.SaveSelectorsCommand}"
+                                    Click="SaveButton_Click" />
+                                <Button
+                                    x:Name="CancelButton"
+                                    Content="Cancel"
+                                    Click="CancelButton_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </TabViewItem>
+                    <TabViewItem
+                        IsClosable="False"
+                        Header="Store">
+                        
+                        <TabViewItem.IconSource>
+                            <SymbolIconSource
+                                Symbol="Shop" />
+                        </TabViewItem.IconSource>
+                        
+                        <TextBlock
+                            Text="Contenido del Tab 2" />
+                    </TabViewItem>
+                    <TabViewItem
+                        IsClosable="False"
+                        Header="Tab 3">
+                        <TabViewItem.IconSource>
+                            <SymbolIconSource
+                                Symbol="Globe" />
+                        </TabViewItem.IconSource>
+                        <TextBlock
+                            Text="Contenido del Tab 3" />
+                    </TabViewItem>
+                </TabView>
             </ScrollViewer>
             
             <controls:GridSplitter
