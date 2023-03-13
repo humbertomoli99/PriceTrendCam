@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
-using JavaScriptEngineSwitcher.Jint;
+using Jint;
 using Newtonsoft.Json.Linq;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
@@ -201,7 +201,7 @@ public class HtmlDocumentService
         scripts.Add(script);
 
         // Crear una instancia de JintJsEngine y ejecutar los scripts
-        using (var engine = new JintJsEngine())
+        using (var engine = new Engine())
         {
             foreach (var s in scripts)
             {
@@ -209,10 +209,10 @@ public class HtmlDocumentService
             }
 
             // Ejecutar el código JavaScript pasado como parámetro en un hilo separado
-            var task = Task.Run(() => engine.Evaluate<string>(script));
+            var task = Task.Run(() => engine.Evaluate(script));
 
             // Esperar el resultado y devolverlo
-            return await task;
+            return task.ToString();
         }
     }
     /// <summary>

@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Jint;
+using Jint.Native.Object;
+using Jint.Runtime.Interop;
 
 namespace PriceTrendCam.Core.Services;
 public class ScriptExecutorService
@@ -81,6 +83,9 @@ public class ScriptExecutorService
             // Provide a custom implementation of the console object to Jint
             _engine.SetValue("console", new CustomConsole());
 
+            var window = new Object(); // Crear un objeto en C#
+            _engine.SetValue("window", new ObjectWrapper(_engine, window));
+
             if (script.StartsWith("<script") && script.Contains("src="))
             {
                 // The script is loaded from an external URL
@@ -92,17 +97,17 @@ public class ScriptExecutorService
                 {
                     var response = await httpClient.GetAsync(url);
                     var content = await response.Content.ReadAsStringAsync();
-                    return _engine.Execute(content).GetCompletionValue();
+                    return _engine.Execute(content);
                 }
             }
             else
             {
                 // The script is contained within the HTML page
                 script = script.Replace("<script>", "").Replace("</script>", "");
-                return _engine.Execute(script).GetCompletionValue();
+                return _engine.Execute(script);
             }
         }
-        catch (Jint.Parser.ParserException ex)
+        catch (Jint.Runtime.JavaScriptException ex)
         {
             Debug.WriteLine($"Jint ParserException occurred: {ex.Message}");
             throw;

@@ -1,5 +1,4 @@
 ﻿using HtmlAgilityPack;
-using Jint;
 using PriceTrendCam.Core.Services;
 
 namespace PriceTrendCam.Tests.MSTest;
