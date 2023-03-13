@@ -107,6 +107,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         var newSelector = new Selector
         {
             CssSelector = selectedCssSelector,
+            Command = selectorTextBox,
             Type = typeDataComboBox,
             StoreId = store.Id,
         };

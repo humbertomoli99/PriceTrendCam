@@ -14,6 +14,10 @@ public class Selector
     {
         get; set;
     }
+    public string Command
+    {
+        get; set;
+    }
     public string CssSelector
     {
         get; set;

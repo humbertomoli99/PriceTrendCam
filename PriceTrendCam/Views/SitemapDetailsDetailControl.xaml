@@ -11,7 +11,7 @@
         HorizontalAlignment="Stretch"
         VerticalScrollMode="Enabled"
         IsTabStop="True">
-        <StackPanel HorizontalAlignment="Left">
+        <StackPanel HorizontalAlignment="Stretch">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <Image
                     HorizontalAlignment="Center"
@@ -55,7 +55,9 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
-                                    Width="Auto" />
+                                    Width="*" MaxWidth="100" />
+                                <ColumnDefinition
+                                    Width="*" MaxWidth="200" />
                                 <ColumnDefinition
                                     Width="*" />
                             </Grid.ColumnDefinitions>
@@ -63,12 +65,21 @@
                                 Grid.Column="0"
                                 Text="Type"
                                 Margin="6"
+                                HorizontalAlignment="Stretch"
                                 TextAlignment="Center"
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                             <TextBlock
                                 Grid.Column="1"
                                 Text="CSS Selector"
                                 Margin="6"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Center"
+                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Text="Command"
+                                Margin="6"
+                                HorizontalAlignment="Stretch"
                                 TextAlignment="Center"
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                         </Grid>
@@ -78,7 +89,9 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition
-                                        Width="Auto" />
+                                        Width="*" MaxWidth="100" />
+                                    <ColumnDefinition
+                                        Width="*" MaxWidth="200" />
                                     <ColumnDefinition
                                         Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -87,12 +100,21 @@
                                     Margin="6"
                                     Text="{Binding Type}"
                                     TextAlignment="Center"
+                                    HorizontalAlignment="Stretch"
                                     Style="{StaticResource DetailBodyBaseMediumStyle}" />
                                 <TextBlock
                                     Grid.Column="1"
                                     Margin="6"
                                     TextAlignment="Center"
                                     Text="{Binding CssSelector}"
+                                    HorizontalAlignment="Stretch"
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    Margin="6"
+                                    TextAlignment="Center"
+                                    Text="{Binding Command}"
+                                    HorizontalAlignment="Stretch"
                                     Style="{StaticResource DetailBodyBaseMediumStyle}" />
                             </Grid>
                         </DataTemplate>
