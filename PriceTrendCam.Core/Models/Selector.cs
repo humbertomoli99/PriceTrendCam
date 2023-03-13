@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+﻿using SQLite;
 using SQLiteNetExtensions.Attributes;
 
 namespace PriceTrendCam.Core.Models;
@@ -26,13 +21,19 @@ public class Selector
     {
         get; set;
     }
-
+    public string Pattern
+    {
+        get; set;
+    }
+    public string Replacement
+    {
+        get; set;
+    }
     [ForeignKey(typeof(Store))]
     public int StoreId
     {
         get; set;
     }
-
     [ManyToOne]
     public Store Store
     {

@@ -247,6 +247,7 @@
                     <TextBox
                         Header="Regex"
                         x:Name="PatternTextBox"
+                        Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         PlaceholderText="Pattern"
                         Grid.Row="4"
                         Margin="0,5" />
@@ -254,6 +255,7 @@
                     <TextBox
                         x:Name="ReplacementTextBox"
                         PlaceholderText="Replacement"
+                        Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Grid.Row="5"
                         Margin="0,5" />
                     

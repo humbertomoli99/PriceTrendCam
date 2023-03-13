@@ -34,7 +34,10 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     private string getAttributeComboBox;
 
     [ObservableProperty]
-    private string regexTextBox;
+    private string patternTextBox;
+
+    [ObservableProperty]
+    private string replacementTextBox;
 
     [ObservableProperty]
     private bool isNotNullCheckBox;
@@ -109,6 +112,8 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             CssSelector = selectedCssSelector,
             Command = selectorTextBox,
             Type = typeDataComboBox,
+            Pattern = patternTextBox,
+            Replacement = replacementTextBox,
             StoreId = store.Id,
         };
 
