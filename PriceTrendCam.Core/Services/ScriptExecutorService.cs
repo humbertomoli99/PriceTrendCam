@@ -76,7 +76,44 @@ public class ScriptExecutorService
         return scripts;
     }
 
-    public async Task<object> ExecuteScriptAsync(string script)
+    public async Task ExecuteScriptAsync(string script)
+    {
+        try
+        {
+            // Provide a custom implementation of the console object to Jint
+            _engine.SetValue("console", new CustomConsole());
+
+            var window = new Object(); // Crear un objeto en C#
+            _engine.SetValue("window", new ObjectWrapper(_engine, window));
+
+            if (script.StartsWith("<script") && script.Contains("src="))
+            {
+                // The script is loaded from an external URL
+                var startIndex = script.IndexOf("src=") + 5;
+                var endIndex = script.IndexOf("\"", startIndex);
+                var url = script.Substring(startIndex, endIndex - startIndex);
+
+                using (var httpClient = new HttpClient())
+                {
+                    var response = await httpClient.GetAsync(url);
+                    var content = await response.Content.ReadAsStringAsync();
+                    _engine.Execute(content);
+                }
+            }
+            else
+            {
+                // The script is contained within the HTML page
+                script = script.Replace("<script>", "").Replace("</script>", "");
+                _engine.Execute(script);
+            }
+        }
+        catch (Jint.Runtime.JavaScriptException ex)
+        {
+            Debug.WriteLine($"Jint ParserException occurred: {ex.Message}");
+            throw;
+        }
+    }
+    public async Task<object> EvaluateScriptAsync(string script)
     {
         try
         {
@@ -113,7 +150,6 @@ public class ScriptExecutorService
             throw;
         }
     }
-
     public class CustomConsole
     {
         public void Log(string message)

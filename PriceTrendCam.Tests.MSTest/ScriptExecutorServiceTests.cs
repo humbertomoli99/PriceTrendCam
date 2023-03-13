@@ -92,7 +92,7 @@ public class ScriptExecutorServiceTests
     {
         // Arrange
         var scriptExecutor = new ScriptExecutorService();
-        string script = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js\"></script>";
+        var script = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js\"></script>";
         Engine engine = new Engine();
 
         // Act
@@ -115,7 +115,7 @@ public class ScriptExecutorServiceTests
         ";
 
         // Act
-        var result = scriptExecutor.ExecuteScriptAsync(script).Result.ToString();
+        var result = scriptExecutor.EvaluateScriptAsync(script).Result.ToString();
 
         // Assert
         Assert.AreEqual(12, int.Parse(result));
@@ -133,7 +133,7 @@ public class ScriptExecutorServiceTests
         // Execute the website's scripts
         await scriptExecutor.ExecuteSiteUrlScripts(url);
 
-        var result2 = await scriptExecutor.ExecuteScriptAsync(script);
+        var result2 = await scriptExecutor.EvaluateScriptAsync(script);
 
         // Assert
         Assert.AreEqual(title, result2.ToString());
@@ -156,7 +156,7 @@ public class ScriptExecutorServiceTests
         ";
 
         // Act
-        var result = scriptExecutor.ExecuteScriptAsync(script).Result.ToString();
+        var result = scriptExecutor.EvaluateScriptAsync(script).Result.ToString();
 
         // Assert
         Assert.AreEqual("b is greater than or equal to a", result);
@@ -175,7 +175,7 @@ public class ScriptExecutorServiceTests
     ";
 
         // Act
-        var result = scriptExecutor.ExecuteScriptAsync(script).Result.ToString();
+        var result = scriptExecutor.EvaluateScriptAsync(script).Result.ToString();
 
         // Assert
         Assert.AreEqual("Hello, John!", result);
