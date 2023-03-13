@@ -111,6 +111,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             foreach (var attribute in attributes)
             {
+                if(string.IsNullOrEmpty(attribute)) continue;
                 AttributesComboBox.Add(SelectorAutoSuggestBox.Text + attribute);
             }
         }
