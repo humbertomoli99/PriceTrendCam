@@ -416,27 +416,13 @@ public sealed partial class AddSelectorsPage : Page
 
         ViewModel.GetListSelectors.Clear();
 
-        Dictionary<string, string> typeDictionary = new Dictionary<string, string>()
+        SelectorType selectedType;
+        if (!Enum.TryParse(selectedItem, out selectedType))
         {
-            { "Title", "Title" },
-            { "Description", "Description" },
-            { "Image", "Image" },
-            { "Price", "Price" },
-            { "Price Currency", "Price Currency" },
-            { "Shipping", "Shipping" },
-            { "Shipping Currency", "Shipping Currency" },
-            { "Stock", "Stock" }
-        };
-
-        if (typeDictionary.ContainsKey(selectedItem))
-        {
-            string type = typeDictionary[selectedItem];
-            AddSelectorsOfType(type, selectorsFromStore);
+            return;
         }
-    }
-    private void AddSelectorsOfType(string type, List<Selector> selectors)
-    {
-        var storeUrls = selectors.Where(s => s.Type == type).ToList();
+
+        var storeUrls = selectorsFromStore.Where(s => s.Type == selectedType.ToString()).ToList();
 
         foreach (var url in storeUrls)
         {
