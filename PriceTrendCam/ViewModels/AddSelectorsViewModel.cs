@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Web.WebView2.Core;
 
@@ -25,11 +26,6 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty]
     private string selectorTextBox;
 
-    public string selectedCssSelector
-    {
-        get; set;
-    }
-
     [ObservableProperty]
     private string getAttributeComboBox;
 
@@ -41,6 +37,9 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     [ObservableProperty]
     private bool isNotNullCheckBox;
+
+    [ObservableProperty]
+    private bool hasFailures;
 
     public IWebViewService WebViewService
     {
@@ -58,14 +57,28 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get => _isLoading;
         set => SetProperty(ref _isLoading, value);
     }
-    public Store ObjectSelector
+
+    public string selectedCssSelector
     {
-        get;
-        private set;
+        get; set;
     }
 
-    [ObservableProperty]
-    private bool hasFailures;
+    public Store GetStore
+    {
+        get;
+        set;
+    }
+    //public List<Selector> GetListSelectors
+    //{
+    //    get;
+    //    set;
+    //}
+    public StoreUrl GetUrls
+    {
+        get;
+        set;
+    }
+    public ObservableCollection<Selector> GetListSelectors { get; set; } = new ObservableCollection<Selector>();
 
     public AddSelectorsViewModel(IWebViewService webViewService)
     {
@@ -135,10 +148,16 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         if (parameter != null && parameter is int)
         {
+            GetListSelectors.Clear();
             _newstoreId = (int)parameter;
             // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
             var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
-            ObjectSelector = store;
+
+            GetStore = store;
+            foreach (var item in store.Selectors)
+            {
+                GetListSelectors.Add(item);
+            }
 
             var firstUrl = store.Urls.First().Url.ToString();
             Source = new Uri(firstUrl);

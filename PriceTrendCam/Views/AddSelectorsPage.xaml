@@ -208,6 +208,7 @@
                                     SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Grid.Row="0"
                                     MinWidth="200"
+                                    SelectionChanged="GetTypeDataComboBox_SelectionChanged"
                                     Loaded="GetTypeDataComboBox_Loaded"
                                     Margin="0,5">
                                 </ComboBox>
@@ -258,13 +259,16 @@
 
                             <ListBox
                                 Grid.Row="4"
-                                ItemsSource="{x:Bind ViewModel.ObjectSelector.Selectors}">
+                                x:Name="ObjectSelector"
+                                ItemsSource="{x:Bind ViewModel.GetListSelectors, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate
                                         x:DataType="models:Selector">
                                         <StackPanel>
                                             <TextBlock
                                                 Text="{x:Bind Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock
+                                                Text="{x:Bind Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             <TextBlock
                                                 Text="{x:Bind CssSelector, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             <TextBlock
@@ -343,12 +347,18 @@
                                 <RowDefinition
                                     Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{x:Bind  ViewModel.ObjectSelector.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBlock Grid.Row="1" Text="{x:Bind  ViewModel.ObjectSelector.Favicon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBlock Grid.Row="2" Text="{x:Bind  ViewModel.ObjectSelector.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Text="{x:Bind  ViewModel.GetStore.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Text="{x:Bind  ViewModel.GetStore.Favicon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Text="{x:Bind  ViewModel.GetStore.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <ListBox
                                 Grid.Row="3"
-                                ItemsSource="{x:Bind ViewModel.ObjectSelector.Urls}">
+                                ItemsSource="{x:Bind ViewModel.GetStore.Urls}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate
                                         x:DataType="models:StoreUrl">

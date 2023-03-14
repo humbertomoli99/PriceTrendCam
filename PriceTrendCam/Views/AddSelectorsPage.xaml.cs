@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using PriceTrendCam.Core.Helpers;
+using PriceTrendCam.Core.Models;
 using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
@@ -395,6 +396,108 @@ public sealed partial class AddSelectorsPage : Page
             {
                 await GetAttributes();
             }
+        }
+    }
+
+    private async void GetTypeDataComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ComboBox comboBox = sender as ComboBox;
+        if (comboBox == null)
+        {
+            return;
+        }
+        var idStore = ViewModel.GetStore.Id;
+
+        var selector = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+
+        var selectorsFromStore = selector.Where(s => s.StoreId == idStore).ToList();
+
+        if (comboBox != null && comboBox.SelectedItem != null)
+        {
+            // Obtener el elemento seleccionado actualmente en el ComboBox
+            var selectedItem = comboBox.SelectedItem;
+
+            if (selectedItem == "Title")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Title").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Description")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Description").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Image")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Image").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Price")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Price").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Price Currency")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Price Currency").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Shipping")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Shipping").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Shipping Currency")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Shipping Currency").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+            if (selectedItem == "Stock")
+            {
+                var storeUrls = selectorsFromStore.Where(s => s.Type == "Stock").ToList();
+
+                ViewModel.GetListSelectors.Clear();
+                foreach (var url in storeUrls)
+                {
+                    ViewModel.GetListSelectors.Add(url);
+                }
+            }
+
         }
     }
 }
