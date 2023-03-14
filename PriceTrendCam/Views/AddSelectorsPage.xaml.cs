@@ -406,98 +406,54 @@ public sealed partial class AddSelectorsPage : Page
         {
             return;
         }
+
+        string selectedItem = comboBox.SelectedItem as string;
+        if (selectedItem == null)
+        {
+            return;
+        }
+
         var idStore = ViewModel.GetStore.Id;
-
         var selector = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-
         var selectorsFromStore = selector.Where(s => s.StoreId == idStore).ToList();
 
-        if (comboBox != null && comboBox.SelectedItem != null)
+        ViewModel.GetListSelectors.Clear();
+
+        switch (selectedItem)
         {
-            // Obtener el elemento seleccionado actualmente en el ComboBox
-            var selectedItem = comboBox.SelectedItem;
+            case "Title":
+                AddSelectorsOfType("Title", selectorsFromStore);
+                break;
+            case "Description":
+                AddSelectorsOfType("Description", selectorsFromStore);
+                break;
+            case "Image":
+                AddSelectorsOfType("Image", selectorsFromStore);
+                break;
+            case "Price":
+                AddSelectorsOfType("Price", selectorsFromStore);
+                break;
+            case "Price Currency":
+                AddSelectorsOfType("Price Currency", selectorsFromStore);
+                break;
+            case "Shipping":
+                AddSelectorsOfType("Shipping", selectorsFromStore);
+                break;
+            case "Shipping Currency":
+                AddSelectorsOfType("Shipping Currency", selectorsFromStore);
+                break;
+            case "Stock":
+                AddSelectorsOfType("Stock", selectorsFromStore);
+                break;
+        }
+    }
+    private void AddSelectorsOfType(string type, List<Selector> selectors)
+    {
+        var storeUrls = selectors.Where(s => s.Type == type).ToList();
 
-            if (selectedItem == "Title")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Title").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Description")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Description").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Image")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Image").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Price")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Price").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Price Currency")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Price Currency").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Shipping")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Shipping").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Shipping Currency")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Shipping Currency").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-            if (selectedItem == "Stock")
-            {
-                var storeUrls = selectorsFromStore.Where(s => s.Type == "Stock").ToList();
-
-                ViewModel.GetListSelectors.Clear();
-                foreach (var url in storeUrls)
-                {
-                    ViewModel.GetListSelectors.Add(url);
-                }
-            }
-
+        foreach (var url in storeUrls)
+        {
+            ViewModel.GetListSelectors.Add(url);
         }
     }
 }
