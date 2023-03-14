@@ -11,6 +11,10 @@
 
     <Grid
         x:Name="ContentArea">
+        <Grid.Resources>
+            <FontFamily
+                x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
+        </Grid.Resources>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -307,10 +311,11 @@
                     <TabViewItem
                         IsClosable="False"
                         Header="Store">
-                        
+
                         <TabViewItem.IconSource>
-                            <SymbolIconSource
-                                Symbol="Shop" />
+                            <FontIconSource
+                                FontFamily="{StaticResource BootstrapIcons}"
+                                Glyph="&#xF84D;" />
                         </TabViewItem.IconSource>
                         
                         <TextBlock
