@@ -222,9 +222,9 @@ public sealed partial class AddSelectorsPage : Page
         ElementPreviewButton.IsChecked = false;
         _elementPreviewModeIsActive = false;
 
-        SetButtonsVisibility(true);
-
         await ToggleLinksAndSvg(false, true);
+
+        SetButtonsVisibility(true);
 
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
 
