@@ -196,6 +196,7 @@ public sealed partial class AddSelectorsPage : Page
     {
         _showElementPreview = false;
         _elementPreviewModeIsActive = true;
+        ElementPreviewButton.IsChecked = true;
 
         await ToggleLinksAndSvg(false, true);
 
@@ -207,23 +208,23 @@ public sealed partial class AddSelectorsPage : Page
     private async Task DeactivateElementPreviewMode()
     {
         _showElementPreview = true;
-
-        await ToggleLinksAndSvg(true, false);
-
         _elementPreviewModeIsActive = false;
         ElementPreviewButton.IsChecked = false;
+
+        await ToggleLinksAndSvg(true, false);
     }
 
     private async Task ActivateElementSelectionMode()
     {
         SelectButton.IsChecked = true;
-        _elementPreviewModeIsActive = false;
+        _selectionModeIsActive = false;
+
         ElementPreviewButton.IsChecked = false;
+        _elementPreviewModeIsActive = false;
+
         SetButtonsVisibility(true);
 
         await ToggleLinksAndSvg(false, true);
-
-        _selectionModeIsActive = false;
 
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
 
