@@ -27,6 +27,7 @@
     <None Remove="Controls\DocumentationBlock.xaml" />
     <None Remove="Controls\InteractiveSample.xaml" />
     <None Remove="Controls\ValidationTextBox.xaml" />
+    <None Remove="Assets\Fonts\bootstrap-icons.ttf" />
     <None Remove="Scripts\getSelector.js" />
     <None Remove="Views\Controls\AddSitemapControl.xaml" />
     <None Remove="Views\SitemapDetailsDetailControl.xaml" />
@@ -88,6 +89,12 @@
 
   <ItemGroup>
     <Content Include="Scripts\getSelector.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\Fonts\bootstrap-icons.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
