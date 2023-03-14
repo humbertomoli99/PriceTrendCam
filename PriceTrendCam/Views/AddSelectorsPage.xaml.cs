@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
-using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -81,7 +78,7 @@ public sealed partial class AddSelectorsPage : Page
 
     private async Task<List<string>> GetListAttributesAsync(string element)
     {
-        var myElement = await ExecuteScriptAsync(@"getCssSelector( "+ element + ");");
+        var myElement = await ExecuteScriptAsync(@"getCssSelector( " + element + ");");
         var result = await ExecuteScriptAsync(@"getAttributeNames(" + myElement + ");");
         var regex = new Regex("[\"\\[\\]]");
         var cleanResult = regex.Replace(result, "");
@@ -112,7 +109,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             foreach (var attribute in attributes)
             {
-                if(string.IsNullOrEmpty(attribute)) continue;
+                if (string.IsNullOrEmpty(attribute)) continue;
                 AttributesComboBox.Add(SelectorAutoSuggestBox.Text + attribute);
             }
         }
@@ -419,32 +416,22 @@ public sealed partial class AddSelectorsPage : Page
 
         ViewModel.GetListSelectors.Clear();
 
-        switch (selectedItem)
+        Dictionary<string, string> typeDictionary = new Dictionary<string, string>()
         {
-            case "Title":
-                AddSelectorsOfType("Title", selectorsFromStore);
-                break;
-            case "Description":
-                AddSelectorsOfType("Description", selectorsFromStore);
-                break;
-            case "Image":
-                AddSelectorsOfType("Image", selectorsFromStore);
-                break;
-            case "Price":
-                AddSelectorsOfType("Price", selectorsFromStore);
-                break;
-            case "Price Currency":
-                AddSelectorsOfType("Price Currency", selectorsFromStore);
-                break;
-            case "Shipping":
-                AddSelectorsOfType("Shipping", selectorsFromStore);
-                break;
-            case "Shipping Currency":
-                AddSelectorsOfType("Shipping Currency", selectorsFromStore);
-                break;
-            case "Stock":
-                AddSelectorsOfType("Stock", selectorsFromStore);
-                break;
+            { "Title", "Title" },
+            { "Description", "Description" },
+            { "Image", "Image" },
+            { "Price", "Price" },
+            { "Price Currency", "Price Currency" },
+            { "Shipping", "Shipping" },
+            { "Shipping Currency", "Shipping Currency" },
+            { "Stock", "Stock" }
+        };
+
+        if (typeDictionary.ContainsKey(selectedItem))
+        {
+            string type = typeDictionary[selectedItem];
+            AddSelectorsOfType(type, selectorsFromStore);
         }
     }
     private void AddSelectorsOfType(string type, List<Selector> selectors)
