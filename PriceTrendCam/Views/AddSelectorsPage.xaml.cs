@@ -164,70 +164,83 @@ public sealed partial class AddSelectorsPage : Page
     private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         SelectButton.IsChecked = false;
+
         if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
         {
-            _showElementPreview = false;
-            _elementPreviewModeIsActive = true;
-            await ExecuteScriptAsync(@"toggleLinks(false)");//desactivar los enlaces
-            await ExecuteScriptAsync(@"toggleSvg(true)");
-            await ExecuteScriptAsync(@"isMarginActive = true;");
-
-            if (_selectorsTree == null) return;
-            if (_selectorsTree.Count == 0) return;
-
-            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
-
+            await ActivateElementPreviewMode();
         }
         else
         {
-            _showElementPreview = true;
-            await ExecuteScriptAsync(@"toggleLinks(true)");//desactivar los enlaces
-            _elementPreviewModeIsActive = false;
-            ElementPreviewButton.IsChecked = false;
-            await ExecuteScriptAsync(@"toggleSvg(false)");
-            await ExecuteScriptAsync(@"isMarginActive = false;");
+            await DeactivateElementPreviewMode();
         }
     }
-
     private async void SelectButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         if (_selectionModeIsActive)
         {
-            SelectButton.IsChecked = true;
-            _elementPreviewModeIsActive = false;
-            ElementPreviewButton.IsChecked = false;
-            ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-            ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-            DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-            TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-
-            // Activar los enlaces
-            await ExecuteScriptAsync(@"toggleLinks(false)");
-            await ExecuteScriptAsync(@"toggleSvg(true)");
-            await ExecuteScriptAsync(@"isMarginActive = true;");
-            _selectionModeIsActive = false;
-
-            if (_selectorsTree == null) return;
-            if (_selectorsTree.Count == 0) return;
-
-            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+            await ActivateElementSelectionMode();
         }
         else
         {
-            SelectButton.IsChecked = false;
-            _selectionModeIsActive = true;
-            // Activar los enlaces
-            await ExecuteScriptAsync(@"toggleLinks(true)");
-            await ExecuteScriptAsync(@"toggleSvg(false)");
-            await ExecuteScriptAsync(@"isMarginActive = false;");
-
-            ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-            ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-            DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-            TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            await DeactivateElementSelectionMode();
         }
     }
+    private async Task ActivateElementPreviewMode()
+    {
+        _showElementPreview = false;
+        _elementPreviewModeIsActive = true;
 
+        await ExecuteScriptAsync(@"toggleLinks(false)");//desactivar los enlaces
+        await ExecuteScriptAsync(@"toggleSvg(true)");
+        await ExecuteScriptAsync(@"isMarginActive = true;");
+
+        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+
+        await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+    }
+    private async Task DeactivateElementPreviewMode()
+    {
+        _showElementPreview = true;
+
+        await ExecuteScriptAsync(@"toggleLinks(true)");//desactivar los enlaces
+        _elementPreviewModeIsActive = false;
+        ElementPreviewButton.IsChecked = false;
+        await ExecuteScriptAsync(@"toggleSvg(false)");
+        await ExecuteScriptAsync(@"isMarginActive = false;");
+    }
+    private async Task ActivateElementSelectionMode()
+    {
+        SelectButton.IsChecked = true;
+        _elementPreviewModeIsActive = false;
+        ElementPreviewButton.IsChecked = false;
+        SetButtonsVisibility(true);
+
+        await ExecuteScriptAsync(@"toggleLinks(false)");
+        await ExecuteScriptAsync(@"toggleSvg(true)");
+        await ExecuteScriptAsync(@"isMarginActive = true;");
+        _selectionModeIsActive = false;
+
+        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+
+        await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
+    }
+    private async Task DeactivateElementSelectionMode()
+    {
+        SelectButton.IsChecked = false;
+        _selectionModeIsActive = true;
+
+        await ExecuteScriptAsync(@"toggleLinks(true)");
+        await ExecuteScriptAsync(@"toggleSvg(false)");
+        await ExecuteScriptAsync(@"isMarginActive = false;");
+        SetButtonsVisibility(false);
+    }
+    private void SetButtonsVisibility(bool visible)
+    {
+        ChildrenButton.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
+        ParentButton.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
+        DoneButton.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
+        TxtSelectedElement.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
+    }
     private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
 
