@@ -258,7 +258,21 @@
 
                             <ListBox
                                 Grid.Row="4"
-                                Height="164" />
+                                ItemsSource="{x:Bind ViewModel.ObjectSelector.Selectors}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate
+                                        x:DataType="models:Selector">
+                                        <StackPanel>
+                                            <TextBlock
+                                                Text="{x:Bind Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock
+                                                Text="{x:Bind CssSelector, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock
+                                                Text="{x:Bind Command, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
 
                         </Grid>
                     </TabViewItem>
