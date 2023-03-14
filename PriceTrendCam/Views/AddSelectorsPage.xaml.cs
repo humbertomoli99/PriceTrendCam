@@ -63,19 +63,8 @@ public sealed partial class AddSelectorsPage : Page
     }
     private void InitializeTypeDataComboBox()
     {
-        TypeDataComboBox = new ObservableCollection<string>
-        {
-            "Title",
-            "Description",
-            "Image",
-            "Price",
-            "Price Currency",
-            "Shipping",
-            "Shipping Currency",
-            "Stock",
-        };
+        TypeDataComboBox = new ObservableCollection<string>(Enum.GetNames(typeof(SelectorType)));
     }
-
     private async Task<List<string>> GetListAttributesAsync(string element)
     {
         var myElement = await ExecuteScriptAsync(@"getCssSelector( " + element + ");");
