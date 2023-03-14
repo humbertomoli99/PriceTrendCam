@@ -195,16 +195,6 @@
                                     Height="Auto" />
                                 <RowDefinition
                                     Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <StackPanel
@@ -264,36 +254,15 @@
                                 Margin="0,5"
                                 Grid.Row="3" />
 
-                            <TextBox
-                                Header="Regex"
-                                x:Name="PatternTextBox"
-                                Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                PlaceholderText="Pattern"
-                                Grid.Row="4"
-                                Margin="0,5" />
-
-                            <TextBox
-                                x:Name="ReplacementTextBox"
-                                PlaceholderText="Replacement"
-                                Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Grid.Row="5"
-                                Margin="0,5" />
-
-                            <Button
-                                x:Name="DataPreviewButton"
-                                Content="Data Preview"
-                                Margin="{StaticResource XSmallTopBottomMargin}"
-                                Click="DataPreviewButton_Click"
-                                Grid.Row="6" />
 
                             <ListBox
-                                Grid.Row="7"
+                                Grid.Row="4"
                                 Height="164" />
 
                             <StackPanel
                                 Orientation="Horizontal"
                                 Margin="{StaticResource XSmallTopBottomMargin}"
-                                Grid.Row="8">
+                                Grid.Row="5">
                                 <Button
                                     x:Name="SaveButton"
                                     Content="Save Selector"
@@ -310,16 +279,48 @@
                     </TabViewItem>
                     <TabViewItem
                         IsClosable="False"
-                        Header="Store">
+                        Header="Regex">
 
                         <TabViewItem.IconSource>
                             <FontIconSource
                                 FontFamily="{StaticResource BootstrapIcons}"
                                 Glyph="&#xF84D;" />
                         </TabViewItem.IconSource>
-                        
-                        <TextBlock
-                            Text="Contenido del Tab 2" />
+                        <Grid
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,5,5,5"
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBox
+                                Header="Regex"
+                                x:Name="PatternTextBox"
+                                Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                PlaceholderText="Pattern"
+                                Grid.Row="0"
+                                Margin="0,5" />
+
+                            <TextBox
+                                x:Name="ReplacementTextBox"
+                                PlaceholderText="Replacement"
+                                Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Grid.Row="1"
+                                Margin="0,5" />
+
+                            <Button
+                                x:Name="DataPreviewButton"
+                                Content="Data Preview"
+                                Margin="{StaticResource XSmallTopBottomMargin}"
+                                Click="DataPreviewButton_Click"
+                                Grid.Row="2" />
+                        </Grid>
                     </TabViewItem>
                     <TabViewItem
                         IsClosable="False"
