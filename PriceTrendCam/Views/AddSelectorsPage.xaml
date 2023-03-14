@@ -289,7 +289,7 @@
                         <Grid
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1,0,1,1"
-                            CornerRadius="0,5,5,5"
+                            CornerRadius="0,0,5,5"
                             Padding="{StaticResource MediumLeftTopRightBottomMargin}">
                             <Grid.RowDefinitions>
                                 <RowDefinition
