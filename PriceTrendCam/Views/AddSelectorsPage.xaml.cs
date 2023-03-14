@@ -185,29 +185,35 @@ public sealed partial class AddSelectorsPage : Page
             await DeactivateElementSelectionMode();
         }
     }
+    private async Task ToggleLinksAndSvg(bool linksEnabled, bool svgEnabled)
+    {
+        await ExecuteScriptAsync($"toggleLinks({linksEnabled.ToString().ToLower()})");
+        await ExecuteScriptAsync($"toggleSvg({svgEnabled.ToString().ToLower()})");
+        await ExecuteScriptAsync("isMarginActive = " + svgEnabled.ToString().ToLower() + ";");
+    }
+
     private async Task ActivateElementPreviewMode()
     {
         _showElementPreview = false;
         _elementPreviewModeIsActive = true;
 
-        await ExecuteScriptAsync(@"toggleLinks(false)");//desactivar los enlaces
-        await ExecuteScriptAsync(@"toggleSvg(true)");
-        await ExecuteScriptAsync(@"isMarginActive = true;");
+        await ToggleLinksAndSvg(false, true);
 
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
 
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
     }
+
     private async Task DeactivateElementPreviewMode()
     {
         _showElementPreview = true;
 
-        await ExecuteScriptAsync(@"toggleLinks(true)");//desactivar los enlaces
+        await ToggleLinksAndSvg(true, false);
+
         _elementPreviewModeIsActive = false;
         ElementPreviewButton.IsChecked = false;
-        await ExecuteScriptAsync(@"toggleSvg(false)");
-        await ExecuteScriptAsync(@"isMarginActive = false;");
     }
+
     private async Task ActivateElementSelectionMode()
     {
         SelectButton.IsChecked = true;
@@ -215,23 +221,22 @@ public sealed partial class AddSelectorsPage : Page
         ElementPreviewButton.IsChecked = false;
         SetButtonsVisibility(true);
 
-        await ExecuteScriptAsync(@"toggleLinks(false)");
-        await ExecuteScriptAsync(@"toggleSvg(true)");
-        await ExecuteScriptAsync(@"isMarginActive = true;");
+        await ToggleLinksAndSvg(false, true);
+
         _selectionModeIsActive = false;
 
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
 
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
     }
+
     private async Task DeactivateElementSelectionMode()
     {
         SelectButton.IsChecked = false;
         _selectionModeIsActive = true;
 
-        await ExecuteScriptAsync(@"toggleLinks(true)");
-        await ExecuteScriptAsync(@"toggleSvg(false)");
-        await ExecuteScriptAsync(@"isMarginActive = false;");
+        await ToggleLinksAndSvg(true, false);
+
         SetButtonsVisibility(false);
     }
     private void SetButtonsVisibility(bool visible)
