@@ -7,6 +7,7 @@
     xmlns:behaviors="using:PriceTrendCam.Behaviors"
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:models="using:PriceTrendCam.Core.Models"
     mc:Ignorable="d">
 
     <Grid
@@ -308,13 +309,43 @@
                     </TabViewItem>
                     <TabViewItem
                         IsClosable="False"
-                        Header="Tab 3">
+                        Header="Store">
                         <TabViewItem.IconSource>
                             <SymbolIconSource
                                 Symbol="Globe" />
                         </TabViewItem.IconSource>
-                        <TextBlock
-                            Text="Contenido del Tab 3" />
+                        <Grid
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,5,5"
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{x:Bind  ViewModel.ObjectSelector.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="1" Text="{x:Bind  ViewModel.ObjectSelector.Favicon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Grid.Row="2" Text="{x:Bind  ViewModel.ObjectSelector.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ListBox
+                                Grid.Row="3"
+                                ItemsSource="{x:Bind ViewModel.ObjectSelector.Urls}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate
+                                        x:DataType="models:StoreUrl">
+                                        <StackPanel>
+                                            <TextBlock
+                                                Text="{x:Bind Url}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
                     </TabViewItem>
                 </TabView>
             </ScrollViewer>

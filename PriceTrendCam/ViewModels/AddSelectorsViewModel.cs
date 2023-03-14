@@ -138,6 +138,8 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             _newstoreId = (int)parameter;
             // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
             var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
+            ObjectSelector = store;
+
             var firstUrl = store.Urls.First().Url.ToString();
             Source = new Uri(firstUrl);
         }
