@@ -399,14 +399,23 @@
                     Content="Cancel"
                     Click="CancelButton_Click" />
             </StackPanel>
-
+            
             <controls:GridSplitter
                 Grid.Row="1"
                 Height="5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Background="Black" />
+
         </Grid>
-        
+        <TeachingTip
+            x:Name="ElementNotExistTeachingTip"
+            Title="The element does not exist"
+            Subtitle="The selected item does not exist on this page"
+            PreferredPlacement="Auto"
+            PlacementMargin="20"
+            IsLightDismissEnabled="True"
+            CloseButtonContent="Close">
+        </TeachingTip>
     </Grid>
 </Page>

@@ -199,7 +199,10 @@ public sealed partial class AddSelectorsPage : Page
 
         if (!isElementInDOM)
         {
+            ElementNotExistTeachingTip.IsOpen = true;
             await ToggleElementPreviewMode(false);
+            await Task.Delay(500); // espera de 1 segundo
+            ElementNotExistTeachingTip.IsOpen = false;
             return;
         }
 
