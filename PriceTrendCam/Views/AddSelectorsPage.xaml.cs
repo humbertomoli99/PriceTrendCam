@@ -163,8 +163,6 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        SelectButton.IsChecked = false;
-
         if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
         {
             await ActivateElementPreviewMode();
@@ -337,15 +335,8 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async void DoneButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        ChildrenButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-        ParentButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-        DoneButton.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-        TxtSelectedElement.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-
-        // Activar los enlaces
-        await ExecuteScriptAsync(@"toggleLinks(true)");
-        await ExecuteScriptAsync(@"toggleSvg(false)");
-        await ExecuteScriptAsync(@"isMarginActive = false;");
+        await ToggleLinksAndSvg(true, false);
+        SetButtonsVisibility(false);
 
         _selectionModeIsActive = true;
 
