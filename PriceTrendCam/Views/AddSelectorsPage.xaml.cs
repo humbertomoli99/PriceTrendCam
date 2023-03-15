@@ -433,7 +433,7 @@ public sealed partial class AddSelectorsPage : Page
         }
     }
 
-    private async void ObjectSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ObjectSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Obtener el objeto Selector seleccionado
         if (ObjectSelector.SelectedItem is Selector selector)
