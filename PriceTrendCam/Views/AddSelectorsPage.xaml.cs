@@ -169,7 +169,7 @@ public sealed partial class AddSelectorsPage : Page
         }
         else
         {
-            await DeactivateElementPreviewMode();
+            await ToggleElementPreviewMode(false);
         }
     }
     private async void SelectButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -191,7 +191,7 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async Task AddSelectorMargin()
     {
-        await ActivateElementPreviewMode();
+        await ToggleElementPreviewMode(true);
 
         if (_selectedCssSelector != "")
         {
@@ -199,7 +199,7 @@ public sealed partial class AddSelectorsPage : Page
 
             if (isElementInDOM == false)
             {
-                await DeactivateElementPreviewMode();
+                await ToggleElementPreviewMode(false);
             }
             if (isElementInDOM == true)
             {
@@ -210,22 +210,13 @@ public sealed partial class AddSelectorsPage : Page
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
     }
-    private async Task ActivateElementPreviewMode()
+    private async Task ToggleElementPreviewMode(bool activatePreviewMode)
     {
-        _showElementPreview = false;
-        _elementPreviewModeIsActive = true;
-        ElementPreviewButton.IsChecked = true;
+        _showElementPreview = !activatePreviewMode;
+        _elementPreviewModeIsActive = activatePreviewMode;
+        ElementPreviewButton.IsChecked = activatePreviewMode;
 
-        await ToggleLinksAndSvg(false, true);
-    }
-
-    private async Task DeactivateElementPreviewMode()
-    {
-        _showElementPreview = true;
-        _elementPreviewModeIsActive = false;
-        ElementPreviewButton.IsChecked = false;
-
-        await ToggleLinksAndSvg(true, false);
+        await ToggleLinksAndSvg(!activatePreviewMode, activatePreviewMode);
     }
 
     private async Task ActivateElementSelectionMode()
