@@ -193,25 +193,25 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async Task AddSelectorMargin()
     {
-        await ToggleElementPreviewMode(true);
+        if (string.IsNullOrEmpty(_selectedCssSelector)) return;
 
-        if (_selectedCssSelector != "")
+        var isElementInDOM = bool.Parse(await ExecuteScriptAsync($"isElementInDOM('{_selectedCssSelector}');"));
+
+        if (!isElementInDOM)
         {
-            var isElementInDOM = bool.Parse(await ExecuteScriptAsync(@"isElementInDOM('" + _selectedCssSelector + "');"));
-
-            if (isElementInDOM == false)
-            {
-                await ToggleElementPreviewMode(false);
-            }
-            if (isElementInDOM == true)
-            {
-                await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
-            }
+            await ToggleElementPreviewMode(false);
+            return;
         }
 
-        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
-        await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+        await ExecuteScriptAsync($"addMarginToSelector('{_selectedCssSelector}');");
+        await ToggleElementPreviewMode(true);
+
+        if (_selectorsTree != null && _selectorsTree.Count > 0)
+        {
+            await ExecuteScriptAsync($"addMarginToSelector('{_selectedCssSelector}');");
+        }
     }
+
     private async Task ToggleElementPreviewMode(bool activatePreviewMode)
     {
         _showElementPreview = !activatePreviewMode;
