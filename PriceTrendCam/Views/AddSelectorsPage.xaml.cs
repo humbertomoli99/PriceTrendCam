@@ -9,6 +9,7 @@ using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 
 namespace PriceTrendCam.Views;
 
@@ -105,12 +106,12 @@ public sealed partial class AddSelectorsPage : Page
         }
     }
 
-    private void SaveButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
 
     }
 
-    private async void DataPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void DataPreviewButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
@@ -162,7 +163,7 @@ public sealed partial class AddSelectorsPage : Page
         var newText = regex.Replace(input, replace);
         return newText;
     }
-    private async void ElementPreviewButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void ElementPreviewButton_Click(object sender, RoutedEventArgs e)
     {
         if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
         {
@@ -173,7 +174,7 @@ public sealed partial class AddSelectorsPage : Page
             await ToggleElementPreviewMode(false);
         }
     }
-    private async void SelectButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void SelectButton_Click(object sender, RoutedEventArgs e)
     {
         if (_selectionModeIsActive)
         {
@@ -253,16 +254,16 @@ public sealed partial class AddSelectorsPage : Page
         DoneButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         TxtSelectedElement.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
     }
-    private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
 
     }
-    private async void WebView_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private async void WebView_PointerPressed(object sender, PointerRoutedEventArgs e)
     {
         _elementPreviewModeIsActive = true;
     }
 
-    private async void WebView_PointerMoved(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private async void WebView_PointerMoved(object sender, PointerRoutedEventArgs e)
     {
         if (_elementPreviewModeIsActive)
         {
@@ -310,7 +311,7 @@ public sealed partial class AddSelectorsPage : Page
         // Establecer la variable de estado en verdadero
         isWebViewReady = true;
     }
-    private async void ParentButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void ParentButton_Click(object sender, RoutedEventArgs e)
     {
         // Comprobar si el WebView2 está listo
         if (!isWebViewReady) return;
@@ -325,7 +326,7 @@ public sealed partial class AddSelectorsPage : Page
             await ExecuteScriptAsync(@"addMarginToSelector('" + _selectorsTree[_activeSelection] + "');");
         }
     }
-    private async void ChildrenButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void ChildrenButton_Click(object sender, RoutedEventArgs e)
     {
         // Comprobar si el WebView2 está listo
         if (!isWebViewReady) return;
@@ -341,7 +342,7 @@ public sealed partial class AddSelectorsPage : Page
             TxtSelectedElement.Text = _selectorsTree[_activeSelection];
         }
     }
-    private async void DoneButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void DoneButton_Click(object sender, RoutedEventArgs e)
     {
         await ToggleLinksAndSvg(true, false);
         SetButtonsVisibility(false);
@@ -361,7 +362,7 @@ public sealed partial class AddSelectorsPage : Page
         //deshabilitar el visualizar script y el visualizador
     }
 
-    private void GetTypeDataComboBox_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void GetTypeDataComboBox_Loaded(object sender, RoutedEventArgs e)
     {
         GetTypeDataComboBox.SelectedIndex = 0;
     }
