@@ -8,6 +8,7 @@ using PriceTrendCam.Core.Models;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Microsoft.UI.Xaml;
 
 namespace PriceTrendCam.Views;
 
@@ -247,10 +248,10 @@ public sealed partial class AddSelectorsPage : Page
     }
     private void SetButtonsVisibility(bool visible)
     {
-        ChildrenButton.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
-        ParentButton.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
-        DoneButton.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
-        TxtSelectedElement.Visibility = visible ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
+        ChildrenButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        ParentButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        DoneButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        TxtSelectedElement.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
     }
     private void CancelButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
