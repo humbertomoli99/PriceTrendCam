@@ -197,13 +197,22 @@ public sealed partial class AddSelectorsPage : Page
         ElementPreviewButton.IsChecked = true;
 
         await ToggleLinksAndSvg(false, true);
-
+        
         if (_selectedCssSelector != "")
         {
-            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
-        }
-        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
+            var isElementInDOM = bool.Parse(await ExecuteScriptAsync(@"isElementInDOM('" + _selectedCssSelector + "');"));
 
+            if (isElementInDOM == false)
+            {
+                await DeactivateElementPreviewMode();
+            }
+            if(isElementInDOM == true)
+            {
+                await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+            }
+        }
+
+        if (_selectorsTree == null || _selectorsTree.Count == 0) return;
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
     }
 
