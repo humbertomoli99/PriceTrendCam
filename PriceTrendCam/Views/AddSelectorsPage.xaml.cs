@@ -165,7 +165,7 @@ public sealed partial class AddSelectorsPage : Page
     {
         if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
         {
-            await ActivateElementPreviewMode();
+            await AddSelectorMargin();
         }
         else
         {
@@ -189,15 +189,10 @@ public sealed partial class AddSelectorsPage : Page
         await ExecuteScriptAsync($"toggleSvg({svgEnabled.ToString().ToLower()})");
         await ExecuteScriptAsync("isMarginActive = " + svgEnabled.ToString().ToLower() + ";");
     }
-
-    private async Task ActivateElementPreviewMode()
+    private async Task AddSelectorMargin()
     {
-        _showElementPreview = false;
-        _elementPreviewModeIsActive = true;
-        ElementPreviewButton.IsChecked = true;
+        await ActivateElementPreviewMode();
 
-        await ToggleLinksAndSvg(false, true);
-        
         if (_selectedCssSelector != "")
         {
             var isElementInDOM = bool.Parse(await ExecuteScriptAsync(@"isElementInDOM('" + _selectedCssSelector + "');"));
@@ -206,7 +201,7 @@ public sealed partial class AddSelectorsPage : Page
             {
                 await DeactivateElementPreviewMode();
             }
-            if(isElementInDOM == true)
+            if (isElementInDOM == true)
             {
                 await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
             }
@@ -214,6 +209,14 @@ public sealed partial class AddSelectorsPage : Page
 
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+    }
+    private async Task ActivateElementPreviewMode()
+    {
+        _showElementPreview = false;
+        _elementPreviewModeIsActive = true;
+        ElementPreviewButton.IsChecked = true;
+
+        await ToggleLinksAndSvg(false, true);
     }
 
     private async Task DeactivateElementPreviewMode()
