@@ -299,3 +299,7 @@ function getPrototypeChain(obj) {
     }
     return chain.flat().join(', ');
 }
+
+function isElementInDOM(selector) {
+    return Boolean(document.querySelector(selector));
+}
