@@ -414,8 +414,7 @@
             Subtitle="The selected item does not exist on this page"
             PreferredPlacement="Auto"
             PlacementMargin="20"
-            IsLightDismissEnabled="True"
-            CloseButtonContent="Close">
+            IsLightDismissEnabled="True">
         </TeachingTip>
     </Grid>
 </Page>
