@@ -198,6 +198,10 @@ public sealed partial class AddSelectorsPage : Page
 
         await ToggleLinksAndSvg(false, true);
 
+        if (_selectedCssSelector != "")
+        {
+            await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
+        }
         if (_selectorsTree == null || _selectorsTree.Count == 0) return;
 
         await ExecuteScriptAsync(@"addMarginToSelector('" + _selectedCssSelector + "');");
@@ -426,6 +430,19 @@ public sealed partial class AddSelectorsPage : Page
         foreach (var url in storeUrls)
         {
             ViewModel.GetListSelectors.Add(url);
+        }
+    }
+
+    private async void ObjectSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        // Obtener el objeto Selector seleccionado
+        if (ObjectSelector.SelectedItem is Selector selector)
+        {
+            // Obtener el valor de CssSelector
+            SelectorAutoSuggestBox.Text = selector.Command;
+            _selectedCssSelector = selector.CssSelector;
+            _showElementPreview = true;
+            ElementPreviewButton_Click(sender,e);
         }
     }
 }

@@ -260,6 +260,7 @@
                             <ListBox
                                 Grid.Row="4"
                                 x:Name="ObjectSelector"
+                                SelectionChanged="ObjectSelector_SelectionChanged"
                                 ItemsSource="{x:Bind ViewModel.GetListSelectors, Mode=TwoWay}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate
