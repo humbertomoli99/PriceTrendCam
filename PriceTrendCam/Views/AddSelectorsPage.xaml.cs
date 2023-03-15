@@ -201,7 +201,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             ElementNotExistTeachingTip.IsOpen = true;
             await ToggleElementPreviewMode(false);
-            await Task.Delay(500); // espera de 1 segundo
+            await Task.Delay(1000); // espera de 1 segundo
             ElementNotExistTeachingTip.IsOpen = false;
             return;
         }
