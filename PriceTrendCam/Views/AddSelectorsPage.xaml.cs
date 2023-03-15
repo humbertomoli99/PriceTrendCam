@@ -203,13 +203,8 @@ public sealed partial class AddSelectorsPage : Page
             return;
         }
 
-        await ExecuteScriptAsync($"addMarginToSelector('{_selectedCssSelector}');");
         await ToggleElementPreviewMode(true);
-
-        if (_selectorsTree != null && _selectorsTree.Count > 0)
-        {
-            await ExecuteScriptAsync($"addMarginToSelector('{_selectedCssSelector}');");
-        }
+        await ExecuteScriptAsync($"addMarginToSelector('{_selectedCssSelector}');");
     }
 
     private async Task ToggleElementPreviewMode(bool activatePreviewMode)
