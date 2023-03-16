@@ -81,16 +81,8 @@ public sealed partial class AddSelectorsPage : Page
     private async Task GetAttributes()
     {
         AttributesComboBox.Clear();
-
-        string miCadena = SelectorAutoSuggestBox.Text;
-
-        //if (miCadena.EndsWith("."))
-        //{
-        //    miCadena = miCadena.Substring(0, miCadena.Length - 1);
-        //}
-
-        var attributes = await GetListAttributesAsync(miCadena);
-
+        var cadena2 = $"document.querySelector('{SelectorAutoSuggestBox.Text}')";
+        var attributes = await GetListAttributesAsync(cadena2);
         // Agregar valor por defecto si no existe
         if (!attributes.Contains("innerText")) AttributesComboBox.Add("innerText");
         if (!attributes.Contains("innerHTML")) AttributesComboBox.Add("innerHTML");
@@ -116,15 +108,15 @@ public sealed partial class AddSelectorsPage : Page
     {
         try
         {
-            var resultCommand = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
+            var scriptElement = $"document.querySelector('{SelectorAutoSuggestBox.Text}').{GetAttributeComboBox.Text}";
+            var resultCommand = await ExecuteScriptAsync(scriptElement);
 
             if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
             {
-                var input = await ExecuteScriptAsync(SelectorAutoSuggestBox.Text);
                 var pattern = PatternTextBox.Text;
                 var replace = ReplacementTextBox.Text;
 
-                var newText = ApplyRegex(input, pattern, replace);
+                var newText = ApplyRegex(resultCommand, pattern, replace);
                 _messagePreviewSelectorValue = newText;
             }
             else
@@ -343,7 +335,6 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async void DoneButton_Click(object sender, RoutedEventArgs e)
     {
-        await GetAttributes();
         await ToggleLinksAndSvg(true, false);
         SetButtonsVisibility(false);
 
@@ -352,7 +343,7 @@ public sealed partial class AddSelectorsPage : Page
         if (_selectorsTree == null) return;
         if (_selectorsTree.Count == 0) return;
 
-        SelectorAutoSuggestBox.Text = "document.querySelector('" + _selectorsTree[_activeSelection] + "')";
+        SelectorAutoSuggestBox.Text = _selectorsTree[_activeSelection];
         _selectedCssSelector = _selectorsTree[_activeSelection];
         ViewModel.selectedCssSelector = _selectedCssSelector;
 
@@ -360,6 +351,7 @@ public sealed partial class AddSelectorsPage : Page
         SelectButton.IsChecked = false;
         ElementPreviewButton.IsChecked = false;
         //deshabilitar el visualizar script y el visualizador
+        await GetAttributes();
     }
 
     private void GetTypeDataComboBox_Loaded(object sender, RoutedEventArgs e)
