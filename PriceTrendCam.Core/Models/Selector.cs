@@ -21,6 +21,10 @@ public class Selector
     {
         get; set;
     }
+    public string Attribute
+    {
+        get; set;
+    }
     public string Pattern
     {
         get; set;

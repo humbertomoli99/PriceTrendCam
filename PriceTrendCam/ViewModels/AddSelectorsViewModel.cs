@@ -127,6 +127,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             Type = typeDataComboBox,
             Pattern = patternTextBox,
             Replacement = replacementTextBox,
+            Attribute = getAttributeComboBox,
             StoreId = store.Id,
         };
 

@@ -84,26 +84,27 @@ public sealed partial class AddSelectorsPage : Page
 
         string miCadena = SelectorAutoSuggestBox.Text;
 
-        if (miCadena.EndsWith("."))
-        {
-            miCadena = miCadena.Substring(0, miCadena.Length - 1);
-        }
+        //if (miCadena.EndsWith("."))
+        //{
+        //    miCadena = miCadena.Substring(0, miCadena.Length - 1);
+        //}
 
         var attributes = await GetListAttributesAsync(miCadena);
 
         // Agregar valor por defecto si no existe
-        if (!attributes.Contains("innerText")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerText");
-        if (!attributes.Contains("innerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "innerHTML");
-        if (!attributes.Contains("outerHTML")) AttributesComboBox.Add(SelectorAutoSuggestBox.Text + "outerHTML");
+        if (!attributes.Contains("innerText")) AttributesComboBox.Add("innerText");
+        if (!attributes.Contains("innerHTML")) AttributesComboBox.Add("innerHTML");
+        if (!attributes.Contains("outerHTML")) AttributesComboBox.Add("outerHTML");
 
         if (attributes[0] != "null")
         {
             foreach (var attribute in attributes)
             {
                 if (string.IsNullOrEmpty(attribute)) continue;
-                AttributesComboBox.Add(SelectorAutoSuggestBox.Text + attribute);
+                AttributesComboBox.Add(attribute);
             }
         }
+        GetAttributeComboBox.SelectedIndex = 0;
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -342,6 +343,7 @@ public sealed partial class AddSelectorsPage : Page
     }
     private async void DoneButton_Click(object sender, RoutedEventArgs e)
     {
+        await GetAttributes();
         await ToggleLinksAndSvg(true, false);
         SetButtonsVisibility(false);
 
@@ -393,12 +395,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             // Obtener el texto actual del AutoSuggestBox
             string currentText = SelectorAutoSuggestBox.Text;
-
-            // Verificar si el último carácter es un punto
-            if (currentText.EndsWith("."))
-            {
-                await GetAttributes();
-            }
+            await GetAttributes();
         }
     }
 
@@ -447,5 +444,9 @@ public sealed partial class AddSelectorsPage : Page
             _showElementPreview = true;
             ElementPreviewButton_Click(sender,e);
         }
+    }
+    private void GetAttributeComboBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        GetAttributeComboBox.SelectedIndex = 0;
     }
 }

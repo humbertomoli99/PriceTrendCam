@@ -196,6 +196,8 @@
                                     Height="Auto" />
                                 <RowDefinition
                                     Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <StackPanel
@@ -251,14 +253,23 @@
                                 HorizontalAlignment="Stretch"
                                 PlaceholderText="JavaScript Path:"
                                 Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
                                 TextChanged="SelectorAutoSuggestBox_TextChanged"
                                 Margin="0,5"
                                 Grid.Row="3" />
 
+                            <ComboBox
+                                x:Name="GetAttributeComboBox"
+                                IsEditable="True"
+                                ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
+                                SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Header="Get Attribute"
+                                Loaded="GetAttributeComboBox_Loaded"
+                                Grid.Row="4"
+                                Margin="0,5">
+                            </ComboBox>
 
                             <ListBox
-                                Grid.Row="4"
+                                Grid.Row="5"
                                 x:Name="ObjectSelector"
                                 SelectionChanged="ObjectSelector_SelectionChanged"
                                 ItemsSource="{x:Bind ViewModel.GetListSelectors, Mode=TwoWay}">
