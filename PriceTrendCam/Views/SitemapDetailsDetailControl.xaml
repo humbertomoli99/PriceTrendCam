@@ -55,9 +55,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
-                                    Width="*" MaxWidth="60" />
-                                <ColumnDefinition
-                                    Width="*" />
+                                    Width="*" MaxWidth="80" />
                                 <ColumnDefinition
                                     Width="*" />
                             </Grid.ColumnDefinitions>
@@ -66,21 +64,14 @@
                                 Text="Type"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
-                                TextAlignment="Center"
+                                TextAlignment="Left"
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                             <TextBlock
                                 Grid.Column="1"
                                 Text="CSS Selector"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
-                                TextAlignment="Center"
-                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                            <TextBlock
-                                Grid.Column="2"
-                                Text="Command"
-                                Margin="6"
-                                HorizontalAlignment="Stretch"
-                                TextAlignment="Center"
+                                TextAlignment="Left"
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                         </Grid>
                     </ListView.Header>
@@ -89,9 +80,7 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition
-                                        Width="*" MaxWidth="60" />
-                                    <ColumnDefinition
-                                        Width="*" />
+                                        Width="*" MaxWidth="80" />
                                     <ColumnDefinition
                                         Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -99,23 +88,15 @@
                                     Grid.Column="0"
                                     Margin="6"
                                     Text="{Binding Type}"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     HorizontalAlignment="Stretch"
                                     FontSize="{StaticResource SmallFontSize}"
                                     Style="{StaticResource DetailBodyBaseMediumStyle}" />
                                 <TextBlock
                                     Grid.Column="1"
                                     Margin="6"
-                                    TextAlignment="Center"
+                                    TextAlignment="Left"
                                     Text="{Binding CssSelector}"
-                                    HorizontalAlignment="Stretch"
-                                    FontSize="{StaticResource SmallFontSize}"
-                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                                <TextBlock
-                                    Grid.Column="2"
-                                    Margin="6"
-                                    TextAlignment="Center"
-                                    Text="{Binding Command}"
                                     HorizontalAlignment="Stretch"
                                     FontSize="{StaticResource SmallFontSize}"
                                     Style="{StaticResource DetailBodyBaseMediumStyle}" />
