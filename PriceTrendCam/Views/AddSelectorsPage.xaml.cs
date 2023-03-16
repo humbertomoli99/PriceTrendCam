@@ -198,7 +198,7 @@ public sealed partial class AddSelectorsPage : Page
             ElementNotExistTeachingTip.IsOpen = false;
             return;
         }
-
+        await GetAttributes();
         await ToggleElementPreviewMode(true);
         await ExecuteScriptAsync($"addMarginToSelector('{_selectedCssSelector}');");
     }
@@ -353,11 +353,6 @@ public sealed partial class AddSelectorsPage : Page
         //deshabilitar el visualizar script y el visualizador
         await GetAttributes();
     }
-
-    private void GetTypeDataComboBox_Loaded(object sender, RoutedEventArgs e)
-    {
-        GetTypeDataComboBox.SelectedIndex = 0;
-    }
     private async Task<string> ExecuteScriptAsync(string script)
     {
         return await WebView.CoreWebView2.ExecuteScriptAsync(script);
@@ -416,7 +411,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             return;
         }
-
+        
         var storeUrls = selectorsFromStore.Where(s => s.Type == selectedType.ToString()).ToList();
 
         foreach (var url in storeUrls)
@@ -433,12 +428,10 @@ public sealed partial class AddSelectorsPage : Page
             // Obtener el valor de CssSelector
             SelectorAutoSuggestBox.Text = selector.Command;
             _selectedCssSelector = selector.CssSelector;
+            ReplacementTextBox.Text = selector.Replacement;
+            PatternTextBox.Text = selector.Pattern;
             _showElementPreview = true;
             ElementPreviewButton_Click(sender,e);
         }
-    }
-    private void GetAttributeComboBox_Loaded(object sender, RoutedEventArgs e)
-    {
-        GetAttributeComboBox.SelectedIndex = 0;
     }
 }

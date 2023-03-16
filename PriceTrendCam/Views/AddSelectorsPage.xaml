@@ -211,7 +211,6 @@
                                     Grid.Row="0"
                                     MinWidth="200"
                                     SelectionChanged="GetTypeDataComboBox_SelectionChanged"
-                                    Loaded="GetTypeDataComboBox_Loaded"
                                     Margin="0,5">
                                 </ComboBox>
                                 <CheckBox
@@ -263,7 +262,6 @@
                                 ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
                                 SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Header="Get Attribute"
-                                Loaded="GetAttributeComboBox_Loaded"
                                 Grid.Row="4"
                                 Margin="0,5">
                             </ComboBox>
