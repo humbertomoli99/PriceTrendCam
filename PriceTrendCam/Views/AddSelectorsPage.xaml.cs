@@ -430,8 +430,10 @@ public sealed partial class AddSelectorsPage : Page
             _selectedCssSelector = selector.CssSelector;
             ReplacementTextBox.Text = selector.Replacement;
             PatternTextBox.Text = selector.Pattern;
+            GetAttributeComboBox.Text = selector.Attribute;
+            GetTypeDataComboBox.SelectedItem = selector.Type;
             _showElementPreview = true;
-            ElementPreviewButton_Click(sender,e);
+            ElementPreviewButton_Click(sender, e);
         }
     }
 }
