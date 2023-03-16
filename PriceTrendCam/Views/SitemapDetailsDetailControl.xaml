@@ -57,6 +57,10 @@
                                 <ColumnDefinition
                                     Width="*" MaxWidth="80" />
                                 <ColumnDefinition
+                                    Width="*" MaxWidth="100" />
+                                <ColumnDefinition
+                                    Width="*" MaxWidth="100" />
+                                <ColumnDefinition
                                     Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
@@ -68,6 +72,20 @@
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                             <TextBlock
                                 Grid.Column="1"
+                                Text="Pattern"
+                                Margin="6"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Left"
+                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Text="Replacement"
+                                Margin="6"
+                                HorizontalAlignment="Stretch"
+                                TextAlignment="Left"
+                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                            <TextBlock
+                                Grid.Column="3"
                                 Text="CSS Selector"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
@@ -82,6 +100,10 @@
                                     <ColumnDefinition
                                         Width="*" MaxWidth="80" />
                                     <ColumnDefinition
+                                        Width="*" MaxWidth="100" />
+                                    <ColumnDefinition
+                                        Width="*" MaxWidth="100" />
+                                    <ColumnDefinition
                                         Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
@@ -94,6 +116,22 @@
                                     Style="{StaticResource DetailBodyBaseMediumStyle}" />
                                 <TextBlock
                                     Grid.Column="1"
+                                    Margin="6"
+                                    TextAlignment="Left"
+                                    Text="{Binding Pattern}"
+                                    HorizontalAlignment="Stretch"
+                                    FontSize="{StaticResource SmallFontSize}"
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                <TextBlock
+                                    Grid.Column="2"
+                                    Margin="6"
+                                    TextAlignment="Left"
+                                    Text="{Binding Replacement}"
+                                    HorizontalAlignment="Stretch"
+                                    FontSize="{StaticResource SmallFontSize}"
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                <TextBlock
+                                    Grid.Column="3"
                                     Margin="6"
                                     TextAlignment="Left"
                                     Text="{Binding CssSelector}"
