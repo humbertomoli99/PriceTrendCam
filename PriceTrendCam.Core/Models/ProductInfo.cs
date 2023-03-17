@@ -55,7 +55,7 @@ public class ProductInfo
     {
         get; set;
     }
-    public int? Stock
+    public string? Stock
     {
         get; set;
     }
