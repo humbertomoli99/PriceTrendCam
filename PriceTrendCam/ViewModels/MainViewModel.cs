@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Text.RegularExpressions;
+using AngleSharp.Dom;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 
@@ -8,16 +9,19 @@ using PriceTrendCam.Core.Services;
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
+    private WebPageService _webPageService;
     public MainViewModel()
     {
+        _webPageService = new WebPageService();
     }
     [ObservableProperty]
     private string textBoxSearch;
+    private IElement _document;
 
     [RelayCommand]
     public async Task AdvancedSearch()
     {
-        if (await Url.IsValid(textBoxSearch))
+        if (await Core.Helpers.Url.IsValid(textBoxSearch))
         {
             await SearchUrlAsync(textBoxSearch);
         }
@@ -26,12 +30,30 @@ public partial class MainViewModel : ObservableObject
             await SearchTermAsync();
         }
     }
-    private static async Task SearchUrlAsync(string url)
+    //Funciones auxiliares
+    private string? GetValue(string cssSelector, string attribute)
     {
+        var element = _document.QuerySelector(cssSelector);
+        if (attribute == "innerHTML")
+        {
+            return element.InnerHtml;
+        }
+        if (attribute == "OuterHtml")
+        {
+            return element.OuterHtml;
+        }
+        return _document.QuerySelector(cssSelector).GetAttribute(attribute);
+    }
+    private string ApplyRegex(string value, string pattern, string replacement)
+    {
+        return Regex.Replace(value, pattern, replacement);
+    }
+    private async Task SearchUrlAsync(string url)
+    {
+        
         // Buscar si la URL tiene un sitemap y selectores asignados
         var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
-
         if (isRegistered)
         {
             Console.Write("The product is registered");
@@ -51,28 +73,92 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        var node = await HtmlDocumentService.LoadPageAsync(url);
+        var listSelectors = partnerStore.Selectors.ToList();
+        var newProduct = new ProductInfo();
 
-        var metaTitle = HtmlDocumentService.GetMetaTitle(node);
-        var metaDescription = HtmlDocumentService.GetMetaDescription(node);
-        var metaImage = HtmlDocumentService.GetMetaImage(node);
+        _document = await _webPageService.LoadPageAsync(url);
 
-        var newProduct = new ProductInfo
+        foreach (var selector in listSelectors)
         {
-            Name = metaTitle,
-            Description = metaDescription,
-            Url = url,
-            Price = 100.0,
-            PriceCurrency = "MXN",
-            Date = DateTime.UtcNow,
-            ShippingPrice = 119,
-            ShippingCurrency = "MXN",
-            StoreName = partnerStore.Name,
-            Status = "In stock",
-            Stock = 100,
-            Image = metaImage,
-            StoreId = partnerStore.Id,
-        };
+            if (Enum.TryParse(selector.Type, out SelectorType selectorTypeEnum))
+            {
+                switch (selectorTypeEnum)
+                {
+                    case SelectorType.Title:
+                        newProduct.Name = GetValue(selector.CssSelector, selector.Attribute);
+                        break;
+                    case SelectorType.Description:
+                        newProduct.Description = GetValue(selector.CssSelector, selector.Attribute);
+                        break;
+                    case SelectorType.Image:
+                        newProduct.Image = GetValue(selector.CssSelector, selector.Attribute);
+                        break;
+                    case SelectorType.Price:
+                        newProduct.Price = Convert.ToDouble(GetValue(selector.CssSelector, selector.Attribute));
+                        break;
+                    case SelectorType.PriceCurrency:
+                        newProduct.PriceCurrency = GetValue(selector.CssSelector, selector.Attribute);
+                        break;
+                    case SelectorType.Shipping:
+                        newProduct.ShippingPrice = Convert.ToDouble(GetValue(selector.CssSelector, selector.Attribute));
+                        break;
+                    case SelectorType.ShippingCurrency:
+                        newProduct.ShippingCurrency = GetValue(selector.CssSelector, selector.Attribute);
+                        break;
+                    case SelectorType.Stock:
+                        newProduct.Stock = GetValue(selector.CssSelector, selector.Attribute);
+                        break;
+                    // agregar más casos para cada tipo de selector que quieras iterar
+                    default:
+                        // manejo del caso predeterminado (si corresponde)
+                        break;
+                }
+            }
+            //aplicar regex si hay un patrón y una expresión de reemplazo especificados
+            if (!string.IsNullOrEmpty(selector.Pattern) && !string.IsNullOrEmpty(selector.Replacement))
+            {
+                if (Enum.TryParse(selector.Type, out SelectorType selectorTypeEnum1))
+                {
+                    switch (selectorTypeEnum1)
+                    {
+                        case SelectorType.Title:
+                            newProduct.Name = ApplyRegex(newProduct.Name, selector.Pattern, selector.Replacement);
+                            break;
+                        case SelectorType.Description:
+                            newProduct.Description = ApplyRegex(newProduct.Description, selector.Pattern, selector.Replacement);
+                            break;
+                        case SelectorType.Image:
+                            newProduct.Image = ApplyRegex(newProduct.Image, selector.Pattern, selector.Replacement);
+                            break;
+                        case SelectorType.Price:
+                            newProduct.Price = Convert.ToDouble(ApplyRegex(newProduct.Price.ToString(), selector.Pattern, selector.Replacement));
+                            break;
+                        case SelectorType.PriceCurrency:
+                            newProduct.PriceCurrency = ApplyRegex(newProduct.PriceCurrency, selector.Pattern, selector.Replacement);
+                            break;
+                        case SelectorType.Shipping:
+                            newProduct.ShippingPrice = Convert.ToDouble(ApplyRegex(newProduct.ShippingPrice.ToString(), selector.Pattern, selector.Replacement));
+                            break;
+                        case SelectorType.ShippingCurrency:
+                            newProduct.ShippingCurrency = ApplyRegex(newProduct.ShippingCurrency, selector.Pattern, selector.Replacement);
+                            break;
+                        case SelectorType.Stock:
+                            newProduct.Stock = ApplyRegex(newProduct.Stock.ToString(), selector.Pattern, selector.Replacement);
+                            break;
+                            // agregar más casos para cada tipo de selector que quieras iterar
+                    }
+                }
+            }
+        }
+
+        newProduct.StoreId = partnerStore.Id;
+        newProduct.Status = "In stock";
+        newProduct.Url = url;
+        newProduct.StoreName = partnerStore.Name;
+        newProduct.Date = DateTime.UtcNow;
+        newProduct.Image = GetValue("head > title", "innerHTML");
+        newProduct.PriceCurrency = "MXN";
+        newProduct.ShippingCurrency = "MXN";
 
         await App.PriceTrackerService.InsertAsync(newProduct);
     }
