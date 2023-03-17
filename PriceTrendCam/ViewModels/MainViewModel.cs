@@ -16,7 +16,6 @@ public partial class MainViewModel : ObservableObject
     }
     [ObservableProperty]
     private string textBoxSearch;
-    private IElement _document;
 
     [RelayCommand]
     public async Task AdvancedSearch()
@@ -33,7 +32,7 @@ public partial class MainViewModel : ObservableObject
     //Funciones auxiliares
     private string? GetValue(string cssSelector, string attribute)
     {
-        var element = _document.QuerySelector(cssSelector);
+        var element = _webPageService.SelectElement(cssSelector);
         if (attribute == "innerHTML")
         {
             return element.InnerHtml;
@@ -42,7 +41,7 @@ public partial class MainViewModel : ObservableObject
         {
             return element.OuterHtml;
         }
-        return _document.QuerySelector(cssSelector).GetAttribute(attribute);
+        return _webPageService.GetAttributeValue(element, attribute);
     }
     private string ApplyRegex(string value, string pattern, string replacement)
     {
@@ -50,7 +49,8 @@ public partial class MainViewModel : ObservableObject
     }
     private async Task SearchUrlAsync(string url)
     {
-        
+        await _webPageService.LoadPageAsync(url);
+
         // Buscar si la URL tiene un sitemap y selectores asignados
         var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
@@ -75,8 +75,6 @@ public partial class MainViewModel : ObservableObject
 
         var listSelectors = partnerStore.Selectors.ToList();
         var newProduct = new ProductInfo();
-
-        _document = await _webPageService.LoadPageAsync(url);
 
         foreach (var selector in listSelectors)
         {
