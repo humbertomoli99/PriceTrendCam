@@ -5,7 +5,7 @@ function getCssSelector(el) {
     while (el.nodeType === Node.ELEMENT_NODE) {
         var selector = el.nodeName.toLowerCase();
         if (el.id) {
-            selector += '#' + el.id;
+            selector = '#' + el.id;
             path.unshift(selector);
             break;
         } else {
