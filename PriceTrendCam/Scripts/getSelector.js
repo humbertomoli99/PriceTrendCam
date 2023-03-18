@@ -31,8 +31,8 @@ function getCssSelector(el) {
         el = el.parentNode;
     }
     var cssSelector = path.join(' > ');
-    console.log(cssSelector); // Imprime el selector CSS en la consola
-    return cssSelector;
+    let minifiedSelector = minifySelectorCss(cssSelector)
+    return minifiedSelector;
 }
 
 
@@ -311,3 +311,37 @@ function isElementInDOM(selector) {
     }
     return Boolean(document.querySelector(selector));
 }
+
+function isSameElement(element1, element2) {
+    return element1 && element2 && element1.isEqualNode(element2);
+}
+
+function minifySelectorCss(selector) {
+    let originalSelector = selector;
+    let iterations = 0;
+    const maxIterations = 10;
+    let prevElement = document.querySelector(selector);
+    let lastSuccessfulSelector = selector;
+
+    while (iterations < maxIterations) {
+        iterations++;
+        let isSame = isSameElement(document.querySelector(originalSelector), document.querySelector(selector));
+
+        if (isSame) {
+            lastSuccessfulSelector = selector;
+        } else {
+            selector = lastSuccessfulSelector;
+            break;
+        }
+
+        let firstBlockIndex = selector.indexOf('>') + 1;
+        selector = selector.substring(firstBlockIndex);
+    }
+
+    if (!isSameElement(prevElement, document.querySelector(selector))) {
+        console.log('El elemento ya no es el mismo que el original.');
+    }
+
+    return lastSuccessfulSelector;
+}
+
