@@ -18,8 +18,13 @@ function getCssSelector(el) {
                 }
                 sibling = sibling.previousSibling;
             }
-            if (siblingIndex > 1) {
-                siblingSelector = ':nth-of-type(' + siblingIndex + ')';
+            var childIndex = 1;
+            var child = el;
+            while ((child = child.previousElementSibling) != null) {
+                childIndex++;
+            }
+            if (childIndex > 1) {
+                siblingSelector = ':nth-child(' + childIndex + ')';
             }
             if (el.hasAttribute("itemprop")) {
                 selector += "[" + "itemprop=\"" + el.getAttribute("itemprop") + "\"]";
@@ -34,6 +39,7 @@ function getCssSelector(el) {
     let minifiedSelector = minifySelectorCss(cssSelector)
     return minifiedSelector;
 }
+
 
 
 //(function () {
