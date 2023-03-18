@@ -10,14 +10,6 @@ function getCssSelector(el) {
             break;
         } else {
             var siblingSelector = '';
-            var siblingIndex = 1;
-            var sibling = el.previousSibling;
-            while (sibling) {
-                if (sibling.nodeType === Node.ELEMENT_NODE && sibling.nodeName.toLowerCase() === selector) {
-                    siblingIndex++;
-                }
-                sibling = sibling.previousSibling;
-            }
             var childIndex = 1;
             var child = el;
             while ((child = child.previousElementSibling) != null) {
