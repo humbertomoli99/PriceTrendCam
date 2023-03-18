@@ -1,5 +1,4 @@
-﻿using Fizzler;
-using SQLite;
+﻿using SQLite;
 using SQLiteNetExtensions.Attributes;
 
 namespace PriceTrendCam.Core.Models;
