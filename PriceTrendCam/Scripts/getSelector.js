@@ -318,7 +318,6 @@ function minifySelectorCss(selector) {
     let originalSelector = selector;
     let iterations = 0;
     const maxIterations = 8;
-    let prevElement = document.querySelector(selector);
     let lastSuccessfulSelector = selector;
 
     while (iterations < maxIterations) {
@@ -335,11 +334,6 @@ function minifySelectorCss(selector) {
         let firstBlockIndex = selector.indexOf('>') + 1;
         selector = selector.substring(firstBlockIndex);
     }
-
-    if (!isSameElement(prevElement, document.querySelector(selector))) {
-        console.log('El elemento ya no es el mismo que el original.');
-    }
-
     return lastSuccessfulSelector;
 }
 
