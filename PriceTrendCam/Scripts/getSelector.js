@@ -149,7 +149,6 @@ function addMarginToSelector(selector) {
 function obtenerElementoPadre(selectorCSS) {
     var elementoHijo = document.querySelector(selectorCSS);
     var elementoPadre = elementoHijo.parentNode;
-    console.log(elementoPadre);
     return elementoPadre;
 }
 
@@ -253,7 +252,7 @@ elements.forEach((element) => {
 
 // Convertir el array de objetos a JSON
 let json = JSON.stringify(elementObjects);
-console.log(json);
+
 
 function getElementsAsJson() {
     const elements = document.querySelectorAll("*");
