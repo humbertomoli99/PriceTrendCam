@@ -21,7 +21,11 @@ function getCssSelector(el) {
             if (siblingIndex > 1) {
                 siblingSelector = ':nth-of-type(' + siblingIndex + ')';
             }
-            selector += siblingSelector;
+            if (el.hasAttribute("itemprop")) {
+                selector += "[" + "itemprop=\"" + el.getAttribute("itemprop") + "\"]";
+            } else {
+                selector += siblingSelector;
+            }
             path.unshift(selector);
         }
         el = el.parentNode;
@@ -30,6 +34,7 @@ function getCssSelector(el) {
     console.log(cssSelector); // Imprime el selector CSS en la consola
     return cssSelector;
 }
+
 
 //(function () {
 //    let svg = document.getElementById('rectangulos-svg');
@@ -301,5 +306,8 @@ function getPrototypeChain(obj) {
 }
 
 function isElementInDOM(selector) {
+    if (!selector) {
+        return false;
+    }
     return Boolean(document.querySelector(selector));
 }
