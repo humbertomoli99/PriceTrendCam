@@ -317,7 +317,7 @@ function isSameElement(element1, element2) {
 function minifySelectorCss(selector) {
     let originalSelector = selector;
     let iterations = 0;
-    const maxIterations = 10;
+    const maxIterations = 8;
     let prevElement = document.querySelector(selector);
     let lastSuccessfulSelector = selector;
 
