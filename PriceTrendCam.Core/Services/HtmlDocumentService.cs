@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using JavaScriptEngineSwitcher.Jint;
@@ -16,15 +17,11 @@ public class HtmlDocumentService
     /// <returns>Nodo HTML raíz de la página web cargada.</returns>
     public static async Task<HtmlNode> LoadPageAsync(string RequestUri)
     {
-        var client = new HttpClient();
-        client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
-
-        var response = await client.GetAsync(RequestUri);
-        var content = response.Content;
-        var document = new HtmlDocument();
-
-        document.LoadHtml(await content.ReadAsStringAsync());
-        return document.DocumentNode;
+        HtmlWeb web = new HtmlWeb();
+        web.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
+        web.AutomaticDecompression = DecompressionMethods.GZip;
+        var htmlDoc = web.Load(RequestUri);
+        return htmlDoc.DocumentNode;
     }
     /// <summary>
     /// Obtiene una lista de URLs de un nodo HTML dado.
@@ -140,7 +137,7 @@ public class HtmlDocumentService
     public static string GetMetaValue(HtmlNode DocumentNode, string selector, string attributeName)
     {
         // Selecciona el nodo específico utilizando el selector CSS
-        var metaNode = DocumentNode.QuerySelector(selector);
+        var metaNode = DocumentNode?.QuerySelector(selector);
 
         // Inicializa una variable para almacenar el resultado
         string result;
@@ -158,7 +155,7 @@ public class HtmlDocumentService
         }
 
         // Devuelve el resultado o una cadena vacía en caso de ser nulo
-        return result ?? string.Empty;
+        return result ?? selector;
     }
 
     public static string GetMetaTitle(HtmlNode DocumentNode)
