@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HtmlAgilityPack;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 
@@ -9,13 +10,13 @@ using PriceTrendCam.Core.Services;
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
-    private WebPageService _webPageService;
     public MainViewModel()
     {
-        _webPageService = new WebPageService();
     }
     [ObservableProperty]
     private string textBoxSearch;
+
+    private HtmlNode document;
 
     [RelayCommand]
     public async Task AdvancedSearch()
@@ -32,25 +33,17 @@ public partial class MainViewModel : ObservableObject
     //Funciones auxiliares
     private string? GetValue(string cssSelector, string attribute)
     {
-        var element = _webPageService.SelectElement(cssSelector);
-        if (attribute == "innerHTML")
-        {
-            return element.InnerHtml;
-        }
-        if (attribute == "OuterHtml")
-        {
-            return element.OuterHtml;
-        }
-        return _webPageService.GetAttributeValue(element, attribute);
+        var element = HtmlDocumentService.GetMetaValue(document, cssSelector, attribute);
+        if (element == null) { return string.Empty; }
+        return element;
     }
     private string ApplyRegex(string value, string pattern, string replacement)
     {
+        replacement ??= string.Empty;
         return Regex.Replace(value, pattern, replacement);
     }
     private async Task SearchUrlAsync(string url)
     {
-        await _webPageService.LoadPageAsync(url);
-
         // Buscar si la URL tiene un sitemap y selectores asignados
         var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
@@ -75,6 +68,7 @@ public partial class MainViewModel : ObservableObject
 
         var listSelectors = partnerStore.Selectors.ToList();
         var newProduct = new ProductInfo();
+        document = await HtmlDocumentService.LoadPageAsync(url);
 
         foreach (var selector in listSelectors)
         {
@@ -113,7 +107,7 @@ public partial class MainViewModel : ObservableObject
                 }
             }
             //aplicar regex si hay un patrón y una expresión de reemplazo especificados
-            if (!string.IsNullOrEmpty(selector.Pattern) && !string.IsNullOrEmpty(selector.Replacement))
+            if (!string.IsNullOrEmpty(selector.Pattern))
             {
                 if (Enum.TryParse(selector.Type, out SelectorType selectorTypeEnum1))
                 {
@@ -154,7 +148,7 @@ public partial class MainViewModel : ObservableObject
         newProduct.Url = url;
         newProduct.StoreName = partnerStore.Name;
         newProduct.Date = DateTime.UtcNow;
-        newProduct.Image = GetValue("head > title", "innerHTML");
+        //newProduct.Image = GetValue("head > title", "innerHTML");
         newProduct.PriceCurrency = "MXN";
         newProduct.ShippingCurrency = "MXN";
 
