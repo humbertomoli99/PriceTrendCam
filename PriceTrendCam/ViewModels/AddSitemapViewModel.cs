@@ -31,6 +31,15 @@ public partial class AddSitemapViewModel : ObservableValidator
     private string textBoxStoreName;
 
     [ObservableProperty]
+    private string textBoxEncoding;
+
+    [ObservableProperty]
+    private string textBoxUserAgent;
+
+    [ObservableProperty]
+    private string textBoxCookie;
+
+    [ObservableProperty]
     private string selectedWebBrowserDrive;
 
     private string message;

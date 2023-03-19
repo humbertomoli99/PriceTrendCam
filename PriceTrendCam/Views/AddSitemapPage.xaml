@@ -107,7 +107,35 @@
                                     <x:String>Safari</x:String>
                                     <x:String>Opera</x:String>
                                     <x:String>Microsoft Edge (Chromium)</x:String>
+                                    <x:String>HtmlAgilityPack (HAP)</x:String>
                                 </ComboBox>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0,6">
+                                <TextBox
+                                    Header="Encoding"
+                                    Grid.Row="1"
+                                    x:Name="TextBoxEncoding"
+                                    PlaceholderText="Encoding (Optional)"
+                                    Text="{x:Bind ViewModel.TextBoxEncoding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0,6">
+                                <TextBox
+                                    Header="User Agent"
+                                    Grid.Row="1"
+                                    x:Name="TextBoxUserAgent"
+                                    PlaceholderText="User Agent (Optional)"
+                                    Text="{x:Bind ViewModel.TextBoxUserAgent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0,6">
+                                <TextBox
+                                    Header="Cookie"
+                                    Grid.Row="1"
+                                    x:Name="TextBoxCookie"
+                                    PlaceholderText="Cookie (Optional)"
+                                    Text="{x:Bind ViewModel.TextBoxCookie, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                             <StackPanel
                                 Margin="0,6">
