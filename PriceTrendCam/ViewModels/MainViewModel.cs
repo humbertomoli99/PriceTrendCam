@@ -29,13 +29,30 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public async Task AdvancedSearch()
     {
-        if (await Core.Helpers.Url.IsValid(textBoxSearch))
+        try
         {
-            await SearchUrlAsync(textBoxSearch);
+            if (await Core.Helpers.Url.IsValid(textBoxSearch))
+            {
+                await SearchUrlAsync(textBoxSearch);
+            }
+            else
+            {
+                await SearchTermAsync();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await SearchTermAsync();
+            // Manejo de excepciones
+            var dialog = new ContentDialog
+            {
+                Title = "Error",
+                XamlRoot = XamlRoot,
+                CloseButtonText = "Close",
+                DefaultButton = ContentDialogButton.Close,
+                Content = "An error occurred: " + ex.Message
+            };
+
+            await dialog.ShowAsync();
         }
     }
     //Funciones auxiliares
@@ -160,7 +177,30 @@ public partial class MainViewModel : ObservableObject
         newProduct.PriceCurrency = "MXN";
         newProduct.ShippingCurrency = "MXN";
 
-        await App.PriceTrackerService.InsertAsync(newProduct);
+        var isSucces = await App.PriceTrackerService.InsertAsync(newProduct);
+        var message = "";
+        var content = "";
+        if (isSucces == 1)
+        {
+            message = "Product Inserted";
+            content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
+        }
+        else
+        {
+            message = "Not Inserted";
+            content = "The product has not add";
+        }
+        // El producto ha sido agregado
+        var dialog = new ContentDialog
+        {
+            Title = message,
+            XamlRoot = XamlRoot,
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close,
+            Content = content
+        };
+
+        await dialog.ShowAsync();
     }
     private static async Task SearchTermAsync()
     {
