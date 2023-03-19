@@ -40,6 +40,9 @@ public partial class AddSitemapViewModel : ObservableValidator
     private string textBoxCookie;
 
     [ObservableProperty]
+    private string decompresionMethod;
+
+    [ObservableProperty]
     private string selectedWebBrowserDrive;
 
     private string message;

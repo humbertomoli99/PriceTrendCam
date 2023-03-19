@@ -139,6 +139,16 @@
                             </StackPanel>
                             <StackPanel
                                 Margin="0,6">
+                                <ComboBox
+                                    Header="Decompresion Method"
+                                    PlaceholderText="Pick a method"
+                                    ItemsSource="{x:Bind DecompresionMethodComboBox, Mode=TwoWay}"
+                                    SelectedItem="{x:Bind ViewModel.DecompresionMethod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="200">
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0,6">
                                 <Button
                                     Click="Guardar_Click"
                                     Command="{x:Bind ViewModel.SaveSitemapCommand}"

@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.Net;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -12,15 +14,23 @@ namespace PriceTrendCam.Views;
 public sealed partial class AddSitemapPage : Page
 {
     private AddSitemapViewModel ViewModel => (AddSitemapViewModel)DataContext;
-
+    public ObservableCollection<string> DecompresionMethodComboBox
+    {
+        get;
+        set;
+    }
     public AddSitemapPage()
     {
         InitializeComponent();
         DataContext = App.GetService<AddSitemapViewModel>();
         ViewModel.TextBoxUrls = new();
         Agregar_Click1(null, null);
+        InitializeDecompresionMethodComboBox();
     }
-
+    private void InitializeDecompresionMethodComboBox()
+    {
+        DecompresionMethodComboBox = new ObservableCollection<string>(Enum.GetNames(typeof(DecompressionMethods)));
+    }
     private int textBoxCount = 0;
     private void Eliminar_Click1(object sender, RoutedEventArgs e)
     {
