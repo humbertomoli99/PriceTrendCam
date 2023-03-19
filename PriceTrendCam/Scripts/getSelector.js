@@ -28,8 +28,8 @@ function getCssSelector(el) {
         el = el.parentNode;
     }
     var cssSelector = path.join(' > ');
-    let minifiedSelector = minifySelectorCss(cssSelector)
-    return minifiedSelector;
+    //let minifiedSelector = minifySelectorCss(cssSelector)
+    return cssSelector;
 }
 
 
