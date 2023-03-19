@@ -3,6 +3,8 @@ using AngleSharp.Dom;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HtmlAgilityPack;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 
@@ -17,6 +19,12 @@ public partial class MainViewModel : ObservableObject
     private string textBoxSearch;
 
     private HtmlNode document;
+
+    public XamlRoot XamlRoot
+    {
+        get;
+        set;
+    }
 
     [RelayCommand]
     public async Task AdvancedSearch()
