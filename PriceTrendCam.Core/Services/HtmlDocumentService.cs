@@ -140,6 +140,7 @@ public class HtmlDocumentService
     public static string GetMetaValue(HtmlNode DocumentNode, string selector, string attributeName)
     {
         // Selecciona el nodo específico utilizando el selector CSS
+        selector = selector.Replace("\"", "\'");
         var metaNode = DocumentNode?.QuerySelector(selector);
 
         // Inicializa una variable para almacenar el resultado
@@ -151,6 +152,16 @@ public class HtmlDocumentService
             // Asigna el contenido interno del nodo al resultado
             result = metaNode?.InnerHtml;
         }
+        else if (attributeName == "innerText")
+        {
+            // Asigna el contenido interno del nodo al resultado
+            result = metaNode?.InnerText;
+        }
+        else if (attributeName == "outerHTML")
+        {
+            // Asigna el contenido interno del nodo al resultado
+            result = metaNode?.OuterHtml;
+        }
         else
         {
             // Asigna el valor del atributo al resultado
@@ -158,7 +169,7 @@ public class HtmlDocumentService
         }
 
         // Devuelve el resultado o una cadena vacía en caso de ser nulo
-        return result ?? selector;
+        return result;
     }
 
     public static string GetMetaTitle(HtmlNode DocumentNode)
