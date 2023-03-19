@@ -17,12 +17,13 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <FontIcon
+                <Image
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    FontSize="32"
-                    Glyph="{x:Bind Favicon}"
-                    AutomationProperties.Name="{x:Bind StoreName}" />
+                    Width="32"
+                    Height="32"
+                    Source="{x:Bind Image, Mode=OneWay}"
+                    AutomationProperties.Name="{x:Bind Image, Mode=OneWay}"/>
                 <StackPanel
                     Grid.Column="1"
                     Margin="{StaticResource SmallLeftMargin}"
