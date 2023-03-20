@@ -21,7 +21,7 @@ public class Store
         get; set;
     }
 
-    public string DriveWebBrowser
+    public WebBrowsers DriveWebBrowser
     {
         get;set;
     }

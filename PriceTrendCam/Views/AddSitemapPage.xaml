@@ -99,15 +99,9 @@
                                 <ComboBox
                                     Header="Web Browser Drive"
                                     PlaceholderText="Pick a Web Drive"
+                                    ItemsSource="{x:Bind SelectedWebBrowserDrive, Mode=TwoWay}"
                                     SelectedItem="{x:Bind ViewModel.SelectedWebBrowserDrive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="200">
-                                    <x:String>Internet Explorer</x:String>
-                                    <x:String>Mozilla Firefox</x:String>
-                                    <x:String>Google Chrome</x:String>
-                                    <x:String>Safari</x:String>
-                                    <x:String>Opera</x:String>
-                                    <x:String>Microsoft Edge (Chromium)</x:String>
-                                    <x:String>HtmlAgilityPack (HAP)</x:String>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel

@@ -43,7 +43,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     private string decompresionMethod;
 
     [ObservableProperty]
-    private string selectedWebBrowserDrive;
+    private WebBrowsers selectedWebBrowserDrive;
 
     private string message;
 

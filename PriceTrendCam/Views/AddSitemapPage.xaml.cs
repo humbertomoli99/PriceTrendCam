@@ -19,6 +19,11 @@ public sealed partial class AddSitemapPage : Page
         get;
         set;
     }
+    public ObservableCollection<string> SelectedWebBrowserDrive
+    {
+        get;
+        set;
+    }
     public AddSitemapPage()
     {
         InitializeComponent();
@@ -26,10 +31,15 @@ public sealed partial class AddSitemapPage : Page
         ViewModel.TextBoxUrls = new();
         Agregar_Click1(null, null);
         InitializeDecompresionMethodComboBox();
+        InitializeWebBrowserDriveComboBox();
     }
     private void InitializeDecompresionMethodComboBox()
     {
         DecompresionMethodComboBox = new ObservableCollection<string>(Enum.GetNames(typeof(DecompressionMethods)));
+    }
+    private void InitializeWebBrowserDriveComboBox()
+    {
+        SelectedWebBrowserDrive = new ObservableCollection<string>(Enum.GetNames(typeof(WebBrowsers)));
     }
     private int textBoxCount = 0;
     private void Eliminar_Click1(object sender, RoutedEventArgs e)
