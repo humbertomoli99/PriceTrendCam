@@ -45,6 +45,10 @@ public class WebViewService : IWebViewService
             _webView.NavigationCompleted -= OnWebViewNavigationCompleted;
         }
     }
+    public void NavigateToString(string html)
+    {
+        _webView?.NavigateToString(html);
+    }
 
     private void OnWebViewNavigationCompleted(WebView2 sender, CoreWebView2NavigationCompletedEventArgs args) => NavigationCompleted?.Invoke(this, args.WebErrorStatus);
 }
