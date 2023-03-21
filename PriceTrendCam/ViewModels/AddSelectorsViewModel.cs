@@ -186,7 +186,25 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
                 webview.CoreWebView2.Settings.AreHostObjectsAllowed = true;
                 webview.CoreWebView2.Settings.IsWebMessageEnabled = true; // Habilita el modo sin conexión
 
+                //WebViewService.Initialize(webview);
+
                 HtmlDocumentStore = await HtmlDocumentService.LoadPageAsync(firstUrl);
+
+                //TODO: Hacer que webview2 visualize el contenido real en un webview2 de htmlagibilitypack el node que descarga, el original
+                //byte[] byteArray = Encoding.UTF8.GetBytes(htmlContent);
+                //var stream = new MemoryStream(byteArray);
+
+                //webview.CoreWebView2.NavigateToLocalStreamUri(stream.GetUri(), new CoreWebView2NavigationCompletedEventHandler((sender, args) =>
+                //{
+                //    if (args.IsSuccess)
+                //    {
+                //        // El archivo html se cargó correctamente
+                //    }
+                //    else
+                //    {
+                //        // Ocurrió un error al cargar el archivo html
+                //    }
+                //}));
 
                 WebViewService.NavigateToString(HtmlDocumentStore.InnerHtml);
             }
