@@ -58,11 +58,9 @@ public partial class MainViewModel : ObservableObject
     //Funciones auxiliares
     private string? GetValue(string cssSelector, string attribute)
     {
-        var element = HtmlDocumentService.GetMetaValue(document, cssSelector, attribute);
-        if (element == null) { return string.Empty; }
-        return element;
+        return HtmlDocumentService.GetMetaValue(document, cssSelector, attribute);
     }
-    private string ApplyRegex(string value, string pattern, string replacement)
+    private string? ApplyRegex(string value, string pattern, string replacement)
     {
         replacement ??= string.Empty;
         return Regex.Replace(value, pattern, replacement);
