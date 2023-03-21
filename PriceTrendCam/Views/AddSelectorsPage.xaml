@@ -304,8 +304,6 @@
                                     Height="Auto" />
                                 <RowDefinition
                                     Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBox
                                 Header="Regex"
@@ -321,13 +319,6 @@
                                 Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Grid.Row="1"
                                 Margin="0,5" />
-
-                            <Button
-                                x:Name="DataPreviewButton"
-                                Content="Data Preview"
-                                Margin="{StaticResource XSmallTopBottomMargin}"
-                                Click="DataPreviewButton_Click"
-                                Grid.Row="2" />
                         </Grid>
                     </TabViewItem>
                     <TabViewItem
@@ -399,14 +390,18 @@
                 <Button
                     x:Name="SaveButton"
                     Content="Save Selector"
-                    Margin="0,0,10,0"
                     Style="{StaticResource AccentButtonStyle}"
                     Command="{x:Bind ViewModel.SaveSelectorsCommand}"
                     Click="SaveButton_Click" />
                 <Button
                     x:Name="CancelButton"
                     Content="Cancel"
+                    Margin="{StaticResource SmallLeftRightMargin}"
                     Click="CancelButton_Click" />
+                <Button
+                    x:Name="DataPreviewButton"
+                    Content="Data Preview"
+                    Click="DataPreviewButton_Click" />
             </StackPanel>
             
             <controls:GridSplitter
