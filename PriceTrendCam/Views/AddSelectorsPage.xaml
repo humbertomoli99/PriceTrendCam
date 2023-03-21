@@ -8,11 +8,34 @@
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:models="using:PriceTrendCam.Core.Models"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local2="using:PriceTrendCam.Views"
     mc:Ignorable="d">
-
+    
+    <Page.Resources>
+        <Style
+            x:Key="HorizontalSwipe"
+            TargetType="ListViewItem"
+            BasedOn="{StaticResource DefaultListViewItemStyle}">
+            <Setter
+                Property="Height"
+                Value="60" />
+            <Setter
+                Property="Padding"
+                Value="0" />
+            <Setter
+                Property="HorizontalContentAlignment"
+                Value="Stretch" />
+            <Setter
+                Property="VerticalContentAlignment"
+                Value="Stretch" />
+            <Setter
+                Property="BorderThickness"
+                Value="0" />
+        </Style>
+    </Page.Resources>
+    
     <Grid
+        Loaded="ControlExample_Loaded"
         x:Name="ContentArea">
         <Grid.Resources>
             <FontFamily
@@ -200,6 +223,10 @@
                                     Height="Auto" />
                                 <RowDefinition
                                     Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <StackPanel
@@ -267,21 +294,96 @@
                                 Grid.Row="4"
                                 Margin="0,5">
                             </ComboBox>
-
+                            
+                            <MenuBar
+                                Grid.Row="5">
+                                <MenuBarItem
+                                    Title="File">
+                                    <MenuFlyoutItem
+                                        Text="New" />
+                                    <MenuFlyoutItem
+                                        Text="Open..." />
+                                    <MenuFlyoutItem
+                                        Text="Save" />
+                                    <MenuFlyoutItem
+                                        Text="Exit" />
+                                </MenuBarItem>
+                                <MenuBarItem
+                                    Title="Edit">
+                                    <MenuFlyoutItem
+                                        x:Name="DeleteFlyoutItem" />
+                                </MenuBarItem>
+                                <MenuBarItem
+                                    Title="Help">
+                                    <MenuFlyoutItem
+                                        Text="About" />
+                                </MenuBarItem>
+                            </MenuBar>
+                            
                             <ListView
-                                Grid.Row="5"
+                                Grid.Row="6"
                                 x:Name="ObjectSelector"
+                                Height="500"
                                 SelectionChanged="ObjectSelector_SelectionChanged"
-                                SelectionMode="Single"
-                                ItemsSource="{x:Bind ViewModel.GetListSelectors, Mode=TwoWay}">
+                                ContainerContentChanging="ListViewRight_ContainerContentChanging"
+                                Loaded="ListView_Loaded"
+                                IsItemClickEnabled="True"
+                                ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                                SelectionMode="Single">
                                 <ListView.ItemTemplate>
                                     <DataTemplate
-                                        x:DataType="models:Selector">
-                                        <StackPanel
-                                            Orientation="Horizontal">
-                                            <TextBlock
-                                                Text="{x:Bind CssSelector, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                        </StackPanel>
+                                        x:DataType="local2:ListItemData">
+                                        <UserControl
+                                            PointerEntered="UserControl_PointerEntered"
+                                            PointerExited="UserControl_PointerExited">
+                                            <Grid
+                                                AutomationProperties.Name="{x:Bind CssSelector}">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup
+                                                        x:Name="HoveringStates">
+                                                        <VisualState
+                                                            x:Name="HoverButtonsHidden" />
+                                                        <VisualState
+                                                            x:Name="HoverButtonsShown">
+                                                            <VisualState.Setters>
+                                                                <Setter
+                                                                    Target="HoverButton.Visibility"
+                                                                    Value="Visible" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <SwipeControl
+                                                    x:Name="ListViewSwipeContainer">
+                                                    <SwipeControl.RightItems>
+                                                        <SwipeItems
+                                                            Mode="Execute">
+                                                            <SwipeItem
+                                                                x:Name="DeleteSwipeItem"
+                                                                Background="Red"
+                                                                Command="{x:Bind Command}"
+                                                                CommandParameter="{x:Bind CssSelector}" />
+                                                        </SwipeItems>
+                                                    </SwipeControl.RightItems>
+                                                    <Grid
+                                                        VerticalAlignment="Center">
+                                                        <TextBlock
+                                                            Text="{x:Bind CssSelector}"
+                                                            Margin="10"
+                                                            FontSize="18"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center" />
+                                                        <AppBarButton
+                                                            x:Name="HoverButton"
+                                                            IsTabStop="False"
+                                                            HorizontalAlignment="Right"
+                                                            Visibility="Collapsed"
+                                                            Command="{x:Bind Command}"
+                                                            CommandParameter="{x:Bind CssSelector}" />
+                                                    </Grid>
+                                                </SwipeControl>
+                                            </Grid>
+                                        </UserControl>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>

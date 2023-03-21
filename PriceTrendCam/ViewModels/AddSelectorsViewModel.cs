@@ -43,6 +43,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty]
     private bool hasFailures;
     public bool isRegistrationSuccessful;
+    public bool isSelectorDeleted;
 
     public IWebViewService WebViewService
     {
@@ -76,11 +77,6 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get;
         set;
     }
-    //public List<Selector> GetListSelectors
-    //{
-    //    get;
-    //    set;
-    //}
     public StoreUrl GetUrls
     {
         get;
@@ -98,6 +94,12 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         WebViewService = webViewService;
         isRegistrationSuccessful = true;
     }
+    [RelayCommand]
+    private async void DeleteSelector(Selector selector)
+    {
+        isSelectorDeleted = Convert.ToBoolean(await App.PriceTrackerService.DeleteAsync<Selector>(selector.Id));
+    }
+
     [RelayCommand]
     private async Task OpenInBrowser()
     {
@@ -223,7 +225,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         {
             GetListSelectors.Add(item);
         }
-    } 
+    }
     public void OnNavigatedFrom()
     {
         WebViewService.UnregisterEvents();

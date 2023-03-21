@@ -1,18 +1,50 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
 
 namespace PriceTrendCam.Views;
-
+public class ListItemData
+{
+    public int Id
+    {
+        get; set;
+    }
+    public ICommand Command
+    {
+        get; set;
+    }
+    public string CssSelector
+    {
+        get; set;
+    }
+    public string Type
+    {
+        get; set;
+    }
+    public string Attribute
+    {
+        get; set;
+    }
+    public string Pattern
+    {
+        get; set;
+    }
+    public string Replacement
+    {
+        get; set;
+    }
+}
 // To learn more about WebView2, see https://docs.microsoft.com/microsoft-edge/webview2/.
 public sealed partial class AddSelectorsPage : Page
 {
@@ -39,17 +71,19 @@ public sealed partial class AddSelectorsPage : Page
     public AddSelectorsViewModel ViewModel
     {
         get;
+        set;
     }
 
+    readonly ObservableCollection<ListItemData> collection = new();
     public AddSelectorsPage()
     {
         ViewModel = App.GetService<AddSelectorsViewModel>();
+        DataContext = ViewModel;
         InitializeComponent();
 
         ViewModel.WebViewService.Initialize(WebView);
-        InitializeVariables();
-
         ViewModel.webview = WebView;
+        InitializeVariables();
     }
     private void InitializeVariables()
     {
@@ -435,6 +469,7 @@ public sealed partial class AddSelectorsPage : Page
         
         var storeUrls = selectorsFromStore.Where(s => s.Type == selectedType.ToString()).ToList();
 
+        await GetListSelectorsAsync(storeUrls);
         foreach (var url in storeUrls)
         {
             ViewModel.GetListSelectors.Add(url);
@@ -444,7 +479,7 @@ public sealed partial class AddSelectorsPage : Page
     private void ObjectSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Obtener el objeto Selector seleccionado
-        if (ObjectSelector.SelectedItem is Selector selector)
+        if (ObjectSelector.SelectedItem is ListItemData selector)
         {
             // Obtener el valor de CssSelector
             SelectorAutoSuggestBox.Text = selector.CssSelector;
@@ -455,6 +490,154 @@ public sealed partial class AddSelectorsPage : Page
             GetTypeDataComboBox.SelectedItem = selector.Type;
             _showElementPreview = true;
             ElementPreviewButton_Click(sender, e);
+        }
+        if (ObjectSelector.SelectedIndex != -1)
+        {
+            var item = collection[ObjectSelector.SelectedIndex];
+        }
+    }
+    private async void ControlExample_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+        {
+            var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
+            deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
+
+            DeleteFlyoutItem.Command = deleteCommand;
+
+            await ViewModel.GetListSelectorsAsync();
+            var listSelectors = ViewModel.GetListSelectors;
+            foreach (var item in listSelectors)
+            {
+                collection.Add(new ListItemData { 
+                    CssSelector = item.CssSelector.ToString(),
+                    Command = deleteCommand,
+                    Id = item.Id,
+                    Attribute = item.Attribute,
+                    Pattern = item.Pattern,
+                    Replacement = item.Replacement,
+                    Type = item.Type
+                });
+            }
+        }
+        else
+        {
+            await ViewModel.GetListSelectorsAsync();
+            var listSelectors = ViewModel.GetListSelectors;
+            foreach (var item in listSelectors)
+            {
+                collection.Add(new ListItemData
+                {
+                    CssSelector = item.CssSelector.ToString(),
+                    Command = null,
+                    Id = item.Id,
+                    Attribute = item.Attribute,
+                    Pattern = item.Pattern,
+                    Replacement = item.Replacement,
+                    Type = item.Type
+                });
+            }
+        }
+    }
+
+    private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+    {
+        MenuFlyout flyout = new MenuFlyout();
+        ListItemData data = (ListItemData)args.Item;
+        MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
+        flyout.Opened += delegate (object element, object e)
+        {
+            MenuFlyout flyoutElement = element as MenuFlyout;
+            ListViewItem elementToHighlight = flyoutElement.Target as ListViewItem;
+            elementToHighlight.IsSelected = true;
+        };
+        flyout.Items.Add(item);
+        args.ItemContainer.ContextFlyout = flyout;
+    }
+    private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen)
+        {
+            VisualStateManager.GoToState(sender as Control, "HoverButtonsShown", true);
+        }
+    }
+
+    private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
+    }
+
+    private async void DeleteCommand_ExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+    {
+        if (args.Parameter != null)
+        {
+            foreach (var i in collection)
+            {
+                if (i.CssSelector == (args.Parameter as string))
+                {
+                    collection.Remove(i);
+                    await App.PriceTrackerService.DeleteAsync<Selector>(i.Id);
+                    return;
+                }
+            }
+        }
+        if (ObjectSelector.SelectedIndex != -1)
+        {
+            collection.RemoveAt(ObjectSelector.SelectedIndex);
+        }
+    }
+    private void ListView_Loaded(object sender, RoutedEventArgs e)
+    {
+        var listView = (ListView)sender;
+        listView.ItemsSource = collection;
+    }
+    public async Task GetListSelectorsAsync(List<Selector> storeUrls)
+    {
+        collection.Clear();
+        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
+        //var GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(ViewModel.GetStore.Id);
+        if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+        {
+            var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
+            deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
+
+            DeleteFlyoutItem.Command = deleteCommand;
+
+            foreach (var item in storeUrls)
+            {
+                var listItemData = new ListItemData
+                {
+                    // set properties of listItemData based on item properties
+                    Id = item.Id,
+                    Attribute = item.Attribute,
+                    CssSelector = item.CssSelector,
+                    Pattern = item.Pattern,
+                    Replacement = item.Replacement,
+                    Type = item.Type,
+                    Command = deleteCommand
+                };
+
+                collection.Add(listItemData);
+            }
+        }
+        else
+        {
+            foreach (var item in storeUrls)
+            {
+                var listItemData = new ListItemData
+                {
+                    // set properties of listItemData based on item properties
+                    Id = item.Id,
+                    Attribute = item.Attribute,
+                    CssSelector = item.CssSelector,
+                    Pattern = item.Pattern,
+                    Replacement = item.Replacement,
+                    Type = item.Type,
+                    Command = null
+                };
+
+                collection.Add(listItemData);
+            }
         }
     }
 }
