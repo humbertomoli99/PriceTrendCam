@@ -16,8 +16,10 @@ function getCssSelector(el) {
                 childIndex++;
             }
             var classList = Array.from(el.classList);
-
-            if (classList.length && !hasDuplicateClass(el)) {
+            if (el.hasAttribute("itemprop")) {
+                selector += "[" + "itemprop=\"" + el.getAttribute("itemprop") + "\"]";
+            }
+            else if (classList.length && !hasDuplicateClass(el)) {
                 selector += '.' + classList[0];
             }
             else if (childIndex > 1) {
