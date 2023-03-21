@@ -455,6 +455,8 @@ public sealed partial class AddSelectorsPage : Page
             return;
         }
 
+        if (ViewModel.GetStore == null) return;
+
         var idStore = ViewModel.GetStore.Id;
         var selector = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
         var selectorsFromStore = selector.Where(s => s.StoreId == idStore).ToList();

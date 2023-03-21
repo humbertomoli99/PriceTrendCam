@@ -220,7 +220,10 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         GetListSelectors.Clear();
         // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
         GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
-
+        if (GetStore == null)
+        {
+            return;
+        }
         foreach (var item in GetStore.Selectors)
         {
             GetListSelectors.Add(item);
