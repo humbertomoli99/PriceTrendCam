@@ -250,7 +250,7 @@
                             <AutoSuggestBox
                                 x:Name="SelectorAutoSuggestBox"
                                 HorizontalAlignment="Stretch"
-                                PlaceholderText="JavaScript Path:"
+                                PlaceholderText="Css Selector:"
                                 Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                 TextChanged="SelectorAutoSuggestBox_TextChanged"
                                 Margin="0,5"

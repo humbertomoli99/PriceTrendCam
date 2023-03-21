@@ -134,7 +134,8 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         // Crear lista de Selectors
         var newSelector = new Selector
         {
-            CssSelector = selectedCssSelector,
+            //CssSelector = selectedCssSelector,
+            CssSelector = selectorTextBox,
             Command = selectorTextBox,
             Type = typeDataComboBox,
             Pattern = patternTextBox,

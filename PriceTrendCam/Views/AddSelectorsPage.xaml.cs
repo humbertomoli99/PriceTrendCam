@@ -428,7 +428,7 @@ public sealed partial class AddSelectorsPage : Page
         if (ObjectSelector.SelectedItem is Selector selector)
         {
             // Obtener el valor de CssSelector
-            SelectorAutoSuggestBox.Text = selector.Command;
+            SelectorAutoSuggestBox.Text = selector.CssSelector;
             _selectedCssSelector = selector.CssSelector;
             ReplacementTextBox.Text = selector.Replacement;
             PatternTextBox.Text = selector.Pattern;
