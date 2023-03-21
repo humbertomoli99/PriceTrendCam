@@ -51,9 +51,10 @@ public class ProductInfo
     {
         get; set;
     }
-    public string Status
+    public ProductStatus Status
     {
-        get; set;
+        get;
+        set;
     }
     public double? Stock
     {
