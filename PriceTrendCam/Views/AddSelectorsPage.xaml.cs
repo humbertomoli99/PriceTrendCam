@@ -48,6 +48,8 @@ public sealed partial class AddSelectorsPage : Page
 
         ViewModel.WebViewService.Initialize(WebView);
         InitializeVariables();
+
+        ViewModel.webview = WebView;
     }
     private void InitializeVariables()
     {

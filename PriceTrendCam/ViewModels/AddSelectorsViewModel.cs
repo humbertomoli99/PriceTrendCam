@@ -68,6 +68,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get;
         set;
     }
+    public WebView2 webview
+    {
+        get;
+        set;
+    }
     //public List<Selector> GetListSelectors
     //{
     //    get;
