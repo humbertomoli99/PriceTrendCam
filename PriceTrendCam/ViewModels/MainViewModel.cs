@@ -1,10 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using AngleSharp.Dom;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HtmlAgilityPack;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 
@@ -100,68 +99,89 @@ public partial class MainViewModel : ObservableObject
                 switch (selectorTypeEnum)
                 {
                     case SelectorType.Title:
-                        newProduct.Name = GetValue(selector.CssSelector, selector.Attribute);
+                        var title = GetValue(selector.CssSelector, selector.Attribute);
+                        if (title == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            title = ApplyRegex(title, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.Name = title;
                         break;
                     case SelectorType.Description:
-                        newProduct.Description = GetValue(selector.CssSelector, selector.Attribute);
+                        var description = GetValue(selector.CssSelector, selector.Attribute);
+                        if (description == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            description = ApplyRegex(description, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.Description = description;
                         break;
                     case SelectorType.Image:
-                        newProduct.Image = GetValue(selector.CssSelector, selector.Attribute);
+                        var image = GetValue(selector.CssSelector, selector.Attribute);
+                        if (image == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern) && image != null)
+                        {
+                            image = ApplyRegex(image, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.Image = image;
+                        //si se detiene de este punto no quiero q se ejecuten los regex del siguiente buckle
                         break;
                     case SelectorType.Price:
-                        newProduct.Price = Convert.ToDouble(GetValue(selector.CssSelector, selector.Attribute));
+                        var price = GetValue(selector.CssSelector, selector.Attribute);
+                        if (price == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            price = ApplyRegex(price, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.Price = Convert.ToDouble(price);
                         break;
                     case SelectorType.PriceCurrency:
-                        newProduct.PriceCurrency = GetValue(selector.CssSelector, selector.Attribute);
+                        var PriceCurrency = GetValue(selector.CssSelector, selector.Attribute);
+                        if (PriceCurrency == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            PriceCurrency = ApplyRegex(PriceCurrency, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.PriceCurrency = PriceCurrency;
                         break;
                     case SelectorType.Shipping:
-                        newProduct.ShippingPrice = Convert.ToDouble(GetValue(selector.CssSelector, selector.Attribute));
+                        var ShippingPrice = GetValue(selector.CssSelector, selector.Attribute);
+                        if (ShippingPrice == null) continue;
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            ShippingPrice = ApplyRegex(ShippingPrice, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.ShippingPrice = Convert.ToDouble(ShippingPrice);
                         break;
                     case SelectorType.ShippingCurrency:
-                        newProduct.ShippingCurrency = GetValue(selector.CssSelector, selector.Attribute);
+                        var ShippingCurrency = GetValue(selector.CssSelector, selector.Attribute);
+                        if (ShippingCurrency == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            ShippingCurrency = ApplyRegex(ShippingCurrency, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.ShippingCurrency = ShippingCurrency;
                         break;
                     case SelectorType.Stock:
-                        newProduct.Stock = GetValue(selector.CssSelector, selector.Attribute);
+                        var Stock = GetValue(selector.CssSelector, selector.Attribute);
+                        if (Stock == null) continue;
+
+                        if (!string.IsNullOrEmpty(selector.Pattern))
+                        {
+                            Stock = ApplyRegex(Stock, selector.Pattern, selector.Replacement);
+                        }
+                        newProduct.Stock = Convert.ToDouble(Stock);
                         break;
                     // agregar más casos para cada tipo de selector que quieras iterar
                     default:
                         // manejo del caso predeterminado (si corresponde)
                         break;
-                }
-            }
-            //aplicar regex si hay un patrón y una expresión de reemplazo especificados
-            if (!string.IsNullOrEmpty(selector.Pattern))
-            {
-                if (Enum.TryParse(selector.Type, out SelectorType selectorTypeEnum1))
-                {
-                    switch (selectorTypeEnum1)
-                    {
-                        case SelectorType.Title:
-                            newProduct.Name = ApplyRegex(newProduct.Name, selector.Pattern, selector.Replacement);
-                            break;
-                        case SelectorType.Description:
-                            newProduct.Description = ApplyRegex(newProduct.Description, selector.Pattern, selector.Replacement);
-                            break;
-                        case SelectorType.Image:
-                            newProduct.Image = ApplyRegex(newProduct.Image, selector.Pattern, selector.Replacement);
-                            break;
-                        case SelectorType.Price:
-                            newProduct.Price = Convert.ToDouble(ApplyRegex(newProduct.Price.ToString(), selector.Pattern, selector.Replacement));
-                            break;
-                        case SelectorType.PriceCurrency:
-                            newProduct.PriceCurrency = ApplyRegex(newProduct.PriceCurrency, selector.Pattern, selector.Replacement);
-                            break;
-                        case SelectorType.Shipping:
-                            newProduct.ShippingPrice = Convert.ToDouble(ApplyRegex(newProduct.ShippingPrice.ToString(), selector.Pattern, selector.Replacement));
-                            break;
-                        case SelectorType.ShippingCurrency:
-                            newProduct.ShippingCurrency = ApplyRegex(newProduct.ShippingCurrency, selector.Pattern, selector.Replacement);
-                            break;
-                        case SelectorType.Stock:
-                            newProduct.Stock = ApplyRegex(newProduct.Stock.ToString(), selector.Pattern, selector.Replacement);
-                            break;
-                            // agregar más casos para cada tipo de selector que quieras iterar
-                    }
                 }
             }
         }
