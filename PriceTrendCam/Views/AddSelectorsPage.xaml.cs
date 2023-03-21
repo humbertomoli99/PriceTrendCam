@@ -497,6 +497,10 @@ public sealed partial class AddSelectorsPage : Page
         {
             var item = collection[ObjectSelector.SelectedIndex];
         }
+        //if (ObjectSelector.SelectedIndex != -1)
+        //{
+        //    var item = collection[ObjectSelector.SelectedIndex];
+        //}
     }
     private async void ControlExample_Loaded(object sender, RoutedEventArgs e)
     {
