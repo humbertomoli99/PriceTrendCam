@@ -15,14 +15,15 @@ function getCssSelector(el) {
             while ((child = child.previousElementSibling) != null) {
                 childIndex++;
             }
-            if (childIndex > 1) {
+            var classList = Array.from(el.classList);
+
+            if (classList.length && !hasDuplicateClass(el)) {
+                selector += '.' + classList[0];
+            }
+            else if (childIndex > 1) {
                 siblingSelector = ':nth-child(' + childIndex + ')';
             }
-            if (el.hasAttribute("itemprop")) {
-                selector += "[" + "itemprop=\"" + el.getAttribute("itemprop") + "\"]";
-            } else {
-                selector += siblingSelector;
-            }
+            selector += siblingSelector;
             path.unshift(selector);
         }
         el = el.parentNode;
@@ -30,6 +31,24 @@ function getCssSelector(el) {
     var cssSelector = path.join(' > ');
     //let minifiedSelector = minifySelectorCss(cssSelector)
     return cssSelector;
+}
+
+function hasDuplicateClass(el) {
+    var classList = Array.from(el.classList);
+    var siblings = Array.from(el.parentNode.children);
+    var siblingsWithoutSelf = siblings.filter(function (sibling) {
+        return sibling !== el;
+    });
+    for (var i = 0; i < siblingsWithoutSelf.length; i++) {
+        var sibling = siblingsWithoutSelf[i];
+        var siblingClassList = Array.from(sibling.classList);
+        if (classList.some(function (className) {
+            return siblingClassList.includes(className);
+        })) {
+            return true;
+        }
+    }
+    return false;
 }
 
 
