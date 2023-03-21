@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HtmlAgilityPack;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Models;
+using PriceTrendCam.Core.Services;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -84,6 +86,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         set;
     }
     public ObservableCollection<Selector> GetListSelectors { get; set; } = new ObservableCollection<Selector>();
+    public HtmlNode HtmlDocumentStore
+    {
+        get;
+        set;
+    }
 
     public AddSelectorsViewModel(IWebViewService webViewService)
     {
@@ -157,16 +164,36 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             GetListSelectors.Clear();
             _newstoreId = (int)parameter;
             // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
-            var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
+            GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
 
-            GetStore = store;
-            foreach (var item in store.Selectors)
+            foreach (var item in GetStore.Selectors)
             {
                 GetListSelectors.Add(item);
             }
+            var firstUrl = GetStore.Urls.First().Url.ToString();
 
-            var firstUrl = store.Urls.First().Url.ToString();
-            Source = new Uri(firstUrl);
+            await webview.EnsureCoreWebView2Async(); // Asegura que la instancia de CoreWebView2 esté inicializada.
+
+            if (GetStore.DriveWebBrowser == WebBrowsers.HtmlAgilityPack)
+            {
+
+                webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
+                webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
+                webview.CoreWebView2.Settings.IsZoomControlEnabled = true;
+                webview.CoreWebView2.Settings.IsStatusBarEnabled = true;
+                webview.CoreWebView2.Settings.AreDevToolsEnabled = true;
+                webview.CoreWebView2.Settings.IsScriptEnabled = true;
+                webview.CoreWebView2.Settings.AreHostObjectsAllowed = true;
+                webview.CoreWebView2.Settings.IsWebMessageEnabled = true; // Habilita el modo sin conexión
+
+                HtmlDocumentStore = await HtmlDocumentService.LoadPageAsync(firstUrl);
+
+                WebViewService.NavigateToString(HtmlDocumentStore.InnerHtml);
+            }
+            else
+            {
+                Source = new Uri(firstUrl);
+            }
         }
         await Task.Run(() =>
         {
