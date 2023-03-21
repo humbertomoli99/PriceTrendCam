@@ -31,7 +31,7 @@ public class ProductInfo
     {
         get; set;
     }
-    public string PriceCurrency
+    public string? PriceCurrency
     {
         get; set;
     }
@@ -55,7 +55,7 @@ public class ProductInfo
     {
         get; set;
     }
-    public string? Stock
+    public double? Stock
     {
         get; set;
     }
