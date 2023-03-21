@@ -8,6 +8,8 @@
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:models="using:PriceTrendCam.Core.Models"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
     <Grid
@@ -266,12 +268,13 @@
                                 Margin="0,5">
                             </ComboBox>
 
-                            <ListBox
+                            <ListView
                                 Grid.Row="5"
                                 x:Name="ObjectSelector"
                                 SelectionChanged="ObjectSelector_SelectionChanged"
+                                SelectionMode="Single"
                                 ItemsSource="{x:Bind ViewModel.GetListSelectors, Mode=TwoWay}">
-                                <ListBox.ItemTemplate>
+                                <ListView.ItemTemplate>
                                     <DataTemplate
                                         x:DataType="models:Selector">
                                         <StackPanel
@@ -280,8 +283,8 @@
                                                 Text="{x:Bind CssSelector, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                                </ListView.ItemTemplate>
+                            </ListView>
 
                         </Grid>
                     </TabViewItem>
