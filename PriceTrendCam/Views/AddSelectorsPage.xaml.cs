@@ -503,8 +503,6 @@ public sealed partial class AddSelectorsPage : Page
             var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
             deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
 
-            DeleteFlyoutItem.Command = deleteCommand;
-
             await ViewModel.GetListSelectorsAsync();
             var listSelectors = ViewModel.GetListSelectors;
             foreach (var item in listSelectors)
@@ -600,8 +598,6 @@ public sealed partial class AddSelectorsPage : Page
         {
             var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
             deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
-
-            DeleteFlyoutItem.Command = deleteCommand;
 
             foreach (var item in storeUrls)
             {

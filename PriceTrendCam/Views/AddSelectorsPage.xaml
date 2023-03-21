@@ -225,8 +225,6 @@
                                     Height="Auto" />
                                 <RowDefinition
                                     Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <StackPanel
@@ -295,33 +293,8 @@
                                 Margin="0,5">
                             </ComboBox>
                             
-                            <MenuBar
-                                Grid.Row="5">
-                                <MenuBarItem
-                                    Title="File">
-                                    <MenuFlyoutItem
-                                        Text="New" />
-                                    <MenuFlyoutItem
-                                        Text="Open..." />
-                                    <MenuFlyoutItem
-                                        Text="Save" />
-                                    <MenuFlyoutItem
-                                        Text="Exit" />
-                                </MenuBarItem>
-                                <MenuBarItem
-                                    Title="Edit">
-                                    <MenuFlyoutItem
-                                        x:Name="DeleteFlyoutItem" />
-                                </MenuBarItem>
-                                <MenuBarItem
-                                    Title="Help">
-                                    <MenuFlyoutItem
-                                        Text="About" />
-                                </MenuBarItem>
-                            </MenuBar>
-                            
                             <ListView
-                                Grid.Row="6"
+                                Grid.Row="5"
                                 x:Name="ObjectSelector"
                                 Height="500"
                                 SelectionChanged="ObjectSelector_SelectionChanged"
