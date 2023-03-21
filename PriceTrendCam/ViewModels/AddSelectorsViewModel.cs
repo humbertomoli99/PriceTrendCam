@@ -42,6 +42,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     [ObservableProperty]
     private bool hasFailures;
+    public bool isRegistrationSuccessful;
 
     public IWebViewService WebViewService
     {
@@ -95,6 +96,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     public AddSelectorsViewModel(IWebViewService webViewService)
     {
         WebViewService = webViewService;
+        isRegistrationSuccessful = true;
     }
     [RelayCommand]
     private async Task OpenInBrowser()
@@ -146,9 +148,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
         // Crear objeto Store y guardarlo en la base de datos
 
-        await App.PriceTrackerService.InsertAsync<Selector>(newSelector);
-
-
+        isRegistrationSuccessful = Convert.ToBoolean(await App.PriceTrackerService.InsertAsync<Selector>(newSelector));
         //Debug.WriteLine(typeDataComboBox);
         //Debug.WriteLine(selectorTextBox);
         //Debug.WriteLine(getAttributeComboBox);
@@ -162,15 +162,8 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         if (parameter != null && parameter is int)
         {
-            GetListSelectors.Clear();
             _newstoreId = (int)parameter;
-            // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
-            GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
-
-            foreach (var item in GetStore.Selectors)
-            {
-                GetListSelectors.Add(item);
-            }
+            await GetListSelectorsAsync();
             var firstUrl = GetStore.Urls.First().Url.ToString();
 
             await webview.EnsureCoreWebView2Async(); // Asegura que la instancia de CoreWebView2 esté inicializada.
@@ -220,7 +213,17 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         });
     }
 
+    public async Task GetListSelectorsAsync()
+    {
+        GetListSelectors.Clear();
+        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
+        GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
 
+        foreach (var item in GetStore.Selectors)
+        {
+            GetListSelectors.Add(item);
+        }
+    } 
     public void OnNavigatedFrom()
     {
         WebViewService.UnregisterEvents();

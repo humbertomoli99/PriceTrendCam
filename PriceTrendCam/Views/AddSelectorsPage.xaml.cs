@@ -101,9 +101,28 @@ public sealed partial class AddSelectorsPage : Page
         GetAttributeComboBox.SelectedIndex = 0;
     }
 
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    private async void SaveButton_Click(object sender, RoutedEventArgs e)
     {
+        var message = "";
+        var content = "";
+        if (ViewModel.isRegistrationSuccessful)
+        {
+            await ViewModel.GetListSelectorsAsync();
+            //TODO: añadir aqui un evento que actualice la lista al momento de guardar los datos
+            ElementPreviewButton_Click(sender, e);
+            message = "the selector has already added";
+            content = $"the selector: \n {cssSelector} \n already added correctly";
+        }
+        var dialog = new ContentDialog
+        {
+            Title = message,
+            XamlRoot = XamlRoot,
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close,
+            Content = content
+        };
 
+        await dialog.ShowAsync();
     }
 
     private async void DataPreviewButton_Click(object sender, RoutedEventArgs e)
