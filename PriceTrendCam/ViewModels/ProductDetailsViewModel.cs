@@ -84,7 +84,7 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
 
         if (dialogResult == ContentDialogResult.Primary)
         {
-            await App.PriceTrackerService.DeleteAsync(Selected);
+            await App.PriceTrackerService.DeleteAsync<ProductInfo>(Selected.Id);
 
             SampleItems.Clear();
 

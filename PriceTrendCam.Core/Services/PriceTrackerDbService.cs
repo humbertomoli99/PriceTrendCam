@@ -119,11 +119,11 @@ public class PriceTrackerDbService
     /// Deletes a single item from the database.
     /// </summary>
     /// <typeparam name="T">The type of the item to be deleted.</typeparam>
-    /// <param name="item">The item to be deleted.</param>
+    /// <param name="id">The id of the item to be deleted.</param>
     /// <returns>A task that represents the asynchronous delete operation. The task result indicates whether the delete was successful or not.</returns>
-    public async Task<bool> DeleteAsync<T>(T item) where T : class, new()
+    public async Task<bool> DeleteAsync<T>(int id) where T : class, new()
     {
-        var result = await _database.DeleteAsync(item).ConfigureAwait(false);
+        var result = await _database.DeleteAsync<T>(id).ConfigureAwait(false);
         return result > 0;
     }
     /// <summary>
