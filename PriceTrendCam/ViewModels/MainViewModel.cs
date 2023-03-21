@@ -187,7 +187,7 @@ public partial class MainViewModel : ObservableObject
         }
 
         newProduct.StoreId = partnerStore.Id;
-        newProduct.Status = "In stock";
+        newProduct.Status = ProductStatus.Active;
         newProduct.Url = url;
         newProduct.StoreName = partnerStore.Name;
         newProduct.Date = DateTime.UtcNow;
