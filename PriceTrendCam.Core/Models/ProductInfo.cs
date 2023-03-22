@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
+#nullable enable
 
 namespace PriceTrendCam.Core.Models;
 public class ProductInfo
@@ -15,15 +16,15 @@ public class ProductInfo
         get; set;
     }
 
-    public string Name
+    public string? Name
     {
         get; set;
     }
-    public string Description
+    public string? Description
     {
         get; set;
     }
-    public string Url
+    public string? Url
     {
         get; set;
     }
@@ -43,11 +44,11 @@ public class ProductInfo
     {
         get; set;
     }
-    public string ShippingCurrency
+    public string? ShippingCurrency
     {
         get; set;
     }
-    public string StoreName
+    public string? StoreName
     {
         get; set;
     }
@@ -60,7 +61,7 @@ public class ProductInfo
     {
         get; set;
     }
-    public string Image
+    public string? Image
     {
         get; set;
     }
@@ -72,31 +73,31 @@ public class ProductInfo
     }
 
     [OneToOne]
-    public Store Store
+    public Store? Store
     {
         get; set;
     }
     [OneToOne]
 
-    public Store Favicon
+    public Store? Favicon
     {
         get; set;
     }
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
-    public List<History> Histories
+    public List<History>? Histories
     {
         get; set;
     }
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
-    public List<ProductPhoto> Photos
+    public List<ProductPhoto>? Photos
     {
         get; set;
     }
 
     [OneToMany(CascadeOperations = CascadeOperation.All)]
-    public List<Notification> Notifications
+    public List<Notification>? Notifications
     {
         get; set;
     }
