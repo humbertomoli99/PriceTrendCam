@@ -401,6 +401,49 @@
                     </TabViewItem>
                     <TabViewItem
                         IsClosable="False"
+                        Header="Data Preview">
+
+                        <TabViewItem.IconSource>
+                            <FontIconSource
+                                FontFamily="{StaticResource BootstrapIcons}"
+                                Glyph="&#xF3AD;" />
+                        </TabViewItem.IconSource>
+                        <Grid
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1,0,1,1"
+                            CornerRadius="0,0,5,5"
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Text="Title"/>
+                            <TextBlock
+                                Grid.Row="1"
+                                Text="Description"
+                                />
+                            <TextBlock
+                                Grid.Row="2"
+                                Text="Status"/>
+                            <TextBlock
+                                Grid.Row="3"
+                                Text="Price"/>
+                            <TextBlock
+                                Grid.Row="4"
+                                Text="Spipping"/>
+                            <TextBlock
+                                Grid.Row="5"
+                                Text="Stock"/>
+
+                        </Grid>
+                    </TabViewItem>
+                    <TabViewItem
+                        IsClosable="False"
                         Header="Store">
                         <TabViewItem.IconSource>
                             <SymbolIconSource
@@ -438,7 +481,7 @@
                                     Text="{x:Bind ViewModel.GetStore.Name, Mode=OneWay}"
                                     Style="{ThemeResource TitleTextBlockStyle}" />
                             </StackPanel>
-                            
+
                             <TextBlock
                                 Grid.Row="1"
                                 Text="{x:Bind ViewModel.GetStore.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
