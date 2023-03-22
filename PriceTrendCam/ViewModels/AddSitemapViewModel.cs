@@ -43,7 +43,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     private string decompresionMethod;
 
     [ObservableProperty]
-    private WebBrowsers selectedWebBrowserDrive;
+    private string selectedWebBrowserDrive;
 
     private string message;
 
@@ -70,6 +70,8 @@ public partial class AddSitemapViewModel : ObservableValidator
         var FirstUrl = ListUrls.First().Url;
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
+        WebBrowsers selectedWebBrowser = (WebBrowsers)Enum.Parse(typeof(WebBrowsers), selectedWebBrowserDrive);
+
         // Crear objeto Store y guardarlo en la base de datos
         ObjectStore = new Store
         {
@@ -77,7 +79,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             Favicon = favicon,
             Selectors = new List<Selector>(),
             Urls = ListUrls,
-            DriveWebBrowser = selectedWebBrowserDrive
+            DriveWebBrowser = selectedWebBrowser
         };
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
 
