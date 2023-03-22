@@ -26,33 +26,51 @@
                     Style="{ThemeResource TitleTextBlockStyle}" />
             </StackPanel>
             <StackPanel Padding="0,15,0,0">
-                <TextBlock Text="Status" Style="{StaticResource DetailSubTitleStyle}" />
+                <TextBlock Text="Description" Style="{StaticResource DetailSubTitleStyle}" />
 
                 <TextBlock Text="{x:Bind ListDetailsMenuItem.Description, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
-                    Text="Order date"
+                    Text="Date"
                     Style="{StaticResource DetailSubTitleStyle}" />
                 <TextBlock Text="{x:Bind ListDetailsMenuItem.Date, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
-                    Text="Company"
+                    Text="Store Name"
                     Style="{StaticResource DetailSubTitleStyle}" />
                 <TextBlock Text="{x:Bind ListDetailsMenuItem.StoreName, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-
+                
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
-                    Text="Ship to"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.ShippingPrice, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Text="Order total"
+                    Text="Price"
                     Style="{StaticResource DetailSubTitleStyle}" />
                 <TextBlock
                     Text="{x:Bind ListDetailsMenuItem.Price, Mode=OneWay}"
                     Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Text="Shipping Price"
+                    Style="{StaticResource DetailSubTitleStyle}" />
+                <TextBlock Text="{x:Bind ListDetailsMenuItem.ShippingPrice, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Text="Stock"
+                    Style="{StaticResource DetailSubTitleStyle}" />
+                <TextBlock
+                    Text="{x:Bind ListDetailsMenuItem.Stock, Mode=OneWay}"
+                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Text="Status"
+                    Style="{StaticResource DetailSubTitleStyle}" />
+                <TextBlock
+                    Text="{x:Bind ListDetailsMenuItem.Status, Mode=OneWay}"
+                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
