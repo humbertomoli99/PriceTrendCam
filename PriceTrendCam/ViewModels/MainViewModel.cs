@@ -186,8 +186,15 @@ public partial class MainViewModel : ObservableObject
             }
         }
 
+        if (newProduct.Stock <= 0)
+        {
+            newProduct.Status = ProductStatus.OutOfStock;
+        }
+        else
+        {
+            newProduct.Status = ProductStatus.Active;
+        }
         newProduct.StoreId = partnerStore.Id;
-        newProduct.Status = ProductStatus.Active;
         newProduct.Url = url;
         newProduct.StoreName = partnerStore.Name;
         newProduct.Date = DateTime.UtcNow;

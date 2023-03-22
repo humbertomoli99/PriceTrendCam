@@ -7,5 +7,6 @@
     PriceCurrency,
     Shipping,
     ShippingCurrency,
-    Stock
+    Stock,
+    Status
 }
