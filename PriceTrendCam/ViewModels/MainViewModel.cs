@@ -61,6 +61,7 @@ public partial class MainViewModel : ObservableObject
     }
     private string? ApplyRegex(string value, string pattern, string replacement)
     {
+        pattern = Regex.Replace(pattern, @"\""", "");
         replacement ??= string.Empty;
         return Regex.Replace(value, pattern, replacement);
     }
@@ -137,7 +138,16 @@ public partial class MainViewModel : ObservableObject
                         {
                             price = ApplyRegex(price, selector.Pattern, selector.Replacement);
                         }
-                        newProduct.Price = Convert.ToDouble(price);
+
+                        double priceValue;
+                        if (double.TryParse(price, out priceValue))
+                        {
+                            newProduct.Price = priceValue;
+                        }
+                        else
+                        {
+                            newProduct.Price = null;
+                        }
                         break;
                     case SelectorType.PriceCurrency:
                         var PriceCurrency = GetValue(selector.CssSelector, selector.Attribute);
@@ -156,7 +166,16 @@ public partial class MainViewModel : ObservableObject
                         {
                             ShippingPrice = ApplyRegex(ShippingPrice, selector.Pattern, selector.Replacement);
                         }
-                        newProduct.ShippingPrice = Convert.ToDouble(ShippingPrice);
+
+                        double shippingPriceValue;
+                        if (double.TryParse(ShippingPrice, out shippingPriceValue))
+                        {
+                            newProduct.ShippingPrice = shippingPriceValue;
+                        }
+                        else
+                        {
+                            newProduct.ShippingPrice = null;
+                        }
                         break;
                     case SelectorType.ShippingCurrency:
                         var ShippingCurrency = GetValue(selector.CssSelector, selector.Attribute);
@@ -176,7 +195,16 @@ public partial class MainViewModel : ObservableObject
                         {
                             Stock = ApplyRegex(Stock, selector.Pattern, selector.Replacement);
                         }
-                        newProduct.Stock = Convert.ToDouble(Stock);
+
+                        double stockValue;
+                        if (double.TryParse(Stock, out stockValue))
+                        {
+                            newProduct.Stock = stockValue;
+                        }
+                        else
+                        {
+                            newProduct.Stock = null;
+                        }
                         break;
                     // agregar más casos para cada tipo de selector que quieras iterar
                     default:
