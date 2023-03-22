@@ -18,6 +18,8 @@ public partial class MainViewModel : ObservableObject
     private string textBoxSearch;
 
     private HtmlNode document;
+    private string message;
+    private string content;
 
     public XamlRoot XamlRoot
     {
@@ -72,7 +74,9 @@ public partial class MainViewModel : ObservableObject
         var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
         if (isRegistered)
         {
-            Console.Write("The product is registered");
+            message = "The product is registered";
+            content = "The product is already registered and will continue to be tracked, don't worry";
+            await ShowMessageError();
             return;
         }
 
@@ -85,7 +89,9 @@ public partial class MainViewModel : ObservableObject
 
         if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
         {
-            Console.Write("No selectors assigned to Store");
+            message = "No selectors assigned to Store";
+            content = "The url does not have selectors assigned, we recommend you see the tutorial on how to add one";
+            await ShowMessageError();
             return;
         }
 
@@ -231,8 +237,6 @@ public partial class MainViewModel : ObservableObject
         newProduct.ShippingCurrency = "MXN";
 
         var isSucces = await App.PriceTrackerService.InsertAsync(newProduct);
-        var message = "";
-        var content = "";
         if (isSucces == 1)
         {
             message = "Product Inserted";
@@ -243,6 +247,18 @@ public partial class MainViewModel : ObservableObject
             message = "Not Inserted";
             content = "The product has not add";
         }
+        ShowMessageError();
+    }
+
+    private static async Task SearchTermAsync()
+    {
+        // Utilizar los diccionarios ParseWebSiteJsonLdForSearchAction para obtener una URL de búsqueda y obtener el buscador de la web
+        // Si no hay ningún sitemap, informar al usuario de cómo realizar este proceso
+        var productList = await App.PriceTrackerService.GetAllAsync<ProductInfo>();
+        // Si no hay buscadores, solo decir al usuario los productos que tiene en seguimiento
+    }
+    private async Task ShowMessageError()
+    {
         // El producto ha sido agregado
         var dialog = new ContentDialog
         {
@@ -255,12 +271,4 @@ public partial class MainViewModel : ObservableObject
 
         await dialog.ShowAsync();
     }
-    private static async Task SearchTermAsync()
-    {
-        // Utilizar los diccionarios ParseWebSiteJsonLdForSearchAction para obtener una URL de búsqueda y obtener el buscador de la web
-        // Si no hay ningún sitemap, informar al usuario de cómo realizar este proceso
-        var productList = await App.PriceTrackerService.GetAllAsync<ProductInfo>();
-        // Si no hay buscadores, solo decir al usuario los productos que tiene en seguimiento
-    }
-
 }
