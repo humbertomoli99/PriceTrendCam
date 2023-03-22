@@ -247,7 +247,7 @@ public partial class MainViewModel : ObservableObject
             message = "Not Inserted";
             content = "The product has not add";
         }
-        ShowMessageError();
+        await ShowMessageError();
     }
 
     private static async Task SearchTermAsync()
