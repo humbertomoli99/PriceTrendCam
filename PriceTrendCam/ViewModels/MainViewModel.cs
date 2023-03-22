@@ -84,8 +84,14 @@ public partial class MainViewModel : ObservableObject
             .SelectMany(s => s.Urls)
             .Where(u => url.Contains(u.Url))
             .ToList();
-
-        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(UrlShop.First().StoreId);
+        if (UrlShop.Count == 0)
+        {
+            message = "The url is not registered in Stores";
+            content = "The url is not registered in Stores, please assign selectors and add start url";
+            await ShowMessageError();
+            return;
+        }
+        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(UrlShop.FirstOrDefault().StoreId);
 
         if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
         {
