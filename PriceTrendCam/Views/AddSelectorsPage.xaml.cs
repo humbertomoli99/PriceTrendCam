@@ -573,7 +573,7 @@ public sealed partial class AddSelectorsPage : Page
                 if (i.CssSelector == (args.Parameter as string))
                 {
                     collection.Remove(i);
-                    await App.PriceTrackerService.DeleteAsync<Selector>(i.Id);
+                    _ = await App.PriceTrackerService.DeleteAsync<Selector>(i.Id);
                     return;
                 }
             }

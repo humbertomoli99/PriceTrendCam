@@ -83,7 +83,7 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
 
         if (dialogResult == ContentDialogResult.Primary)
         {
-            await App.PriceTrackerService.DeleteAsync<Store>(Selected.Id);
+            _ = await App.PriceTrackerService.DeleteAsync<Store>(Selected.Id);
 
             SampleItems.Clear();
 
