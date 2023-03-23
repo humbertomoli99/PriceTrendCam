@@ -127,22 +127,22 @@
     <value>Main</value>
   </data>
   <data name="Shell_ProductsList.Content" xml:space="preserve">
-    <value>ProductsList</value>
+    <value>Products List</value>
   </data>
   <data name="ProductDetails_NoSelection.Text" xml:space="preserve">
     <value>Select an product from the list.</value>
   </data>
   <data name="Shell_ProductDetails.Content" xml:space="preserve">
-    <value>ProductDetails</value>
+    <value>Product Details</value>
   </data>
   <data name="Shell_SitemapList.Content" xml:space="preserve">
-    <value>SitemapList</value>
+    <value>Sitemap List</value>
   </data>
   <data name="Shell_AddSitemap.Content" xml:space="preserve">
-    <value>AddSitemap</value>
+    <value>Add Sitemap</value>
   </data>
   <data name="Shell_SelectorList.Content" xml:space="preserve">
-    <value>SelectorList</value>
+    <value>Selector List</value>
   </data>
   <data name="WebView_Loading.Text" xml:space="preserve">
     <value>Loading...</value>
@@ -178,19 +178,19 @@
     <value>Open in browser</value>
   </data>
   <data name="Shell_AddSelectors.Content" xml:space="preserve">
-    <value>AddSelectors</value>
+    <value>Add Selectors</value>
   </data>
   <data name="Shell_ExportData.Content" xml:space="preserve">
-    <value>ExportData</value>
+    <value>Export Data</value>
   </data>
   <data name="Shell_ContentGrid.Content" xml:space="preserve">
-    <value>ContentGrid</value>
+    <value>Content Grid</value>
   </data>
   <data name="Shell_Notifications.Content" xml:space="preserve">
     <value>Notifications</value>
   </data>
   <data name="Shell_PackageTracker.Content" xml:space="preserve">
-    <value>PackageTracker</value>
+    <value>Package Tracker</value>
   </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>Personalization</value>
@@ -237,7 +237,7 @@
 &lt;/toast&gt;</value>
   </data>
   <data name="Shell_PostManForm.Content" xml:space="preserve">
-    <value>PostManForm</value>
+    <value>PostMan Form</value>
   </data>
   <data name="StoreDetails_NoSelection.Text" xml:space="preserve">
     <value>Select an Store from the list.</value>
