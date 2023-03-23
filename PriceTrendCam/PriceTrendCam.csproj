@@ -23,6 +23,7 @@
     <Content Remove="Assets\BadgeLogo.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\Mountain_Monochromatic.png" />
     <None Remove="Assets\WindowIcon.ico" />
     <None Remove="Controls\DocumentationBlock.xaml" />
     <None Remove="Controls\InteractiveSample.xaml" />
@@ -95,6 +96,9 @@
 
   <ItemGroup>
     <Content Update="Assets\Fonts\bootstrap-icons.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Mountain_Monochromatic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

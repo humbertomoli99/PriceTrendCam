@@ -36,13 +36,17 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
 
     public async Task OnNavigatedTo(object parameter)
     {
+        await LoadDataAsync(StartIndex);
+    }
+    private async Task LoadDataAsync(int startIndex)
+    {
         SampleItems.Clear();
 
-        // TODO: Replace with real data.
-        var data = await _sampleDataService.GetListDetailsDataAsync();
+        var data = await _sampleDataService.GetListDetailsDataAsync(count: 10, startIndex: startIndex);
 
         foreach (var item in data)
         {
+            item.Image ??= "ms-appx:///Assets/Mountain_Monochromatic.png";
             SampleItems.Add(item);
         }
         EnsureItemSelected();
@@ -84,18 +88,9 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
 
         if (dialogResult == ContentDialogResult.Primary)
         {
-            await App.PriceTrackerService.DeleteAsync<ProductInfo>(Selected.Id);
+            _ = await App.PriceTrackerService.DeleteAsync<ProductInfo>(Selected.Id);
 
-            SampleItems.Clear();
-
-            // TODO: Replace with real data.
-            var listDetailsData = await _sampleDataService.GetListDetailsDataAsync();
-
-            foreach (var item in listDetailsData)
-            {
-                SampleItems.Add(item);
-            }
-            EnsureItemSelected();
+            await LoadDataAsync(StartIndex);
         }
     }
     [RelayCommand]
@@ -109,15 +104,8 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
         {
             StartIndex--;
         }
-        SampleItems.Clear();
 
-        var data = await _sampleDataService.GetListDetailsDataAsync(count: 10, startIndex: StartIndex);
-
-        foreach (var item in data)
-        {
-            SampleItems.Add(item);
-        }
-        EnsureItemSelected();
+        await LoadDataAsync(StartIndex);
     }
     [RelayCommand]
     private async void Forward()
@@ -133,13 +121,6 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
             StartIndex++;
         }
 
-        SampleItems.Clear();
-        var data = await _sampleDataService.GetListDetailsDataAsync(count: 10, startIndex: StartIndex);
-
-        foreach (var item in data)
-        {
-            SampleItems.Add(item);
-        }
-        EnsureItemSelected();
+        await LoadDataAsync(StartIndex);
     }
 }
