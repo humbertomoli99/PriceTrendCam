@@ -86,6 +86,7 @@ function toggleSvg(enabled) {
             svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             svg.setAttribute('id', 'rectangulos-svg');
             svg.style.position = "absolute";
+            svg.style.zIndex = "99999";
             svg.style.top = "0";
             svg.style.left = "0";
             svg.style.background = "rgba(0,0,0,0.3)";
