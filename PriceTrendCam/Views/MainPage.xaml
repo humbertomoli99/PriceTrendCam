@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:behaviors="using:PriceTrendCam.Behaviors"
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
+    GotFocus="Page_GotFocus"
     mc:Ignorable="d">
 
     <Grid

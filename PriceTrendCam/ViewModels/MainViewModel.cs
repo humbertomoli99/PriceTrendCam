@@ -4,20 +4,20 @@ using CommunityToolkit.Mvvm.Input;
 using HtmlAgilityPack;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using PriceTrendCam.Contracts.Services;
+using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
-
+using Windows.ApplicationModel.DataTransfer;
 
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
-    public MainViewModel()
-    {
-    }
     [ObservableProperty]
     private string textBoxSearch;
 
     private HtmlNode document;
+
     private string message;
     private string content;
 
@@ -27,12 +27,63 @@ public partial class MainViewModel : ObservableObject
         set;
     }
 
+    public bool ClipboardAutomatically
+    {
+        get;
+        set;
+    }
+
+    private readonly IClipboardSelectorService _clipboardSelectorService;
+
+    public MainViewModel(IClipboardSelectorService clipboardSelectorService)
+    {
+        _clipboardSelectorService = clipboardSelectorService;
+    }
+
+    public async Task ShowMessageAddProductFromClipboard()
+    {
+        ClipboardAutomatically = await _clipboardSelectorService.LoadClipboardSettingFromSettingsAsync();
+
+        if (!await IsUrlClipboardValid() && !ClipboardAutomatically) return;
+
+        var urlClipboard = await GetClipboardTextAsync();
+        if (await IsRegistered(urlClipboard)) return;
+
+        var urlShop = await GetStoreUrlsByUrl(urlClipboard);
+        if (urlShop.Count == 0) return;
+
+        //mensaje de si desea añadir el producto en contrado
+        await SearchUrlAsync(await GetClipboardTextAsync());
+    }
+
+    public async Task<bool> IsUrlClipboardValid()
+    {
+        var urlClipboard = await GetClipboardTextAsync();
+
+        if (string.IsNullOrWhiteSpace(urlClipboard))
+        {
+            return await Url.IsValid(urlClipboard);
+        }
+        return false;
+    }
+
+    public async Task<string> GetClipboardTextAsync()
+    {
+        var package = Clipboard.GetContent();
+        if (package.Contains(StandardDataFormats.Text))
+        {
+            var text = await package.GetTextAsync();
+            return text;
+        }
+        return string.Empty;
+    }
+
     [RelayCommand]
     public async Task AdvancedSearch()
     {
         try
         {
-            if (await Core.Helpers.Url.IsValid(textBoxSearch))
+            if (await Url.IsValid(textBoxSearch))
             {
                 await SearchUrlAsync(textBoxSearch);
             }
@@ -56,23 +107,38 @@ public partial class MainViewModel : ObservableObject
             await dialog.ShowAsync();
         }
     }
-    //Funciones auxiliares
+
     private string? GetValue(string cssSelector, string attribute)
     {
         return HtmlDocumentService.GetMetaValue(document, cssSelector, attribute);
     }
+
     private string? ApplyRegex(string value, string pattern, string replacement)
     {
         pattern = Regex.Replace(pattern, @"\""", "");
         replacement ??= string.Empty;
         return Regex.Replace(value, pattern, replacement);
     }
-    private async Task SearchUrlAsync(string url)
+
+    private async Task<bool> IsRegistered(string url)
     {
         // Buscar si la URL tiene un sitemap y selectores asignados
         var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
-        if (isRegistered)
+        return isRegistered;
+    }
+    private async Task<List<StoreUrl>> GetStoreUrlsByUrl(string url)
+    {
+        var storesWithUrls = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
+        var matchingUrls = storesWithUrls
+            .SelectMany(s => s.Urls)
+            .Where(u => url.Contains(u.Url))
+            .ToList();
+        return matchingUrls;
+    }
+    private async Task SearchUrlAsync(string url)
+    {
+        if (await IsRegistered(url))
         {
             message = "The product is registered";
             content = "The product is already registered and will continue to be tracked, don't worry";
@@ -80,18 +146,17 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        var UrlShop = (await App.PriceTrackerService.GetAllWithChildrenAsync<Store>())
-            .SelectMany(s => s.Urls)
-            .Where(u => url.Contains(u.Url))
-            .ToList();
-        if (UrlShop.Count == 0)
+        var urlShop = await GetStoreUrlsByUrl(url);
+
+        if (urlShop.Count == 0)
         {
             message = "The url is not registered in Stores";
             content = "The url is not registered in Stores, please assign selectors and add start url";
             await ShowMessageError();
             return;
         }
-        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(UrlShop.FirstOrDefault().StoreId);
+
+        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
 
         if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
         {
@@ -256,13 +321,14 @@ public partial class MainViewModel : ObservableObject
         await ShowMessageError();
     }
 
-    private static async Task SearchTermAsync()
+    private async Task SearchTermAsync()
     {
         // Utilizar los diccionarios ParseWebSiteJsonLdForSearchAction para obtener una URL de búsqueda y obtener el buscador de la web
         // Si no hay ningún sitemap, informar al usuario de cómo realizar este proceso
         var productList = await App.PriceTrackerService.GetAllAsync<ProductInfo>();
         // Si no hay buscadores, solo decir al usuario los productos que tiene en seguimiento
     }
+
     private async Task ShowMessageError()
     {
         // El producto ha sido agregado
