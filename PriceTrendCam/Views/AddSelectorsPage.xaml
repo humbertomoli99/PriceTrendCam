@@ -35,6 +35,7 @@
     </Page.Resources>
     
     <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}"
         Loaded="ControlExample_Loaded"
         x:Name="ContentArea">
         <Grid.Resources>

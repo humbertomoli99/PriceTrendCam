@@ -11,8 +11,11 @@
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="ItemTemplate" x:DataType="models:ProductInfo">
-            <Grid Height="60">
+        <DataTemplate
+            x:Key="ItemTemplate"
+            x:DataType="models:ProductInfo">
+            <Grid
+                Height="60">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -70,7 +73,9 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid x:Name="ContentArea">
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource NavigationViewPageContentMargin}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

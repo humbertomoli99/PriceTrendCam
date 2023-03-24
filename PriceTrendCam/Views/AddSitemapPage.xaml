@@ -10,6 +10,7 @@
     mc:Ignorable="d">
 
     <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}"
         x:Name="ContentArea">
         <Grid>
             <ScrollViewer>

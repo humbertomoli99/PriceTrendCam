@@ -6,7 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
+    <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}"
+        x:Name="ContentArea">
         
     </Grid>
 </Page>

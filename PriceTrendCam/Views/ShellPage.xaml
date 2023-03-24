@@ -139,8 +139,9 @@
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                 </behaviors:NavigationViewHeaderBehavior>
             </i:Interaction.Behaviors>
-            <Grid Margin="{StaticResource NavigationViewPageContentMargin}">
-                <Frame x:Name="NavigationFrame" />
+            <Grid>
+                <Frame
+                    x:Name="NavigationFrame"/>
             </Grid>
         </NavigationView>
     </Grid>

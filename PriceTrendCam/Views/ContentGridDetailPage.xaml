@@ -8,7 +8,9 @@
     xmlns:models="using:PriceTrendCam.Core.Models"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
+    <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}"
+        x:Name="ContentArea">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

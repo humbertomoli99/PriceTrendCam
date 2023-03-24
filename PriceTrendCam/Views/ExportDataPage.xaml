@@ -7,7 +7,8 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
+    <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}" x:Name="ContentArea">
         <controls:DataGrid
             AutoGenerateColumns="False"
             GridLinesVisibility="Horizontal"

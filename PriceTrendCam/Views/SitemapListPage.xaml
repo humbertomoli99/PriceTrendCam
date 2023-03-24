@@ -109,6 +109,7 @@
     </Page.Resources>
 
     <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}"
         x:Name="ContentArea">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

@@ -10,7 +10,8 @@
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     </Page.Resources>
-    <Grid>
+    <Grid
+        Margin="{StaticResource NavigationViewPageContentMargin}">
         <StackPanel
             x:Name="ContentArea">
             <StackPanel
