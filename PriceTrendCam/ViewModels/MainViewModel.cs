@@ -123,8 +123,8 @@ public partial class MainViewModel : ObservableObject
         {
             for (int i = 0; i < pattern2.Length; i++)
             {
-                //pattern2[i] = Regex.Replace(pattern, @"\""", "");
-                //replacement2[i] ??= string.Empty;
+                pattern2[i] = Regex.Replace(pattern2[i], @"\""", "");
+                replacement2[i] ??= string.Empty;
                 value = Regex.Replace(value, pattern2[i], replacement2[i]);
             }
         }
