@@ -426,25 +426,60 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TextBlock
-                                Text="Title"/>
-                            <TextBlock
-                                Grid.Row="1"
-                                Text="Description"
-                                />
-                            <TextBlock
-                                Grid.Row="2"
-                                Text="Status"/>
-                            <TextBlock
-                                Grid.Row="3"
-                                Text="Price"/>
-                            <TextBlock
-                                Grid.Row="4"
-                                Text="Spipping"/>
-                            <TextBlock
-                                Grid.Row="5"
-                                Text="Stock"/>
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Text="Title: " />
+                                <TextBlock
+                                    x:Name="PrevTitle" />
+                            </StackPanel>
 
+                            <StackPanel
+                                Grid.Row="1"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Text="Description: " />
+                                <TextBlock
+                                    x:Name="PrevDescription" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Row="2"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Text="Status: " />
+                                <TextBlock
+                                    x:Name="PrevStatus" />
+                            </StackPanel>
+
+
+                            <StackPanel
+                                Grid.Row="3"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Text="Price: " />
+                                <TextBlock
+                                    x:Name="PrevPrice" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Row="4"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Text="Spipping: " />
+                                <TextBlock
+                                    x:Name="PrevShipping" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Row="5"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Text="Stock: " />
+                                <TextBlock
+                                    x:Name="PrevStock" />
+                            </StackPanel>
+                            
                         </Grid>
                     </TabViewItem>
                     <TabViewItem
