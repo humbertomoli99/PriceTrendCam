@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using HtmlAgilityPack;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
@@ -115,9 +116,19 @@ public partial class MainViewModel : ObservableObject
 
     private string? ApplyRegex(string value, string pattern, string replacement)
     {
-        pattern = Regex.Replace(pattern, @"\""", "");
-        replacement ??= string.Empty;
-        return Regex.Replace(value, pattern, replacement);
+        var pattern2 = JsonConvert.DeserializeObject<string[]>(pattern);
+        var replacement2 = JsonConvert.DeserializeObject<string[]>(replacement);
+
+        if (pattern2.Length == replacement2.Length)
+        {
+            for (int i = 0; i < pattern2.Length; i++)
+            {
+                //pattern2[i] = Regex.Replace(pattern, @"\""", "");
+                //replacement2[i] ??= string.Empty;
+                value = Regex.Replace(value, pattern2[i], replacement2[i]);
+            }
+        }
+        return value;
     }
 
     private async Task<bool> IsRegistered(string url)
