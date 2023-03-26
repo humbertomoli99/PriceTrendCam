@@ -378,13 +378,17 @@
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,5,5"
                             Padding="{StaticResource MediumLeftTopRightBottomMargin}">
-                            <Grid.RowDefinitions>
+                            <StackPanel
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                Name="textBoxesStackPanel" />
+                            <!--<Grid.RowDefinitions>
                                 <RowDefinition
                                     Height="Auto" />
                                 <RowDefinition
                                     Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBox
+                            </Grid.RowDefinitions>-->
+                            <!--<TextBox
                                 Header="Regex"
                                 x:Name="PatternTextBox"
                                 Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -397,7 +401,7 @@
                                 PlaceholderText="Replacement"
                                 Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Grid.Row="1"
-                                Margin="0,5" />
+                                Margin="0,5" />-->
                         </Grid>
                     </TabViewItem>
                     <TabViewItem

@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using HtmlAgilityPack;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Newtonsoft.Json;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Models;
@@ -42,6 +43,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     [ObservableProperty]
     private bool hasFailures;
+
     public bool isRegistrationSuccessful;
     public bool isSelectorDeleted;
 
@@ -66,7 +68,10 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         get; set;
     }
-
+    public string[][] textBoxDataArray
+    {
+        get; set;
+    }
     public Store GetStore
     {
         get;
@@ -129,35 +134,55 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             WebViewService.GoBack();
         }
     }
+    public bool ValidateSelectorData()
+    {
+        // Verificar que el cssSelector no esté vacío o nulo
+        if (string.IsNullOrEmpty(selectorTextBox))
+        {
+            return false;
+        }
+
+        // Verificar que el typeData no esté vacío o nulo
+        if (string.IsNullOrEmpty(typeDataComboBox))
+        {
+            return false;
+        }
+
+        // Verificar que el storeId sea mayor que cero
+        if (_newstoreId <= 0)
+        {
+            return false;
+        }
+
+        // Verificar que el attribute no esté vacío o nulo
+        if (string.IsNullOrEmpty(getAttributeComboBox))
+        {
+            return false;
+        }
+
+        // Si todas las validaciones anteriores pasaron, entonces los datos son válidos
+        return true;
+    }
+
     [RelayCommand]
     private async void SaveSelectors()
     {
-        // Obtener la instancia de Store que deseas actualizar
-        var store = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
-
+        if (!ValidateSelectorData()) return;
+        
         // Crear lista de Selectors
         var newSelector = new Selector
         {
-            //CssSelector = selectedCssSelector,
             CssSelector = selectorTextBox,
             Command = selectorTextBox,
             Type = typeDataComboBox,
-            Pattern = patternTextBox,
-            Replacement = replacementTextBox,
+            StoreId = _newstoreId,
             Attribute = getAttributeComboBox,
-            StoreId = store.Id,
+            // Convertir textBoxDataArray en un JSON string y guardarlo en las propiedades Pattern y Replacement de newSelector
+            Pattern = JsonConvert.SerializeObject(textBoxDataArray.Select(data => data[0])),
+            Replacement = JsonConvert.SerializeObject(textBoxDataArray.Select(data => data[1]))
         };
 
-        // Crear objeto Store y guardarlo en la base de datos
-
         isRegistrationSuccessful = Convert.ToBoolean(await App.PriceTrackerService.InsertAsync<Selector>(newSelector));
-        //Debug.WriteLine(typeDataComboBox);
-        //Debug.WriteLine(selectorTextBox);
-        //Debug.WriteLine(getAttributeComboBox);
-        //Debug.WriteLine(regexTextBox);
-        //Debug.WriteLine(isNotNullCheckBox);
-        //Debug.WriteLine(_newstoreId);
-        //Debug.WriteLine(selectedCssSelector);
     }
 
     public async Task OnNavigatedTo(object parameter)
@@ -172,7 +197,6 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
             if (GetStore.DriveWebBrowser == WebBrowsers.HtmlAgilityPack)
             {
-
                 webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
                 webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
                 webview.CoreWebView2.Settings.IsZoomControlEnabled = true;
@@ -229,6 +253,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             GetListSelectors.Add(item);
         }
     }
+
     public void OnNavigatedFrom()
     {
         WebViewService.UnregisterEvents();

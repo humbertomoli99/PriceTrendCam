@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
+using Newtonsoft.Json;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.ViewModels;
@@ -57,6 +58,10 @@ public sealed partial class AddSelectorsPage : Page
     private string _messagePreviewSelectorValue;
     private bool _elementPreviewModeIsActive;
     private bool _selectionModeIsActive;
+    private int textBoxCount;
+    private string[][] textBoxDataArray;
+    private string message;
+    private string content;
 
     public ObservableCollection<string> AttributesComboBox
     {
@@ -84,6 +89,121 @@ public sealed partial class AddSelectorsPage : Page
         ViewModel.WebViewService.Initialize(WebView);
         ViewModel.webview = WebView;
         InitializeVariables();
+        AgregarControlesButton_Click(null, null);
+    }
+    private void Eliminar_Click(object sender, RoutedEventArgs e)
+    {
+        Button? deleteButton = (Button)sender;
+        Grid? grid = (Grid)deleteButton.Tag;
+        textBoxesStackPanel.Children.Remove(grid);
+
+        textBoxCount--;
+
+        if (textBoxCount == 0)
+        {
+            foreach (UIElement element in textBoxesStackPanel.Children)
+            {
+                if (element is Grid)
+                {
+                    Grid g = (Grid)element;
+                    Button button = (Button)g.Children[0];
+                    button.IsEnabled = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void AddNewControlsRegex(string regex = "", string replace = "")
+    {
+        // Crear un nuevo grid para cada TextBox y botón
+        Grid newGrid = new Grid();
+
+        ColumnDefinition column1 = new ColumnDefinition();
+        column1.Width = new GridLength(1, GridUnitType.Star);
+        newGrid.ColumnDefinitions.Add(column1);
+
+        ColumnDefinition column2 = new ColumnDefinition();
+        column2.Width = GridLength.Auto;
+        newGrid.ColumnDefinitions.Add(column2);
+
+        RowDefinition row1 = new RowDefinition();
+        row1.Height = GridLength.Auto;
+        newGrid.RowDefinitions.Add(row1);
+
+        RowDefinition row2 = new RowDefinition();
+        row2.Height = GridLength.Auto;
+        newGrid.RowDefinitions.Add(row2);
+
+        RowDefinition row3 = new RowDefinition();
+        row3.Height = GridLength.Auto;
+        newGrid.RowDefinitions.Add(row3);
+
+        // Crear un nuevo botón
+        Button deleteButton = new Button()
+        {
+            Content = "🗑",
+            Margin = new Thickness(6, 6, 0, 0),
+            Tag = newGrid,
+            VerticalAlignment = VerticalAlignment.Bottom
+        };
+
+        deleteButton.Click += Eliminar_Click;
+
+        // Agregar el botón a la segunda columna del nuevo Grid
+
+        TextBox patternTextBox = new TextBox
+        {
+            Text = regex,
+            Name = "PatternTextBox",
+            PlaceholderText = "Pattern",
+            Margin = new Thickness(0, 5, 0, 0)
+        };
+
+        TextBox replacementTextBox = new TextBox
+        {
+            Text = replace,
+            Name = "ReplacementTextBox",
+            PlaceholderText = "Replacement",
+            Margin = new Thickness(0, 5, 0, 10)
+        };
+
+        Grid.SetColumn(deleteButton, 1);
+        Grid.SetRow(patternTextBox, 0);
+        Grid.SetRow(replacementTextBox, 1);
+        Grid.SetColumnSpan(replacementTextBox, 2);
+        // Agregar los controles al Grid contenedor
+
+        newGrid.Children.Add(patternTextBox);
+        newGrid.Children.Add(replacementTextBox);
+        newGrid.Children.Add(deleteButton);
+
+        textBoxesStackPanel.Children.Add(newGrid);
+
+        textBoxCount++;
+
+        if (textBoxCount == 1)
+        {
+            //ocultamos el primer boton eliminar
+            deleteButton.IsEnabled = false;
+            deleteButton.Visibility = Visibility.Collapsed;
+
+            // Crear un nuevo botón Añadir junto al primer textbox
+            Button addButton = new Button();
+            addButton.VerticalAlignment = VerticalAlignment.Bottom;
+            addButton.Margin = new Thickness(6, 0, 0, 0);
+
+            addButton.Content = "➕";
+            addButton.Tag = newGrid;
+            addButton.Click += AgregarControlesButton_Click;
+
+            Grid.SetColumn(addButton, 2);
+            newGrid.Children.Add(addButton);
+        }
+    }
+    private void AgregarControlesButton_Click(object sender, RoutedEventArgs e)
+    {
+        AddNewControlsRegex();
     }
     private void InitializeVariables()
     {
@@ -137,8 +257,8 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        var message = "";
-        var content = "";
+        ViewModel.textBoxDataArray = GetRegexDataList();
+
         if (ViewModel.isRegistrationSuccessful)
         {
             await ViewModel.GetListSelectorsAsync();
@@ -159,6 +279,36 @@ public sealed partial class AddSelectorsPage : Page
         await dialog.ShowAsync();
     }
 
+    private string[][] GetRegexDataList()
+    {
+        List<string[]> textBoxDataList = new List<string[]>();
+
+        foreach (Grid grid in textBoxesStackPanel.Children)
+        {
+            var textBoxData = new string[2];
+
+            foreach (UIElement control in grid.Children)
+            {
+                if (control is TextBox)
+                {
+                    TextBox textBox = control as TextBox;
+
+                    if (textBox.Name == "PatternTextBox")
+                    {
+                        textBoxData[0] = textBox.Text;
+                    }
+                    else if (textBox.Name == "ReplacementTextBox")
+                    {
+                        textBoxData[1] = textBox.Text;
+                    }
+                }
+            }
+
+            textBoxDataList.Add(textBoxData);
+        }
+        textBoxDataArray = textBoxDataList.ToArray();
+        return textBoxDataArray;
+    }
     private async void DataPreviewButton_Click(object sender, RoutedEventArgs e)
     {
         try
@@ -166,18 +316,16 @@ public sealed partial class AddSelectorsPage : Page
             var scriptElement = $"document.querySelector('{SelectorAutoSuggestBox.Text}').{GetAttributeComboBox.Text}";
             var resultCommand = await ExecuteScriptAsync(scriptElement);
 
-            if (!string.IsNullOrWhiteSpace(PatternTextBox.Text))
-            {
-                var pattern = PatternTextBox.Text;
-                var replace = ReplacementTextBox.Text;
+            textBoxDataArray = GetRegexDataList();
 
-                var newText = ApplyRegex(resultCommand, pattern, replace);
-                _messagePreviewSelectorValue = newText;
-            }
-            else
+            foreach (var textBoxData in textBoxDataArray)
             {
-                _messagePreviewSelectorValue = resultCommand;
+                var pattern = textBoxData[0];
+                var replace = textBoxData[1];
+                resultCommand = ApplyRegex(resultCommand, pattern, replace);
             }
+
+            _messagePreviewSelectorValue = resultCommand;
 
             var dialog = new ContentDialog
             {
@@ -205,12 +353,14 @@ public sealed partial class AddSelectorsPage : Page
             await dialog.ShowAsync();
         }
     }
+
     private string ApplyRegex(string input, string pattern, string replace)
     {
         var regex = new Regex(pattern);
         var newText = regex.Replace(input, replace);
         return newText;
     }
+
     private async void ElementPreviewButton_Click(object sender, RoutedEventArgs e)
     {
         if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
@@ -222,6 +372,7 @@ public sealed partial class AddSelectorsPage : Page
             await ToggleElementPreviewMode(false);
         }
     }
+
     private async void SelectButton_Click(object sender, RoutedEventArgs e)
     {
         if (_selectionModeIsActive)
@@ -233,6 +384,7 @@ public sealed partial class AddSelectorsPage : Page
             await DeactivateElementSelectionMode();
         }
     }
+
     private async Task ToggleLinksAndSvg(bool linksEnabled, bool svgEnabled)
     {
         await ExecuteScriptAsync($"toggleLinks({linksEnabled.ToString().ToLower()})");
@@ -330,7 +482,7 @@ public sealed partial class AddSelectorsPage : Page
         var json = await ExecuteScriptAsync("obtenerArbolElementos(" + cssSelector + ")");
 
         // Analizar la cadena JSON en una lista de strings
-        _selectorsTree = JsonSerializer.Deserialize<List<string>>(json);
+        _selectorsTree = System.Text.Json.JsonSerializer.Deserialize<List<string>>(json);
 
         if (_selectorsTree == null) return;
         if (_selectorsTree.Count == 0) return;
@@ -468,7 +620,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             return;
         }
-        
+
         var storeUrls = selectorsFromStore.Where(s => s.Type == selectedType.ToString()).ToList();
 
         await GetListSelectorsAsync(storeUrls);
@@ -486,10 +638,22 @@ public sealed partial class AddSelectorsPage : Page
             _selectedCssSelector = selector.CssSelector;
             SelectorAutoSuggestBox.Text = selector.CssSelector;
             await GetAttributes();
-            ElementPreviewButton_Click(sender,e);
-            // Obtener el valor de CssSelector
-            ReplacementTextBox.Text = selector.Replacement;
-            PatternTextBox.Text = selector.Pattern;
+            ElementPreviewButton_Click(sender, e);
+
+            textBoxesStackPanel.Children.Clear();
+            var pattern = JsonConvert.DeserializeObject<string[]>(selector.Pattern);
+            var replacement = JsonConvert.DeserializeObject<string[]>(selector.Replacement);
+
+            textBoxCount = 0;
+            if (pattern.Length == replacement.Length)
+            {
+                for (int i = 0; i < pattern.Length; i++)
+                {
+                    // Agregar controles de patrón y reemplazo
+                    AddNewControlsRegex(pattern[i], replacement[i]);
+                }
+            }
+
             GetAttributeComboBox.Text = selector.Attribute;
             GetTypeDataComboBox.SelectedItem = selector.Type;
             _showElementPreview = true;
@@ -506,7 +670,8 @@ public sealed partial class AddSelectorsPage : Page
             var listSelectors = ViewModel.GetListSelectors;
             foreach (var item in listSelectors)
             {
-                collection.Add(new ListItemData { 
+                collection.Add(new ListItemData
+                {
                     CssSelector = item.CssSelector.ToString(),
                     Command = deleteCommand,
                     Id = item.Id,
