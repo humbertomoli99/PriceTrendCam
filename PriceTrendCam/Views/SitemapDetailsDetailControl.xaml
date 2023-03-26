@@ -55,11 +55,11 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
-                                    Width="*" MaxWidth="80" />
+                                    Width="*"
+                                    MaxWidth="80" />
                                 <ColumnDefinition
-                                    Width="*" MaxWidth="100" />
-                                <ColumnDefinition
-                                    Width="*" MaxWidth="100" />
+                                    Width="*"
+                                    MaxWidth="100" />
                                 <ColumnDefinition
                                     Width="*" />
                             </Grid.ColumnDefinitions>
@@ -72,20 +72,13 @@
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                             <TextBlock
                                 Grid.Column="1"
-                                Text="Pattern"
+                                Text="Attribute"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
                                 TextAlignment="Left"
                                 Style="{StaticResource DetailBodyBaseMediumStyle}" />
                             <TextBlock
                                 Grid.Column="2"
-                                Text="Replacement"
-                                Margin="6"
-                                HorizontalAlignment="Stretch"
-                                TextAlignment="Left"
-                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                            <TextBlock
-                                Grid.Column="3"
                                 Text="CSS Selector"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
