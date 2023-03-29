@@ -5,9 +5,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.Web.WebView2.Core;
-using Newtonsoft.Json;
-using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
+using PriceTrendCam.Core.Services;
 using PriceTrendCam.ViewModels;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
@@ -36,11 +35,7 @@ public class ListItemData
     {
         get; set;
     }
-    public string Pattern
-    {
-        get; set;
-    }
-    public string Replacement
+    public List<RegexMethod> RegexMethods
     {
         get; set;
     }
@@ -58,7 +53,7 @@ public sealed partial class AddSelectorsPage : Page
     private bool _elementPreviewModeIsActive;
     private bool _selectionModeIsActive;
     private int textBoxCount;
-    private string[][] textBoxDataArray;
+    private List<RegexMethod> textBoxDataArray;
     private string message;
     private string content;
 
@@ -428,14 +423,14 @@ public sealed partial class AddSelectorsPage : Page
         await dialog.ShowAsync();
     }
 
-    private string[][] GetRegexDataList()
+    private List<RegexMethod> GetRegexDataList()
     {
-        List<string[]> textBoxDataList = new List<string[]>();
+        List<RegexMethod> textBoxDataList = new List<RegexMethod>();
 
         foreach (Grid grid in textBoxesStackPanel.Children)
         {
-            var textBoxData = new string[2];
-
+            var pattern = "";
+            var Replacement = "";
             foreach (UIElement control in grid.Children)
             {
                 if (control is TextBox)
@@ -444,19 +439,23 @@ public sealed partial class AddSelectorsPage : Page
 
                     if (textBox.Name == "PatternTextBox")
                     {
-                        textBoxData[0] = textBox.Text;
+                        pattern = textBox.Text;
                     }
                     else if (textBox.Name == "ReplacementTextBox")
                     {
-                        textBoxData[1] = textBox.Text;
+                        Replacement = textBox.Text;
                     }
                 }
             }
 
-            textBoxDataList.Add(textBoxData);
+            textBoxDataList.Add(new RegexMethod
+            {
+                Pattern = pattern,
+                Replacement = Replacement
+            });
         }
-        textBoxDataArray = textBoxDataList.ToArray();
-        return textBoxDataArray;
+        return textBoxDataList;
+    }
     }
     private async void DataPreviewButton_Click(object sender, RoutedEventArgs e)
     {
@@ -468,12 +467,12 @@ public sealed partial class AddSelectorsPage : Page
 
             textBoxDataArray = GetRegexDataList();
 
-            foreach (var textBoxData in textBoxDataArray)
-            {
-                var pattern = textBoxData[0];
-                var replace = textBoxData[1];
-                resultCommand = ApplyRegex(resultCommand, pattern, replace);
-            }
+            var listSelectors = textBoxDataArray.ToList();
+
+            var listPattern = listSelectors.Select(e => e.Pattern).ToList();
+            var listReplacement = listSelectors.Select(e => e.Replacement).ToList();
+            
+            resultCommand = ApplyRegex(resultCommand, listPattern, listReplacement);
 
             _messagePreviewSelectorValue = resultCommand;
 
@@ -806,17 +805,24 @@ public sealed partial class AddSelectorsPage : Page
             ElementPreviewButton_Click(sender, e);
 
             textBoxesStackPanel.Children.Clear();
-            var pattern = JsonConvert.DeserializeObject<string[]>(selector.Pattern);
-            var replacement = JsonConvert.DeserializeObject<string[]>(selector.Replacement);
+
+            var listSelectors = selector.RegexMethods.ToList();//checar aqui porque se crashea
+
+            var listPattern = listSelectors.Select(e => e.Pattern).ToList();
+            var listReplacement = listSelectors.Select(e => e.Replacement).ToList();
 
             textBoxCount = 0;
-            if (pattern.Length == replacement.Length)
+            if (listPattern.Count == listReplacement.Count)
             {
-                for (int i = 0; i < pattern.Length; i++)
+                for (int i = 0; i < listPattern.Count; i++)
                 {
                     // Agregar controles de patrón y reemplazo
-                    AddNewControlsRegex(pattern[i], replacement[i]);
+                    AddNewControlsRegex(listPattern[i], listReplacement[i]);
                 }
+            }
+            if (textBoxCount == 0)
+            {
+                AddNewControlsRegex(null, null);
             }
 
             GetAttributeComboBox.Text = selector.Attribute;
@@ -841,8 +847,7 @@ public sealed partial class AddSelectorsPage : Page
                     Command = deleteCommand,
                     Id = item.Id,
                     Attribute = item.Attribute,
-                    Pattern = item.Pattern,
-                    Replacement = item.Replacement,
+                    RegexMethods = item.RegexMethods,
                     Type = item.Type
                 });
             }
@@ -859,8 +864,7 @@ public sealed partial class AddSelectorsPage : Page
                     Command = null,
                     Id = item.Id,
                     Attribute = item.Attribute,
-                    Pattern = item.Pattern,
-                    Replacement = item.Replacement,
+                    RegexMethods = item.RegexMethods,
                     Type = item.Type
                 });
             }
@@ -921,8 +925,6 @@ public sealed partial class AddSelectorsPage : Page
     public async Task GetListSelectorsAsync(List<Selector> storeUrls)
     {
         collection.Clear();
-        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
-        //var GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(ViewModel.GetStore.Id);
         if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
         {
             var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
@@ -932,12 +934,10 @@ public sealed partial class AddSelectorsPage : Page
             {
                 var listItemData = new ListItemData
                 {
-                    // set properties of listItemData based on item properties
                     Id = item.Id,
                     Attribute = item.Attribute,
                     CssSelector = item.CssSelector,
-                    Pattern = item.Pattern,
-                    Replacement = item.Replacement,
+                    RegexMethods = item.RegexMethods,
                     Type = item.Type,
                     Command = deleteCommand
                 };
@@ -951,12 +951,10 @@ public sealed partial class AddSelectorsPage : Page
             {
                 var listItemData = new ListItemData
                 {
-                    // set properties of listItemData based on item properties
                     Id = item.Id,
                     Attribute = item.Attribute,
                     CssSelector = item.CssSelector,
-                    Pattern = item.Pattern,
-                    Replacement = item.Replacement,
+                    RegexMethods = item.RegexMethods,
                     Type = item.Type,
                     Command = null
                 };

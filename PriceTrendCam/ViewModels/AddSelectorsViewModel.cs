@@ -68,7 +68,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         get; set;
     }
-    public string[][] textBoxDataArray
+    public List<RegexMethod> textBoxDataArray
     {
         get; set;
     }
@@ -134,8 +134,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             WebViewService.GoBack();
         }
     }
-    public bool ValidateSelectorData()
+    public async Task<bool> ValidateSelectorData()
     {
+        var store = await App.PriceTrackerService.GetAsync<Store>(_newstoreId);
+
+        if (store == null)
+        {
+            // No se encontró ninguna entrada de Store con el valor de _newstoreId
+            return false;
+        }
         // Verificar que el cssSelector no esté vacío o nulo
         if (string.IsNullOrEmpty(selectorTextBox))
         {
@@ -167,22 +174,35 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [RelayCommand]
     private async void SaveSelectors()
     {
-        if (!ValidateSelectorData()) return;
-        
-        // Crear lista de Selectors
+        if (await ValidateSelectorData() == false) return;
+
+        var store = await App.PriceTrackerService.GetAsync<Store>(_newstoreId);
         var newSelector = new Selector
         {
             CssSelector = selectorTextBox,
             Command = selectorTextBox,
             Type = typeDataComboBox,
             StoreId = _newstoreId,
+            Store = store,
+            RegexMethods = new List<RegexMethod>(),
             Attribute = getAttributeComboBox,
-            // Convertir textBoxDataArray en un JSON string y guardarlo en las propiedades Pattern y Replacement de newSelector
-            Pattern = JsonConvert.SerializeObject(textBoxDataArray.Select(data => data[0])),
-            Replacement = JsonConvert.SerializeObject(textBoxDataArray.Select(data => data[1]))
         };
 
-        isRegistrationSuccessful = Convert.ToBoolean(await App.PriceTrackerService.InsertAsync<Selector>(newSelector));
+        // Agregar los objetos RegexMethod a la lista RegexMethods
+        foreach (var regexMethod in textBoxDataArray)
+        {
+            var newRegexMethod = new RegexMethod
+            {
+                Pattern = regexMethod.Pattern,
+                Replacement = regexMethod.Replacement
+            };
+            newSelector.RegexMethods.Add(newRegexMethod);
+        }
+
+        await App.PriceTrackerService.InsertWithChildrenAsync<Selector>(newSelector, true);
+
+
+        isRegistrationSuccessful = true;
     }
 
     public async Task OnNavigatedTo(object parameter)
