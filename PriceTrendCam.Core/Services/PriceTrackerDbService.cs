@@ -83,13 +83,13 @@ public class PriceTrackerDbService
     {
         await _database.InsertAllAsync(items).ConfigureAwait(false);
     }
-    public async Task InsertAllWithChildrenAsync<T>(IEnumerable<T> items) where T : class, new()
+    public async Task InsertAllWithChildrenAsync<T>(IEnumerable<T> items, bool recursive) where T : class, new()
     {
-        await _database.InsertAllWithChildrenAsync(items).ConfigureAwait(false);
+        await _database.InsertAllWithChildrenAsync(items, recursive).ConfigureAwait(false);
     }
     public async Task InsertWithChildrenAsync<T>(T item, bool recursive) where T : class, new()
     {
-        await _database.InsertWithChildrenAsync(item, recursive: false).ConfigureAwait(false);
+        await _database.InsertWithChildrenAsync(item, recursive).ConfigureAwait(false);
     }
     /// <summary>
     /// Inserts a single item into the database.
@@ -114,7 +114,7 @@ public class PriceTrackerDbService
     }
     public async Task UpdateWithChildrenAsync<T>(T item) where T : class, new()
     {
-        await _database.UpdateWithChildrenAsync(item);
+        await _database.UpdateWithChildrenAsync(item).ConfigureAwait(false);
     }
     /// <summary>
     /// Deletes a single item from the database.
