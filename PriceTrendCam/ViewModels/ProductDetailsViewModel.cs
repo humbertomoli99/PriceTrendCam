@@ -47,6 +47,7 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
         foreach (var item in data)
         {
             item.Image ??= "ms-appx:///Assets/Mountain_Monochromatic.png";
+            item.Description = item.Description.Replace("\n", "<LineBreak />");
             SampleItems.Add(item);
         }
         EnsureItemSelected();
