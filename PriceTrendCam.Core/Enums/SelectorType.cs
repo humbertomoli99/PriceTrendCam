@@ -1,6 +1,7 @@
-﻿public enum SelectorType
+﻿[Flags]
+public enum SelectorType
 {
-    Title,
+    Name,
     Description,
     Image,
     Price,

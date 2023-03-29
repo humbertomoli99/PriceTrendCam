@@ -262,13 +262,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     public async Task GetListSelectorsAsync()
     {
         GetListSelectors.Clear();
-        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
         GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
+        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
+        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+        var selectorsFromStore = selectorsList.Where(s => s.StoreId == _newstoreId).ToList();
         if (GetStore == null)
         {
             return;
         }
-        foreach (var item in GetStore.Selectors)
+        foreach (var item in selectorsFromStore)
         {
             GetListSelectors.Add(item);
         }

@@ -84,7 +84,7 @@ public sealed partial class AddSelectorsPage : Page
         ViewModel.webview = WebView;
         InitializeVariables();
         AgregarControlesButton_Click(null, null);
-        _ = GetDataFormSelectors();
+        _ = ShowDataInDataPreviewTabAsync();
     }
     private void Eliminar_Click(object sender, RoutedEventArgs e)
     {
@@ -107,156 +107,6 @@ public sealed partial class AddSelectorsPage : Page
                 }
             }
         }
-    }
-    private async Task<string?> GetValue(string cssSelector, string attribute)
-    {
-        var scriptElement = $"document.querySelector('{cssSelector}').{attribute}";
-        var resultCommand = await ExecuteScriptAsync(scriptElement);
-
-        return resultCommand;
-    }
-    private async Task GetDataFormSelectors()
-    {
-        var newProduct = new ProductInfo();
-        var idStore = ViewModel?.GetStore?.Id;
-        var selector2 = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        var selectorsFromStore = selector2.Where(s => s.StoreId == idStore).ToList();
-        
-        foreach (var selector in selectorsFromStore)
-        {
-            if (Enum.TryParse(selector.Type, out SelectorType selectorTypeEnum))
-            {
-                switch (selectorTypeEnum)
-                {
-                    case SelectorType.Title:
-                        var title = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (title == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            title = ApplyRegex(title, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.Name = title;
-                        break;
-                    case SelectorType.Description:
-                        var description = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (description == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            description = ApplyRegex(description, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.Description = description;
-                        break;
-                    case SelectorType.Image:
-                        var image = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (image == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern) && image != null)
-                        {
-                            image = ApplyRegex(image, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.Image = image;
-                        //si se detiene de este punto no quiero q se ejecuten los regex del siguiente buckle
-                        break;
-                    case SelectorType.Price:
-                        var price = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (price == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            price = ApplyRegex(price, selector.Pattern, selector.Replacement);
-                        }
-
-                        double priceValue;
-                        if (double.TryParse(price, out priceValue))
-                        {
-                            newProduct.Price = priceValue;
-                        }
-                        else
-                        {
-                            newProduct.Price = null;
-                        }
-                        break;
-                    case SelectorType.PriceCurrency:
-                        var PriceCurrency = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (PriceCurrency == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            PriceCurrency = ApplyRegex(PriceCurrency, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.PriceCurrency = PriceCurrency;
-                        break;
-                    case SelectorType.Shipping:
-                        var ShippingPrice = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (ShippingPrice == null) continue;
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            ShippingPrice = ApplyRegex(ShippingPrice, selector.Pattern, selector.Replacement);
-                        }
-
-                        double shippingPriceValue;
-                        if (double.TryParse(ShippingPrice, out shippingPriceValue))
-                        {
-                            newProduct.ShippingPrice = shippingPriceValue;
-                        }
-                        else
-                        {
-                            newProduct.ShippingPrice = null;
-                        }
-                        break;
-                    case SelectorType.ShippingCurrency:
-                        var ShippingCurrency = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (ShippingCurrency == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            ShippingCurrency = ApplyRegex(ShippingCurrency, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.ShippingCurrency = ShippingCurrency;
-                        break;
-                    case SelectorType.Stock:
-                        var Stock = await GetValue(selector.CssSelector, selector.Attribute);
-                        if (Stock == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            Stock = ApplyRegex(Stock, selector.Pattern, selector.Replacement);
-                        }
-
-                        double stockValue;
-                        if (double.TryParse(Stock, out stockValue))
-                        {
-                            newProduct.Stock = stockValue;
-                        }
-                        else
-                        {
-                            newProduct.Stock = null;
-                        }
-                        break;
-                    // agregar más casos para cada tipo de selector que quieras iterar
-                    default:
-                        // manejo del caso predeterminado (si corresponde)
-                        break;
-                }
-            }
-        }
-        if (newProduct.Stock <= 0)
-        {
-            newProduct.Status = ProductStatus.OutOfStock;
-        }
-        else
-        {
-            newProduct.Status = ProductStatus.Active;
-        }
-
-        PrevTitle.Text = " " + newProduct?.Name;
-        PrevDescription.Text = " " + newProduct?.Description;
-        PrevPrice.Text = " " + newProduct?.Price?.ToString();
-        PrevStatus.Text = " " + newProduct?.Status.ToString();
-        PrevShipping.Text = " " + newProduct?.ShippingPrice?.ToString();
-        PrevStock.Text = " " + newProduct?.Stock?.ToString();
     }
     private void AddNewControlsRegex(string regex = "", string replace = "")
     {
@@ -456,12 +306,25 @@ public sealed partial class AddSelectorsPage : Page
         }
         return textBoxDataList;
     }
+    private async Task ShowDataInDataPreviewTabAsync()
+    {
+        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+        var selectorsFromStore = selectorsList.Where(s => s.StoreId == ViewModel?.GetStore?.Id).ToList();
+
+        var newProduct = await ParseInfoService.GetProductFromUrl(WebView.Source.ToString(), ViewModel.GetStore, selectorsFromStore);
+
+        PrevTitle.Text = " " + newProduct?.Name;
+        PrevDescription.Text = " " + newProduct?.Description;
+        PrevPrice.Text = " " + newProduct?.Price?.ToString();
+        PrevStatus.Text = " " + newProduct?.Status.ToString();
+        PrevShipping.Text = " " + newProduct?.ShippingPrice?.ToString();
+        PrevStock.Text = " " + newProduct?.Stock?.ToString();
     }
     private async void DataPreviewButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            await GetDataFormSelectors();
+            await ShowDataInDataPreviewTabAsync();
             var scriptElement = $"document.querySelector('{SelectorAutoSuggestBox.Text}').{GetAttributeComboBox.Text}";
             var resultCommand = await ExecuteScriptAsync(scriptElement);
 
@@ -503,23 +366,18 @@ public sealed partial class AddSelectorsPage : Page
         }
     }
 
-    private string? ApplyRegex(string input, string pattern, string replace)
+    private string? ApplyRegex(string input, List<string> pattern, List<string> replace)
     {
-        //input = Regex.Replace(input, @"\""", "");
+        if (pattern.Count == 0 || replace.Count == 0) return input;
 
-        var pattern2 = JsonConvert.DeserializeObject<string[]?>(pattern);
-        var replacement2 = JsonConvert.DeserializeObject<string[]?>(replace);
-
-        if(pattern2 == null || replacement2 == null) return input;
-
-        if (pattern2.Length == replacement2.Length)
+        if (pattern.Count > 0)
         {
-            for (int i = 0; i < pattern2.Length; i++)
+            for (int i = 0; i < pattern.Count; i++)
             {
                 //pattern2[i] = Regex.Replace(pattern2[i], @"\""", "");
 
-                var regex = new Regex(pattern2[i]);
-                input = regex.Replace(input, replacement2[i]);
+                var regex = new Regex(pattern[i]);
+                input = regex.Replace(input, replace[i]);
             }
         }
         return input;
@@ -739,11 +597,13 @@ public sealed partial class AddSelectorsPage : Page
         var scriptContent = await FileIO.ReadTextAsync(scriptFile);
         await ExecuteScriptAsync(scriptContent);
         // Establecer la variable de estado en verdadero
+        AddressBar.Text = sender.Source.ToString();
         isWebViewReady = true;
+        await ShowDataInDataPreviewTabAsync();
     }
     private async void AddressBar_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        AddressBar.Text = await Url.GetRedirectUrl(await Url.NormalizeUrl(AddressBar.Text));
+        AddressBar.Text = await Core.Helpers.Url.GetRedirectUrl(await Core.Helpers.Url.NormalizeUrl(AddressBar.Text));
         WebView.Source = new Uri(AddressBar.Text);
     }
 
@@ -774,7 +634,10 @@ public sealed partial class AddSelectorsPage : Page
         if (ViewModel.GetStore == null) return;
 
         var idStore = ViewModel.GetStore.Id;
+
         var selector = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+        if (selector == null) return;
+
         var selectorsFromStore = selector.Where(s => s.StoreId == idStore).ToList();
 
         ViewModel.GetListSelectors.Clear();

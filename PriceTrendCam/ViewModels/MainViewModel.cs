@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,8 +13,6 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
     private string textBoxSearch;
-
-    private HtmlNode document;
 
     private string message;
     private string content;
@@ -106,28 +104,6 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    private string? GetValue(string cssSelector, string attribute)
-    {
-        return HtmlDocumentService.GetMetaValue(document, cssSelector, attribute);
-    }
-
-    private string? ApplyRegex(string value, string pattern, string replacement)
-    {
-        var pattern2 = JsonConvert.DeserializeObject<string[]>(pattern);
-        var replacement2 = JsonConvert.DeserializeObject<string[]>(replacement);
-
-        if (pattern2.Length == replacement2.Length)
-        {
-            for (int i = 0; i < pattern2.Length; i++)
-            {
-                pattern2[i] = Regex.Replace(pattern2[i], @"\""", "");
-                replacement2[i] ??= string.Empty;
-                value = Regex.Replace(value, pattern2[i], replacement2[i]);
-            }
-        }
-        return value;
-    }
-
     private async Task<bool> IsRegistered(string url)
     {
         // Buscar si la URL tiene un sitemap y selectores asignados
@@ -174,149 +150,14 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        var listSelectors = partnerStore.Selectors.ToList();
-        var newProduct = new ProductInfo();
-        document = await HtmlDocumentService.LoadPageAsync(url);
+        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+        var selectorsFromStore = selectorsList.Where(s => s.StoreId == partnerStore.Id).ToList();
 
-        foreach (var selector in listSelectors)
-        {
-            if (Enum.TryParse(selector.Type, out SelectorType selectorTypeEnum))
-            {
-                switch (selectorTypeEnum)
-                {
-                    case SelectorType.Title:
-                        var title = GetValue(selector.CssSelector, selector.Attribute);
-                        if (title == null) continue;
+        var newProduct = await ParseInfoService.GetProductFromUrl(url, partnerStore, selectorsFromStore);
 
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            title = ApplyRegex(title, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.Name = title;
-                        break;
-                    case SelectorType.Description:
-                        var description = GetValue(selector.CssSelector, selector.Attribute);
-                        if (description == null) continue;
+        var isSucces = await InsertProduct(newProduct);
 
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            description = ApplyRegex(description, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.Description = description;
-                        break;
-                    case SelectorType.Image:
-                        var image = GetValue(selector.CssSelector, selector.Attribute);
-                        if (image == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern) && image != null)
-                        {
-                            image = ApplyRegex(image, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.Image = image;
-                        //si se detiene de este punto no quiero q se ejecuten los regex del siguiente buckle
-                        break;
-                    case SelectorType.Price:
-                        var price = GetValue(selector.CssSelector, selector.Attribute);
-                        if (price == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            price = ApplyRegex(price, selector.Pattern, selector.Replacement);
-                        }
-
-                        double priceValue;
-                        if (double.TryParse(price, out priceValue))
-                        {
-                            newProduct.Price = priceValue;
-                        }
-                        else
-                        {
-                            newProduct.Price = null;
-                        }
-                        break;
-                    case SelectorType.PriceCurrency:
-                        var PriceCurrency = GetValue(selector.CssSelector, selector.Attribute);
-                        if (PriceCurrency == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            PriceCurrency = ApplyRegex(PriceCurrency, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.PriceCurrency = PriceCurrency;
-                        break;
-                    case SelectorType.Shipping:
-                        var ShippingPrice = GetValue(selector.CssSelector, selector.Attribute);
-                        if (ShippingPrice == null) continue;
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            ShippingPrice = ApplyRegex(ShippingPrice, selector.Pattern, selector.Replacement);
-                        }
-
-                        double shippingPriceValue;
-                        if (double.TryParse(ShippingPrice, out shippingPriceValue))
-                        {
-                            newProduct.ShippingPrice = shippingPriceValue;
-                        }
-                        else
-                        {
-                            newProduct.ShippingPrice = null;
-                        }
-                        break;
-                    case SelectorType.ShippingCurrency:
-                        var ShippingCurrency = GetValue(selector.CssSelector, selector.Attribute);
-                        if (ShippingCurrency == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            ShippingCurrency = ApplyRegex(ShippingCurrency, selector.Pattern, selector.Replacement);
-                        }
-                        newProduct.ShippingCurrency = ShippingCurrency;
-                        break;
-                    case SelectorType.Stock:
-                        var Stock = GetValue(selector.CssSelector, selector.Attribute);
-                        if (Stock == null) continue;
-
-                        if (!string.IsNullOrEmpty(selector.Pattern))
-                        {
-                            Stock = ApplyRegex(Stock, selector.Pattern, selector.Replacement);
-                        }
-
-                        double stockValue;
-                        if (double.TryParse(Stock, out stockValue))
-                        {
-                            newProduct.Stock = stockValue;
-                        }
-                        else
-                        {
-                            newProduct.Stock = null;
-                        }
-                        break;
-                    // agregar más casos para cada tipo de selector que quieras iterar
-                    default:
-                        // manejo del caso predeterminado (si corresponde)
-                        break;
-                }
-            }
-        }
-
-        if (newProduct.Stock <= 0)
-        {
-            newProduct.Status = ProductStatus.OutOfStock;
-        }
-        else
-        {
-            newProduct.Status = ProductStatus.Active;
-        }
-        newProduct.StoreId = partnerStore.Id;
-        newProduct.Url = url;
-        newProduct.StoreName = partnerStore.Name;
-        newProduct.Date = DateTime.UtcNow;
-        //newProduct.Image = GetValue("head > title", "innerHTML");
-        newProduct.PriceCurrency = "MXN";
-        newProduct.ShippingCurrency = "MXN";
-
-        var isSucces = await App.PriceTrackerService.InsertAsync(newProduct);
-        if (isSucces == 1)
+        if (isSucces == true)
         {
             message = "Product Inserted";
             content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
@@ -326,7 +167,20 @@ public partial class MainViewModel : ObservableObject
             message = "Not Inserted";
             content = "The product has not add";
         }
+
         await ShowMessageError();
+    }
+    private async Task<bool> InsertProduct(ProductInfo newProduct)
+    {
+        try
+        {
+            return await App.PriceTrackerService.InsertAsync(newProduct) > 0;
+        }
+        catch (Exception ex)
+        {
+            // Manejar la excepción (log, mostrar mensaje, etc.)
+            return false;
+        }
     }
 
     private async Task SearchTermAsync()
