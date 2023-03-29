@@ -84,7 +84,6 @@ public sealed partial class AddSelectorsPage : Page
         ViewModel.webview = WebView;
         InitializeVariables();
         AgregarControlesButton_Click(null, null);
-        _ = ShowDataInDataPreviewTabAsync();
     }
     private void Eliminar_Click(object sender, RoutedEventArgs e)
     {
