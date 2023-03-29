@@ -25,14 +25,13 @@ public class Selector
     {
         get; set;
     }
-    public string Pattern
+
+    [OneToMany(CascadeOperations = CascadeOperation.All)]
+    public List<RegexMethod> RegexMethods
     {
         get; set;
     }
-    public string Replacement
-    {
-        get; set;
-    }
+
     [ForeignKey(typeof(Store))]
     public int StoreId
     {

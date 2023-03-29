@@ -34,6 +34,7 @@ public class PriceTrackerDbService
         await _database.CreateTableAsync<ProductPhoto>().ConfigureAwait(false);
         await _database.CreateTableAsync<Notification>().ConfigureAwait(false);
         await _database.CreateTableAsync<History>().ConfigureAwait(false);
+        await _database.CreateTableAsync<RegexMethod>().ConfigureAwait(false);
     }
 
     /// <summary>
