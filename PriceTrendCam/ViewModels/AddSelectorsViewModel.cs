@@ -118,7 +118,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         WebViewService.Reload();
     }
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(BrowserCanGoForward))]
     private void BrowserForward()
     {
         if (WebViewService.CanGoForward)
@@ -126,13 +126,21 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             WebViewService.GoForward();
         }
     }
-    [RelayCommand]
+    private bool BrowserCanGoForward()
+    {
+        return WebViewService.CanGoForward;
+    }
+    [RelayCommand(CanExecute = nameof(BrowserCanGoBack))]
     private void BrowserBack()
     {
         if (WebViewService.CanGoBack)
         {
             WebViewService.GoBack();
         }
+    }
+    private bool BrowserCanGoBack()
+    {
+        return WebViewService.CanGoBack;
     }
     public async Task<bool> ValidateSelectorData()
     {
