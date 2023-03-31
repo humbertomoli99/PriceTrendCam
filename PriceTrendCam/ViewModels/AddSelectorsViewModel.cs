@@ -100,6 +100,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         WebViewService = webViewService;
         isRegistrationSuccessful = true;
     }
+    private async Task<List<StoreUrl>> GetStoreUrlsByUrl(string url)
+    {
+        var storesWithUrls = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
+        var matchingUrls = storesWithUrls
+            .SelectMany(s => s.Urls)
+            .Where(u => url.Contains(u.Url))
+            .ToList();
+        return matchingUrls;
+    }
     private async Task<Store?> GetStoreDetailsAsync()
     {
         var urlShop = await GetStoreUrlsByUrl(Source.ToString());
