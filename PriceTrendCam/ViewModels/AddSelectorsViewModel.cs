@@ -100,6 +100,16 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         WebViewService = webViewService;
         isRegistrationSuccessful = true;
     }
+    private async Task<Store?> GetStoreDetailsAsync()
+    {
+        var urlShop = await GetStoreUrlsByUrl(Source.ToString());
+        if (urlShop.Count > 0)
+        {
+            var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
+            return partnerStore;
+        }
+        return null;
+    }
     [RelayCommand]
     private async void DeleteSelector(Selector selector)
     {
