@@ -119,6 +119,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         }
         return null;
     }
+    public async Task<List<Selector>?> GetSelectorsFromStoreAsync()
+    {
+        if (CurrentUrlStore == null) return null;
+
+        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+        var selectorsFromStore = selectorsList.Where(s => s.StoreId == CurrentUrlStore.Id).ToList();
+
+        return selectorsFromStore;
+    }
     [RelayCommand]
     private async void DeleteSelector(Selector selector)
     {
