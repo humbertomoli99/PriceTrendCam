@@ -145,37 +145,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     public async Task<bool> ValidateSelectorData()
     {
         var store = await App.PriceTrackerService.GetAsync<Store>(_newstoreId);
-
-        if (store == null)
-        {
-            // No se encontró ninguna entrada de Store con el valor de _newstoreId
-            return false;
-        }
-        // Verificar que el cssSelector no esté vacío o nulo
-        if (string.IsNullOrEmpty(selectorTextBox))
+        if (store == null || string.IsNullOrEmpty(selectorTextBox) || string.IsNullOrEmpty(typeDataComboBox) || _newstoreId <= 0 || string.IsNullOrEmpty(getAttributeComboBox))
         {
             return false;
         }
 
-        // Verificar que el typeData no esté vacío o nulo
-        if (string.IsNullOrEmpty(typeDataComboBox))
-        {
-            return false;
-        }
-
-        // Verificar que el storeId sea mayor que cero
-        if (_newstoreId <= 0)
-        {
-            return false;
-        }
-
-        // Verificar que el attribute no esté vacío o nulo
-        if (string.IsNullOrEmpty(getAttributeComboBox))
-        {
-            return false;
-        }
-
-        // Si todas las validaciones anteriores pasaron, entonces los datos son válidos
         return true;
     }
 
