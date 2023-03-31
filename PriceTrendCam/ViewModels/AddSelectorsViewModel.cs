@@ -128,6 +128,13 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
         return selectorsFromStore;
     }
+    public void AddSelectorsToList(List<Selector> selectorsFromStore)
+    {
+        foreach (var item in selectorsFromStore)
+        {
+            ListOfSelectors.Add(item);
+        }
+    }
     [RelayCommand]
     private async void DeleteSelector(Selector selector)
     {
