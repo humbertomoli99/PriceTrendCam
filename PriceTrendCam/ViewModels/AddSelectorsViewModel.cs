@@ -77,7 +77,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get;
         set;
     }
-    public WebView2 webview
+    public ObservableCollection<Selector> ListOfSelectors { get; set; } = new ObservableCollection<Selector>();
     {
         get;
         set;
@@ -87,10 +87,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get;
         set;
     }
-    public ObservableCollection<Selector> GetListSelectors { get; set; } = new ObservableCollection<Selector>();
-    public HtmlNode HtmlDocumentStore
+    public Store? CurrentUrlStore
     {
         get;
+        private set;
+    }
         set;
     }
 
@@ -193,11 +194,12 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         {
             _newstoreId = (int)parameter;
             await GetListSelectorsAsync();
-            var firstUrl = GetStore.Urls.First().Url.ToString();
+            CurrentUrlStore = await GetStoreByIdAsync(_newstoreId);
+            var firstUrl = CurrentUrlStore.Urls.First().Url.ToString();
 
             await webview.EnsureCoreWebView2Async(); // Asegura que la instancia de CoreWebView2 esté inicializada.
 
-            if (GetStore.DriveWebBrowser == WebBrowsers.HtmlAgilityPack)
+            if (CurrentUrlStore.DriveWebBrowser == WebBrowsers.HtmlAgilityPack)
             {
                 webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
                 webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
@@ -243,18 +245,19 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     public async Task GetListSelectorsAsync()
     {
-        GetListSelectors.Clear();
-        GetStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
+        ListOfSelectors.Clear();
+
+        CurrentUrlStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
         // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
         var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        var selectorsFromStore = selectorsList.Where(s => s.StoreId == _newstoreId).ToList();
-        if (GetStore == null)
+        var selectorsFromStore = CurrentUrlStore.Selectors.Where(s => s.StoreId == _newstoreId).ToList();
+        if (CurrentUrlStore == null)
         {
             return;
         }
         foreach (var item in selectorsFromStore)
         {
-            GetListSelectors.Add(item);
+            ListOfSelectors.Add(item);
         }
     }
 

@@ -308,9 +308,9 @@ public sealed partial class AddSelectorsPage : Page
     private async Task ShowDataInDataPreviewTabAsync()
     {
         var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        var selectorsFromStore = selectorsList.Where(s => s.StoreId == ViewModel?.GetStore?.Id).ToList();
+        var selectorsFromStore = selectorsList.Where(s => s.StoreId == ViewModel?.CurrentUrlStore?.Id).ToList();
 
-        var newProduct = await ParseInfoService.GetProductFromUrl(WebView.Source.ToString(), ViewModel.GetStore, selectorsFromStore);
+        var newProduct = await ParseInfoService.GetProductFromUrl(WebView.Source.ToString(), ViewModel.CurrentUrlStore, selectorsFromStore);
 
         PrevTitle.Text = " " + newProduct?.Name;
         PrevDescription.Text = " " + newProduct?.Description;
@@ -630,16 +630,16 @@ public sealed partial class AddSelectorsPage : Page
             return;
         }
 
-        if (ViewModel.GetStore == null) return;
+        if (ViewModel.CurrentUrlStore == null) return;
 
-        var idStore = ViewModel.GetStore.Id;
+        var idStore = ViewModel.CurrentUrlStore.Id;
 
         var selector = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
         if (selector == null) return;
 
         var selectorsFromStore = selector.Where(s => s.StoreId == idStore).ToList();
 
-        ViewModel.GetListSelectors.Clear();
+        ViewModel.ListOfSelectors.Clear();
 
         SelectorType selectedType;
         if (!Enum.TryParse(selectedItem, out selectedType))
@@ -652,7 +652,7 @@ public sealed partial class AddSelectorsPage : Page
         await GetListSelectorsAsync(storeUrls);
         foreach (var url in storeUrls)
         {
-            ViewModel.GetListSelectors.Add(url);
+            ViewModel.ListOfSelectors.Add(url);
         }
     }
 
@@ -700,7 +700,7 @@ public sealed partial class AddSelectorsPage : Page
             deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
 
             await ViewModel.GetListSelectorsAsync();
-            var listSelectors = ViewModel.GetListSelectors;
+            var listSelectors = ViewModel.ListOfSelectors;
             foreach (var item in listSelectors)
             {
                 collection.Add(new ListItemData
@@ -717,7 +717,7 @@ public sealed partial class AddSelectorsPage : Page
         else
         {
             await ViewModel.GetListSelectorsAsync();
-            var listSelectors = ViewModel.GetListSelectors;
+            var listSelectors = ViewModel.ListOfSelectors;
             foreach (var item in listSelectors)
             {
                 collection.Add(new ListItemData
