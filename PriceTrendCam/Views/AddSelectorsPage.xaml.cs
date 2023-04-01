@@ -529,6 +529,11 @@ public sealed partial class AddSelectorsPage : Page
 
         // Establecer la variable de estado en verdadero
         isWebViewReady = true;
+
+        if (ViewModel.CurrentUrlStore != null)
+        {
+            await ShowDataInDataPreviewTabAsync();
+        }
     }
     private async void ParentButton_Click(object sender, RoutedEventArgs e)
     {
@@ -598,7 +603,13 @@ public sealed partial class AddSelectorsPage : Page
         // Establecer la variable de estado en verdadero
         AddressBar.Text = sender.Source.ToString();
         isWebViewReady = true;
-        await ShowDataInDataPreviewTabAsync();
+
+        //TODO: borrar esta linea despues de q el metodo GetDataFromUrlAsync acepte de parametro la url de sender source
+        await ViewModel.GetDataFromUrlAsync(WebView.Source.ToString());
+
+        //cargar los selectores en la lista collection
+        if (ViewModel.CurrentUrlSelectors == null) return;
+        LoadSelectorsIntoList(ViewModel.CurrentUrlSelectors);
     }
     private async void AddressBar_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
@@ -618,42 +629,22 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void GetTypeDataComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        ComboBox comboBox = sender as ComboBox;
-        if (comboBox == null)
+        if (sender is not ComboBox comboBox || comboBox.SelectedItem is not string selectedItem || ViewModel.CurrentUrlStore == null)
         {
             return;
         }
-
-        string selectedItem = comboBox.SelectedItem as string;
-        if (selectedItem == null)
-        {
-            return;
-        }
-
-        if (ViewModel.CurrentUrlStore == null) return;
 
         var idStore = ViewModel.CurrentUrlStore.Id;
+        var selectors = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
 
-        var selector = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        if (selector == null) return;
-
-        var selectorsFromStore = selector.Where(s => s.StoreId == idStore).ToList();
-
-        ViewModel.ListOfSelectors.Clear();
-
-        SelectorType selectedType;
-        if (!Enum.TryParse(selectedItem, out selectedType))
+        if (selectors == null)
         {
             return;
         }
 
-        var storeUrls = selectorsFromStore.Where(s => s.Type == selectedType.ToString()).ToList();
-
-        await GetListSelectorsAsync(storeUrls);
-        foreach (var url in storeUrls)
-        {
-            ViewModel.ListOfSelectors.Add(url);
-        }
+        var selectedType = Enum.TryParse(selectedItem, out SelectorType type) ? type.ToString() : null;
+        var selectorsOfType = selectors.Where(s => s.StoreId == idStore && s.Type == selectedType).ToList();
+        LoadSelectorsIntoList(selectorsOfType);
     }
 
     private async void ObjectSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -692,47 +683,6 @@ public sealed partial class AddSelectorsPage : Page
             _showElementPreview = true;
         }
     }
-    private async void ControlExample_Loaded(object sender, RoutedEventArgs e)
-    {
-        if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
-        {
-            var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
-            deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
-
-            await ViewModel.GetListSelectorsAsync();
-            var listSelectors = ViewModel.ListOfSelectors;
-            foreach (var item in listSelectors)
-            {
-                collection.Add(new ListItemData
-                {
-                    CssSelector = item.CssSelector.ToString(),
-                    Command = deleteCommand,
-                    Id = item.Id,
-                    Attribute = item.Attribute,
-                    RegexMethods = item.RegexMethods,
-                    Type = item.Type
-                });
-            }
-        }
-        else
-        {
-            await ViewModel.GetListSelectorsAsync();
-            var listSelectors = ViewModel.ListOfSelectors;
-            foreach (var item in listSelectors)
-            {
-                collection.Add(new ListItemData
-                {
-                    CssSelector = item.CssSelector.ToString(),
-                    Command = null,
-                    Id = item.Id,
-                    Attribute = item.Attribute,
-                    RegexMethods = item.RegexMethods,
-                    Type = item.Type
-                });
-            }
-        }
-    }
-
     private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
     {
         MenuFlyout flyout = new MenuFlyout();
@@ -779,12 +729,7 @@ public sealed partial class AddSelectorsPage : Page
             collection.RemoveAt(ObjectSelector.SelectedIndex);
         }
     }
-    private void ListView_Loaded(object sender, RoutedEventArgs e)
-    {
-        var listView = (ListView)sender;
-        listView.ItemsSource = collection;
-    }
-    public async Task GetListSelectorsAsync(List<Selector> storeUrls)
+    public void LoadSelectorsIntoList(List<Selector> selectors)
     {
         collection.Clear();
         if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
@@ -792,7 +737,7 @@ public sealed partial class AddSelectorsPage : Page
             var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
             deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
 
-            foreach (var item in storeUrls)
+            foreach (var item in selectors)
             {
                 var listItemData = new ListItemData
                 {
@@ -809,7 +754,7 @@ public sealed partial class AddSelectorsPage : Page
         }
         else
         {
-            foreach (var item in storeUrls)
+            foreach (var item in selectors)
             {
                 var listItemData = new ListItemData
                 {

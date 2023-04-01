@@ -72,17 +72,18 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         get; set;
     }
-    public Store GetStore
+    public WebView2 webview
     {
         get;
         set;
     }
     public ObservableCollection<Selector> ListOfSelectors { get; set; } = new ObservableCollection<Selector>();
+    public HtmlNode HtmlDocumentStore
     {
         get;
         set;
     }
-    public StoreUrl GetUrls
+    public List<Selector>? CurrentUrlSelectors
     {
         get;
         set;
@@ -92,6 +93,19 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         get;
         private set;
     }
+    //tab store data
+    [ObservableProperty]
+    private string storeName;
+
+    [ObservableProperty]
+    private string faviconStore;
+
+    [ObservableProperty]
+    private string driverBrowser;
+
+    public List<StoreUrl>? StoreUrls
+    {
+        get;
         set;
     }
 
@@ -109,9 +123,9 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             .ToList();
         return matchingUrls;
     }
-    private async Task<Store?> GetStoreDetailsAsync()
+    private async Task<Store?> GetStoreDetailsAsync(string Url)
     {
-        var urlShop = await GetStoreUrlsByUrl(Source.ToString());
+        var urlShop = await GetStoreUrlsByUrl(Url);
         if (urlShop.Count > 0)
         {
             var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
@@ -119,7 +133,14 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         }
         return null;
     }
-    public async Task<List<Selector>?> GetSelectorsFromStoreAsync()
+    private void UpdateStoreDetails(Store partnerStore)
+    {
+        storeName = partnerStore.Name;
+        faviconStore = partnerStore.Favicon;
+        driverBrowser = partnerStore.DriveWebBrowser.ToString();
+        StoreUrls = partnerStore.Urls;
+    }
+    public async Task<List<Selector>> GetSelectorsFromStoreAsync()
     {
         if (CurrentUrlStore == null) return null;
 
@@ -127,6 +148,16 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         var selectorsFromStore = selectorsList.Where(s => s.StoreId == CurrentUrlStore.Id).ToList();
 
         return selectorsFromStore;
+    }
+    public async Task GetDataFromUrlAsync(string Url)
+    {
+        CurrentUrlStore = await GetStoreDetailsAsync(Url);
+
+        if (CurrentUrlStore == null) return;
+
+        CurrentUrlSelectors = await GetSelectorsFromStoreAsync();
+        AddSelectorsToList(CurrentUrlSelectors);
+        UpdateStoreDetails(CurrentUrlStore);
     }
     public void AddSelectorsToList(List<Selector> selectorsFromStore)
     {
@@ -222,13 +253,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
         isRegistrationSuccessful = true;
     }
-
+    private async Task<Store> GetStoreByIdAsync(int id)
+    {
+        return await App.PriceTrackerService.GetWithChildrenAsync<Store>(id);
+    }
     public async Task OnNavigatedTo(object parameter)
     {
         if (parameter != null && parameter is int)
         {
             _newstoreId = (int)parameter;
-            await GetListSelectorsAsync();
             CurrentUrlStore = await GetStoreByIdAsync(_newstoreId);
             var firstUrl = CurrentUrlStore.Urls.First().Url.ToString();
 
@@ -280,16 +313,16 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     public async Task GetListSelectorsAsync()
     {
-        ListOfSelectors.Clear();
-
         CurrentUrlStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(_newstoreId);
-        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
-        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        var selectorsFromStore = CurrentUrlStore.Selectors.Where(s => s.StoreId == _newstoreId).ToList();
         if (CurrentUrlStore == null)
         {
             return;
         }
+        // Aquí puedes hacer algo con la variable _newstoreId, por ejemplo, asignarla a una propiedad del modelo de vista.
+        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+        var selectorsFromStore = CurrentUrlStore.Selectors.Where(s => s.StoreId == _newstoreId).ToList();
+
+        ListOfSelectors.Clear();
         foreach (var item in selectorsFromStore)
         {
             ListOfSelectors.Add(item);

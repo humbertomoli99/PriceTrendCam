@@ -36,7 +36,6 @@
     
     <Grid
         Margin="{StaticResource NavigationViewPageContentMargin}"
-        Loaded="ControlExample_Loaded"
         x:Name="ContentArea">
         <Grid.Resources>
             <FontFamily
@@ -298,9 +297,9 @@
                                 Grid.Row="5"
                                 x:Name="ObjectSelector"
                                 Height="500"
+                                ItemsSource="{x:Bind collection}"
                                 SelectionChanged="ObjectSelector_SelectionChanged"
                                 ContainerContentChanging="ListViewRight_ContainerContentChanging"
-                                Loaded="ListView_Loaded"
                                 IsItemClickEnabled="True"
                                 ItemContainerStyle="{StaticResource HorizontalSwipe}"
                                 SelectionMode="Single">
@@ -513,21 +512,21 @@
                                     VerticalAlignment="Center"
                                     Width="50"
                                     Height="50"
-                                    Source="{x:Bind ViewModel.GetStore.Favicon, Mode=OneWay}"
-                                    AutomationProperties.Name="{x:Bind ViewModel.GetStore.Favicon, Mode=OneWay}" />
+                                    Source="{x:Bind ViewModel.CurrentUrlStore.Favicon, Mode=OneWay}"
+                                    AutomationProperties.Name="{x:Bind ViewModel.CurrentUrlStore.Favicon, Mode=OneWay}" />
                                 <TextBlock
                                     Margin="{StaticResource SmallLeftMargin}"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind ViewModel.GetStore.Name, Mode=OneWay}"
+                                    Text="{x:Bind ViewModel.CurrentUrlStore.Name, Mode=OneWay}"
                                     Style="{ThemeResource TitleTextBlockStyle}" />
                             </StackPanel>
 
                             <TextBlock
                                 Grid.Row="1"
-                                Text="{x:Bind ViewModel.GetStore.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.CurrentUrlStore.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <ListBox
                                 Grid.Row="2"
-                                ItemsSource="{x:Bind ViewModel.GetStore.Urls}">
+                                ItemsSource="{x:Bind ViewModel.CurrentUrlStore.Urls}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate
                                         x:DataType="models:StoreUrl">
