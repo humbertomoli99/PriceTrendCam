@@ -140,7 +140,7 @@ public class HtmlDocumentService
     /// <param name="selector">El selector CSS utilizado para seleccionar el nodo deseado.</param>
     /// <param name="attributeName">El nombre del atributo que se desea obtener.</param>
     /// <returns>El valor del atributo o una cadena vacía en caso de no existir.</returns>
-    public static string GetMetaValue(HtmlNode DocumentNode, string selector, string attributeName)
+    public static string? GetMetaValue(HtmlNode DocumentNode, string selector, string attributeName)
     {
         // Selecciona el nodo específico utilizando el selector CSS
         selector = selector.Replace("\"", "\'");
@@ -168,7 +168,7 @@ public class HtmlDocumentService
         else
         {
             // Asigna el valor del atributo al resultado
-            result = metaNode?.GetAttributeValue(attributeName, null);
+            result = metaNode?.GetAttributeValue(attributeName, string.Empty);
         }
 
         // Devuelve el resultado o una cadena vacía en caso de ser nulo
