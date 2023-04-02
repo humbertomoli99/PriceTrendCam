@@ -140,7 +140,7 @@ public class HtmlDocumentService
     /// <param name="selector">El selector CSS utilizado para seleccionar el nodo deseado.</param>
     /// <param name="attributeName">El nombre del atributo que se desea obtener.</param>
     /// <returns>El valor del atributo o una cadena vacía en caso de no existir.</returns>
-    public static string GetMetaValue(HtmlNode DocumentNode, string selector, string attributeName)
+    public static string? GetMetaValue(HtmlNode DocumentNode, string selector, string attributeName)
     {
         // Selecciona el nodo específico utilizando el selector CSS
         selector = selector.Replace("\"", "\'");
@@ -153,25 +153,25 @@ public class HtmlDocumentService
         if (attributeName == "innerHTML")
         {
             // Asigna el contenido interno del nodo al resultado
-            result = metaNode?.InnerHtml ?? string.Empty;
+            result = metaNode?.InnerHtml;
         }
         else if (attributeName == "innerText")
         {
             // Asigna el contenido interno del nodo al resultado
-            result = metaNode?.InnerText ?? string.Empty;
+            result = metaNode?.InnerText;
         }
         else if (attributeName == "outerHTML")
         {
             // Asigna el contenido interno del nodo al resultado
-            result = metaNode?.OuterHtml ?? string.Empty;
+            result = metaNode?.OuterHtml;
         }
         else
         {
             // Asigna el valor del atributo al resultado
-            result = metaNode?.GetAttributeValue(attributeName, string.Empty) ?? string.Empty;
+            result = metaNode?.GetAttributeValue(attributeName, string.Empty);
         }
 
-        // Devuelve el resultado
+        // Devuelve el resultado o una cadena vacía en caso de ser nulo
         return result;
     }
 
