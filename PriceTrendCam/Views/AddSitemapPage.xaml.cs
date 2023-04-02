@@ -180,8 +180,8 @@ public sealed partial class AddSitemapPage : Page
 
             var node = await HtmlDocumentService.LoadPageAsync(url);
 
-            MetaTitle.Text = HtmlDocumentService.GetMetaTitle(node).Trim();
-            MetaDescription.Text = HtmlDocumentService.GetMetaDescription(node).Trim();
+            MetaTitle.Text = HtmlDocumentService.GetMetaTitle(node)?.Trim();
+            MetaDescription.Text = HtmlDocumentService.GetMetaDescription(node)?.Trim();
             TextBoxStoreName.Text = MetaTitle.Text;
 
             string faviconUrlString = await HtmlDocumentService.GetFaviconUrlAsync(url);
