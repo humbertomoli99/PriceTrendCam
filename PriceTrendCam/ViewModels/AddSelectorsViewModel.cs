@@ -161,6 +161,8 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     }
     public void AddSelectorsToList(List<Selector> selectorsFromStore)
     {
+        ListOfSelectors.Clear();
+
         foreach (var item in selectorsFromStore)
         {
             ListOfSelectors.Add(item);
