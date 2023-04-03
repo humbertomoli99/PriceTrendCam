@@ -135,7 +135,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         }
         return null;
     }
-    private void UpdateStoreDetails(Store partnerStore)
+    public void UpdateStoreDetails(Store partnerStore)
     {
         StoreName = partnerStore.Name;
         FaviconStore = new BitmapImage(new Uri(partnerStore.Favicon));
