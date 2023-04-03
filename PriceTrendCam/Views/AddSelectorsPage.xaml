@@ -512,22 +512,25 @@
                                     VerticalAlignment="Center"
                                     Width="50"
                                     Height="50"
-                                    Source="{x:Bind ViewModel.CurrentUrlStore.Favicon, Mode=OneWay}"
-                                    AutomationProperties.Name="{x:Bind ViewModel.CurrentUrlStore.Favicon, Mode=OneWay}" />
+                                    Source="{x:Bind ViewModel.FaviconStore, Mode=OneWay}"
+                                    x:Name="ImgFaviconStore" />
                                 <TextBlock
                                     Margin="{StaticResource SmallLeftMargin}"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind ViewModel.CurrentUrlStore.Name, Mode=OneWay}"
+                                    Text="{x:Bind ViewModel.StoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    x:Name="TxtNameStore"
                                     Style="{ThemeResource TitleTextBlockStyle}" />
                             </StackPanel>
 
                             <TextBlock
                                 Grid.Row="1"
-                                Text="{x:Bind ViewModel.CurrentUrlStore.DriveWebBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.DriverBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                x:Name="TxtDriveBrowserStore"/>
                             <ListBox
                                 Grid.Row="2"
-                                ItemsSource="{x:Bind ViewModel.CurrentUrlStore.Urls}">
-                                <ListBox.ItemTemplate>
+                                x:Name="LBStoreUrls"
+                                ItemsSource="{x:Bind ViewModel.StoreUrls}">
+                                <!--<ListBox.ItemTemplate>
                                     <DataTemplate
                                         x:DataType="models:StoreUrl">
                                         <StackPanel>
@@ -535,7 +538,7 @@
                                                 Text="{x:Bind Url}" />
                                         </StackPanel>
                                     </DataTemplate>
-                                </ListBox.ItemTemplate>
+                                </ListBox.ItemTemplate>-->
                             </ListBox>
                         </Grid>
                     </TabViewItem>

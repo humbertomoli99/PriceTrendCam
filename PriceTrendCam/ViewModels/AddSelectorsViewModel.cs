@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HtmlAgilityPack;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using PriceTrendCam.Contracts.Services;
@@ -95,15 +96,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     }
     //tab store data
     [ObservableProperty]
-    private string storeName;
+    private string? storeName;
 
     [ObservableProperty]
-    private string faviconStore;
+    private BitmapImage? faviconStore;
 
     [ObservableProperty]
-    private string driverBrowser;
+    private string? driverBrowser;
 
-    public List<StoreUrl>? StoreUrls
+    public ObservableCollection<string>? StoreUrls
     {
         get;
         set;
@@ -113,6 +114,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         WebViewService = webViewService;
         isRegistrationSuccessful = true;
+        StoreUrls = new ObservableCollection<string>();
     }
     private async Task<List<StoreUrl>> GetStoreUrlsByUrl(string url)
     {
@@ -135,10 +137,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     }
     private void UpdateStoreDetails(Store partnerStore)
     {
-        storeName = partnerStore.Name;
-        faviconStore = partnerStore.Favicon;
-        driverBrowser = partnerStore.DriveWebBrowser.ToString();
-        StoreUrls = partnerStore.Urls;
+        StoreName = partnerStore.Name;
+        FaviconStore = new BitmapImage(new Uri(partnerStore.Favicon));
+        DriverBrowser = partnerStore.DriveWebBrowser.ToString();
+
+        StoreUrls.Clear();
+        foreach (var url1 in partnerStore.Urls.ToList().Select(e => new StoreUrl { Url = e.Url }))
+        {
+            StoreUrls.Add(url1.Url);
+        }
     }
     public async Task<List<Selector>> GetSelectorsFromStoreAsync()
     {

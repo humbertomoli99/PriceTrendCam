@@ -333,7 +333,7 @@ public sealed partial class AddSelectorsPage : Page
 
             var listPattern = listSelectors.Select(e => e.Pattern).ToList();
             var listReplacement = listSelectors.Select(e => e.Replacement).ToList();
-            
+
             resultCommand = ApplyRegex(resultCommand, listPattern, listReplacement);
 
             _messagePreviewSelectorValue = resultCommand;
@@ -610,6 +610,7 @@ public sealed partial class AddSelectorsPage : Page
         //cargar los selectores en la lista collection
         if (ViewModel.CurrentUrlSelectors == null) return;
         LoadSelectorsIntoList(ViewModel.CurrentUrlSelectors);
+        ViewModel.UpdateStoreDetails(ViewModel.CurrentUrlStore);
     }
     private async void AddressBar_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
