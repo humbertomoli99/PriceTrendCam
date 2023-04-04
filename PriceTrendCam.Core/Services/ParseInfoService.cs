@@ -25,8 +25,7 @@ public class ParseInfoService
         var document = await HtmlDocumentService.LoadPageAsync(url);
 
         // Crear variables para cada atributo de newProduct
-        string? name, description, image, priceString, priceCurrency, shippingPriceString, shippingCurrency, stockString;
-        name = description = image = priceString = priceCurrency = shippingPriceString = shippingCurrency = stockString = null;
+        var values = new Dictionary<string, string>();
 
         foreach (var selector in selectorsFromStore)
         {
@@ -41,49 +40,19 @@ public class ParseInfoService
 
                 value = ApplyRegex(value, listPattern, listReplacement);
 
-                switch (selectorTypeEnum)
-                {
-                    case SelectorType.Name:
-                        name = value;
-                        break;
-                    case SelectorType.Description:
-                        description = value;
-                        break;
-                    case SelectorType.Image:
-                        image = value;
-                        break;
-                    case SelectorType.Price:
-                        priceString = value;
-                        break;
-                    case SelectorType.PriceCurrency:
-                        priceCurrency = value;
-                        break;
-                    case SelectorType.Shipping:
-                        shippingPriceString = value;
-                        break;
-                    case SelectorType.ShippingCurrency:
-                        shippingCurrency = value;
-                        break;
-                    case SelectorType.Stock:
-                        stockString = value;
-                        break;
-                    // agregar más casos para cada tipo de selector que quieras iterar
-                    default:
-                        // manejo del caso predeterminado (si corresponde)
-                        break;
-                }
+                values[selector.Type] = value;
             }
         }
 
-        newProduct.Price = ConvertValue(priceString, (double?)null);
-        newProduct.ShippingPrice = ConvertValue(shippingPriceString, (double?)null);
-        newProduct.Stock = ConvertValue(stockString, (double?)null);
+        newProduct.Price = ConvertValue<double?>(values.GetValueOrDefault("Price")?.ToString(), null);
+        newProduct.ShippingPrice = ConvertValue<double?>(values.GetValueOrDefault("Shipping")?.ToString(), null);
+        newProduct.Stock = ConvertValue<double?>(values.GetValueOrDefault("Stock")?.ToString(), null);
 
-        newProduct.Name = name;
-        newProduct.Description = description;
-        newProduct.Image = image;
-        newProduct.PriceCurrency = priceCurrency;
-        newProduct.ShippingCurrency = shippingCurrency;
+        newProduct.Name = values.GetValueOrDefault("Name")?.ToString();
+        newProduct.Description = values.GetValueOrDefault("Description")?.ToString();
+        newProduct.Image = values.GetValueOrDefault("Image")?.ToString();
+        newProduct.PriceCurrency = values.GetValueOrDefault("PriceCurrency")?.ToString();
+        newProduct.ShippingCurrency = values.GetValueOrDefault("ShippingCurrency")?.ToString();
 
         newProduct.Status = newProduct.Stock <= 0 ? ProductStatus.OutOfStock : ProductStatus.Active;
 
