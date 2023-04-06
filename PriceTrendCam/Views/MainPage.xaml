@@ -11,8 +11,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid
@@ -41,7 +41,8 @@
                     </LinearGradientBrush.RelativeTransform>
                 </LinearGradientBrush>
             </Grid.Background>
-            <Grid VerticalAlignment="Center">
+            <Grid
+                VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition
                         Height="Auto" />
@@ -71,43 +72,44 @@
                     Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Grid>
-        <Grid
-            Grid.Row="1"
-            VerticalAlignment="Top">
-            <TabView
-                IsAddTabButtonVisible="False"
-                TabWidthMode="Equal">
-                <TabViewItem
-                    IsClosable="False"
-                    Header="Products">
+        <ScrollViewer
+                Grid.Row="1"
+                VerticalAlignment="Top">
+                <TabView
+                    VerticalAlignment="Top"
+                    IsAddTabButtonVisible="False"
+                    TabWidthMode="Equal">
+                    <TabViewItem
+                        IsClosable="False"
+                        Header="Products">
 
-                    <TabViewItem.IconSource>
-                        <SymbolIconSource
-                            Symbol="ClearSelection" />
-                    </TabViewItem.IconSource>
-                    
-                </TabViewItem>
-                <TabViewItem
-                    IsClosable="False"
-                    Header="Top 100">
+                        <TabViewItem.IconSource>
+                            <SymbolIconSource
+                                Symbol="ClearSelection" />
+                        </TabViewItem.IconSource>
 
-                    <TabViewItem.IconSource>
-                        <SymbolIconSource
-                            Symbol="ClearSelection" />
-                    </TabViewItem.IconSource>
+                    </TabViewItem>
+                    <TabViewItem
+                        IsClosable="False"
+                        Header="Top 100">
 
-                </TabViewItem>
-                <TabViewItem
-                    IsClosable="False"
-                    Header="Hot Offers">
+                        <TabViewItem.IconSource>
+                            <SymbolIconSource
+                                Symbol="ClearSelection" />
+                        </TabViewItem.IconSource>
 
-                    <TabViewItem.IconSource>
-                        <SymbolIconSource
-                            Symbol="ClearSelection" />
-                    </TabViewItem.IconSource>
+                    </TabViewItem>
+                    <TabViewItem
+                        IsClosable="False"
+                        Header="Hot Offers">
 
-                </TabViewItem>
-            </TabView>
+                        <TabViewItem.IconSource>
+                            <SymbolIconSource
+                                Symbol="ClearSelection" />
+                        </TabViewItem.IconSource>
+
+                    </TabViewItem>
+                </TabView>
+            </ScrollViewer>
         </Grid>
-    </Grid>
 </Page>
