@@ -10,6 +10,10 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.Resources>
+            <FontFamily
+                x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
@@ -81,33 +85,53 @@
                 TabWidthMode="Equal">
                 <TabViewItem
                     IsClosable="False"
-                    Header="Products">
+                    Header="My Products">
 
                     <TabViewItem.IconSource>
                         <SymbolIconSource
-                            Symbol="ClearSelection" />
+                            Symbol="List" />
                     </TabViewItem.IconSource>
-
+                    <Grid
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5"
+                        Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                        
+                    </Grid>
                 </TabViewItem>
                 <TabViewItem
                     IsClosable="False"
                     Header="Top 100">
 
-                        <TabViewItem.IconSource>
-                            <SymbolIconSource
-                                Symbol="ClearSelection" />
-                        </TabViewItem.IconSource>
+                    <TabViewItem.IconSource>
+                        <FontIconSource
+                            FontFamily="{StaticResource BootstrapIcons}"
+                            Glyph="&#xF476;" />
+                    </TabViewItem.IconSource>
+                    <Grid
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5"
+                        Padding="{StaticResource MediumLeftTopRightBottomMargin}">
 
-                    </TabViewItem>
+                    </Grid>
+                </TabViewItem>
                     <TabViewItem
                         IsClosable="False"
                         Header="Hot Offers">
 
-                        <TabViewItem.IconSource>
-                            <SymbolIconSource
-                                Symbol="ClearSelection" />
-                        </TabViewItem.IconSource>
+                    <TabViewItem.IconSource>
+                        <FontIconSource
+                            FontFamily="{StaticResource BootstrapIcons}"
+                            Glyph="&#xF7F6;" />
+                    </TabViewItem.IconSource>
+                    <Grid
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5"
+                        Padding="{StaticResource MediumLeftTopRightBottomMargin}">
 
+                    </Grid>
                 </TabViewItem>
             </TabView>
         </ScrollViewer>
