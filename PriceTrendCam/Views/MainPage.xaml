@@ -73,25 +73,25 @@
             </Grid>
         </Grid>
         <ScrollViewer
-                Grid.Row="1"
-                VerticalAlignment="Top">
-                <TabView
-                    VerticalAlignment="Top"
-                    IsAddTabButtonVisible="False"
-                    TabWidthMode="Equal">
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Products">
+            Grid.Row="1"
+            VerticalAlignment="Top">
+            <TabView
+                VerticalAlignment="Top"
+                IsAddTabButtonVisible="False"
+                TabWidthMode="Equal">
+                <TabViewItem
+                    IsClosable="False"
+                    Header="Products">
 
-                        <TabViewItem.IconSource>
-                            <SymbolIconSource
-                                Symbol="ClearSelection" />
-                        </TabViewItem.IconSource>
+                    <TabViewItem.IconSource>
+                        <SymbolIconSource
+                            Symbol="ClearSelection" />
+                    </TabViewItem.IconSource>
 
-                    </TabViewItem>
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Top 100">
+                </TabViewItem>
+                <TabViewItem
+                    IsClosable="False"
+                    Header="Top 100">
 
                         <TabViewItem.IconSource>
                             <SymbolIconSource
@@ -108,8 +108,8 @@
                                 Symbol="ClearSelection" />
                         </TabViewItem.IconSource>
 
-                    </TabViewItem>
-                </TabView>
-            </ScrollViewer>
-        </Grid>
+                </TabViewItem>
+            </TabView>
+        </ScrollViewer>
+    </Grid>
 </Page>
