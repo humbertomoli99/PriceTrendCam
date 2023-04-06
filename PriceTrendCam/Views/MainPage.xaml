@@ -9,67 +9,105 @@
     GotFocus="Page_GotFocus"
     mc:Ignorable="d">
 
-    <Grid
-        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-        BorderThickness="1,1,1,1"
-        Height="300"
-        Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-        CornerRadius="6,0,6,6"
-        VerticalAlignment="Top">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <Grid.Background>
-            <LinearGradientBrush
-                StartPoint="0,1"
-                EndPoint="1,0">
-                <GradientStop
-                    Offset="0"
-                    Color="#0065FF" />
-                <GradientStop
-                    Offset="0.5"
-                    Color="#0BE1FF" />
-                <GradientStop
-                    Offset="1"
-                    Color="#00FF98" />
-                <LinearGradientBrush.RelativeTransform>
-                    <RotateTransform
-                        Angle="120" />
-                </LinearGradientBrush.RelativeTransform>
-            </LinearGradientBrush>
-        </Grid.Background>
-
-        <Grid VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock
-                VerticalAlignment="Center"
-                TextAlignment="Center"
-                Margin="{StaticResource SmallTopBottomMargin}"
-                Style="{StaticResource TitleTextBlockStyle}"
-                FontSize="32"
-                Text="Your ideal price is here" />
-            <AutoSuggestBox
-                MaxWidth="600"
-                FontSize="20"
-                CornerRadius="20"
-                VerticalAlignment="Top"
-                Grid.Row="1"
-                Background="#18191b"
-                Margin="{StaticResource MediumBottomMargin}"
-                Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                QueryIcon="Find"
-                PlaceholderText="Search for products, brands or paste a link"
-                QuerySubmitted="{x:Bind ViewModel.AdvancedSearch}"
-                Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid
+            Grid.Row="0"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1,1,1,1"
+            Height="300"
+            CornerRadius="6,0,6,6"
+            VerticalAlignment="Top">
+            <Grid.Background>
+                <LinearGradientBrush
+                    StartPoint="0,1"
+                    EndPoint="1,0">
+                    <GradientStop
+                        Offset="0"
+                        Color="#0065FF" />
+                    <GradientStop
+                        Offset="0.5"
+                        Color="#0BE1FF" />
+                    <GradientStop
+                        Offset="1"
+                        Color="#00FF98" />
+                    <LinearGradientBrush.RelativeTransform>
+                        <RotateTransform
+                            Angle="120" />
+                    </LinearGradientBrush.RelativeTransform>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    TextAlignment="Center"
+                    Margin="{StaticResource SmallTopBottomMargin}"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    FontSize="32"
+                    Grid.Row="0"
+                    Text="Your ideal price is here" />
+                <AutoSuggestBox
+                    MaxWidth="600"
+                    FontSize="20"
+                    CornerRadius="20"
+                    VerticalAlignment="Center"
+                    Grid.Row="1"
+                    Background="#18191b"
+                    Margin="{StaticResource MediumBottomMargin}"
+                    Style="{StaticResource DefaultAutoSuggestBoxStyle}"
+                    QueryIcon="Find"
+                    PlaceholderText="Search for products, brands or paste a link"
+                    QuerySubmitted="{x:Bind ViewModel.AdvancedSearch}"
+                    Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
         </Grid>
         <Grid
-            Margin="{StaticResource NavigationViewPageContentMargin}">
-            
+            Grid.Row="1"
+            VerticalAlignment="Top">
+            <TabView
+                IsAddTabButtonVisible="False"
+                TabWidthMode="Equal">
+                <TabViewItem
+                    IsClosable="False"
+                    Header="Products">
+
+                    <TabViewItem.IconSource>
+                        <SymbolIconSource
+                            Symbol="ClearSelection" />
+                    </TabViewItem.IconSource>
+                    
+                </TabViewItem>
+                <TabViewItem
+                    IsClosable="False"
+                    Header="Top 100">
+
+                    <TabViewItem.IconSource>
+                        <SymbolIconSource
+                            Symbol="ClearSelection" />
+                    </TabViewItem.IconSource>
+
+                </TabViewItem>
+                <TabViewItem
+                    IsClosable="False"
+                    Header="Hot Offers">
+
+                    <TabViewItem.IconSource>
+                        <SymbolIconSource
+                            Symbol="ClearSelection" />
+                    </TabViewItem.IconSource>
+
+                </TabViewItem>
+            </TabView>
         </Grid>
     </Grid>
 </Page>
