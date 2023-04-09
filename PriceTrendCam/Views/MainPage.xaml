@@ -77,10 +77,8 @@
                     Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Grid>
-        <ScrollViewer
-            Grid.Row="1"
-            VerticalAlignment="Top">
-            <TabView
+        <TabView
+                Grid.Row="1"
                 VerticalAlignment="Top"
                 IsAddTabButtonVisible="False"
                 HorizontalAlignment="Stretch"
@@ -204,6 +202,5 @@
                     </Grid>
                 </TabViewItem>
             </TabView>
-        </ScrollViewer>
     </Grid>
 </Page>
