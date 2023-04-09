@@ -7,6 +7,7 @@
     xmlns:behaviors="using:PriceTrendCam.Behaviors"
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     GotFocus="Page_GotFocus"
+    xmlns:local2="using:PriceTrendCam.Views"
     mc:Ignorable="d">
 
     <Grid>
@@ -82,11 +83,11 @@
             <TabView
                 VerticalAlignment="Top"
                 IsAddTabButtonVisible="False"
+                HorizontalAlignment="Stretch"
                 TabWidthMode="Equal">
                 <TabViewItem
                     IsClosable="False"
                     Header="My Products">
-
                     <TabViewItem.IconSource>
                         <SymbolIconSource
                             Symbol="List" />
@@ -96,13 +97,83 @@
                         BorderThickness="1,0,1,1"
                         CornerRadius="0,0,5,5"
                         Padding="{StaticResource MediumLeftTopRightBottomMargin}">
-                        
+                        <ListView
+                            x:Name="Control4"
+                            ItemsSource="{x:Bind collection}"
+                            MinWidth="550">
+                            <!-- Data Template Used: -->
+                            <!-- The data template is bound to a custom-created data type called CustomDataObject. -->
+                            <!-- The full code for the class can be found in this page's source code, but its attributes are referenced/bound below. -->
+                            <ListView.ItemTemplate>
+                                <DataTemplate
+                                    x:DataType="local2:ListItemData2">
+                                    <Grid
+                                        Margin="0,12,0,12"
+                                        AutomationProperties.Name="{x:Bind Title}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width="Auto"
+                                                MinWidth="150" />
+                                            <ColumnDefinition
+                                                Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Source="{x:Bind ImageLocation}"
+                                            MaxHeight="100"
+                                            Stretch="Fill" />
+
+                                        <StackPanel
+                                            Margin="12,0,0,0"
+                                            Grid.Column="1">
+                                            <TextBlock
+                                                Text="{x:Bind Title}"
+                                                FontSize="14"
+                                                FontWeight="SemiBold"
+                                                Style="{ThemeResource BaseTextBlockStyle}"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,0,0,6"
+                                                LineHeight="20" />
+                                            <TextBlock
+                                                Text="{x:Bind Description}"
+                                                TextAlignment="Left"
+                                                MaxLines="1" />
+                                            <StackPanel
+                                                Orientation="Horizontal">
+                                                <TextBlock
+                                                    Text="{x:Bind Price}"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Margin="0,0,0,0" />
+                                                <TextBlock
+                                                    Text=" Price "
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                <TextBlock
+                                                    Text=" ⋅ "
+                                                    FontFamily="Segoe UI"
+                                                    FontSize="12"
+                                                    FontWeight="Bold"
+                                                    HorizontalAlignment="Left" />
+                                                <TextBlock
+                                                    Text="{x:Bind Stock}"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Margin="5,0,0,0" />
+                                                <TextBlock
+                                                    Text=" Stock"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Grid>
                 </TabViewItem>
                 <TabViewItem
                     IsClosable="False"
                     Header="Top 100">
-
                     <TabViewItem.IconSource>
                         <FontIconSource
                             FontFamily="{StaticResource BootstrapIcons}"
@@ -116,10 +187,9 @@
 
                     </Grid>
                 </TabViewItem>
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Hot Offers">
-
+                <TabViewItem
+                    IsClosable="False"
+                    Header="Hot Offers">
                     <TabViewItem.IconSource>
                         <FontIconSource
                             FontFamily="{StaticResource BootstrapIcons}"
