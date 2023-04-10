@@ -152,16 +152,24 @@
                                                     FontSize="12"
                                                     FontWeight="Bold"
                                                     HorizontalAlignment="Left" />
-                                                <TextBlock
-                                                    Text="{x:Bind Stock}"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Margin="5,0,0,0" />
-                                                <TextBlock
-                                                    Text=" Stock"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}" />
-                                            </StackPanel>
+                                            <TextBlock
+                                                Text=" "
+                                                HorizontalAlignment="Left"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Margin="5,0,0,0" />
+                                            <FontIcon
+                                                FontFamily="{StaticResource BootstrapIcons}"
+                                                Glyph="&#xF685;"
+                                                FontSize="12"
+                                                HorizontalAlignment="Left"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock
+                                                Text="{x:Bind Stock}"
+                                                HorizontalAlignment="Left"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Margin="5,0,0,0" />
+
+                                        </StackPanel>
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
