@@ -108,19 +108,26 @@
                                     <Grid
                                         Margin="0,12,0,12"
                                         AutomationProperties.Name="{x:Bind Title}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition
-                                                Width="Auto"
-                                                MinWidth="150" />
-                                            <ColumnDefinition
-                                                Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Image
-                                            Source="{x:Bind ImageLocation}"
-                                            MaxHeight="100"
-                                            Stretch="Fill" />
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width="Auto"
+                                            MinWidth="150" />
+                                        <ColumnDefinition
+                                            Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                                        <StackPanel
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Stretch"
+                                        Background="White">
+                                        <Image
+                                            Height="100"
+                                            MaxWidth="150"
+                                            Source="{Binding ImageLocation}"
+                                            Stretch="Uniform" />
+                                    </StackPanel>
+                                        
+                                    <StackPanel
                                             Margin="12,0,0,0"
                                             Grid.Column="1">
                                             <TextBlock
