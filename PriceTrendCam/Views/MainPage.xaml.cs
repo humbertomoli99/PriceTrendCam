@@ -58,7 +58,7 @@ public sealed partial class MainPage : Page
                 Title = item.Name,
                 ImageLocation = item.Image,
                 Price = item.Price.ToString(),
-                Stock = item.Stock.ToString(),
+                Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
                 Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
             };
 
