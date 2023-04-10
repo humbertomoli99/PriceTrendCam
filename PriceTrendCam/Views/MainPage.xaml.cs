@@ -64,7 +64,7 @@ public sealed partial class MainPage : Page
                 ImageLocation = item.Image,
                 Price = item.Price.ToString(),
                 Stock = item.Stock.ToString(),
-                Shipping = item.ShippingPrice.ToString(),
+                Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
             };
 
             collection.Add(listProductsItem);
