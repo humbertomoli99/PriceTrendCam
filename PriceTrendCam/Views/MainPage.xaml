@@ -137,16 +137,23 @@
                                                 MaxLines="1" />
                                             <StackPanel
                                                 Orientation="Horizontal">
-                                                <TextBlock
-                                                    Text="{x:Bind Price}"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Margin="0,0,0,0" />
-                                                <TextBlock
-                                                    Text=" Price "
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}" />
-                                                <TextBlock
+                                            <FontIcon
+                                                FontFamily="{StaticResource BootstrapIcons}"
+                                                Glyph="&#xF5B0;"
+                                                FontSize="12"
+                                                HorizontalAlignment="Left"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock
+                                                Text=" "
+                                                HorizontalAlignment="Left"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Margin="5,0,0,0" />
+                                            <TextBlock
+                                                Text="{x:Bind Price}"
+                                                HorizontalAlignment="Left"
+                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                Margin="0,0,0,0" />
+                                            <TextBlock
                                                     Text=" ⋅ "
                                                     FontFamily="Segoe UI"
                                                     FontSize="12"
