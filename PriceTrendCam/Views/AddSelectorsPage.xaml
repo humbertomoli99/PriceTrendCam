@@ -2,147 +2,111 @@
     x:Class="PriceTrendCam.Views.AddSelectorsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:behaviors="using:PriceTrendCam.Behaviors"
-    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:models="using:PriceTrendCam.Core.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local2="using:PriceTrendCam.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:PriceTrendCam.Core.Models"
+    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <Style
             x:Key="HorizontalSwipe"
-            TargetType="ListViewItem"
-            BasedOn="{StaticResource DefaultListViewItemStyle}">
-            <Setter
-                Property="Height"
-                Value="60" />
-            <Setter
-                Property="Padding"
-                Value="0" />
-            <Setter
-                Property="HorizontalContentAlignment"
-                Value="Stretch" />
-            <Setter
-                Property="VerticalContentAlignment"
-                Value="Stretch" />
-            <Setter
-                Property="BorderThickness"
-                Value="0" />
+            BasedOn="{StaticResource DefaultListViewItemStyle}"
+            TargetType="ListViewItem">
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="BorderThickness" Value="0" />
         </Style>
     </Page.Resources>
-    
-    <Grid
-        Margin="{StaticResource NavigationViewPageContentMargin}"
-        x:Name="ContentArea">
+
+    <Grid x:Name="ContentArea" Margin="{StaticResource NavigationViewPageContentMargin}">
         <Grid.Resources>
-            <FontFamily
-                x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
+            <FontFamily x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
         </Grid.Resources>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition
-                    Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid
-                Grid.Row="0">
+            <Grid Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="*" />
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid
-                    Grid.Row="0">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition
-                            Width="*" />
-                        <ColumnDefinition
-                            Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Button
                         x:Uid="BrowserBackButton"
                         Grid.Column="0"
-                        Command="{x:Bind ViewModel.BrowserBackCommand, Mode=OneWay}"
                         Margin="{StaticResource XSmallTopBottomMargin}"
-                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
-                        <FontIcon
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Glyph="&#xE72B;" />
+                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                        Command="{x:Bind ViewModel.BrowserBackCommand, Mode=OneWay}">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72B;" />
                     </Button>
                     <Button
                         x:Uid="BrowserForwardButton"
                         Grid.Column="1"
-                        Command="{x:Bind ViewModel.BrowserForwardCommand, Mode=OneWay}"
                         Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
-                        <FontIcon
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Glyph="&#xE72A;" />
+                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                        Command="{x:Bind ViewModel.BrowserForwardCommand, Mode=OneWay}">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72A;" />
                     </Button>
                     <Button
                         x:Uid="ReloadButton"
                         Grid.Column="2"
-                        Command="{x:Bind ViewModel.ReloadCommand}"
                         Margin="{StaticResource XSmallTopBottomMargin}"
-                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
-                        <FontIcon
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Glyph="&#xE72C;" />
+                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                        Command="{x:Bind ViewModel.ReloadCommand}">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE72C;" />
                     </Button>
                     <AutoSuggestBox
-                        HorizontalAlignment="Stretch"
-                        Grid.Column="3"
                         x:Name="AddressBar"
+                        Grid.Column="3"
                         Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
                         Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                        HorizontalAlignment="Stretch"
                         PlaceholderText="Write a web address"
-                        QuerySubmitted="AddressBar_QuerySubmitted"
-                        QueryIcon="Find" />
+                        QueryIcon="Find"
+                        QuerySubmitted="AddressBar_QuerySubmitted" />
                     <Button
                         x:Uid="OpenInBrowserButton"
                         Grid.Column="4"
-                        Command="{x:Bind ViewModel.OpenInBrowserCommand}"
                         Margin="{StaticResource XSmallTopBottomMargin}"
-                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}">
-                        <FontIcon
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Glyph="&#xE774;" />
+                        Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                        Command="{x:Bind ViewModel.OpenInBrowserCommand}">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE774;" />
                     </Button>
                 </Grid>
 
-                <Grid
-                    Grid.Row="1">
+                <Grid Grid.Row="1">
                     <WebView2
                         x:Name="WebView"
-                        PointerPressed="WebView_PointerPressed"
-                        PointerMoved="WebView_PointerMoved"
                         NavigationCompleted="WebView_NavigationCompleted"
                         NavigationStarting="WebView_NavigationStarting"
+                        PointerMoved="WebView_PointerMoved"
+                        PointerPressed="WebView_PointerPressed"
                         Source="{x:Bind ViewModel.Source, Mode=OneWay}" />
                     <StackPanel
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}">
-                        <ProgressRing
-                            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
-                        <TextBlock
-                            x:Uid="WebView_Loading" />
+                        <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+                        <TextBlock x:Uid="WebView_Loading" />
                     </StackPanel>
                     <StackPanel
                         HorizontalAlignment="Center"
@@ -154,183 +118,140 @@
                             TextWrapping="WrapWholeWords" />
                         <HyperlinkButton
                             x:Uid="WebView_Reload"
-                            Command="{x:Bind ViewModel.ReloadCommand}"
-                            HorizontalAlignment="Center" />
+                            HorizontalAlignment="Center"
+                            Command="{x:Bind ViewModel.ReloadCommand}" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="2">
-                    <StackPanel
-                        Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
                         <Button
                             x:Name="ParentButton"
-                            Content="Parent"
-                            Visibility="Collapsed"
-                            Click="ParentButton_Click"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                            Click="ParentButton_Click"
+                            Content="Parent"
+                            Visibility="Collapsed" />
                         <Button
                             x:Name="ChildrenButton"
-                            Content="Children"
-                            Visibility="Collapsed"
-                            Click="ChildrenButton_Click"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                            Click="ChildrenButton_Click"
+                            Content="Children"
+                            Visibility="Collapsed" />
                         <Button
                             x:Name="DoneButton"
-                            Content="Done"
-                            Visibility="Collapsed"
-                            Click="DoneButton_Click"
-                            Style="{StaticResource AccentButtonStyle}"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                            Click="DoneButton_Click"
+                            Content="Done"
+                            Style="{StaticResource AccentButtonStyle}"
+                            Visibility="Collapsed" />
                         <TextBox
-                            Visibility="Collapsed"
                             x:Name="TxtSelectedElement"
                             Margin="{StaticResource XSmallLeftTopRightBottomMargin}"
-                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}" />
+                            Padding="{StaticResource XXSmallLeftTopRightBottomMargin}"
+                            Visibility="Collapsed" />
                     </StackPanel>
                 </Grid>
             </Grid>
-            <ScrollViewer
-                Grid.Row="2">
-                <TabView
-                    IsAddTabButtonVisible="False"
-                    TabWidthMode="Equal">
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Selectors">
-                        
+            <ScrollViewer Grid.Row="2">
+                <TabView IsAddTabButtonVisible="False" TabWidthMode="Equal">
+                    <TabViewItem Header="Selectors" IsClosable="False">
+
                         <TabViewItem.IconSource>
-                            <SymbolIconSource
-                                Symbol="ClearSelection" />
+                            <SymbolIconSource Symbol="ClearSelection" />
                         </TabViewItem.IconSource>
 
                         <Grid
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,5,5"
-                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            CornerRadius="0,0,5,5">
                             <Grid.RowDefinitions>
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <StackPanel
-                                Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
                                 <ComboBox
                                     x:Name="GetTypeDataComboBox"
-                                    Header="Type"
-                                    PlaceholderText="Select a data type"
-                                    ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
-                                    SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Grid.Row="0"
                                     MinWidth="200"
-                                    SelectionChanged="GetTypeDataComboBox_SelectionChanged"
-                                    Margin="0,5">
-                                </ComboBox>
+                                    Margin="0,5"
+                                    Header="Type"
+                                    ItemsSource="{x:Bind TypeDataComboBox, Mode=TwoWay}"
+                                    PlaceholderText="Select a data type"
+                                    SelectedItem="{x:Bind ViewModel.TypeDataComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    SelectionChanged="GetTypeDataComboBox_SelectionChanged" />
                                 <CheckBox
                                     x:Name="IsNotNullCheckBox"
-                                    Content="Not Null"
-                                    VerticalAlignment="Bottom"
                                     Margin="{StaticResource SmallLeftRightMargin}"
+                                    VerticalAlignment="Bottom"
+                                    Content="Not Null"
                                     IsChecked="{x:Bind ViewModel.IsNotNullCheckBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
 
-                            <TextBlock
-                                Grid.Row="1">Selector:</TextBlock>
-                            <Grid
-                                Grid.Row="2">
+                            <TextBlock Grid.Row="1">Selector:</TextBlock>
+                            <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition
-                                        Width="Auto" />
-                                    <ColumnDefinition
-                                        Width="Auto" />
-                                    <ColumnDefinition
-                                        Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <ToggleButton
                                     x:Name="SelectButton"
-                                    Content="Select"
+                                    Grid.Column="0"
                                     Margin="0,0,10,0"
                                     Click="SelectButton_Click"
-                                    Grid.Column="0" />
+                                    Content="Select" />
                                 <ToggleButton
                                     x:Name="ElementPreviewButton"
-                                    Content="Element Preview"
+                                    Grid.Column="1"
                                     Margin="{StaticResource XSmallTopBottomMargin}"
                                     Click="ElementPreviewButton_Click"
-                                    Grid.Column="1" />
+                                    Content="Element Preview" />
                             </Grid>
 
                             <AutoSuggestBox
                                 x:Name="SelectorAutoSuggestBox"
+                                Grid.Row="3"
+                                Margin="0,5"
                                 HorizontalAlignment="Stretch"
                                 PlaceholderText="Css Selector:"
-                                Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                TextChanged="SelectorAutoSuggestBox_TextChanged"
-                                Margin="0,5"
-                                Grid.Row="3" />
+                                Text="{x:Bind ViewModel.SelectorTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextChanged="SelectorAutoSuggestBox_TextChanged" />
 
                             <ComboBox
                                 x:Name="GetAttributeComboBox"
+                                Grid.Row="4"
+                                Margin="0,5"
+                                Header="Get Attribute"
                                 IsEditable="True"
                                 ItemsSource="{x:Bind AttributesComboBox, Mode=TwoWay}"
-                                SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Header="Get Attribute"
-                                Grid.Row="4"
-                                Margin="0,5">
-                            </ComboBox>
-                            
+                                SelectedItem="{x:Bind ViewModel.GetAttributeComboBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
                             <ListView
-                                Grid.Row="5"
                                 x:Name="ObjectSelector"
+                                Grid.Row="5"
                                 Height="500"
-                                ItemsSource="{x:Bind collection}"
-                                SelectionChanged="ObjectSelector_SelectionChanged"
                                 ContainerContentChanging="ListViewRight_ContainerContentChanging"
                                 IsItemClickEnabled="True"
                                 ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                                ItemsSource="{x:Bind collection}"
+                                SelectionChanged="ObjectSelector_SelectionChanged"
                                 SelectionMode="Single">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate
-                                        x:DataType="local2:ListItemData">
-                                        <UserControl
-                                            PointerEntered="UserControl_PointerEntered"
-                                            PointerExited="UserControl_PointerExited">
-                                            <Grid
-                                                AutomationProperties.Name="{x:Bind CssSelector}">
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup
-                                                        x:Name="HoveringStates">
-                                                        <VisualState
-                                                            x:Name="HoverButtonsHidden" />
-                                                        <VisualState
-                                                            x:Name="HoverButtonsShown">
-                                                            <VisualState.Setters>
-                                                                <Setter
-                                                                    Target="HoverButton.Visibility"
-                                                                    Value="Visible" />
-                                                            </VisualState.Setters>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                                <SwipeControl
-                                                    x:Name="ListViewSwipeContainer">
+                                    <DataTemplate x:DataType="local2:ListItemData">
+                                        <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                                            <Grid AutomationProperties.Name="{x:Bind CssSelector}">
+                                                <SwipeControl x:Name="ListViewSwipeContainer">
                                                     <SwipeControl.RightItems>
-                                                        <SwipeItems
-                                                            Mode="Execute">
+                                                        <SwipeItems Mode="Execute">
                                                             <SwipeItem
                                                                 x:Name="DeleteSwipeItem"
                                                                 Background="Red"
@@ -338,23 +259,32 @@
                                                                 CommandParameter="{x:Bind CssSelector}" />
                                                         </SwipeItems>
                                                     </SwipeControl.RightItems>
-                                                    <Grid
-                                                        VerticalAlignment="Center">
+                                                    <Grid VerticalAlignment="Center">
                                                         <TextBlock
-                                                            Text="{x:Bind CssSelector}"
                                                             Margin="10"
-                                                            FontSize="18"
                                                             HorizontalAlignment="Left"
-                                                            VerticalAlignment="Center" />
+                                                            VerticalAlignment="Center"
+                                                            FontSize="18"
+                                                            Text="{x:Bind CssSelector}" />
                                                         <AppBarButton
                                                             x:Name="HoverButton"
-                                                            IsTabStop="False"
                                                             HorizontalAlignment="Right"
-                                                            Visibility="Collapsed"
                                                             Command="{x:Bind Command}"
-                                                            CommandParameter="{x:Bind CssSelector}" />
+                                                            CommandParameter="{x:Bind CssSelector}"
+                                                            IsTabStop="False"
+                                                            Visibility="Collapsed" />
                                                     </Grid>
                                                 </SwipeControl>
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="HoveringStates">
+                                                        <VisualState x:Name="HoverButtonsHidden" />
+                                                        <VisualState x:Name="HoverButtonsShown">
+                                                            <VisualState.Setters>
+                                                                <Setter Target="HoverButton.Visibility" Value="Visible" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
                                             </Grid>
                                         </UserControl>
                                     </DataTemplate>
@@ -363,24 +293,20 @@
 
                         </Grid>
                     </TabViewItem>
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Regex">
+                    <TabViewItem Header="Regex" IsClosable="False">
 
                         <TabViewItem.IconSource>
-                            <FontIconSource
-                                FontFamily="{StaticResource BootstrapIcons}"
-                                Glyph="&#xF84D;" />
+                            <FontIconSource FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF84D;" />
                         </TabViewItem.IconSource>
                         <Grid
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,5,5"
-                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            CornerRadius="0,0,5,5">
                             <StackPanel
+                                Name="textBoxesStackPanel"
                                 Grid.Row="1"
-                                HorizontalAlignment="Stretch"
-                                Name="textBoxesStackPanel" />
+                                HorizontalAlignment="Stretch" />
                             <!--<Grid.RowDefinitions>
                                 <RowDefinition
                                     Height="Auto" />
@@ -403,20 +329,16 @@
                                 Margin="0,5" />-->
                         </Grid>
                     </TabViewItem>
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Data Preview">
+                    <TabViewItem Header="Data Preview" IsClosable="False">
 
                         <TabViewItem.IconSource>
-                            <FontIconSource
-                                FontFamily="{StaticResource BootstrapIcons}"
-                                Glyph="&#xF3AD;" />
+                            <FontIconSource FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF3AD;" />
                         </TabViewItem.IconSource>
                         <Grid
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,5,5"
-                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            CornerRadius="0,0,5,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -425,110 +347,80 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <StackPanel
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Text="Title: " />
-                                <TextBlock
-                                    x:Name="PrevTitle" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Title: " />
+                                <TextBlock x:Name="PrevTitle" />
                             </StackPanel>
 
-                            <StackPanel
-                                Grid.Row="1"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Text="Description: " />
-                                <TextBlock
-                                    x:Name="PrevDescription" />
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <TextBlock Text="Description: " />
+                                <TextBlock x:Name="PrevDescription" />
                             </StackPanel>
 
-                            <StackPanel
-                                Grid.Row="2"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Text="Status: " />
-                                <TextBlock
-                                    x:Name="PrevStatus" />
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                                <TextBlock Text="Status: " />
+                                <TextBlock x:Name="PrevStatus" />
                             </StackPanel>
 
 
-                            <StackPanel
-                                Grid.Row="3"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Text="Price: " />
-                                <TextBlock
-                                    x:Name="PrevPrice" />
+                            <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                <TextBlock Text="Price: " />
+                                <TextBlock x:Name="PrevPrice" />
                             </StackPanel>
 
-                            <StackPanel
-                                Grid.Row="4"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Text="Spipping: " />
-                                <TextBlock
-                                    x:Name="PrevShipping" />
+                            <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                <TextBlock Text="Spipping: " />
+                                <TextBlock x:Name="PrevShipping" />
                             </StackPanel>
 
-                            <StackPanel
-                                Grid.Row="5"
-                                Orientation="Horizontal">
-                                <TextBlock
-                                    Text="Stock: " />
-                                <TextBlock
-                                    x:Name="PrevStock" />
+                            <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                <TextBlock Text="Stock: " />
+                                <TextBlock x:Name="PrevStock" />
                             </StackPanel>
-                            
+
                         </Grid>
                     </TabViewItem>
-                    <TabViewItem
-                        IsClosable="False"
-                        Header="Store">
+                    <TabViewItem Header="Store" IsClosable="False">
                         <TabViewItem.IconSource>
-                            <SymbolIconSource
-                                Symbol="Globe" />
+                            <SymbolIconSource Symbol="Globe" />
                         </TabViewItem.IconSource>
                         <Grid
+                            Padding="{StaticResource MediumLeftTopRightBottomMargin}"
                             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                             BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,5,5"
-                            Padding="{StaticResource MediumLeftTopRightBottomMargin}">
+                            CornerRadius="0,0,5,5">
                             <Grid.RowDefinitions>
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <StackPanel
                                 Grid.Row="0"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Stretch">
+                                HorizontalAlignment="Stretch"
+                                Orientation="Horizontal">
                                 <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
+                                    x:Name="ImgFaviconStore"
                                     Width="50"
                                     Height="50"
-                                    Source="{x:Bind ViewModel.FaviconStore, Mode=OneWay}"
-                                    x:Name="ImgFaviconStore" />
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="{x:Bind ViewModel.FaviconStore, Mode=OneWay}" />
                                 <TextBlock
+                                    x:Name="TxtNameStore"
                                     Margin="{StaticResource SmallLeftMargin}"
                                     VerticalAlignment="Center"
-                                    Text="{x:Bind ViewModel.StoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    x:Name="TxtNameStore"
-                                    Style="{ThemeResource TitleTextBlockStyle}" />
+                                    Style="{ThemeResource TitleTextBlockStyle}"
+                                    Text="{x:Bind ViewModel.StoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
 
                             <TextBlock
+                                x:Name="TxtDriveBrowserStore"
                                 Grid.Row="1"
-                                Text="{x:Bind ViewModel.DriverBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                x:Name="TxtDriveBrowserStore"/>
+                                Text="{x:Bind ViewModel.DriverBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <ListBox
-                                Grid.Row="2"
                                 x:Name="LBStoreUrls"
+                                Grid.Row="2"
                                 ItemsSource="{x:Bind ViewModel.StoreUrls}">
                                 <!--<ListBox.ItemTemplate>
                                     <DataTemplate
@@ -546,27 +438,27 @@
             </ScrollViewer>
 
             <StackPanel
-                Orientation="Horizontal"
-                VerticalAlignment="Bottom"
+                Grid.Row="3"
                 Margin="{StaticResource XSmallTopBottomMargin}"
-                Grid.Row="3">
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
                 <Button
                     x:Name="SaveButton"
-                    Content="Save Selector"
-                    Style="{StaticResource AccentButtonStyle}"
+                    Click="SaveButton_Click"
                     Command="{x:Bind ViewModel.SaveSelectorsCommand}"
-                    Click="SaveButton_Click" />
+                    Content="Save Selector"
+                    Style="{StaticResource AccentButtonStyle}" />
                 <Button
                     x:Name="CancelButton"
-                    Content="Cancel"
                     Margin="{StaticResource SmallLeftRightMargin}"
-                    Click="CancelButton_Click" />
+                    Click="CancelButton_Click"
+                    Content="Cancel" />
                 <Button
                     x:Name="DataPreviewButton"
-                    Content="Data Preview"
-                    Click="DataPreviewButton_Click" />
+                    Click="DataPreviewButton_Click"
+                    Content="Data Preview" />
             </StackPanel>
-            
+
             <controls:GridSplitter
                 Grid.Row="1"
                 Height="5"
@@ -578,10 +470,9 @@
         <TeachingTip
             x:Name="ElementNotExistTeachingTip"
             Title="The element does not exist"
-            Subtitle="The selected item does not exist on this page"
-            PreferredPlacement="Auto"
+            IsLightDismissEnabled="True"
             PlacementMargin="20"
-            IsLightDismissEnabled="True">
-        </TeachingTip>
+            PreferredPlacement="Auto"
+            Subtitle="The selected item does not exist on this page" />
     </Grid>
 </Page>
