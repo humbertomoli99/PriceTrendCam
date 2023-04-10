@@ -133,17 +133,21 @@
                                                 HorizontalAlignment="Left"
                                                 Style="{ThemeResource CaptionTextBlockStyle}"
                                                 Text="{x:Bind Price}" />
-                                            <TextBlock
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <FontIcon
                                                 HorizontalAlignment="Left"
-                                                FontFamily="Segoe UI"
+                                                FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
-                                                FontWeight="Bold"
-                                                Text=" ⋅ " />
+                                                Glyph="&#xF5EA;"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
                                             <TextBlock
                                                 Margin="5,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text=" " />
+                                                Text="{x:Bind Shipping}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
                                             <FontIcon
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"

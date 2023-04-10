@@ -27,6 +27,10 @@ public class ListItemData2
     {
         get; set;
     }
+    public string Shipping
+    {
+        get; set;
+    }
     public string Stock
     {
         get; set;
@@ -59,7 +63,8 @@ public sealed partial class MainPage : Page
                 Description = item.Description,
                 ImageLocation = item.Image,
                 Price = item.Price.ToString(),
-                Stock = item.Stock.ToString()
+                Stock = item.Stock.ToString(),
+                Shipping = item.ShippingPrice.ToString(),
             };
 
             collection.Add(listProductsItem);
