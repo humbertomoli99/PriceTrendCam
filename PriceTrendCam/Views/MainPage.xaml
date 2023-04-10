@@ -112,10 +112,6 @@
                                             LineHeight="20"
                                             Style="{ThemeResource BaseTextBlockStyle}"
                                             Text="{x:Bind Title}" />
-                                        <TextBlock
-                                            MaxLines="1"
-                                            Text="{x:Bind Description}"
-                                            TextAlignment="Left" />
                                         <StackPanel Orientation="Horizontal">
                                             <FontIcon
                                                 HorizontalAlignment="Left"

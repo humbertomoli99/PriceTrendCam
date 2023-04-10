@@ -15,10 +15,6 @@ public class ListItemData2
     {
         get; set;
     }
-    public string Description
-    {
-        get; set;
-    }
     public string ImageLocation
     {
         get; set;
@@ -60,7 +56,6 @@ public sealed partial class MainPage : Page
             {
                 Id = item.Id,
                 Title = item.Name,
-                Description = item.Description,
                 ImageLocation = item.Image,
                 Price = item.Price.ToString(),
                 Stock = item.Stock.ToString(),
