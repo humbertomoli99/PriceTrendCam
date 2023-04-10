@@ -121,6 +121,7 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
+                                                Foreground="#0BE1FF"
                                                 Glyph="&#xF5B0;"
                                                 Style="{ThemeResource CaptionTextBlockStyle}" />
                                             <TextBlock
@@ -139,6 +140,7 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
+                                                Foreground="Green"
                                                 Glyph="&#xF5EA;"
                                                 Style="{ThemeResource CaptionTextBlockStyle}" />
                                             <TextBlock
@@ -152,6 +154,7 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
+                                                Foreground="Orange"
                                                 Glyph="&#xF685;"
                                                 Style="{ThemeResource CaptionTextBlockStyle}" />
                                             <TextBlock
