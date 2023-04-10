@@ -34,8 +34,6 @@ public class ListItemData2
 }
 public sealed partial class MainPage : Page
 {
-    readonly ObservableCollection<ListItemData2> collection = new();
-
     public MainViewModel ViewModel
     {
         get;
@@ -47,29 +45,9 @@ public sealed partial class MainPage : Page
         InitializeComponent();
         Loaded += MainPage_Loaded;
     }
-    public void LoadProductsIntoList(List<ProductInfo> Products)
-    {
-        collection.Clear();
-        foreach (var item in Products)
-        {
-            var listProductsItem = new ListItemData2
-            {
-                Id = item.Id,
-                Title = item.Name,
-                ImageLocation = item.Image,
-                Price = item.Price.ToString(),
-                Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
-                Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
-            };
-
-            collection.Add(listProductsItem);
-        }
-    }
     private async void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         ViewModel.XamlRoot = this.XamlRoot;
-        var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
-        LoadProductsIntoList(products);
     }
 
     private async void Page_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

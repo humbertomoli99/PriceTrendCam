@@ -82,7 +82,7 @@
                     <ListView
                         x:Name="Control4"
                         MinWidth="550"
-                        ItemsSource="{x:Bind collection}">
+                        ItemsSource="{x:Bind ViewModel.collection}">
                         <!--  Data Template Used:  -->
                         <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
                         <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->

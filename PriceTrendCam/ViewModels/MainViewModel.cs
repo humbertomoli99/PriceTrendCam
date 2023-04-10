@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -6,6 +7,7 @@ using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
+using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace PriceTrendCam.ViewModels;
@@ -30,12 +32,38 @@ public partial class MainViewModel : ObservableObject
     }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
+    public readonly ObservableCollection<ListItemData2> collection = new();
 
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
         _clipboardSelectorService = clipboardSelectorService;
+        LoadProductsIntoList();
     }
 
+    private async void LoadProductsIntoList()
+    {
+        var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        InsertProductsIntoList(products);
+    }
+
+    public void InsertProductsIntoList(List<ProductInfo> Products)
+    {
+        collection.Clear();
+        foreach (var item in Products)
+        {
+            var listProductsItem = new ListItemData2
+            {
+                Id = item.Id,
+                Title = item.Name,
+                ImageLocation = item.Image,
+                Price = item.Price.ToString(),
+                Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
+                Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
+            };
+
+            collection.Add(listProductsItem);
+        }
+    }
     public async Task ShowMessageAddProductFromClipboard()
     {
         ClipboardAutomatically = await _clipboardSelectorService.LoadClipboardSettingFromSettingsAsync();
