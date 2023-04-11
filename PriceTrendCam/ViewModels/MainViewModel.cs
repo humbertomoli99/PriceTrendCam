@@ -129,13 +129,11 @@ public partial class MainViewModel : ObservableObject
     {
         _clipboardSelectorService = clipboardSelectorService;
         _ = LoadProductsIntoList();
-        Collection = new ObservableCollection<ProductListItem>();
     }
     public MainViewModel(object[] campos)
     {
         _ListView = (ListView)campos[0];
         HideButtons();
-        Collection = new ObservableCollection<ProductListItem>();
     }
     [RelayCommand]
     private void FilterList()
