@@ -13,7 +13,7 @@ using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace PriceTrendCam.Views;
-public class ListItemData
+public class SelectorListItem
 {
     public int Id
     {
@@ -73,7 +73,7 @@ public sealed partial class AddSelectorsPage : Page
         set;
     }
 
-    readonly ObservableCollection<ListItemData> collection = new();
+    readonly ObservableCollection<SelectorListItem> collection = new();
     public AddSelectorsPage()
     {
         ViewModel = App.GetService<AddSelectorsViewModel>();
@@ -651,7 +651,7 @@ public sealed partial class AddSelectorsPage : Page
     private async void ObjectSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         // Obtener el objeto Selector seleccionado
-        if (ObjectSelector.SelectedItem is ListItemData selector)
+        if (ObjectSelector.SelectedItem is SelectorListItem selector)
         {
             _selectedCssSelector = selector.CssSelector;
             SelectorAutoSuggestBox.Text = selector.CssSelector;
@@ -687,7 +687,7 @@ public sealed partial class AddSelectorsPage : Page
     private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
     {
         MenuFlyout flyout = new MenuFlyout();
-        ListItemData data = (ListItemData)args.Item;
+        SelectorListItem data = (SelectorListItem)args.Item;
         MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
         flyout.Opened += delegate (object element, object e)
         {
@@ -740,7 +740,7 @@ public sealed partial class AddSelectorsPage : Page
 
             foreach (var item in selectors)
             {
-                var listItemData = new ListItemData
+                var listItemData = new SelectorListItem
                 {
                     Id = item.Id,
                     Attribute = item.Attribute,
@@ -757,7 +757,7 @@ public sealed partial class AddSelectorsPage : Page
         {
             foreach (var item in selectors)
             {
-                var listItemData = new ListItemData
+                var listItemData = new SelectorListItem
                 {
                     Id = item.Id,
                     Attribute = item.Attribute,
