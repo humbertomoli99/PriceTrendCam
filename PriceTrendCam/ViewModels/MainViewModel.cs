@@ -20,19 +20,19 @@ public partial class MainViewModel : ObservableObject
     private string message;
     private string content;
     private Visibility _isCheckedAllVisibility;
-    private Visibility _deleteStoreVisibility;
+    private Visibility _deleteProductVisibility;
 
-    public Visibility isCheckedAllVisibility
+    public Visibility IsCheckedAllVisibility
     {
         get => _isCheckedAllVisibility;
         set => SetProperty(ref _isCheckedAllVisibility, value);
     }
-    public Visibility DeleteStoreVisibility
+    public Visibility DeleteProductVisibility
     {
-        get => _deleteStoreVisibility;
-        set => SetProperty(ref _deleteStoreVisibility, value);
+        get => _deleteProductVisibility;
+        set => SetProperty(ref _deleteProductVisibility, value);
     }
-    public XamlRoot XamlRoot
+    public XamlRoot XamlRoot1
     {
         get;
         set;
@@ -49,39 +49,104 @@ public partial class MainViewModel : ObservableObject
     }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
-    public readonly ObservableCollection<ProductListItem> collection = new();
-    public ICommand SelectMultiple => new RelayCommand(new Action(() => SelectMultipleCommand()));
-    public ICommand UpdateList => new RelayCommand(new Action(() => UpdateListCommand()));
-
-    private void UpdateListCommand()
+    private ObservableCollection<ProductListItem> _collection = new();
+    public ObservableCollection<ProductListItem> Collection
     {
-        LoadProductsIntoList();
+        get => _collection;
+        set => SetProperty(ref _collection, value);
+    }
+    public ICommand SelectMultiple => new RelayCommand(new Action(() => SelectMultipleCommand()));
+    public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
+    public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
+
+    private async Task DeleteProductCommand(object parameter)
+    {
+        try
+        {
+            var xamlRoot2 = parameter as Microsoft.UI.Xaml.XamlRoot;
+            IList<object> itemsSelected = _ListView.SelectedItems;
+            if (itemsSelected.Count > 0)
+            {
+                var itemsS = itemsSelected.Count.ToString();
+                string content;
+                if (itemsSelected.Count == 1)
+                {
+                    content = $"Esta seguro de eliminar el registro?\nSe dejaran de seguir los productos relacionados con la tienda";
+                }
+                else
+                {
+                    content = $"Esta seguro de eliminar los {itemsS} registros?\nSe dejaran de seguir los productos relacionados con las tiendas";
+                }
+
+                ContentDialog deleteFileDialog = new ContentDialog
+                {
+                    Title = "Delete Product",
+                    XamlRoot = xamlRoot2,
+                    Content = content,
+                    DefaultButton = ContentDialogButton.Primary,
+                    PrimaryButtonText = "Delete",
+                    CloseButtonText = "Cancel"
+                };
+
+                ContentDialogResult result = await deleteFileDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    foreach (var item in itemsSelected)
+                    {
+                        ProductListItem data = (ProductListItem)item;
+                        await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
+                    }
+                    await LoadProductsIntoList();
+                    HideButtons();
+                }
+                else if (result == ContentDialogResult.None)
+                {
+                    HideButtons();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = ex.ToString(),
+                XamlRoot = XamlRoot1,
+                CloseButtonText = "Close",
+                DefaultButton = ContentDialogButton.Close,
+                Content = ex.Message
+            };
+
+            await dialog.ShowAsync();
+        }
+    }
+
+    private async Task UpdateListCommand()
+    {
+        await LoadProductsIntoList();
     }
 
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
         _clipboardSelectorService = clipboardSelectorService;
-        LoadProductsIntoList();
+        _ = LoadProductsIntoList();
+        Collection = new ObservableCollection<ProductListItem>();
     }
     public MainViewModel(object[] campos)
     {
         _ListView = (ListView)campos[0];
         HideButtons();
+        Collection = new ObservableCollection<ProductListItem>();
     }
-    private async void LoadProductsIntoList()
+    private async Task LoadProductsIntoList()
     {
         var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         InsertProductsIntoList(products);
     }
     public void SelectMultipleCommand()
     {
-        var IsMultiSelect = _ListView.IsMultiSelectCheckBoxEnabled;
-        var itemsSelected = _ListView.SelectedItems.Count;
-
         var AllItems = _ListView.Items.Count;
         if (AllItems > 0)
         {
-            //_ListView.IsMultiSelectCheckBoxEnabled = true;
             if (SelectMultipleIsEnabled == false)
             {
                 ShowButtons();
@@ -94,10 +159,10 @@ public partial class MainViewModel : ObservableObject
     }
     public void InsertProductsIntoList(List<ProductInfo> Products)
     {
-        collection.Clear();
+        Collection.Clear();
         foreach (var item in Products)
         {
-            var listProductsItem = new ProductListItem
+            var listProductsItem = new ProductListItem()
             {
                 Id = item.Id,
                 Title = item.Name,
@@ -106,8 +171,13 @@ public partial class MainViewModel : ObservableObject
                 Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
                 Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
             };
-
-            collection.Add(listProductsItem);
+            Collection.Add(listProductsItem);
+        }
+        if(_ListView != null)
+        {
+            _ListView.ItemsSource = null;
+            _ListView.ItemsSource = Collection;
+            _ListView.UpdateLayout();
         }
     }
     public async Task ShowMessageAddProductFromClipboard()
@@ -168,7 +238,7 @@ public partial class MainViewModel : ObservableObject
             var dialog = new ContentDialog
             {
                 Title = "Error",
-                XamlRoot = XamlRoot,
+                XamlRoot = XamlRoot1,
                 CloseButtonText = "Close",
                 DefaultButton = ContentDialogButton.Close,
                 Content = "An error occurred: " + ex.Message
@@ -235,6 +305,7 @@ public partial class MainViewModel : ObservableObject
         {
             message = "Product Inserted";
             content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
+            await LoadProductsIntoList();
         }
         else
         {
@@ -271,7 +342,7 @@ public partial class MainViewModel : ObservableObject
         var dialog = new ContentDialog
         {
             Title = message,
-            XamlRoot = XamlRoot,
+            XamlRoot = XamlRoot1,
             CloseButtonText = "Close",
             DefaultButton = ContentDialogButton.Close,
             Content = content
@@ -284,14 +355,14 @@ public partial class MainViewModel : ObservableObject
         _ListView.SelectedItem = null;
         SelectMultipleIsEnabled = false;
         _ListView.SelectionMode = ListViewSelectionMode.Single;
-        isCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-        DeleteStoreVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
     }
     private void ShowButtons()
     {
         SelectMultipleIsEnabled = true;
         _ListView.SelectionMode = ListViewSelectionMode.Multiple;
-        isCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
-        DeleteStoreVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+        IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+        DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Visible;
     }
 }

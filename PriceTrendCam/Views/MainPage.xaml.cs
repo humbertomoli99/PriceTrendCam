@@ -38,7 +38,7 @@ public sealed partial class MainPage : Page
 {
     public MainViewModel ViewModel
     {
-        get;
+        get;set;
     }
 
     public MainPage()
@@ -49,9 +49,9 @@ public sealed partial class MainPage : Page
         object[] objects = { ListProducts };
         DataContext = new MainViewModel(objects);
     }
-    private async void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        ViewModel.XamlRoot = this.XamlRoot;
+        ViewModel.XamlRoot1 = this.XamlRoot;
     }
 
     private async void Page_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -80,8 +80,8 @@ public sealed partial class MainPage : Page
 
     private void ListProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        int itemsSelected = ListProducts.SelectedItems.Count;
-        int AllItems = ListProducts.Items.Count;
+        var itemsSelected = ListProducts.SelectedItems.Count;
+        var AllItems = ListProducts.Items.Count;
         if (ListProducts.SelectionMode == ListViewSelectionMode.Multiple || ListProducts.SelectionMode == ListViewSelectionMode.Extended)
         {
             if (itemsSelected == AllItems)

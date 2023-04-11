@@ -93,7 +93,7 @@
                             IsChecked="False"
                             Label="Select all"
                             Unchecked="CheckBox_Unchecked"
-                            Visibility="{Binding DeleteStoreVisibility}">
+                            Visibility="{Binding IsCheckedAllVisibility}">
                             <AppBarToggleButton.Icon>
                                 <FontIcon
                                     x:Name="CheckBox1Icon"
@@ -102,42 +102,44 @@
                             </AppBarToggleButton.Icon>
                         </AppBarToggleButton>
                         <AppBarButton
-                            Command="{Binding DeleteStore}"
+                            Command="{Binding DeleteProduct}"
+                            CommandParameter="{x:Bind XamlRoot}"
                             Icon="Delete"
                             Label="Delete"
-                            Visibility="{Binding DeleteStoreVisibility}" />
-                        <AppBarButton
-                            Command="{Binding SelectMultiple}" Label="Select">
+                            Visibility="{Binding DeleteProductVisibility}" />
+                        <AppBarButton Command="{Binding SelectMultiple}" Label="Select">
                             <AppBarButton.Icon>
 
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
-                        
+
                         <AppBarSeparator />
-                        
+
                         <AppBarButton
                             Command="{Binding UpdateList}"
                             Icon="Filter"
                             Label="Filter" />
-                        
+
                         <AppBarButton
                             Command="{Binding UpdateList}"
                             Icon="Sort"
                             Label="Order list" />
                         
+                        <AppBarSeparator />
+                        
                         <AppBarButton
                             Command="{Binding UpdateList}"
                             Icon="RepeatAll"
-                            Label="Repeat" />
+                            Label="Reload" />
                         <AppBarSeparator />
                     </CommandBar>
                     <ListView
                         x:Name="ListProducts"
                         Grid.Row="1"
                         MinWidth="550"
-                        SelectionChanged="ListProducts_SelectionChanged"
-                        ItemsSource="{x:Bind ViewModel.collection}">
+                        ItemsSource="{x:Bind ViewModel.Collection, Mode=TwoWay}"
+                        SelectionChanged="ListProducts_SelectionChanged">
                         <!--  Data Template Used:  -->
                         <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
                         <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->
