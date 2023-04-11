@@ -113,12 +113,17 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
-                        <AppBarSeparator />
-                        <AppBarButton
-                            Command="{Binding GoToViewAddStore}"
-                            Icon="Add"
-                            Label="Add" />
 
+                        <AppBarButton
+                            Command="{Binding UpdateList}"
+                            Icon="Filter"
+                            Label="Filter" />
+                        
+                        <AppBarButton
+                            Command="{Binding UpdateList}"
+                            Icon="Sort"
+                            Label="Order list" />
+                        
                         <AppBarButton
                             Command="{Binding UpdateList}"
                             Icon="RepeatAll"
