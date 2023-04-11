@@ -113,7 +113,9 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />
                             </AppBarButton.Icon>
                         </AppBarButton>
-
+                        
+                        <AppBarSeparator />
+                        
                         <AppBarButton
                             Command="{Binding UpdateList}"
                             Icon="Filter"
