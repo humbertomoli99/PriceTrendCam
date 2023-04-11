@@ -137,6 +137,16 @@ public partial class MainViewModel : ObservableObject
         HideButtons();
         Collection = new ObservableCollection<ProductListItem>();
     }
+    [RelayCommand]
+    private void FilterList()
+    {
+        HideButtons();
+    }
+    [RelayCommand]
+    private void OrderList()
+    {
+        ShowButtons();
+    }
     private async Task LoadProductsIntoList()
     {
         var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
@@ -173,7 +183,7 @@ public partial class MainViewModel : ObservableObject
             };
             Collection.Add(listProductsItem);
         }
-        if(_ListView != null)
+        if (_ListView != null)
         {
             _ListView.ItemsSource = null;
             _ListView.ItemsSource = Collection;
@@ -352,16 +362,22 @@ public partial class MainViewModel : ObservableObject
     }
     private void HideButtons()
     {
-        _ListView.SelectedItem = null;
+        if (_ListView != null)
+        {
+            _ListView.SelectedItem = null;
+            _ListView.SelectionMode = ListViewSelectionMode.Single;
+        }
         SelectMultipleIsEnabled = false;
-        _ListView.SelectionMode = ListViewSelectionMode.Single;
         IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
     }
     private void ShowButtons()
     {
+        if (_ListView != null)
+        {
+            _ListView.SelectionMode = ListViewSelectionMode.Multiple;
+        }
         SelectMultipleIsEnabled = true;
-        _ListView.SelectionMode = ListViewSelectionMode.Multiple;
         IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
         DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Visible;
     }

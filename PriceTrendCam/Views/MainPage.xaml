@@ -117,12 +117,12 @@
                         <AppBarSeparator />
 
                         <AppBarButton
-                            Command="{Binding UpdateList}"
+                            Command="{x:Bind ViewModel.FilterListCommand}"
                             Icon="Filter"
                             Label="Filter" />
 
                         <AppBarButton
-                            Command="{Binding UpdateList}"
+                            Command="{x:Bind ViewModel.OrderListCommand}"
                             Icon="Sort"
                             Label="Order list" />
                         
