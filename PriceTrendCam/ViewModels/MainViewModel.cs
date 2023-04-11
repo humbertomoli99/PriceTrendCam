@@ -51,6 +51,12 @@ public partial class MainViewModel : ObservableObject
     private readonly IClipboardSelectorService _clipboardSelectorService;
     public readonly ObservableCollection<ProductListItem> collection = new();
     public ICommand SelectMultiple => new RelayCommand(new Action(() => SelectMultipleCommand()));
+    public ICommand UpdateList => new RelayCommand(new Action(() => UpdateListCommand()));
+
+    private void UpdateListCommand()
+    {
+        LoadProductsIntoList();
+    }
 
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
