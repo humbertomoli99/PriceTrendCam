@@ -84,9 +84,6 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <CommandBar Grid.Row="0">
-                        <CommandBar.Content>
-                            <TextBlock Margin="10,10" Text="{Binding StoreTittle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </CommandBar.Content>
                         <AppBarToggleButton
                             x:Name="CheckBox1"
                             Checked="CheckBox_Checked"
@@ -125,9 +122,9 @@
                             Command="{x:Bind ViewModel.OrderListCommand}"
                             Icon="Sort"
                             Label="Order list" />
-                        
+
                         <AppBarSeparator />
-                        
+
                         <AppBarButton
                             Command="{Binding UpdateList}"
                             Icon="RepeatAll"
