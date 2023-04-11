@@ -87,7 +87,7 @@
                         <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
                         <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local2:ListItemData2">
+                            <DataTemplate x:DataType="local2:ProductListItem">
                                 <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind Title}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" MinWidth="150" />

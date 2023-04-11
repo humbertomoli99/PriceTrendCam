@@ -246,7 +246,7 @@
                                 SelectionChanged="ObjectSelector_SelectionChanged"
                                 SelectionMode="Single">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="local2:ListItemData">
+                                    <DataTemplate x:DataType="local2:SelectorListItem">
                                         <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
                                             <Grid AutomationProperties.Name="{x:Bind CssSelector}">
                                                 <SwipeControl x:Name="ListViewSwipeContainer">
