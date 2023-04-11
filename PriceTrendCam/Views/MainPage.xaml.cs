@@ -5,7 +5,7 @@ using PriceTrendCam.ViewModels;
 
 namespace PriceTrendCam.Views;
 
-public class ListItemData2
+public class ProductListItem
 {
     public int Id
     {

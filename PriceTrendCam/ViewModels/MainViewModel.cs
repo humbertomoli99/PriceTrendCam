@@ -32,7 +32,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
-    public readonly ObservableCollection<ListItemData2> collection = new();
+    public readonly ObservableCollection<ProductListItem> collection = new();
 
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
@@ -51,7 +51,7 @@ public partial class MainViewModel : ObservableObject
         collection.Clear();
         foreach (var item in Products)
         {
-            var listProductsItem = new ListItemData2
+            var listProductsItem = new ProductListItem
             {
                 Id = item.Id,
                 Title = item.Name,
