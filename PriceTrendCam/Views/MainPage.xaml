@@ -79,9 +79,57 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1,0,1,1"
                     CornerRadius="0,0,5,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <CommandBar Grid.Row="0">
+                        <CommandBar.Content>
+                            <TextBlock Margin="10,10" Text="{Binding StoreTittle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </CommandBar.Content>
+                        <AppBarToggleButton
+                            x:Name="CheckBox1"
+                            Checked="CheckBox_Checked"
+                            IsChecked="False"
+                            Label="Select all"
+                            Unchecked="CheckBox_Unchecked"
+                            Visibility="{Binding DeleteStoreVisibility}">
+                            <AppBarToggleButton.Icon>
+                                <FontIcon
+                                    x:Name="CheckBox1Icon"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xe739;" />
+                            </AppBarToggleButton.Icon>
+                        </AppBarToggleButton>
+                        <AppBarButton
+                            Command="{Binding DeleteStore}"
+                            Icon="Delete"
+                            Label="Delete"
+                            Visibility="{Binding DeleteStoreVisibility}" />
+                        <AppBarButton
+                            Command="{Binding SelectMultiple}" Label="Select">
+                            <AppBarButton.Icon>
+
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarSeparator />
+                        <AppBarButton
+                            Command="{Binding GoToViewAddStore}"
+                            Icon="Add"
+                            Label="Add" />
+
+                        <AppBarButton
+                            Command="{Binding UpdateList}"
+                            Icon="RepeatAll"
+                            Label="Repeat" />
+                        <AppBarSeparator />
+                    </CommandBar>
                     <ListView
-                        x:Name="Control4"
+                        x:Name="ListProducts"
+                        Grid.Row="1"
                         MinWidth="550"
+                        SelectionChanged="ListProducts_SelectionChanged"
                         ItemsSource="{x:Bind ViewModel.collection}">
                         <!--  Data Template Used:  -->
                         <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
@@ -15,10 +16,22 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
     private string textBoxSearch;
-
+    private bool SelectMultipleIsEnabled;
     private string message;
     private string content;
+    private Visibility _isCheckedAllVisibility;
+    private Visibility _deleteStoreVisibility;
 
+    public Visibility isCheckedAllVisibility
+    {
+        get => _isCheckedAllVisibility;
+        set => SetProperty(ref _isCheckedAllVisibility, value);
+    }
+    public Visibility DeleteStoreVisibility
+    {
+        get => _deleteStoreVisibility;
+        set => SetProperty(ref _deleteStoreVisibility, value);
+    }
     public XamlRoot XamlRoot
     {
         get;
@@ -30,22 +43,49 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
+    private ListView _ListView
+    {
+        get; set;
+    }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
     public readonly ObservableCollection<ProductListItem> collection = new();
+    public ICommand SelectMultiple => new RelayCommand(new Action(() => SelectMultipleCommand()));
 
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
         _clipboardSelectorService = clipboardSelectorService;
         LoadProductsIntoList();
     }
-
+    public MainViewModel(object[] campos)
+    {
+        _ListView = (ListView)campos[0];
+        HideButtons();
+    }
     private async void LoadProductsIntoList()
     {
         var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         InsertProductsIntoList(products);
     }
+    public void SelectMultipleCommand()
+    {
+        var IsMultiSelect = _ListView.IsMultiSelectCheckBoxEnabled;
+        var itemsSelected = _ListView.SelectedItems.Count;
 
+        var AllItems = _ListView.Items.Count;
+        if (AllItems > 0)
+        {
+            //_ListView.IsMultiSelectCheckBoxEnabled = true;
+            if (SelectMultipleIsEnabled == false)
+            {
+                ShowButtons();
+            }
+            else if (SelectMultipleIsEnabled == true)
+            {
+                HideButtons();
+            }
+        }
+    }
     public void InsertProductsIntoList(List<ProductInfo> Products)
     {
         collection.Clear();
@@ -232,5 +272,20 @@ public partial class MainViewModel : ObservableObject
         };
 
         await dialog.ShowAsync();
+    }
+    private void HideButtons()
+    {
+        _ListView.SelectedItem = null;
+        SelectMultipleIsEnabled = false;
+        _ListView.SelectionMode = ListViewSelectionMode.Single;
+        isCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        DeleteStoreVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+    }
+    private void ShowButtons()
+    {
+        SelectMultipleIsEnabled = true;
+        _ListView.SelectionMode = ListViewSelectionMode.Multiple;
+        isCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+        DeleteStoreVisibility = Microsoft.UI.Xaml.Visibility.Visible;
     }
 }
