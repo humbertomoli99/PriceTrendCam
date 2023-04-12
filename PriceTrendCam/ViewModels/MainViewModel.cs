@@ -43,10 +43,6 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
-    public ListView _ListView
-    {
-        get; set;
-    }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
     public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
@@ -64,7 +60,7 @@ public partial class MainViewModel : ObservableObject
         try
         {
             var xamlRoot2 = parameter as Microsoft.UI.Xaml.XamlRoot;
-            IList<object> itemsSelected = _ListView.SelectedItems;
+            IList<object> itemsSelected = ListViewControl.SelectedItems;
             if (itemsSelected.Count > 0)
             {
                 var itemsS = itemsSelected.Count.ToString();
@@ -159,9 +155,9 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void SelectMultiple()
     {
-        if (_ListView == null) return;
+        if (ListViewControl == null) return;
 
-        var AllItems = _ListView.Items.Count;
+        var AllItems = ListViewControl.Items.Count;
         if (AllItems > 0)
         {
             if (SelectMultipleIsEnabled == false)
@@ -190,11 +186,11 @@ public partial class MainViewModel : ObservableObject
             };
             ListViewCollection.Add(listProductsItem);
         }
-        if (_ListView != null)
+        if (ListViewControl != null)
         {
-            _ListView.ItemsSource = null;
-            _ListView.ItemsSource = ListViewCollection;
-            _ListView.UpdateLayout();
+            ListViewControl.ItemsSource = null;
+            ListViewControl.ItemsSource = ListViewCollection;
+            ListViewControl.UpdateLayout();
         }
     }
     public async Task ShowMessageAddProductFromClipboard()
@@ -369,10 +365,10 @@ public partial class MainViewModel : ObservableObject
     }
     private void HideButtons()
     {
-        if (_ListView != null)
+        if (ListViewControl != null)
         {
-            _ListView.SelectedItem = null;
-            _ListView.SelectionMode = ListViewSelectionMode.Single;
+            ListViewControl.SelectedItem = null;
+            ListViewControl.SelectionMode = ListViewSelectionMode.Single;
         }
         SelectMultipleIsEnabled = false;
         IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
@@ -380,9 +376,9 @@ public partial class MainViewModel : ObservableObject
     }
     private void ShowButtons()
     {
-        if (_ListView != null)
+        if (ListViewControl != null)
         {
-            _ListView.SelectionMode = ListViewSelectionMode.Multiple;
+            ListViewControl.SelectionMode = ListViewSelectionMode.Multiple;
         }
         SelectMultipleIsEnabled = true;
         IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;

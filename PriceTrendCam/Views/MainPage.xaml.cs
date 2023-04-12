@@ -46,7 +46,7 @@ public sealed partial class MainPage : Page
         InitializeComponent();
         ViewModel = App.GetService<MainViewModel>();
         ViewModel.xamlRoot = XamlRoot;
-        ViewModel._ListView = ListProducts;
+        ViewModel.ListViewControl = ListProducts;
 
         DataContext = new MainViewModel(ListProducts);
         DataContext = ViewModel;
