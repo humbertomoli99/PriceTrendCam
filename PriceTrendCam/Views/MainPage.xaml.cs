@@ -44,14 +44,10 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         ViewModel = App.GetService<MainViewModel>();
+        ViewModel.xamlRoot = this.XamlRoot;
+
+        DataContext = new MainViewModel(ListProducts);
         InitializeComponent();
-        Loaded += MainPage_Loaded;
-        object[] objects = { ListProducts };
-        DataContext = new MainViewModel(objects);
-    }
-    private void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        ViewModel.XamlRoot1 = this.XamlRoot;
     }
 
     private async void Page_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

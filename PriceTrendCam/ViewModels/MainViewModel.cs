@@ -32,7 +32,7 @@ public partial class MainViewModel : ObservableObject
         get => _deleteProductVisibility;
         set => SetProperty(ref _deleteProductVisibility, value);
     }
-    public XamlRoot XamlRoot1
+    public XamlRoot xamlRoot
     {
         get;
         set;
@@ -49,15 +49,16 @@ public partial class MainViewModel : ObservableObject
     }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
-    private ObservableCollection<ProductListItem> _collection = new();
-    public ObservableCollection<ProductListItem> Collection
-    {
-        get => _collection;
-        set => SetProperty(ref _collection, value);
-    }
     public ICommand SelectMultiple => new RelayCommand(new Action(() => SelectMultipleCommand()));
     public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
     public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
+
+    public ObservableCollection<ProductListItem> ListViewCollection = new();
+    public ListView ListViewControl
+    {
+        get;
+        set;
+    }
 
     private async Task DeleteProductCommand(object parameter)
     {
@@ -110,7 +111,7 @@ public partial class MainViewModel : ObservableObject
             var dialog = new ContentDialog
             {
                 Title = ex.ToString(),
-                XamlRoot = XamlRoot1,
+                XamlRoot = xamlRoot,
                 CloseButtonText = "Close",
                 DefaultButton = ContentDialogButton.Close,
                 Content = ex.Message
@@ -128,11 +129,16 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
         _clipboardSelectorService = clipboardSelectorService;
-        _ = LoadProductsIntoList();
     }
-    public MainViewModel(object[] campos)
+    public MainViewModel()
     {
-        _ListView = (ListView)campos[0];
+
+    }
+    public MainViewModel(ListView ListViewControl)
+    {
+        ListViewCollection = new ObservableCollection<ProductListItem>();
+        this.ListViewControl = ListViewControl;
+        _ = LoadProductsIntoList();
         HideButtons();
     }
     [RelayCommand]
@@ -169,7 +175,7 @@ public partial class MainViewModel : ObservableObject
     }
     public void InsertProductsIntoList(List<ProductInfo> Products)
     {
-        Collection.Clear();
+        ListViewCollection.Clear();
         foreach (var item in Products)
         {
             var listProductsItem = new ProductListItem()
@@ -181,12 +187,12 @@ public partial class MainViewModel : ObservableObject
                 Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
                 Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
             };
-            Collection.Add(listProductsItem);
+            ListViewCollection.Add(listProductsItem);
         }
         if (_ListView != null)
         {
             _ListView.ItemsSource = null;
-            _ListView.ItemsSource = Collection;
+            _ListView.ItemsSource = ListViewCollection;
             _ListView.UpdateLayout();
         }
     }
@@ -248,7 +254,7 @@ public partial class MainViewModel : ObservableObject
             var dialog = new ContentDialog
             {
                 Title = "Error",
-                XamlRoot = XamlRoot1,
+                XamlRoot = xamlRoot,
                 CloseButtonText = "Close",
                 DefaultButton = ContentDialogButton.Close,
                 Content = "An error occurred: " + ex.Message
@@ -352,7 +358,7 @@ public partial class MainViewModel : ObservableObject
         var dialog = new ContentDialog
         {
             Title = message,
-            XamlRoot = XamlRoot1,
+            XamlRoot = xamlRoot,
             CloseButtonText = "Close",
             DefaultButton = ContentDialogButton.Close,
             Content = content
