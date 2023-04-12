@@ -135,14 +135,16 @@
                         x:Name="ListProducts"
                         Grid.Row="1"
                         MinWidth="550"
-                        ItemsSource="{x:Bind ViewModel.ListViewCollection, Mode=TwoWay}"
+                        ItemsSource="{Binding ListViewCollection, Mode=TwoWay}"
                         SelectionChanged="ListProducts_SelectionChanged">
                         <!--  Data Template Used:  -->
                         <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
                         <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local2:ProductListItem">
-                                <Grid Margin="0,12,0,12" AutomationProperties.Name="{x:Bind Title}">
+                                <Grid
+                                    Margin="0,12,0,12"
+                                    AutomationProperties.Name="{Binding Title}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" MinWidth="150" />
                                         <ColumnDefinition Width="*" />
@@ -165,7 +167,7 @@
                                             FontWeight="SemiBold"
                                             LineHeight="20"
                                             Style="{ThemeResource BaseTextBlockStyle}"
-                                            Text="{x:Bind Title}" />
+                                            Text="{Binding Title}" />
                                         <StackPanel Orientation="Horizontal">
                                             <FontIcon
                                                 HorizontalAlignment="Left"
@@ -183,7 +185,7 @@
                                                 Margin="0,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{x:Bind Price}" />
+                                                Text="{Binding Price}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <FontIcon
@@ -197,7 +199,7 @@
                                                 Margin="5,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{x:Bind Shipping}" />
+                                                Text="{Binding Shipping}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <FontIcon
@@ -211,7 +213,7 @@
                                                 Margin="5,0,0,0"
                                                 HorizontalAlignment="Left"
                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{x:Bind Stock}" />
+                                                Text="{Binding Stock}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

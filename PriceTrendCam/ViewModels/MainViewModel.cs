@@ -43,7 +43,7 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
-    private ListView _ListView
+    public ListView _ListView
     {
         get; set;
     }
@@ -128,10 +128,11 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IClipboardSelectorService clipboardSelectorService)
     {
         _clipboardSelectorService = clipboardSelectorService;
-    }
-    public MainViewModel()
-    {
 
+        ListViewCollection = new ObservableCollection<ProductListItem>();
+
+        _ = LoadProductsIntoList();
+        HideButtons();
     }
     public MainViewModel(ListView ListViewControl)
     {
