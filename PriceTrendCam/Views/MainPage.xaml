@@ -104,7 +104,7 @@
                             Icon="Delete"
                             Label="Delete"
                             Visibility="{Binding DeleteProductVisibility}" />
-                        <AppBarButton Command="{Binding SelectMultiple}" Label="Select">
+                        <AppBarButton Command="{x:Bind ViewModel.SelectMultipleCommand}" Label="Select">
                             <AppBarButton.Icon>
 
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />

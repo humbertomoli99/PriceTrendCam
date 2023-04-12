@@ -49,7 +49,6 @@ public partial class MainViewModel : ObservableObject
     }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
-    public ICommand SelectMultiple => new RelayCommand(new Action(() => SelectMultipleCommand()));
     public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
     public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
 
@@ -156,7 +155,8 @@ public partial class MainViewModel : ObservableObject
         var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         InsertProductsIntoList(products);
     }
-    public void SelectMultipleCommand()
+    [RelayCommand]
+    private void SelectMultiple()
     {
         if (_ListView == null) return;
 
