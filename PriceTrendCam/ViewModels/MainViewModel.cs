@@ -130,10 +130,9 @@ public partial class MainViewModel : ObservableObject
         _ = LoadProductsIntoList();
         HideButtons();
     }
-    public MainViewModel(ListView ListViewControl)
+    public MainViewModel()
     {
         ListViewCollection = new ObservableCollection<ProductListItem>();
-        this.ListViewControl = ListViewControl;
         _ = LoadProductsIntoList();
         HideButtons();
     }

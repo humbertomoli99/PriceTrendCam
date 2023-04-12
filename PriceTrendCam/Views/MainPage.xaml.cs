@@ -48,7 +48,6 @@ public sealed partial class MainPage : Page
         ViewModel.xamlRoot = XamlRoot;
         ViewModel.ListViewControl = ListProducts;
 
-        DataContext = new MainViewModel(ListProducts);
         DataContext = ViewModel;
     }
 
