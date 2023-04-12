@@ -152,6 +152,8 @@ public partial class MainViewModel : ObservableObject
     }
     public void SelectMultipleCommand()
     {
+        if (_ListView == null) return;
+
         var AllItems = _ListView.Items.Count;
         if (AllItems > 0)
         {
