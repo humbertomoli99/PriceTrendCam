@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using PriceTrendCam.Core.Models;
@@ -7,33 +8,51 @@ using PriceTrendCam.ViewModels;
 
 namespace PriceTrendCam.Views;
 
-public class ProductListItem
+public class ProductListItem : ObservableObject
 {
+    private int _id;
     public int Id
     {
-        get; set;
+        get => _id;
+        set => SetProperty(ref _id, value);
     }
+
+    private string _title;
     public string Title
     {
-        get; set;
+        get => _title;
+        set => SetProperty(ref _title, value);
     }
+
+    private string _imageLocation;
     public string ImageLocation
     {
-        get; set;
+        get => _imageLocation;
+        set => SetProperty(ref _imageLocation, value);
     }
+
+    private string _price;
     public string Price
     {
-        get; set;
+        get => _price;
+        set => SetProperty(ref _price, value);
     }
+
+    private string _shipping;
     public string Shipping
     {
-        get; set;
+        get => _shipping;
+        set => SetProperty(ref _shipping, value);
     }
+
+    private string _stock;
     public string Stock
     {
-        get; set;
+        get => _stock;
+        set => SetProperty(ref _stock, value);
     }
 }
+
 public sealed partial class MainPage : Page
 {
     public MainViewModel ViewModel
