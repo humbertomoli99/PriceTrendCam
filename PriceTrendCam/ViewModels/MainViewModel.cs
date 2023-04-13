@@ -131,7 +131,6 @@ public partial class MainViewModel : ObservableObject
         _clipboardSelectorService = clipboardSelectorService;
 
         ListViewCollection = new ObservableCollection<ProductListItem>();
-        _ = LoadProductsAsync();
         HideButtons();
     }
     [RelayCommand]
