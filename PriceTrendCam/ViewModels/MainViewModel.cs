@@ -51,7 +51,7 @@ public partial class MainViewModel : ObservableObject
     private ObservableCollection<ProductListItem> _listViewCollection;
     public ObservableCollection<ProductListItem> ListViewCollection
     {
-        get =>_listViewCollection;
+        get => _listViewCollection;
         set => SetProperty(ref _listViewCollection, value);
     }
     public ListView ListViewProducts
