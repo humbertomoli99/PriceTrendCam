@@ -46,7 +46,7 @@ public sealed partial class MainPage : Page
         InitializeComponent();
         ViewModel = App.GetService<MainViewModel>();
         ViewModel.xamlRoot = XamlRoot;
-        ViewModel.ListViewProducts = ListProducts;
+        ViewModel.ListViewProducts = ListViewProducts;
 
         DataContext = ViewModel;
     }
@@ -57,29 +57,29 @@ public sealed partial class MainPage : Page
     }
     private void CheckBox_Checked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        if (ListProducts.SelectionMode == ListViewSelectionMode.Multiple || ListProducts.SelectionMode == ListViewSelectionMode.Extended)
+        if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
         {
             CheckBox1.IsChecked = true;
             CheckBox1Icon.Glyph = "\ue73a";
-            ListProducts.SelectAll();
+            ListViewProducts.SelectAll();
         }
     }
 
     private void CheckBox_Unchecked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        if (ListProducts.SelectionMode == ListViewSelectionMode.Multiple || ListProducts.SelectionMode == ListViewSelectionMode.Extended)
+        if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
         {
             CheckBox1.IsChecked = false;
             CheckBox1Icon.Glyph = "\ue739";
-            ListProducts.DeselectRange(new ItemIndexRange(0, (uint)ListProducts.Items.Count));
+            ListViewProducts.DeselectRange(new ItemIndexRange(0, (uint)ListViewProducts.Items.Count));
         }
     }
 
-    private void ListProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ListViewProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var itemsSelected = ListProducts.SelectedItems.Count;
-        var AllItems = ListProducts.Items.Count;
-        if (ListProducts.SelectionMode == ListViewSelectionMode.Multiple || ListProducts.SelectionMode == ListViewSelectionMode.Extended)
+        var itemsSelected = ListViewProducts.SelectedItems.Count;
+        var AllItems = ListViewProducts.Items.Count;
+        if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
         {
             if (itemsSelected == AllItems)
             {
@@ -97,9 +97,9 @@ public sealed partial class MainPage : Page
                 CheckBox1Icon.Glyph = "\uf16e";
             }
         }
-        //if (ListProducts.SelectionMode == ListViewSelectionMode.Single && ListProducts.SelectedItem != null)
+        //if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && ListViewProducts.SelectedItem != null)
         //{
-        //    ProductsModel obj = (ProductsModel)ListProducts.SelectedItem;
+        //    ProductsModel obj = (ProductsModel)ListViewProducts.SelectedItem;
         //    selectors.SelectedProduct = obj.ID_PRODUCT;
         //    NavigationService.Navigate(typeof(ProductDetailsPage));
         //}
