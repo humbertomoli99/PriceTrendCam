@@ -75,8 +75,11 @@ public sealed partial class MainPage : Page
         // Cargar los productos en la lista
         await ViewModel.LoadProductsAsync();
 
+        // Obtener instancia del view model
+        MainViewModel viewModel = new MainViewModel();
+
         // Establecer el contexto de datos del ListView
-        DataContext = ViewModel;
+        DataContext = viewModel;
     }
 
     private async void Page_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
