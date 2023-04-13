@@ -64,9 +64,18 @@ public sealed partial class MainPage : Page
     {
         InitializeComponent();
         ViewModel = App.GetService<MainViewModel>();
-        ViewModel.xamlRoot = XamlRoot;
-        ViewModel.ListViewProducts = ListViewProducts;
+        Loaded += MainPage_Loaded;
+    }
 
+    private async void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        ViewModel.ListViewProducts = ListViewProducts;
+        ViewModel.xamlRoot = XamlRoot;
+
+        // Cargar los productos en la lista
+        await ViewModel.LoadProductsAsync();
+
+        // Establecer el contexto de datos del ListView
         DataContext = ViewModel;
     }
 

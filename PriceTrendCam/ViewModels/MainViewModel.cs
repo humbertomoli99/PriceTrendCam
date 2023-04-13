@@ -48,7 +48,12 @@ public partial class MainViewModel : ObservableObject
     public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
     public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
 
-    public ObservableCollection<ProductListItem> ListViewCollection = new();
+    private ObservableCollection<ProductListItem> _listViewCollection;
+    public ObservableCollection<ProductListItem> ListViewCollection
+    {
+        get =>_listViewCollection;
+        set => SetProperty(ref _listViewCollection, value);
+    }
     public ListView ListViewProducts
     {
         get;
@@ -92,7 +97,7 @@ public partial class MainViewModel : ObservableObject
                         ProductListItem data = (ProductListItem)item;
                         await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
                     }
-                    await LoadProductsIntoList();
+                    await LoadProductsAsync();
                     HideButtons();
                 }
                 else if (result == ContentDialogResult.None)
@@ -118,22 +123,15 @@ public partial class MainViewModel : ObservableObject
 
     private async Task UpdateListCommand()
     {
-        await LoadProductsIntoList();
+        await LoadProductsAsync();
     }
 
-    public MainViewModel(IClipboardSelectorService clipboardSelectorService)
+    public MainViewModel(IClipboardSelectorService clipboardSelectorService = null)
     {
         _clipboardSelectorService = clipboardSelectorService;
 
         ListViewCollection = new ObservableCollection<ProductListItem>();
-
-        _ = LoadProductsIntoList();
-        HideButtons();
-    }
-    public MainViewModel()
-    {
-        ListViewCollection = new ObservableCollection<ProductListItem>();
-        _ = LoadProductsIntoList();
+        _ = LoadProductsAsync();
         HideButtons();
     }
     [RelayCommand]
@@ -146,9 +144,12 @@ public partial class MainViewModel : ObservableObject
     {
         ShowButtons();
     }
-    private async Task LoadProductsIntoList()
+    public async Task LoadProductsAsync()
     {
-        var products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        // Obtener los productos de alguna fuente de datos
+        List<ProductInfo> products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+
+        // Insertar los productos en la lista
         InsertProductsIntoList(products);
     }
     [RelayCommand]
@@ -184,12 +185,6 @@ public partial class MainViewModel : ObservableObject
                 Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
             };
             ListViewCollection.Add(listProductsItem);
-        }
-        if (ListViewProducts != null)
-        {
-            ListViewProducts.ItemsSource = null;
-            ListViewProducts.ItemsSource = ListViewCollection;
-            ListViewProducts.UpdateLayout();
         }
     }
     public async Task ShowMessageAddProductFromClipboard()
@@ -317,7 +312,7 @@ public partial class MainViewModel : ObservableObject
         {
             message = "Product Inserted";
             content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
-            await LoadProductsIntoList();
+            await LoadProductsAsync();
         }
         else
         {
