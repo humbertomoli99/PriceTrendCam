@@ -57,7 +57,7 @@ public sealed partial class MainPage : Page
 {
     public MainViewModel ViewModel
     {
-        get;set;
+        get; set;
     }
 
     public MainPage()
