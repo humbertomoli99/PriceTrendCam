@@ -164,7 +164,7 @@
 
                         <Grid
                             Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,5,5">
                             <Grid.RowDefinitions>
@@ -300,7 +300,7 @@
                         </TabViewItem.IconSource>
                         <Grid
                             Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,5,5">
                             <StackPanel
@@ -336,7 +336,7 @@
                         </TabViewItem.IconSource>
                         <Grid
                             Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
                             BorderThickness="1,0,1,1"
                             CornerRadius="0,0,5,5">
                             <Grid.RowDefinitions>
