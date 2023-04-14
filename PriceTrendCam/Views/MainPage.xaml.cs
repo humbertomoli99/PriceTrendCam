@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using PriceTrendCam.Core.Models;
-using PriceTrendCam.Helpers;
 using PriceTrendCam.Services;
 using PriceTrendCam.ViewModels;
 
@@ -70,21 +69,14 @@ public sealed partial class MainPage : Page
 
     private async void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        try
-        {
-            ViewModel.ListViewProducts = ListViewProducts;
-            ViewModel.xamlRoot = XamlRoot;
+        ViewModel.ListViewProducts = ListViewProducts;
+        ViewModel.xamlRoot = XamlRoot;
 
-            // Cargar los productos en la lista
-            await ViewModel.LoadProductsAsync();
+        // Cargar los productos en la lista
+        await ViewModel.LoadProductsAsync();
 
-            // Establecer el contexto de datos del ListView
-            DataContext = ViewModel;
-        }
-        catch(Exception ex)
-        {
-            await AppCenterHelper.ShowErrorDialog(ex, XamlRoot);
-        }
+        // Establecer el contexto de datos del ListView
+        DataContext = ViewModel;
     }
 
     private async void Page_GotFocus(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

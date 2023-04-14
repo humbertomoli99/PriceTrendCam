@@ -24,13 +24,11 @@ public static class AppCenterHelper
         };
 
         ContentDialogResult result = await dialog.ShowAsync();
-        dialog.Hide();
         if (result == ContentDialogResult.Primary)
         {
             ContentDialog alwaysSendDialog = new ContentDialog
             {
                 Title = "Enviar siempre",
-                XamlRoot = xamlRoot,
                 Content = "¿Desea enviar automáticamente información del error a App Center en el futuro?",
                 PrimaryButtonText = "Si",
                 SecondaryButtonText = "No"
@@ -45,7 +43,6 @@ public static class AppCenterHelper
                     Crashes.NotifyUserConfirmation(UserConfirmation.Send);
                     break;
             }
-            alwaysSendDialog.Hide();
         }
         else if (result == ContentDialogResult.Secondary)
         {
