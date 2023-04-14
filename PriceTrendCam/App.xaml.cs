@@ -14,6 +14,9 @@ using PriceTrendCam.Services;
 using PriceTrendCam.Services.DataService;
 using PriceTrendCam.ViewModels;
 using PriceTrendCam.Views;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace PriceTrendCam;
 
@@ -51,6 +54,9 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+
+        AppCenter.Start("b6fbd58c-f2e8-447d-8b8e-fd51717ec232",
+                  typeof(Analytics), typeof(Crashes));
 
         Host = Microsoft.Extensions.Hosting.Host.
         CreateDefaultBuilder().
