@@ -134,32 +134,9 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            var itemsSelected = ListViewProducts.SelectedItems.Count;
-            var AllItems = ListViewProducts.Items.Count;
-            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
-            {
-                if (itemsSelected == AllItems)
-                {
-                    CheckBox1.IsChecked = true;
-                    CheckBox1Icon.Glyph = "\ue73a";
-                }
-                else if (itemsSelected == 0)
-                {
-                    CheckBox1.IsChecked = false;
-                    CheckBox1Icon.Glyph = "\ue739";
-                }
-                else
-                {
-                    CheckBox1.IsChecked = false;
-                    CheckBox1Icon.Glyph = "\uf16e";
-                }
-            }
-            //if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && ListViewProducts.SelectedItem != null)
-            //{
-            //    ProductsModel obj = (ProductsModel)ListViewProducts.SelectedItem;
-            //    selectors.SelectedProduct = obj.ID_PRODUCT;
-            //    NavigationService.Navigate(typeof(ProductDetailsPage));
-            //}
+            ViewModel.CheckBox1 = CheckBox1;
+            ViewModel.CheckBox1Icon = CheckBox1Icon;
+            await ViewModel.HandleSelectionChangedAsync(e.AddedItems);
         }
         catch (Exception ex)
         {

@@ -9,6 +9,7 @@ using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 using PriceTrendCam.Helpers;
+using PriceTrendCam.Services;
 using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -46,6 +47,8 @@ public partial class MainViewModel : ObservableObject
     }
 
     private readonly IClipboardSelectorService _clipboardSelectorService;
+    private readonly INavigationService _navigationService;
+
     public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
     public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
 
@@ -56,6 +59,16 @@ public partial class MainViewModel : ObservableObject
         set => SetProperty(ref _listViewCollection, value);
     }
     public ListView ListViewProducts
+    {
+        get;
+        set;
+    }
+    public AppBarToggleButton CheckBox1
+    {
+        get;
+        set;
+    }
+    public FontIcon CheckBox1Icon
     {
         get;
         set;
@@ -118,9 +131,10 @@ public partial class MainViewModel : ObservableObject
         await LoadProductsAsync();
     }
 
-    public MainViewModel(IClipboardSelectorService clipboardSelectorService = null)
+    public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
     {
         _clipboardSelectorService = clipboardSelectorService;
+        _navigationService = navigationService;
 
         ListViewCollection = new ObservableCollection<ProductListItem>();
         _ = HideButtons();
@@ -406,6 +420,42 @@ public partial class MainViewModel : ObservableObject
             SelectMultipleIsEnabled = true;
             IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
             DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+        }
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+        }
+    }
+
+    public async Task HandleSelectionChangedAsync(IList<object> selectedItems)
+    {
+        try
+        {
+            var itemsSelected = selectedItems.Count;
+            var AllItems = ListViewProducts.Items.Count;
+            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
+            {
+                if (itemsSelected == AllItems)
+                {
+                    CheckBox1.IsChecked = true;
+                    CheckBox1Icon.Glyph = "\ue73a";
+                }
+                else if (itemsSelected == 0)
+                {
+                    CheckBox1.IsChecked = false;
+                    CheckBox1Icon.Glyph = "\ue739";
+                }
+                else
+                {
+                    CheckBox1.IsChecked = false;
+                    CheckBox1Icon.Glyph = "\uf16e";
+                }
+            }
+            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && selectedItems.Count > 0)
+            {
+                ProductListItem obj = (ProductListItem)ListViewProducts.SelectedItem;
+                _navigationService.NavigateTo(typeof(ProductsListViewModel).FullName!, obj.Id);
+            }
         }
         catch (Exception ex)
         {
