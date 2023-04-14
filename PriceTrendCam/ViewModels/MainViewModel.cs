@@ -8,6 +8,7 @@ using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
+using PriceTrendCam.Helpers;
 using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -49,6 +50,7 @@ public partial class MainViewModel : ObservableObject
     public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
 
     private ObservableCollection<ProductListItem> _listViewCollection;
+
     public ObservableCollection<ProductListItem> ListViewCollection
     {
         get => _listViewCollection;
@@ -272,54 +274,61 @@ public partial class MainViewModel : ObservableObject
     }
     private async Task SearchUrlAsync(string url)
     {
-        if (await IsRegistered(url))
+        try
         {
-            message = "The product is registered";
-            content = "The product is already registered and will continue to be tracked, don't worry";
+            if (await IsRegistered(url))
+            {
+                message = "The product is registered";
+                content = "The product is already registered and will continue to be tracked, don't worry";
+                await ShowMessageError();
+                return;
+            }
+
+            var urlShop = await GetStoreUrlsByUrl(url);
+
+            if (urlShop.Count == 0)
+            {
+                message = "The url is not registered in Stores";
+                content = "The url is not registered in Stores, please assign selectors and add start url";
+                await ShowMessageError();
+                return;
+            }
+
+            var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
+
+            if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
+            {
+                message = "No selectors assigned to Store";
+                content = "The url does not have selectors assigned, we recommend you see the tutorial on how to add one";
+                await ShowMessageError();
+                return;
+            }
+
+            var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+            var selectorsFromStore = selectorsList.Where(s => s.StoreId == partnerStore.Id).ToList();
+
+            var newProduct = await ParseInfoService.GetProductFromUrl(url, partnerStore, selectorsFromStore);
+
+            var isSucces = await InsertProduct(newProduct);
+
+            if (isSucces == true)
+            {
+                message = "Product Inserted";
+                content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
+                await LoadProductsAsync();
+            }
+            else
+            {
+                message = "Not Inserted";
+                content = "The product has not add";
+            }
+
             await ShowMessageError();
-            return;
         }
-
-        var urlShop = await GetStoreUrlsByUrl(url);
-
-        if (urlShop.Count == 0)
+        catch (Exception ex)
         {
-            message = "The url is not registered in Stores";
-            content = "The url is not registered in Stores, please assign selectors and add start url";
-            await ShowMessageError();
-            return;
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
-
-        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
-
-        if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
-        {
-            message = "No selectors assigned to Store";
-            content = "The url does not have selectors assigned, we recommend you see the tutorial on how to add one";
-            await ShowMessageError();
-            return;
-        }
-
-        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        var selectorsFromStore = selectorsList.Where(s => s.StoreId == partnerStore.Id).ToList();
-
-        var newProduct = await ParseInfoService.GetProductFromUrl(url, partnerStore, selectorsFromStore);
-
-        var isSucces = await InsertProduct(newProduct);
-
-        if (isSucces == true)
-        {
-            message = "Product Inserted";
-            content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
-            await LoadProductsAsync();
-        }
-        else
-        {
-            message = "Not Inserted";
-            content = "The product has not add";
-        }
-
-        await ShowMessageError();
     }
     private async Task<bool> InsertProduct(ProductInfo newProduct)
     {
@@ -355,6 +364,7 @@ public partial class MainViewModel : ObservableObject
         };
 
         await dialog.ShowAsync();
+        dialog.Hide();
     }
     private void HideButtons()
     {
