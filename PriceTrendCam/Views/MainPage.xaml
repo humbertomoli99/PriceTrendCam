@@ -172,8 +172,7 @@
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
                                                 Foreground="#0BE1FF"
-                                                Glyph="&#xF5B0;"
-                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                Glyph="&#xF5B0;" />
                                             <TextBlock
                                                 Margin="5,0,0,0"
                                                 HorizontalAlignment="Left"
@@ -191,8 +190,7 @@
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
                                                 Foreground="Green"
-                                                Glyph="&#xF5EA;"
-                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                Glyph="&#xF5EA;" />
                                             <TextBlock
                                                 Margin="5,0,0,0"
                                                 HorizontalAlignment="Left"
@@ -205,8 +203,7 @@
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="12"
                                                 Foreground="Orange"
-                                                Glyph="&#xF685;"
-                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                Glyph="&#xF685;" />
                                             <TextBlock
                                                 Margin="5,0,0,0"
                                                 HorizontalAlignment="Left"
