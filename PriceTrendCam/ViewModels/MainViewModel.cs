@@ -8,6 +8,7 @@ using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
+using PriceTrendCam.Helpers;
 using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -98,26 +99,17 @@ public partial class MainViewModel : ObservableObject
                         await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
                     }
                     await LoadProductsAsync();
-                    HideButtons();
+                    await HideButtons();
                 }
                 else if (result == ContentDialogResult.None)
                 {
-                    HideButtons();
+                    await HideButtons();
                 }
             }
         }
         catch (Exception ex)
         {
-            var dialog = new ContentDialog
-            {
-                Title = ex.ToString(),
-                XamlRoot = xamlRoot,
-                CloseButtonText = "Close",
-                DefaultButton = ContentDialogButton.Close,
-                Content = ex.Message
-            };
-
-            await dialog.ShowAsync();
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }
 
@@ -131,28 +123,35 @@ public partial class MainViewModel : ObservableObject
         _clipboardSelectorService = clipboardSelectorService;
 
         ListViewCollection = new ObservableCollection<ProductListItem>();
-        HideButtons();
+        _ = HideButtons();
     }
     [RelayCommand]
-    private void FilterList()
+    private async Task FilterList()
     {
-        HideButtons();
+        await HideButtons();
     }
     [RelayCommand]
-    private void OrderList()
+    private async Task OrderList()
     {
-        ShowButtons();
+        await ShowButtons();
     }
     public async Task LoadProductsAsync()
     {
-        // Obtener los productos de alguna fuente de datos
-        List<ProductInfo> products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        try
+        {
+            // Obtener los productos de alguna fuente de datos
+            List<ProductInfo> products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
 
-        // Insertar los productos en la lista
-        InsertProductsIntoList(products);
+            // Insertar los productos en la lista
+            InsertProductsIntoList(products);
+        }
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+        }
     }
     [RelayCommand]
-    private void SelectMultiple()
+    private async void SelectMultiple()
     {
         if (ListViewProducts == null) return;
 
@@ -161,29 +160,36 @@ public partial class MainViewModel : ObservableObject
         {
             if (SelectMultipleIsEnabled == false)
             {
-                ShowButtons();
+                await ShowButtons();
             }
             else if (SelectMultipleIsEnabled == true)
             {
-                HideButtons();
+                await HideButtons();
             }
         }
     }
-    public void InsertProductsIntoList(List<ProductInfo> Products)
+    public async void InsertProductsIntoList(List<ProductInfo> Products)
     {
-        ListViewCollection.Clear();
-        foreach (var item in Products)
+        try
         {
-            var listProductsItem = new ProductListItem()
+            ListViewCollection.Clear();
+            foreach (var item in Products)
             {
-                Id = item.Id,
-                Title = item.Name,
-                ImageLocation = item.Image,
-                Price = item.Price.ToString(),
-                Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
-                Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
-            };
-            ListViewCollection.Add(listProductsItem);
+                var listProductsItem = new ProductListItem()
+                {
+                    Id = item.Id,
+                    Title = item.Name,
+                    ImageLocation = item.Image,
+                    Price = item.Price.ToString(),
+                    Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
+                    Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
+                };
+                ListViewCollection.Add(listProductsItem);
+            }
+        }
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }
     public async Task ShowMessageAddProductFromClipboard()
@@ -196,7 +202,7 @@ public partial class MainViewModel : ObservableObject
         if (await IsRegistered(urlClipboard)) return;
 
         var urlShop = await GetStoreUrlsByUrl(urlClipboard);
-        if (urlShop.Count == 0) return;
+        if (urlShop.Count == 0 || urlShop == null) return;
 
         //mensaje de si desea añadir el producto en contrado
         await SearchUrlAsync(await GetClipboardTextAsync());
@@ -240,86 +246,100 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            // Manejo de excepciones
-            var dialog = new ContentDialog
-            {
-                Title = "Error",
-                XamlRoot = xamlRoot,
-                CloseButtonText = "Close",
-                DefaultButton = ContentDialogButton.Close,
-                Content = "An error occurred: " + ex.Message
-            };
-
-            await dialog.ShowAsync();
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }
 
     private async Task<bool> IsRegistered(string url)
     {
-        // Buscar si la URL tiene un sitemap y selectores asignados
-        var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
-        var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
-        return isRegistered;
+        try
+        {
+            // Buscar si la URL tiene un sitemap y selectores asignados
+            var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+            var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
+            return isRegistered;
+        }
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            return false;
+        }
+
     }
-    private async Task<List<StoreUrl>> GetStoreUrlsByUrl(string url)
+    private async Task<List<StoreUrl>?> GetStoreUrlsByUrl(string url)
     {
-        var storesWithUrls = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
-        var matchingUrls = storesWithUrls
-            .SelectMany(s => s.Urls)
-            .Where(u => url.Contains(u.Url))
-            .ToList();
-        return matchingUrls;
+        try
+        {
+            var storesWithUrls = await App.PriceTrackerService.GetAllWithChildrenAsync<Store>();
+            var matchingUrls = storesWithUrls
+                .SelectMany(s => s.Urls)
+                .Where(u => url.Contains(u.Url))
+                .ToList();
+            return matchingUrls;
+        }
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            return null;
+        }
     }
     private async Task SearchUrlAsync(string url)
     {
-        if (await IsRegistered(url))
+        try
         {
-            message = "The product is registered";
-            content = "The product is already registered and will continue to be tracked, don't worry";
+            if (await IsRegistered(url))
+            {
+                message = "The product is registered";
+                content = "The product is already registered and will continue to be tracked, don't worry";
+                await ShowMessageError();
+                return;
+            }
+
+            var urlShop = await GetStoreUrlsByUrl(url);
+
+            if (urlShop.Count == 0 || urlShop == null)
+            {
+                message = "The url is not registered in Stores";
+                content = "The url is not registered in Stores, please assign selectors and add start url";
+                await ShowMessageError();
+                return;
+            }
+
+            var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
+
+            if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
+            {
+                message = "No selectors assigned to Store";
+                content = "The url does not have selectors assigned, we recommend you see the tutorial on how to add one";
+                await ShowMessageError();
+                return;
+            }
+
+            var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
+            var selectorsFromStore = selectorsList.Where(s => s.StoreId == partnerStore.Id).ToList();
+
+            var newProduct = await ParseInfoService.GetProductFromUrl(url, partnerStore, selectorsFromStore);
+
+            var isSucces = await InsertProduct(newProduct);
+
+            if (isSucces == true)
+            {
+                message = "Product Inserted";
+                content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
+                await LoadProductsAsync();
+            }
+            else
+            {
+                message = "Not Inserted";
+                content = "The product has not add";
+            }
+
             await ShowMessageError();
-            return;
         }
-
-        var urlShop = await GetStoreUrlsByUrl(url);
-
-        if (urlShop.Count == 0)
+        catch (Exception ex)
         {
-            message = "The url is not registered in Stores";
-            content = "The url is not registered in Stores, please assign selectors and add start url";
-            await ShowMessageError();
-            return;
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
-
-        var partnerStore = await App.PriceTrackerService.GetWithChildrenAsync<Store>(urlShop.FirstOrDefault().StoreId);
-
-        if (partnerStore.Urls == null || partnerStore.Urls.Count == 0)
-        {
-            message = "No selectors assigned to Store";
-            content = "The url does not have selectors assigned, we recommend you see the tutorial on how to add one";
-            await ShowMessageError();
-            return;
-        }
-
-        var selectorsList = await App.PriceTrackerService.GetAllWithChildrenAsync<Selector>();
-        var selectorsFromStore = selectorsList.Where(s => s.StoreId == partnerStore.Id).ToList();
-
-        var newProduct = await ParseInfoService.GetProductFromUrl(url, partnerStore, selectorsFromStore);
-
-        var isSucces = await InsertProduct(newProduct);
-
-        if (isSucces == true)
-        {
-            message = "Product Inserted";
-            content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
-            await LoadProductsAsync();
-        }
-        else
-        {
-            message = "Not Inserted";
-            content = "The product has not add";
-        }
-
-        await ShowMessageError();
     }
     private async Task<bool> InsertProduct(ProductInfo newProduct)
     {
@@ -329,7 +349,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            // Manejar la excepción (log, mostrar mensaje, etc.)
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
             return false;
         }
     }
@@ -357,25 +377,39 @@ public partial class MainViewModel : ObservableObject
         await dialog.ShowAsync();
         dialog.Hide();
     }
-    private void HideButtons()
+    private async Task HideButtons()
     {
-        if (ListViewProducts != null)
+        try
         {
-            ListViewProducts.SelectedItem = null;
-            ListViewProducts.SelectionMode = ListViewSelectionMode.Single;
+            if (ListViewProducts != null)
+            {
+                ListViewProducts.SelectedItem = null;
+                ListViewProducts.SelectionMode = ListViewSelectionMode.Single;
+            }
+            SelectMultipleIsEnabled = false;
+            IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
         }
-        SelectMultipleIsEnabled = false;
-        IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-        DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+        }
     }
-    private void ShowButtons()
+    private async Task ShowButtons()
     {
-        if (ListViewProducts != null)
+        try
         {
-            ListViewProducts.SelectionMode = ListViewSelectionMode.Multiple;
+            if (ListViewProducts != null)
+            {
+                ListViewProducts.SelectionMode = ListViewSelectionMode.Multiple;
+            }
+            SelectMultipleIsEnabled = true;
+            IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+            DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Visible;
         }
-        SelectMultipleIsEnabled = true;
-        IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
-        DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+        catch (Exception ex)
+        {
+            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+        }
     }
 }
