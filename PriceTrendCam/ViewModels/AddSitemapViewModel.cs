@@ -75,7 +75,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         // Crear objeto Store y guardarlo en la base de datos
         ObjectStore = new Store
         {
-            Name = textBoxStoreName,
+            Name = TextBoxStoreName,
             Favicon = favicon,
             Selectors = new List<Selector>(),
             Urls = ListUrls,
@@ -99,10 +99,10 @@ public partial class AddSitemapViewModel : ObservableValidator
         await Task.WhenAll(tasks);
 
         var hasInvalidUrls = tasks.Any(task => !task.Result);
-        var hasEmptyName = string.IsNullOrEmpty(textBoxStoreName);
+        var hasEmptyName = string.IsNullOrEmpty(TextBoxStoreName);
         var hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
 
-        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || selectedWebBrowserDrive == null)
+        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || SelectedWebBrowserDrive == null)
         {
             if (hasEmptyName)
             {
@@ -116,7 +116,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             {
                 message += "Invalid Url\n";
             }
-            if (selectedWebBrowserDrive == null)
+            if (SelectedWebBrowserDrive == null)
             {
                 message += "Select a web browser to track your product information\n";
             }
