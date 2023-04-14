@@ -401,8 +401,8 @@ public partial class MainViewModel : ObservableObject
                 ListViewProducts.SelectionMode = ListViewSelectionMode.Single;
             }
             SelectMultipleIsEnabled = false;
-            IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-            DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            IsCheckedAllVisibility = Visibility.Collapsed;
+            DeleteProductVisibility = Visibility.Collapsed;
         }
         catch (Exception ex)
         {
@@ -418,8 +418,8 @@ public partial class MainViewModel : ObservableObject
                 ListViewProducts.SelectionMode = ListViewSelectionMode.Multiple;
             }
             SelectMultipleIsEnabled = true;
-            IsCheckedAllVisibility = Microsoft.UI.Xaml.Visibility.Visible;
-            DeleteProductVisibility = Microsoft.UI.Xaml.Visibility.Visible;
+            IsCheckedAllVisibility = Visibility.Visible;
+            DeleteProductVisibility = Visibility.Visible;
         }
         catch (Exception ex)
         {
