@@ -355,6 +355,7 @@ public partial class MainViewModel : ObservableObject
         };
 
         await dialog.ShowAsync();
+        dialog.Hide();
     }
     private void HideButtons()
     {
