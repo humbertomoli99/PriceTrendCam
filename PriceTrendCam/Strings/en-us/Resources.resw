@@ -245,4 +245,7 @@
   <data name="Shell_ProductDetailsVC.Content" xml:space="preserve">
     <value>ProductDetailsVC</value>
   </data>
+  <data name="Shell_OrderListContentDialog.Content" xml:space="preserve">
+    <value>OrderListContentDialog</value>
+  </data>
 </root>

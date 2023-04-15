@@ -89,6 +89,7 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<OrderListContentDialog>();
             services.AddTransient<ProductDetailsViewModel>();
             services.AddTransient<ProductDetailsPage>();
             services.AddTransient<PostManFormViewModel>();
