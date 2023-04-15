@@ -21,6 +21,8 @@ public partial class MainViewModel : ObservableObject
     private bool SelectMultipleIsEnabled;
     private string message;
     private string content;
+    public bool OrderDescen;
+
     private Visibility _isCheckedAllVisibility;
     private Visibility _deleteProductVisibility;
 
@@ -76,6 +78,11 @@ public partial class MainViewModel : ObservableObject
         set;
     }
     public bool IsDialogOpen
+    {
+        get;
+        private set;
+    }
+    public string OrderBy
     {
         get;
         private set;
@@ -154,7 +161,7 @@ public partial class MainViewModel : ObservableObject
 
     private async Task UpdateListCommand()
     {
-        await LoadProductsAsync();
+        await GetOrderedList();
     }
 
     public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
@@ -173,17 +180,63 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task OrderList()
     {
-        await ShowButtons();
+        switch (OrderBy)
+        {
+            case "name":
+                await GetOrderedList("name", OrderDescen);
+                break;
+            case "price":
+                await GetOrderedList("price", OrderDescen);
+                break;
+            case "stock":
+                await GetOrderedList("stock", OrderDescen);
+                break;
+            default:
+                break;
+        }
     }
-    public async Task LoadProductsAsync()
+    public async Task GetOrderedList(string order = "id", bool Ascendant = false)
     {
         try
         {
             // Obtener los productos de alguna fuente de datos
-            List<ProductInfo> products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+            List<ProductInfo> ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+
+            if (order == "name" && Ascendant == false)
+            {
+                ProductsList = ProductsList.OrderByDescending(o => o.Name).ToList();
+            }
+            else if (order == "name" && Ascendant == true)
+            {
+                ProductsList = ProductsList.OrderBy(o => o.Name).ToList();
+            }
+            else if (order == "id" && Ascendant == false)
+            {
+                ProductsList = ProductsList.OrderByDescending(o => o.Id).ToList();
+            }
+            else if (order == "id" && Ascendant == true)
+            {
+                ProductsList = ProductsList.OrderBy(o => o.Id).ToList();
+            }
+            else if (order == "price" && Ascendant == false)
+            {
+                ProductsList = ProductsList.OrderByDescending(o => o.Price).ToList();
+            }
+            else if (order == "price" && Ascendant == true)
+            {
+                ProductsList = ProductsList.OrderBy(o => o.Price).ToList();
+            }
+            else if (order == "stock" && Ascendant == false)
+            {
+                ProductsList = ProductsList.OrderByDescending(o => o.Stock).ToList();
+            }
+            else if (order == "stock" && Ascendant == true)
+            {
+                ProductsList = ProductsList.OrderBy(o => o.Stock).ToList();
+            }
 
             // Insertar los productos en la lista
-            InsertProductsIntoList(products);
+            InsertProductsIntoList(ProductsList);
         }
         catch (Exception ex)
         {
@@ -368,7 +421,7 @@ public partial class MainViewModel : ObservableObject
             {
                 message = "Product Inserted";
                 content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
-                await LoadProductsAsync();
+                await GetOrderedList();
             }
             else
             {
