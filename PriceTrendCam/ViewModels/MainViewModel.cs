@@ -454,7 +454,7 @@ public partial class MainViewModel : ObservableObject
             if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && selectedItems.Count > 0)
             {
                 ProductListItem obj = (ProductListItem)ListViewProducts.SelectedItem;
-                _navigationService.NavigateTo(typeof(ProductsListViewModel).FullName!, obj.Id);
+                _navigationService.NavigateTo(typeof(ProductDetailsViewModel).FullName!, obj.Id);
             }
         }
         catch (Exception ex)
