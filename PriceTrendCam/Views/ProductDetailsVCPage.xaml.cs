@@ -6,16 +6,16 @@ using PriceTrendCam.ViewModels;
 
 namespace PriceTrendCam.Views;
 
-public sealed partial class ProductDetailsPage : Page
+public sealed partial class ProductDetailsVCPage : Page
 {
-    public ProductDetailsViewModel ViewModel
+    public ProductDetailsVCViewModel ViewModel
     {
         get;
     }
 
-    public ProductDetailsPage()
+    public ProductDetailsVCPage()
     {
-        ViewModel = App.GetService<ProductDetailsViewModel>();
+        ViewModel = App.GetService<ProductDetailsVCViewModel>();
         InitializeComponent();
     }
 }

@@ -10,7 +10,7 @@ using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.ViewModels;
 
-public partial class ProductDetailsViewModel : ObservableRecipient, INavigationAware
+public partial class ProductDetailsVCViewModel : ObservableRecipient, INavigationAware
 {
     private readonly ISampleDataService<ProductInfo> _sampleDataService;
     private ProductInfo? _selected;
@@ -28,7 +28,7 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     }
     public ObservableCollection<ProductInfo> SampleItems { get; private set; } = new ObservableCollection<ProductInfo>();
 
-    public ProductDetailsViewModel(ISampleDataService<ProductInfo> sampleDataService)
+    public ProductDetailsVCViewModel(ISampleDataService<ProductInfo> sampleDataService)
     {
         _sampleDataService = sampleDataService;
         StartIndex = 0;

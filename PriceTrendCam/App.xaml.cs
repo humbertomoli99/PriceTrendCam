@@ -111,8 +111,8 @@ public partial class App : Application
             services.AddTransient<AddSitemapPage>();
             services.AddTransient<SitemapListViewModel>();
             services.AddTransient<SitemapListPage>();
-            services.AddTransient<ProductDetailsViewModel>();
-            services.AddTransient<ProductDetailsPage>();
+            services.AddTransient<ProductDetailsVCViewModel>();
+            services.AddTransient<ProductDetailsVCPage>();
             services.AddTransient<ProductsListViewModel>();
             services.AddTransient<ProductsListPage>();
             services.AddTransient<MainViewModel>();

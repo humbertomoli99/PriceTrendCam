@@ -16,7 +16,7 @@ public class PageService : IPageService
     {
         Configure<MainViewModel, MainPage>();
         Configure<ProductsListViewModel, ProductsListPage>();
-        Configure<ProductDetailsViewModel, ProductDetailsPage>();
+        Configure<ProductDetailsVCViewModel, ProductDetailsVCPage>();
         Configure<SitemapListViewModel, SitemapListPage>();
         Configure<AddSitemapViewModel, AddSitemapPage>();
         Configure<SelectorListViewModel, SelectorListPage>();
