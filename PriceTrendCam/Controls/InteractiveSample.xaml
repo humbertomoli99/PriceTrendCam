@@ -5,60 +5,37 @@
     xmlns:local="using:PriceTrendCam.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
 
-    <Style
-        TargetType="local:InteractiveSample">
-        <Setter
-            Property="HorizontalAlignment"
-            Value="Stretch" />
-        <Setter
-            Property="HorizontalContentAlignment"
-            Value="Stretch" />
-        <Setter
-            Property="VerticalAlignment"
-            Value="Stretch" />
-        <Setter
-            Property="VerticalContentAlignment"
-            Value="Stretch" />
-        <Setter
-            Property="IsTabStop"
-            Value="False" />
-        <Setter
-            Property="Template">
+    <Style TargetType="local:InteractiveSample">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate
-                    TargetType="local:InteractiveSample">
+                <ControlTemplate TargetType="local:InteractiveSample">
                     <Grid
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Style="{StaticResource CardStyle}">
                         <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock
                             Margin="24,12,0,0"
                             FontSize="22"
                             FontWeight="Normal"
                             Text="Sample" />
-                        <Pivot
-                            Grid.Row="1"
-                            Margin="14,0,12,12">
+                        <Pivot Grid.Row="1" Margin="14,0,12,12">
                             <Pivot.Resources>
-                                <FontWeight
-                                    x:Key="PivotHeaderItemThemeFontWeight">SemiBold</FontWeight>
-                                <x:Double
-                                    x:Key="PivotHeaderItemFontSize">14</x:Double>
+                                <FontWeight x:Key="PivotHeaderItemThemeFontWeight">SemiBold</FontWeight>
+                                <x:Double x:Key="PivotHeaderItemFontSize">14</x:Double>
                             </Pivot.Resources>
-                            <PivotItem
-                                Header="Sample">
-                                <ContentPresenter
-                                    Margin="0,4,0,12"
-                                    Content="{TemplateBinding Content}" />
+                            <PivotItem Header="Sample">
+                                <ContentPresenter Margin="0,4,0,12" Content="{TemplateBinding Content}" />
                             </PivotItem>
-                            <PivotItem
-                                Header="XAML">
+                            <PivotItem Header="XAML">
                                 <ScrollViewer>
                                     <controls:MarkdownTextBlock
                                         Margin="-8,4,0,0"
@@ -71,8 +48,7 @@
                                         Text="{TemplateBinding XamlCode}" />
                                 </ScrollViewer>
                             </PivotItem>
-                            <PivotItem
-                                Header="C#">
+                            <PivotItem Header="C#">
                                 <ScrollViewer>
                                     <controls:MarkdownTextBlock
                                         Margin="-8,4,0,0"
