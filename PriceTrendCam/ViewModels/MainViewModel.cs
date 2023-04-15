@@ -50,7 +50,7 @@ public partial class MainViewModel : ObservableObject
     private readonly INavigationService _navigationService;
 
     public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
-    public ICommand DeleteProduct => new RelayCommand<object>(async (parameter) => await DeleteProductCommand(parameter));
+    public ICommand DeleteProduct => new RelayCommand(async () => await DeleteProductCommand());
 
     private ObservableCollection<ProductListItem> _listViewCollection;
     public ObservableCollection<ProductListItem> ListViewCollection
@@ -74,11 +74,10 @@ public partial class MainViewModel : ObservableObject
         set;
     }
 
-    private async Task DeleteProductCommand(object parameter)
+    private async Task DeleteProductCommand()
     {
         try
         {
-            var xamlRoot2 = parameter as Microsoft.UI.Xaml.XamlRoot;
             IList<object> itemsSelected = ListViewProducts.SelectedItems;
             if (itemsSelected.Count > 0)
             {
@@ -96,7 +95,7 @@ public partial class MainViewModel : ObservableObject
                 ContentDialog deleteFileDialog = new ContentDialog
                 {
                     Title = "Delete Product",
-                    XamlRoot = xamlRoot2,
+                    XamlRoot = xamlRoot,
                     Content = content,
                     DefaultButton = ContentDialogButton.Primary,
                     PrimaryButtonText = "Delete",

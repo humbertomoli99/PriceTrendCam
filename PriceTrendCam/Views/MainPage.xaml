@@ -100,7 +100,6 @@
                         </AppBarToggleButton>
                         <AppBarButton
                             Command="{Binding DeleteProduct}"
-                            CommandParameter="{x:Bind XamlRoot}"
                             Icon="Delete"
                             Label="Delete"
                             Visibility="{Binding DeleteProductVisibility}" />
