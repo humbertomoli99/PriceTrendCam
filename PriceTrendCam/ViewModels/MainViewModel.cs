@@ -87,6 +87,11 @@ public partial class MainViewModel : ObservableObject
         get;
         private set;
     }
+    public List<ProductInfo> ProductsList
+    {
+        get;
+        private set;
+    }
 
     private ContentDialog deleteFileDialog;
 
@@ -133,7 +138,7 @@ public partial class MainViewModel : ObservableObject
                             ProductListItem data = (ProductListItem)item;
                             await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
                         }
-                        await GetOrderedList();
+                        await UpdateListCommand();
                         await HideButtons();
                     }
                     else if (result == ContentDialogResult.None)
@@ -159,8 +164,9 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    private async Task UpdateListCommand()
+    public async Task UpdateListCommand()
     {
+        ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         await GetOrderedList();
     }
 
@@ -199,9 +205,6 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            // Obtener los productos de alguna fuente de datos
-            List<ProductInfo> ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
-
             // Ordenar la lista de productos en función de la columna de ordenamiento y el orden ascendente/descendente
             switch (order)
             {
@@ -407,7 +410,7 @@ public partial class MainViewModel : ObservableObject
             {
                 message = "Product Inserted";
                 content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
-                await GetOrderedList();
+                await UpdateListCommand();
             }
             else
             {
