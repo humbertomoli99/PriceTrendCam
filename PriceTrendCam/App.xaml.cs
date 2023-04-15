@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 
@@ -14,9 +17,6 @@ using PriceTrendCam.Services;
 using PriceTrendCam.Services.DataService;
 using PriceTrendCam.ViewModels;
 using PriceTrendCam.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 
 namespace PriceTrendCam;
 
@@ -89,6 +89,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<ProductDetailsViewModel>();
+            services.AddTransient<ProductDetailsPage>();
             services.AddTransient<PostManFormViewModel>();
             services.AddTransient<PostManFormPage>();
             services.AddTransient<SettingsViewModel>();
