@@ -37,7 +37,7 @@ public class History
     {
         get; set;
     }
-    public int? Stock
+    public double? Stock
     {
         get; set;
     }

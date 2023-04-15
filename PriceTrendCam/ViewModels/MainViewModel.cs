@@ -359,7 +359,20 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            return await App.PriceTrackerService.InsertAsync(newProduct) > 0;
+            await App.PriceTrackerService.InsertAsync(newProduct);
+
+            var firstHistory = new History()
+            {
+                ProductInfoId = newProduct.Id,
+                ProductInfo = newProduct,
+                Price = newProduct.Price,
+                ShippingPrice = newProduct.ShippingPrice,
+                Stock = newProduct.Stock,
+                Date = newProduct.Date,
+            };
+            await App.PriceTrackerService.InsertAsync<History>(firstHistory);
+
+            return true;
         }
         catch (Exception ex)
         {
