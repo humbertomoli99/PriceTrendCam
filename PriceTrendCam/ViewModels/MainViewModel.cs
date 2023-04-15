@@ -202,37 +202,23 @@ public partial class MainViewModel : ObservableObject
             // Obtener los productos de alguna fuente de datos
             List<ProductInfo> ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
 
-            if (order == "name" && Ascendant == false)
+            // Ordenar la lista de productos en función de la columna de ordenamiento y el orden ascendente/descendente
+            switch (order)
             {
-                ProductsList = ProductsList.OrderByDescending(o => o.Name).ToList();
-            }
-            else if (order == "name" && Ascendant == true)
-            {
-                ProductsList = ProductsList.OrderBy(o => o.Name).ToList();
-            }
-            else if (order == "id" && Ascendant == false)
-            {
-                ProductsList = ProductsList.OrderByDescending(o => o.Id).ToList();
-            }
-            else if (order == "id" && Ascendant == true)
-            {
-                ProductsList = ProductsList.OrderBy(o => o.Id).ToList();
-            }
-            else if (order == "price" && Ascendant == false)
-            {
-                ProductsList = ProductsList.OrderByDescending(o => o.Price).ToList();
-            }
-            else if (order == "price" && Ascendant == true)
-            {
-                ProductsList = ProductsList.OrderBy(o => o.Price).ToList();
-            }
-            else if (order == "stock" && Ascendant == false)
-            {
-                ProductsList = ProductsList.OrderByDescending(o => o.Stock).ToList();
-            }
-            else if (order == "stock" && Ascendant == true)
-            {
-                ProductsList = ProductsList.OrderBy(o => o.Stock).ToList();
+                case "name":
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
+                    break;
+                case "id":
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Id).ToList() : ProductsList.OrderByDescending(o => o.Id).ToList();
+                    break;
+                case "price":
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
+                    break;
+                case "stock":
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
+                    break;
+                default:
+                    break;
             }
 
             // Insertar los productos en la lista
