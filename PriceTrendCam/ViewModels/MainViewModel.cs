@@ -68,7 +68,7 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
-    public FontIcon CheckBox1Icon
+    public FontIcon SelectAllCheckBoxIcon
     {
         get;
         set;
@@ -438,17 +438,17 @@ public partial class MainViewModel : ObservableObject
                 if (itemsSelected == AllItems)
                 {
                     SelectAllCheckBox.IsChecked = true;
-                    CheckBox1Icon.Glyph = "\ue73a";
+                    SelectAllCheckBoxIcon.Glyph = "\ue73a";
                 }
                 else if (itemsSelected == 0)
                 {
                     SelectAllCheckBox.IsChecked = false;
-                    CheckBox1Icon.Glyph = "\ue739";
+                    SelectAllCheckBoxIcon.Glyph = "\ue739";
                 }
                 else
                 {
                     SelectAllCheckBox.IsChecked = false;
-                    CheckBox1Icon.Glyph = "\uf16e";
+                    SelectAllCheckBoxIcon.Glyph = "\uf16e";
                 }
             }
             if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && selectedItems.Count > 0)

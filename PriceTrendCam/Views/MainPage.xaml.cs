@@ -103,7 +103,7 @@ public sealed partial class MainPage : Page
             if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
             {
                 SelectAllCheckBox.IsChecked = true;
-                CheckBox1Icon.Glyph = "\ue73a";
+                SelectAllCheckBoxIcon.Glyph = "\ue73a";
                 ListViewProducts.SelectAll();
             }
         }
@@ -120,7 +120,7 @@ public sealed partial class MainPage : Page
             if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
             {
                 SelectAllCheckBox.IsChecked = false;
-                CheckBox1Icon.Glyph = "\ue739";
+                SelectAllCheckBoxIcon.Glyph = "\ue739";
                 ListViewProducts.DeselectRange(new ItemIndexRange(0, (uint)ListViewProducts.Items.Count));
             }
         }
@@ -135,7 +135,7 @@ public sealed partial class MainPage : Page
         try
         {
             ViewModel.SelectAllCheckBox = SelectAllCheckBox;
-            ViewModel.CheckBox1Icon = CheckBox1Icon;
+            ViewModel.SelectAllCheckBoxIcon = SelectAllCheckBoxIcon;
             await ViewModel.HandleSelectionChangedAsync(e.AddedItems);
         }
         catch (Exception ex)

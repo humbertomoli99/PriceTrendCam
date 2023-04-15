@@ -93,7 +93,7 @@
                             Visibility="{Binding IsCheckedAllVisibility}">
                             <AppBarToggleButton.Icon>
                                 <FontIcon
-                                    x:Name="CheckBox1Icon"
+                                    x:Name="SelectAllCheckBoxIcon"
                                     FontFamily="Segoe MDL2 Assets"
                                     Glyph="&#xe739;" />
                             </AppBarToggleButton.Icon>
