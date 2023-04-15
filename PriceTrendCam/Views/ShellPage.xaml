@@ -55,7 +55,7 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_ProductDetails" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.ProductDetailsVCViewModel">
+                <NavigationViewItem x:Uid="Shell_ProductDetailsVC" helpers:NavigationHelper.NavigateTo="PriceTrendCam.ViewModels.ProductDetailsVCViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{StaticResource SymbolThemeFontFamily}"

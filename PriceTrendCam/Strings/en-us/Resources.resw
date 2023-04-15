@@ -133,7 +133,7 @@
     <value>Select an product from the list.</value>
   </data>
   <data name="Shell_ProductDetails.Content" xml:space="preserve">
-    <value>Product Details</value>
+    <value>ProductDetails</value>
   </data>
   <data name="Shell_SitemapList.Content" xml:space="preserve">
     <value>Sitemap List</value>
@@ -242,7 +242,7 @@
   <data name="StoreDetails_NoSelection.Text" xml:space="preserve">
     <value>Select an Store from the list.</value>
   </data>
-  <data name="Shell_ProductDetails.Content" xml:space="preserve">
-    <value>ProductDetails</value>
+  <data name="Shell_ProductDetailsVC.Content" xml:space="preserve">
+    <value>ProductDetailsVC</value>
   </data>
 </root>
