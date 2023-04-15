@@ -75,12 +75,20 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
+    public bool IsDialogOpen
+    {
+        get;
+        private set;
+    }
+
+    private ContentDialog deleteFileDialog;
 
     private async Task DeleteProductCommand()
     {
         try
         {
-            dialog.Hide();
+            if (dialog != null) dialog.Hide();
+
             IList<object> itemsSelected = ListViewProducts.SelectedItems;
             if (itemsSelected.Count > 0)
             {
@@ -95,35 +103,51 @@ public partial class MainViewModel : ObservableObject
                     content = $"Esta seguro de eliminar los {itemsS} registros?\nSe dejaran de seguir los productos relacionados con las tiendas";
                 }
 
-                ContentDialog deleteFileDialog = new ContentDialog
+                if (!IsDialogOpen)
                 {
-                    Title = "Delete Product",
-                    XamlRoot = xamlRoot,
-                    Content = content,
-                    DefaultButton = ContentDialogButton.Primary,
-                    PrimaryButtonText = "Delete",
-                    CloseButtonText = "Cancel"
-                };
+                    IsDialogOpen = true;
 
-                ContentDialogResult result = await deleteFileDialog.ShowAsync();
-                if (result == ContentDialogResult.Primary)
-                {
-                    foreach (var item in itemsSelected)
+                    deleteFileDialog = new ContentDialog
                     {
-                        ProductListItem data = (ProductListItem)item;
-                        await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
+                        Title = "Delete Product",
+                        XamlRoot = xamlRoot,
+                        Content = content,
+                        DefaultButton = ContentDialogButton.Primary,
+                        PrimaryButtonText = "Delete",
+                        CloseButtonText = "Cancel"
+                    };
+
+                    ContentDialogResult result = await deleteFileDialog.ShowAsync();
+                    deleteFileDialog.Hide();
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        foreach (var item in itemsSelected)
+                        {
+                            ProductListItem data = (ProductListItem)item;
+                            await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
+                        }
+                        await GetOrderedList();
+                        await HideButtons();
                     }
-                    await LoadProductsAsync();
-                    await HideButtons();
+                    else if (result == ContentDialogResult.None)
+                    {
+                        await HideButtons();
+                    }
+
+                    IsDialogOpen = false;
                 }
-                else if (result == ContentDialogResult.None)
+                else
                 {
-                    await HideButtons();
+                    if (dialog != null) dialog.Hide();
+                    IsDialogOpen = false;
                 }
             }
         }
         catch (Exception ex)
         {
+            if (dialog != null) dialog.Hide();
+            deleteFileDialog.Hide();
+
             await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }
@@ -303,6 +327,8 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
+            if(dialog != null) dialog.Hide();
+
             if (await IsRegistered(url))
             {
                 message = "The product is registered";
@@ -354,6 +380,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
+            if (dialog != null) dialog.Hide();
             await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }
@@ -378,6 +405,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
+            if (dialog != null) dialog.Hide();
             await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
             return false;
         }
@@ -474,6 +502,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
+            if (dialog != null) dialog.Hide();
             await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }

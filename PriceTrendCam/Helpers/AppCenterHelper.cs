@@ -11,6 +11,8 @@ namespace PriceTrendCam.Helpers;
 
 public static class AppCenterHelper
 {
+    private static bool isDialogOpen = false;
+
     public static async Task ShowErrorDialog(Exception ex, XamlRoot xamlRoot)
     {
         ContentDialog dialog = new ContentDialog
@@ -23,8 +25,10 @@ public static class AppCenterHelper
             CloseButtonText = "Cancelar"
         };
 
+        isDialogOpen = true;
         ContentDialogResult result = await dialog.ShowAsync();
-        dialog.Hide();
+        isDialogOpen = false;
+
         if (result == ContentDialogResult.Primary)
         {
             ContentDialog alwaysSendDialog = new ContentDialog
@@ -35,7 +39,9 @@ public static class AppCenterHelper
                 PrimaryButtonText = "Si",
                 SecondaryButtonText = "No"
             };
+            isDialogOpen = true;
             ContentDialogResult alwaysSendResult = await alwaysSendDialog.ShowAsync();
+            isDialogOpen = false;
             switch (alwaysSendResult)
             {
                 case ContentDialogResult.Primary:
@@ -45,12 +51,15 @@ public static class AppCenterHelper
                     Crashes.NotifyUserConfirmation(UserConfirmation.Send);
                     break;
             }
-            alwaysSendDialog.Hide();
         }
         else if (result == ContentDialogResult.Secondary)
         {
             Crashes.NotifyUserConfirmation(UserConfirmation.DontSend);
         }
     }
-}
 
+    public static bool IsDialogOpen()
+    {
+        return isDialogOpen;
+    }
+}
