@@ -85,7 +85,7 @@
                     </Grid.RowDefinitions>
                     <CommandBar Grid.Row="0">
                         <AppBarToggleButton
-                            x:Name="CheckBox1"
+                            x:Name="SelectAllCheckBox"
                             Checked="CheckBox_Checked"
                             IsChecked="False"
                             Label="Select all"

@@ -63,7 +63,7 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
-    public AppBarToggleButton CheckBox1
+    public AppBarToggleButton SelectAllCheckBox
     {
         get;
         set;
@@ -437,17 +437,17 @@ public partial class MainViewModel : ObservableObject
             {
                 if (itemsSelected == AllItems)
                 {
-                    CheckBox1.IsChecked = true;
+                    SelectAllCheckBox.IsChecked = true;
                     CheckBox1Icon.Glyph = "\ue73a";
                 }
                 else if (itemsSelected == 0)
                 {
-                    CheckBox1.IsChecked = false;
+                    SelectAllCheckBox.IsChecked = false;
                     CheckBox1Icon.Glyph = "\ue739";
                 }
                 else
                 {
-                    CheckBox1.IsChecked = false;
+                    SelectAllCheckBox.IsChecked = false;
                     CheckBox1Icon.Glyph = "\uf16e";
                 }
             }
