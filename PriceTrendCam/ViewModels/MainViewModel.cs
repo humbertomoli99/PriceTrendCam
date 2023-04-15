@@ -53,6 +53,8 @@ public partial class MainViewModel : ObservableObject
     public ICommand DeleteProduct => new RelayCommand(async () => await DeleteProductCommand());
 
     private ObservableCollection<ProductListItem> _listViewCollection;
+    private ContentDialog dialog;
+
     public ObservableCollection<ProductListItem> ListViewCollection
     {
         get => _listViewCollection;
@@ -78,6 +80,7 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
+            dialog.Hide();
             IList<object> itemsSelected = ListViewProducts.SelectedItems;
             if (itemsSelected.Count > 0)
             {
@@ -391,7 +394,7 @@ public partial class MainViewModel : ObservableObject
     private async Task ShowMessageError()
     {
         // El producto ha sido agregado
-        var dialog = new ContentDialog
+        dialog = new ContentDialog
         {
             Title = message,
             XamlRoot = xamlRoot,
