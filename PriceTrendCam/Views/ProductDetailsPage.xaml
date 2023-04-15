@@ -2,32 +2,25 @@
     x:Class="PriceTrendCam.Views.ProductDetailsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:PriceTrendCam.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:behaviors="using:PriceTrendCam.Behaviors"
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
 
-    <ScrollViewer
-        x:Name="ContentArea">
-        <Grid>
+    <ScrollViewer>
+        <Grid x:Name="ContentArea" MaxWidth="800">
+            <Grid.Resources>
+                <FontFamily x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
+            </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
-                <RowDefinition
-                    Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid
                 Grid.Row="0"
@@ -37,9 +30,7 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="6">
-                <Grid
-                    Grid.Row="0"
-                    Grid.Column="0">
+                <Grid Grid.Row="0" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -49,38 +40,55 @@
                     <TextBlock
                         Grid.Row="0"
                         Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{Binding productName}" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Style="{StaticResource SubtitleTextBlockStyle}"
-                        Text="{Binding PriceTag}" />
-                    <StackPanel
-                        Grid.Row="2"
-                        Orientation="Horizontal">
-                        <Image
-                            Width="18"
-                            Height="18"
-                            Margin="0,0,10,0"
+                        Text="{Binding ProductName}" />
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <FontIcon
+                            FontFamily="{StaticResource BootstrapIcons}"
+                            FontSize="18"
+                            Foreground="#0BE1FF"
+                            Glyph="&#xF5B0;" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{Binding PriceTag}" />
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+
+                        <FontIcon
+                            FontFamily="{StaticResource BootstrapIcons}"
+                            FontSize="18"
+                            Foreground="Green"
+                            Glyph="&#xF5EA;" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="{Binding ShippingPrice}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+
+                        <FontIcon
+                            FontFamily="{StaticResource BootstrapIcons}"
+                            FontSize="18"
+                            Foreground="Orange"
+                            Glyph="&#xF685;" />
+                        <TextBlock
+                            Margin="5,0,0,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Source="/Assets/delivery.png"
-                            Stretch="UniformToFill" />
-                        <TextBlock
                             Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{Binding shippingPrice}" />
+                            Text="{Binding Stock}" />
                     </StackPanel>
+
                     <HyperlinkButton
                         Grid.Row="3"
                         HorizontalAlignment="Right"
                         Content="Buy Now"
-                        NavigateUri="{Binding productUrl}" />
-                    <TextBlock
-                        Grid.Row="3"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BodyStrongTextBlockStyle}"
-                        Text="{Binding stock}" />
-                    <!--<TextBlock Grid.Row="3" Style="{StaticResource BodyStrongTextBlockStyle}" Text="{Binding shippingPrice}"/>-->
+                        NavigateUri="{Binding ProductUrl}" />
+
                 </Grid>
             </Grid>
             <Grid
@@ -101,34 +109,20 @@
                     HorizontalAlignment="Stretch"
                     BorderBrush="{ThemeResource CardStrokeColorDefault}"
                     BorderThickness="0,0,2,0">
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Style="{StaticResource BodyStrongTextBlockStyle}">Lowest Price</TextBlock>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ShowMinProductPrice}">999</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Lowest Price</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMinProductPrice}">999</TextBlock>
                 </StackPanel>
-                <StackPanel
-                    Grid.Column="1"
-                    HorizontalAlignment="Stretch">
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Style="{StaticResource BodyStrongTextBlockStyle}">Averange Price</TextBlock>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ShowAvgProductPrice}">999</TextBlock>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
+                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Averange Price</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowAvgProductPrice}">999</TextBlock>
                 </StackPanel>
                 <StackPanel
                     Grid.Column="2"
                     HorizontalAlignment="Stretch"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="2,0,0,0">
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Style="{StaticResource BodyStrongTextBlockStyle}">Highest Price</TextBlock>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ShowMaxProductPrice}">999</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Highest Price</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMaxProductPrice}">999</TextBlock>
                 </StackPanel>
             </Grid>
             <TextBlock
@@ -149,26 +143,20 @@
                 <TextBlock
                     Grid.Row="0"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{Binding productHistory}" />
+                    Text="{Binding ProductHistory}" />
             </Grid>
-            <!--  TextWrapping="Wrap"  -->
-            <TextBlock
-                Grid.Row="4"
-                Margin="5,20,0,5"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="Images" />
+
             <Grid
-                Grid.Row="5"
+                Grid.Row="4"
+                Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="6">
                 <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="auto" />
-                    <RowDefinition
-                        Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
                 <FlipView
@@ -178,11 +166,11 @@
                     BorderBrush="Black"
                     BorderThickness="1"
                     ItemsSource="{Binding ListImages, Mode=TwoWay}"
-                    SizeChanged="flip_SizeChanged">
+                    Loaded="flip_Loaded">
                     <FlipView.ItemTemplate>
                         <DataTemplate>
                             <Image
-                                VerticalAlignment="Stretch"
+                                MaxWidth="800"
                                 Source="{Binding}"
                                 Stretch="Uniform" />
                         </DataTemplate>
@@ -191,12 +179,12 @@
                 <!--  TextWrapping="Wrap"  -->
             </Grid>
             <TextBlock
-                Grid.Row="6"
+                Grid.Row="5"
                 Margin="5,20,0,5"
                 Style="{StaticResource SubtitleTextBlockStyle}"
                 Text="Description" />
             <Grid
-                Grid.Row="7"
+                Grid.Row="6"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -205,7 +193,7 @@
                 <TextBlock
                     Grid.Row="0"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{Binding productDescription}" />
+                    Text="{Binding ProductDescription}" />
                 <!--  TextWrapping="Wrap"  -->
             </Grid>
         </Grid>

@@ -24,8 +24,8 @@ public sealed partial class ProductDetailsPage : Page
         DataContext = ViewModel;
     }
 
-    private void flip_SizeChanged(object sender, Microsoft.UI.Xaml.SizeChangedEventArgs e)
+    private void flip_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
-        this.flip.Height = this.ActualWidth * 0.5625;
+        flip.Height = flip.ActualWidth * 0.5625;
     }
 }
