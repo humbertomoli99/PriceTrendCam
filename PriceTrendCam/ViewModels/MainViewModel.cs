@@ -240,7 +240,7 @@ public partial class MainViewModel : ObservableObject
             switch (order)
             {
                 case "Status":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Status).ToList();
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Status).ToList() : ProductsList.OrderByDescending(o => o.Status).ToList();
                     break;
                 case "Name":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
@@ -252,7 +252,7 @@ public partial class MainViewModel : ObservableObject
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
                     break;
                 case "ShippingPrice":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.ShippingPrice).ToList();
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.ShippingPrice).ToList() : ProductsList.OrderByDescending(o => o.ShippingPrice).ToList();
                     break;
                 case "Stock":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
