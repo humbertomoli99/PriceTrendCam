@@ -192,30 +192,29 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task OrderList()
     {
-        OrderListContentDialog dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection);
-        dialogOrderList.XamlRoot = xamlRoot;
-        dialogOrderList.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-
-        dialogOrderList.SelectedSortBy = previousSelectedSortBy; // establecer valores previos
-        dialogOrderList.SelectedSortDirection = previousSelectedSortDirection;
-
-        var result = await dialogOrderList.ShowAsync();
-
-        if (result == ContentDialogResult.Primary)
+        OrderListContentDialog dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection)
         {
-            var SortByPanel = dialogOrderList.FindName("SortByPanel") as StackPanel;
-            var SelectedSortBy = GetSelectedRadioButton(SortByPanel).Tag.ToString();
+            XamlRoot = xamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            SelectedSortBy = previousSelectedSortBy, // establecer valores previos
+            SelectedSortDirection = previousSelectedSortDirection
+        };
 
-            var SortDirectionPanel = dialogOrderList.FindName("SortDirectionPanel") as StackPanel;
-            var SelectedSortDirection = GetSelectedRadioButton(SortDirectionPanel).Tag.ToString();
+        if (await dialogOrderList.ShowAsync() != ContentDialogResult.Primary)
+            return;
 
-            var IsAscending = (SelectedSortDirection == "Ascending") ? true : false;
+        var sortByPanel = dialogOrderList.FindName("SortByPanel") as StackPanel;
+        var selectedSortBy = GetSelectedRadioButton(sortByPanel).Tag.ToString();
 
-            await GetOrderedList(SelectedSortBy, IsAscending);
+        var sortDirectionPanel = dialogOrderList.FindName("SortDirectionPanel") as StackPanel;
+        var selectedSortDirection = GetSelectedRadioButton(sortDirectionPanel).Tag.ToString();
 
-            previousSelectedSortBy = SelectedSortBy;
-            previousSelectedSortDirection = SelectedSortDirection;
-        }
+        var isAscending = (selectedSortDirection == "Ascending");
+
+        await GetOrderedList(selectedSortBy, isAscending);
+
+        previousSelectedSortBy = selectedSortBy;
+        previousSelectedSortDirection = selectedSortDirection;
     }
     private RadioButton GetSelectedRadioButton(StackPanel stackPanel)
     {
