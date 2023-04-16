@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -358,7 +359,8 @@ public partial class MainViewModel : ObservableObject
         var Products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         if (TextBoxSearchListView == null) return;
 
-        ProductsList = Products.Where(p => p.Name.ToLower().Contains(TextBoxSearchListView.ToLower())).ToList();
+        CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
+        ProductsList = Products.Where(p => compareInfo.IndexOf(p.Name, TextBoxSearchListView, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0).ToList();
 
         InsertProductsIntoList(ProductsList);
 
