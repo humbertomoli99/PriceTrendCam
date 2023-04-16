@@ -89,7 +89,9 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="center"
                         PlaceholderText="Search"
-                        QueryIcon="Find" />
+                        QueryIcon="Find"
+                        QuerySubmitted="{x:Bind ViewModel.SearchInListView}"
+                        Text="{x:Bind ViewModel.TextBoxSearchListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <CommandBar Grid.Row="0" Grid.Column="1">
                         <AppBarToggleButton
                             x:Name="SelectAllCheckBox"

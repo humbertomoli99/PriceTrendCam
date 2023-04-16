@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.Services;
@@ -10,7 +9,6 @@ using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 using PriceTrendCam.Helpers;
-using PriceTrendCam.Services;
 using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -19,6 +17,10 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
     private string textBoxSearch;
+
+    [ObservableProperty]
+    private string textBoxSearchListView;
+
     private bool SelectMultipleIsEnabled;
     private string message;
     private string content;
@@ -350,7 +352,17 @@ public partial class MainViewModel : ObservableObject
         }
         return string.Empty;
     }
+    [RelayCommand]
+    public async Task SearchInListView()
+    {
+        var Products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        ProductsList = Products.Where(p => p.Name.ToLower().Contains(textBoxSearchListView.ToLower())).ToList();
 
+        InsertProductsIntoList(ProductsList);
+
+        var isAscending = (previousSelectedSortDirection == "Ascending");
+        await GetOrderedList(previousSelectedSortBy, isAscending);
+    }
     [RelayCommand]
     public async Task AdvancedSearch()
     {
@@ -408,7 +420,7 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            if(dialog != null) dialog.Hide();
+            if (dialog != null) dialog.Hide();
 
             if (await IsRegistered(url))
             {
