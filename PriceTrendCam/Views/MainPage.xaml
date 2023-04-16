@@ -9,13 +9,13 @@
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     GotFocus="Page_GotFocus"
     mc:Ignorable="d">
-
-    <Grid>
+    
+    <ScrollViewer>
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Grid
             Grid.Row="0"
             Height="300"
@@ -84,7 +84,7 @@
                     CornerRadius="0,0,5,5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="250" />
@@ -231,6 +231,11 @@
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+                        <ListView.Footer>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="Mostrar" />
+                            </StackPanel>
+                        </ListView.Footer>
                     </ListView>
                 </Grid>
             </TabViewItem>
@@ -256,4 +261,5 @@
             </TabViewItem>
         </TabView>
     </Grid>
+    </ScrollViewer>
 </Page>
