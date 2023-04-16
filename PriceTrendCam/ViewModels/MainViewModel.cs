@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.Services;
@@ -94,6 +95,8 @@ public partial class MainViewModel : ObservableObject
     }
 
     private ContentDialog deleteFileDialog;
+    private string previousSelectedSortBy;
+    private string previousSelectedSortDirection;
 
     private async Task DeleteProductCommand()
     {
@@ -175,6 +178,9 @@ public partial class MainViewModel : ObservableObject
         _clipboardSelectorService = clipboardSelectorService;
         _navigationService = navigationService;
 
+        previousSelectedSortBy = "Id";
+        previousSelectedSortDirection = "Descending";
+
         ListViewCollection = new ObservableCollection<ProductListItem>();
         _ = HideButtons();
     }
@@ -186,20 +192,46 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task OrderList()
     {
-        switch (OrderBy)
+        OrderListContentDialog dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection);
+        dialogOrderList.XamlRoot = xamlRoot;
+        dialogOrderList.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+
+        dialogOrderList.SelectedSortBy = previousSelectedSortBy; // establecer valores previos
+        dialogOrderList.SelectedSortDirection = previousSelectedSortDirection;
+
+        var result = await dialogOrderList.ShowAsync();
+
+        if (result == ContentDialogResult.Primary)
         {
-            case "name":
-                await GetOrderedList("name", OrderDescen);
-                break;
-            case "price":
-                await GetOrderedList("price", OrderDescen);
-                break;
-            case "stock":
-                await GetOrderedList("stock", OrderDescen);
-                break;
-            default:
-                break;
+            var SortByPanel = dialogOrderList.FindName("SortByPanel") as StackPanel;
+            var SelectedSortBy = GetSelectedRadioButton(SortByPanel).Tag.ToString();
+
+            var SortDirectionPanel = dialogOrderList.FindName("SortDirectionPanel") as StackPanel;
+            var SelectedSortDirection = GetSelectedRadioButton(SortDirectionPanel).Tag.ToString();
+
+            var IsAscending = (SelectedSortDirection == "Ascending") ? true : false;
+
+            await GetOrderedList(SelectedSortBy, IsAscending);
+
+            previousSelectedSortBy = SelectedSortBy;
+            previousSelectedSortDirection = SelectedSortDirection;
         }
+    }
+    private RadioButton GetSelectedRadioButton(StackPanel stackPanel)
+    {
+        foreach (var child in stackPanel.Children)
+        {
+            if (child is RadioButton radioButton && radioButton.IsChecked == true)
+            {
+                return radioButton;
+            }
+        }
+        return null;
+    }
+
+    private void Dialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+    {
+        dialog = null;
     }
     public async Task GetOrderedList(string order = "id", bool Ascendant = false)
     {
@@ -208,16 +240,16 @@ public partial class MainViewModel : ObservableObject
             // Ordenar la lista de productos en función de la columna de ordenamiento y el orden ascendente/descendente
             switch (order)
             {
-                case "name":
+                case "Name":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
                     break;
-                case "id":
+                case "Id":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Id).ToList() : ProductsList.OrderByDescending(o => o.Id).ToList();
                     break;
-                case "price":
+                case "Price":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
                     break;
-                case "stock":
+                case "Stock":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
                     break;
                 default:

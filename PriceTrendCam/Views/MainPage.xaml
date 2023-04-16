@@ -11,9 +11,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.Resources>
-            <FontFamily x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

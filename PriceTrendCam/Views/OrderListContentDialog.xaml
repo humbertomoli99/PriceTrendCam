@@ -4,63 +4,99 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Order List"
+    Title="Sort list"
     PrimaryButtonText="Accept"
     SecondaryButtonText="Cancel"
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="Order List Header" />
-
-        <StackPanel Margin="0,20,0,10" Orientation="Horizontal">
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortBy">
-                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
-                    <TextBlock Text="Creation Date" />
+        <StackPanel
+            x:Name="SortByPanel"
+            Margin="0,20,0,10"
+            Padding="16"
+            Background="{StaticResource ControlFillColorInputActiveBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Orientation="Vertical">
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortBy"
+                Tag="Id">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF1F6;" />
+                    <TextBlock Margin="6,0" Text="Creation Date" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortBy">
-                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Contact" />
-                    <TextBlock Text="Name" />
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortBy"
+                Tag="Name">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF3DA;" />
+                    <TextBlock Margin="6,0" Text="Name" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortBy">
-                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
-                    <TextBlock Text="Status" />
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortBy"
+                Tag="Status">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF28A;" />
+                    <TextBlock Margin="6,0" Text="Status" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortBy">
-                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
-                    <TextBlock Text="Price" />
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortBy"
+                Tag="Price">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF5B0;" />
+                    <TextBlock Margin="6,0" Text="Price" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortBy">
-                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
-                    <TextBlock Text="Stock" />
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortBy"
+                Tag="Stock">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF685;" />
+                    <TextBlock Margin="6,0" Text="Stock" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortBy">
-                <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
-                    <TextBlock Text="Shipping Price" />
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortBy"
+                Tag="ShippingPrice">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF5EA;" />
+                    <TextBlock Margin="6,0" Text="Shipping Price" />
                 </StackPanel>
             </RadioButton>
         </StackPanel>
 
-        <StackPanel Margin="0,20,0,10" Orientation="Horizontal">
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortDirection">
+        <StackPanel
+            x:Name="SortDirectionPanel"
+            Margin="0,20,0,10"
+            Padding="16"
+            Background="{StaticResource ControlFillColorInputActiveBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Orientation="Horizontal">
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortDirection"
+                Tag="Ascending">
                 <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF148;" />
                     <TextBlock Text="Ascending" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton VerticalContentAlignment="Center" GroupName="SortDirection">
+            <RadioButton
+                VerticalContentAlignment="Center"
+                GroupName="SortDirection"
+                Tag="Descending">
                 <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                    <SymbolIcon Symbol="Calendar" />
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF128;" />
                     <TextBlock Text="Descending" />
                 </StackPanel>
             </RadioButton>

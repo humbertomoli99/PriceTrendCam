@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="/Styles/Thickness.xaml" />
                 <ResourceDictionary Source="/Styles/TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
