@@ -55,9 +55,6 @@ public partial class MainViewModel : ObservableObject
     private readonly IClipboardSelectorService _clipboardSelectorService;
     private readonly INavigationService _navigationService;
 
-    public ICommand UpdateList => new RelayCommand(async () => await UpdateListCommand());
-    public ICommand DeleteProduct => new RelayCommand(async () => await DeleteProductCommand());
-
     private ObservableCollection<ProductListItem> _listViewCollection;
     private ContentDialog dialog;
 
@@ -101,7 +98,8 @@ public partial class MainViewModel : ObservableObject
     private string previousSelectedSortBy;
     private string previousSelectedSortDirection;
 
-    private async Task DeleteProductCommand()
+    [RelayCommand]
+    private async Task DeleteProduct()
     {
         try
         {
@@ -144,7 +142,7 @@ public partial class MainViewModel : ObservableObject
                             ProductListItem data = (ProductListItem)item;
                             await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
                         }
-                        await UpdateListCommand();
+                        await UpdateList();
                         await HideButtons();
                     }
                     else if (result == ContentDialogResult.None)
@@ -169,8 +167,8 @@ public partial class MainViewModel : ObservableObject
             await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
         }
     }
-
-    public async Task UpdateListCommand()
+    [RelayCommand]
+    public async Task UpdateList()
     {
         ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isAscending = (previousSelectedSortDirection == "Ascending");
@@ -465,7 +463,7 @@ public partial class MainViewModel : ObservableObject
             {
                 message = "Product Inserted";
                 content = newProduct.Name + "\n" + newProduct.Price + "\n" + newProduct.Stock;
-                await UpdateListCommand();
+                await UpdateList();
             }
             else
             {

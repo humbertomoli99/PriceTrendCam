@@ -115,7 +115,7 @@
                             </AppBarToggleButton.Icon>
                         </AppBarToggleButton>
                         <AppBarButton
-                            Command="{Binding DeleteProduct}"
+                            Command="{Binding DeleteProductCommand}"
                             Icon="Delete"
                             Label="Delete"
                             Visibility="{Binding DeleteProductVisibility}" />
@@ -141,7 +141,7 @@
                         <AppBarSeparator />
 
                         <AppBarButton
-                            Command="{Binding UpdateList}"
+                            Command="{Binding UpdateListCommand}"
                             Icon="RepeatAll"
                             Label="Reload" />
                         <AppBarSeparator />
