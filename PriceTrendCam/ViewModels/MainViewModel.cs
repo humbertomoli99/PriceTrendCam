@@ -170,7 +170,9 @@ public partial class MainViewModel : ObservableObject
     public async Task UpdateListCommand()
     {
         ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
-        await GetOrderedList();
+        var isAscending = (previousSelectedSortDirection == "Ascending");
+
+        await GetOrderedList(previousSelectedSortBy, isAscending);
     }
 
     public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
