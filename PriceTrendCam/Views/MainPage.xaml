@@ -80,7 +80,17 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <CommandBar Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <AutoSuggestBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="center"
+                        PlaceholderText="Search"
+                        QueryIcon="Find" />
+                    <CommandBar Grid.Row="0" Grid.Column="1">
                         <AppBarToggleButton
                             x:Name="SelectAllCheckBox"
                             Checked="CheckBox_Checked"
@@ -130,6 +140,7 @@
                     <ListView
                         x:Name="ListViewProducts"
                         Grid.Row="1"
+                        Grid.ColumnSpan="2"
                         MinWidth="550"
                         ItemsSource="{Binding ListViewCollection, Mode=TwoWay}"
                         SelectionChanged="ListViewProducts_SelectionChanged">
