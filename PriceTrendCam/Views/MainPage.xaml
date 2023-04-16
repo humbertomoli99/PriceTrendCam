@@ -160,7 +160,8 @@
                                     <StackPanel
                                         Grid.Column="0"
                                         HorizontalAlignment="Stretch"
-                                        Background="White">
+                                        Background="White"
+                                        CornerRadius="6">
                                         <Image
                                             Height="100"
                                             MaxWidth="150"
