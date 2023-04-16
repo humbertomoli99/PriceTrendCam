@@ -38,8 +38,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="*" MaxWidth="500" />
+                </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Row="0"
+                    Grid.ColumnSpan="2"
                     Margin="{StaticResource SmallTopBottomMargin}"
                     VerticalAlignment="Center"
                     FontSize="32"
@@ -48,8 +53,9 @@
                     TextAlignment="Center" />
                 <AutoSuggestBox
                     Grid.Row="1"
+                    Grid.ColumnSpan="2"
                     MaxWidth="600"
-                    Margin="{StaticResource MediumBottomMargin}"
+                    Margin="{StaticResource MediumLeftRightMargin}"
                     VerticalAlignment="Center"
                     Background="#18191b"
                     CornerRadius="20"
