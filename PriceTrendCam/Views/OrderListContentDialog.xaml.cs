@@ -23,9 +23,9 @@ public sealed partial class OrderListContentDialog : ContentDialog
         InitializeComponent();
         this.SelectedSortBy = SelectedSortBy;
         this.SelectedSortDirection = SelectedSortDirection;
-        OnApplyTemplate();
+        SetCheckedRadioButtonByTagNameForStackPanel();
     }
-    private void OnApplyTemplate()
+    private void SetCheckedRadioButtonByTagNameForStackPanel()
     {
         var SortByPanel = FindName("SortByPanel") as StackPanel;
         SetCheckedRadioButtonByTagName(SortByPanel, SelectedSortBy);
