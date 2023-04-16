@@ -24,10 +24,9 @@
         </Style>
     </Page.Resources>
 
-    <Grid x:Name="ContentArea" Margin="{StaticResource NavigationViewPageContentMargin}">
-        <Grid.Resources>
-            <FontFamily x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
-        </Grid.Resources>
+    <Grid
+        x:Name="ContentArea"
+        Margin="{StaticResource NavigationViewPageContentMargin}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />

@@ -9,10 +9,9 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <Grid x:Name="ContentArea" MaxWidth="800">
-            <Grid.Resources>
-                <FontFamily x:Key="BootstrapIcons">/Assets/Fonts/bootstrap-icons.ttf#bootstrap-icons</FontFamily>
-            </Grid.Resources>
+        <Grid
+            x:Name="ContentArea"
+            MaxWidth="800">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
