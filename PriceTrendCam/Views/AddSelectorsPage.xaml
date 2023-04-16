@@ -24,9 +24,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid
-        x:Name="ContentArea"
-        Margin="{StaticResource NavigationViewPageContentMargin}">
+    <Grid x:Name="ContentArea" Margin="{StaticResource NavigationViewPageContentMargin}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition />

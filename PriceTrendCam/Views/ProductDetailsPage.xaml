@@ -9,9 +9,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <Grid
-            x:Name="ContentArea"
-            MaxWidth="800">
+        <Grid x:Name="ContentArea" MaxWidth="800">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -109,15 +107,11 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefault}"
                     BorderThickness="0,0,2,0">
                     <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Lowest Price</TextBlock>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ShowMinProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMinProductPrice}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
                     <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Averange Price</TextBlock>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ShowAvgProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowAvgProductPrice}" />
                 </StackPanel>
                 <StackPanel
                     Grid.Column="2"
@@ -125,9 +119,7 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="2,0,0,0">
                     <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Highest Price</TextBlock>
-                    <TextBlock
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding ShowMaxProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMaxProductPrice}" />
                 </StackPanel>
             </Grid>
             <TextBlock
