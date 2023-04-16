@@ -370,9 +370,9 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            if (await Url.IsValid(textBoxSearch))
+            if (await Url.IsValid(TextBoxSearch))
             {
-                await SearchUrlAsync(textBoxSearch);
+                await SearchUrlAsync(TextBoxSearch);
             }
             else
             {
