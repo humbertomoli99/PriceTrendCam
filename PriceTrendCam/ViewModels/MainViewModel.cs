@@ -356,7 +356,9 @@ public partial class MainViewModel : ObservableObject
     public async Task SearchInListView()
     {
         var Products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
-        ProductsList = Products.Where(p => p.Name.ToLower().Contains(textBoxSearchListView.ToLower())).ToList();
+        if (TextBoxSearchListView == null) return;
+
+        ProductsList = Products.Where(p => p.Name.ToLower().Contains(TextBoxSearchListView.ToLower())).ToList();
 
         InsertProductsIntoList(ProductsList);
 
