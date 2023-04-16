@@ -239,6 +239,9 @@ public partial class MainViewModel : ObservableObject
             // Ordenar la lista de productos en función de la columna de ordenamiento y el orden ascendente/descendente
             switch (order)
             {
+                case "Status":
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Status).ToList();
+                    break;
                 case "Name":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
                     break;
@@ -247,6 +250,9 @@ public partial class MainViewModel : ObservableObject
                     break;
                 case "Price":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
+                    break;
+                case "ShippingPrice":
+                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.ShippingPrice).ToList();
                     break;
                 case "Stock":
                     ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
