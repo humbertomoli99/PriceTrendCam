@@ -91,7 +91,8 @@
                         PlaceholderText="Search"
                         QueryIcon="Find"
                         QuerySubmitted="{x:Bind ViewModel.SearchInListView}"
-                        Text="{x:Bind ViewModel.TextBoxSearchListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{x:Bind ViewModel.TextBoxSearchListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextChanged="{x:Bind ViewModel.SearchInListView}" />
                     <CommandBar Grid.Row="0" Grid.Column="1">
                         <AppBarToggleButton
                             x:Name="SelectAllCheckBox"
