@@ -13,6 +13,10 @@ public class Selector
     {
         get; set;
     }
+    public bool NotNull
+    {
+        get; set;
+    }
     public string CssSelector
     {
         get; set;
