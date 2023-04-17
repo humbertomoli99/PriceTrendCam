@@ -28,11 +28,19 @@ public sealed partial class AddSitemapPage : Page
     {
         InitializeComponent();
         DataContext = App.GetService<AddSitemapViewModel>();
-        ViewModel.TextBoxUrls = new();
+
         Agregar_Click1(null, null);
+        Loaded += AddSitemapPage_Loaded;
         InitializeDecompresionMethodComboBox();
         InitializeWebBrowserDriveComboBox();
     }
+
+    private void AddSitemapPage_Loaded(object sender, RoutedEventArgs e)
+    {
+        ViewModel.TextBoxUrls = new();
+        ViewModel.XamlRoot = XamlRoot;
+    }
+
     private void InitializeDecompresionMethodComboBox()
     {
         DecompresionMethodComboBox = new ObservableCollection<string>(Enum.GetNames(typeof(DecompressionMethods)));

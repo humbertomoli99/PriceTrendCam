@@ -1,23 +1,29 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
+using PriceTrendCam.Helpers;
 
 namespace PriceTrendCam.ViewModels;
 
 public partial class AddSitemapViewModel : ObservableValidator
 {
-    private readonly IDialogService dialogService;
+    public ContentDialogHelper<ContentDialog> ContentDialogHelper
+    {
+        get; set;
+    }
 
     private readonly INavigationService navigationService;
 
-    public AddSitemapViewModel(INavigationService navigationService, IDialogService dialogService)
+    public AddSitemapViewModel(INavigationService navigationService)
     {
         this.navigationService = navigationService;
-        this.dialogService = dialogService;
+
+        ContentDialogHelper = ContentDialogHelper<ContentDialog>.Instance;
     }
     public event EventHandler? FormSubmissionCompleted;
     public event EventHandler? FormSubmissionFailed;
@@ -51,6 +57,12 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         get; set;
     }
+    public XamlRoot XamlRoot
+    {
+        get;
+        set;
+    }
+
     [RelayCommand]
     private async Task SaveSitemap()
     {
@@ -132,8 +144,16 @@ public partial class AddSitemapViewModel : ObservableValidator
         TextBoxUrls.Clear();
     }
     [RelayCommand]
-    private async Task ShowErrors(XamlRoot root)
+    private async Task ShowErrors()
     {
-        await dialogService.ShowMessageDialogAsync("Validation errors", message, root);
+        var dialog = new ContentDialog()
+        {
+            Title = "Validation errors",
+            Content = message,
+            CloseButtonText = "Close",
+            DefaultButton = ContentDialogButton.Close,
+        };
+
+        await ContentDialogHelper.ShowContentDialog(dialog, XamlRoot);
     }
 }
