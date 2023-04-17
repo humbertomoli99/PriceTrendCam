@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using PriceTrendCam.Helpers;
@@ -57,11 +58,15 @@ public sealed partial class MainPage : Page
     {
         get; set;
     }
-
+    public ContentDialogHelper<ContentDialog> ContentDialogHelper
+    {
+        get; set;
+    }
     public MainPage()
     {
         InitializeComponent();
         ViewModel = App.GetService<MainViewModel>();
+        ContentDialogHelper = ContentDialogHelper<ContentDialog>.Instance;
         Loaded += MainPage_Loaded;
     }
 
@@ -70,7 +75,7 @@ public sealed partial class MainPage : Page
         try
         {
             ViewModel.ListViewProducts = ListViewProducts;
-            ViewModel.xamlRoot = XamlRoot;
+            ViewModel.XamlRoot = XamlRoot;
 
             // Cargar los productos en la lista
             await ViewModel.UpdateList();
@@ -80,7 +85,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, XamlRoot);
+                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -93,7 +98,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, XamlRoot);
+                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     private async void CheckBox_Checked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -109,7 +114,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, XamlRoot);
+                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -126,7 +131,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, XamlRoot);
+                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -140,7 +145,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, XamlRoot);
+                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 }

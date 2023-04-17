@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
@@ -16,6 +15,15 @@ using Windows.ApplicationModel.DataTransfer;
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
+    public ContentDialogHelper<ContentDialog> ContentDialogHelper
+    {
+        get; set;
+    }
+    public XamlRoot XamlRoot
+    {
+        get; set;
+    }
+
     [ObservableProperty]
     private string textBoxSearch;
 
@@ -40,11 +48,6 @@ public partial class MainViewModel : ObservableObject
         get => _deleteProductVisibility;
         set => SetProperty(ref _deleteProductVisibility, value);
     }
-    public XamlRoot xamlRoot
-    {
-        get;
-        set;
-    }
 
     public bool ClipboardAutomatically
     {
@@ -56,7 +59,6 @@ public partial class MainViewModel : ObservableObject
     private readonly INavigationService _navigationService;
 
     private ObservableCollection<ProductListItem> _listViewCollection;
-    private ContentDialog dialog;
 
     public ObservableCollection<ProductListItem> ListViewCollection
     {
@@ -78,11 +80,6 @@ public partial class MainViewModel : ObservableObject
         get;
         set;
     }
-    public bool IsDialogOpen
-    {
-        get;
-        private set;
-    }
     public string OrderBy
     {
         get;
@@ -94,17 +91,28 @@ public partial class MainViewModel : ObservableObject
         private set;
     }
 
-    private ContentDialog deleteFileDialog;
     private string previousSelectedSortBy;
     private string previousSelectedSortDirection;
+
+    public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
+    {
+        _clipboardSelectorService = clipboardSelectorService;
+        _navigationService = navigationService;
+
+        ContentDialogHelper = ContentDialogHelper<ContentDialog>.Instance;
+
+        previousSelectedSortBy = "Id";
+        previousSelectedSortDirection = "Descending";
+
+        ListViewCollection = new ObservableCollection<ProductListItem>();
+        _ = HideButtons();
+    }
 
     [RelayCommand]
     private async Task DeleteProduct()
     {
         try
         {
-            if (dialog != null) dialog.Hide();
-
             IList<object> itemsSelected = ListViewProducts.SelectedItems;
             if (itemsSelected.Count > 0)
             {
@@ -119,52 +127,39 @@ public partial class MainViewModel : ObservableObject
                     content = $"Esta seguro de eliminar los {itemsS} registros?\nSe dejaran de seguir los productos relacionados con las tiendas";
                 }
 
-                if (!IsDialogOpen)
+                var deleteFileDialog = new ContentDialog
                 {
-                    IsDialogOpen = true;
+                    Title = "Delete Product",
+                    XamlRoot = XamlRoot,
+                    Content = content,
+                    DefaultButton = ContentDialogButton.Primary,
+                    PrimaryButtonText = "Delete",
+                    CloseButtonText = "Cancel"
+                };
 
-                    deleteFileDialog = new ContentDialog
-                    {
-                        Title = "Delete Product",
-                        XamlRoot = xamlRoot,
-                        Content = content,
-                        DefaultButton = ContentDialogButton.Primary,
-                        PrimaryButtonText = "Delete",
-                        CloseButtonText = "Cancel"
-                    };
+                var result = await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteFileDialog, XamlRoot);
 
-                    ContentDialogResult result = await deleteFileDialog.ShowAsync();
-                    deleteFileDialog.Hide();
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        foreach (var item in itemsSelected)
-                        {
-                            ProductListItem data = (ProductListItem)item;
-                            await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
-                        }
-                        await UpdateList();
-                        await HideButtons();
-                    }
-                    else if (result == ContentDialogResult.None)
-                    {
-                        await HideButtons();
-                    }
-
-                    IsDialogOpen = false;
-                }
-                else
+                if (result == ContentDialogResult.Primary)
                 {
-                    if (dialog != null) dialog.Hide();
-                    IsDialogOpen = false;
+                    foreach (var item in itemsSelected)
+                    {
+                        ProductListItem data = (ProductListItem)item;
+                        await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
+                    }
+                    await UpdateList();
+                    await HideButtons();
                 }
+                else if (result == ContentDialogResult.None)
+                {
+                    await HideButtons();
+                }
+
             }
+
         }
         catch (Exception ex)
         {
-            if (dialog != null) dialog.Hide();
-            deleteFileDialog.Hide();
-
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     [RelayCommand]
@@ -176,17 +171,7 @@ public partial class MainViewModel : ObservableObject
         await GetOrderedList(previousSelectedSortBy, isAscending);
     }
 
-    public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
-    {
-        _clipboardSelectorService = clipboardSelectorService;
-        _navigationService = navigationService;
 
-        previousSelectedSortBy = "Id";
-        previousSelectedSortDirection = "Descending";
-
-        ListViewCollection = new ObservableCollection<ProductListItem>();
-        _ = HideButtons();
-    }
     [RelayCommand]
     private async Task FilterList()
     {
@@ -197,13 +182,15 @@ public partial class MainViewModel : ObservableObject
     {
         OrderListContentDialog dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection)
         {
-            XamlRoot = xamlRoot,
+            XamlRoot = XamlRoot,
             Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
             SelectedSortBy = previousSelectedSortBy, // establecer valores previos
             SelectedSortDirection = previousSelectedSortDirection
         };
 
-        if (await dialogOrderList.ShowAsync() != ContentDialogResult.Primary)
+        var dialogResult = await ContentDialogHelper.ShowContentDialog(dialogOrderList, XamlRoot);
+
+        if (dialogResult != ContentDialogResult.Primary)
             return;
 
         var sortByPanel = dialogOrderList.FindName("SortByPanel") as StackPanel;
@@ -219,6 +206,7 @@ public partial class MainViewModel : ObservableObject
         previousSelectedSortBy = selectedSortBy;
         previousSelectedSortDirection = selectedSortDirection;
     }
+
     private RadioButton GetSelectedRadioButton(StackPanel stackPanel)
     {
         foreach (var child in stackPanel.Children)
@@ -229,11 +217,6 @@ public partial class MainViewModel : ObservableObject
             }
         }
         return null;
-    }
-
-    private void Dialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-    {
-        dialog = null;
     }
     public async Task GetOrderedList(string order = "id", bool Ascendant = false)
     {
@@ -269,7 +252,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     [RelayCommand]
@@ -311,7 +294,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     public async Task ShowMessageAddProductFromClipboard()
@@ -381,7 +364,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -396,7 +379,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
             return false;
         }
 
@@ -414,7 +397,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
             return null;
         }
     }
@@ -422,8 +405,6 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            if (dialog != null) dialog.Hide();
-
             if (await IsRegistered(url))
             {
                 message = "The product is registered";
@@ -475,8 +456,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            if (dialog != null) dialog.Hide();
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     private async Task<bool> InsertProduct(ProductInfo newProduct)
@@ -500,8 +480,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            if (dialog != null) dialog.Hide();
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
             return false;
         }
     }
@@ -517,17 +496,16 @@ public partial class MainViewModel : ObservableObject
     private async Task ShowMessageError()
     {
         // El producto ha sido agregado
-        dialog = new ContentDialog
+        var dialog = new ContentDialog
         {
             Title = message,
-            XamlRoot = xamlRoot,
+            XamlRoot = XamlRoot,
             CloseButtonText = "Close",
             DefaultButton = ContentDialogButton.Close,
             Content = content
         };
 
-        await dialog.ShowAsync();
-        dialog.Hide();
+        await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(dialog, XamlRoot);
     }
     private async Task HideButtons()
     {
@@ -544,7 +522,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     private async Task ShowButtons()
@@ -561,7 +539,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -597,8 +575,7 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            if (dialog != null) dialog.Hide();
-            await AppCenterHelper.ShowErrorDialog(ex, xamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 }
