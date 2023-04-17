@@ -152,8 +152,9 @@ public partial class AddSitemapViewModel : ObservableValidator
             Content = message,
             CloseButtonText = "Close",
             DefaultButton = ContentDialogButton.Close,
+            XamlRoot = XamlRoot
         };
 
-        await ContentDialogHelper.ShowContentDialog(dialog, XamlRoot);
+        await ContentDialogHelper.ShowContentDialog(dialog);
     }
 }

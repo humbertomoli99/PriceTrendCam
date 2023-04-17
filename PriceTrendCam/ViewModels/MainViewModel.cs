@@ -137,7 +137,7 @@ public partial class MainViewModel : ObservableObject
                     CloseButtonText = "Cancel"
                 };
 
-                var result = await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteFileDialog, XamlRoot);
+                var result = await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteFileDialog);
 
                 if (result == ContentDialogResult.Primary)
                 {
@@ -188,7 +188,7 @@ public partial class MainViewModel : ObservableObject
             SelectedSortDirection = previousSelectedSortDirection
         };
 
-        var dialogResult = await ContentDialogHelper.ShowContentDialog(dialogOrderList, XamlRoot);
+        var dialogResult = await ContentDialogHelper.ShowContentDialog(dialogOrderList);
 
         if (dialogResult != ContentDialogResult.Primary)
             return;
@@ -505,7 +505,7 @@ public partial class MainViewModel : ObservableObject
             Content = content
         };
 
-        await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(dialog, XamlRoot);
+        await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(dialog);
     }
     private async Task HideButtons()
     {

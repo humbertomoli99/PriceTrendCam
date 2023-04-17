@@ -26,7 +26,7 @@ public class ContentDialogHelper<T> where T : ContentDialog
 
     private bool isDialogOpen = false;
 
-    public async Task<ContentDialogResult> ShowContentDialog(T dialog, XamlRoot xamlRoot)
+    public async Task<ContentDialogResult> ShowContentDialog(T dialog)
     {
         if (isDialogOpen)
         {
@@ -34,7 +34,6 @@ public class ContentDialogHelper<T> where T : ContentDialog
         }
 
         isDialogOpen = true;
-        dialog.XamlRoot = xamlRoot;
         ContentDialogResult result;
         try
         {
@@ -58,8 +57,9 @@ public class ContentDialogHelper<T> where T : ContentDialog
         dialog.PrimaryButtonText = "Enviar";
         dialog.SecondaryButtonText = "No enviar";
         dialog.CloseButtonText = "Cancelar";
+        dialog.XamlRoot = xamlRoot;
 
-        ContentDialogResult result = await ShowContentDialog(dialog, xamlRoot);
+        ContentDialogResult result = await ShowContentDialog(dialog);
 
         if (result == ContentDialogResult.Primary)
         {
@@ -68,8 +68,9 @@ public class ContentDialogHelper<T> where T : ContentDialog
             alwaysSendDialog.Content = "¿Desea enviar automáticamente información del error a App Center en el futuro?";
             alwaysSendDialog.PrimaryButtonText = "Si";
             alwaysSendDialog.SecondaryButtonText = "No";
+            alwaysSendDialog.XamlRoot = xamlRoot;
 
-            ContentDialogResult alwaysSendResult = await ShowContentDialog(alwaysSendDialog, xamlRoot);
+            ContentDialogResult alwaysSendResult = await ShowContentDialog(alwaysSendDialog);
             switch (alwaysSendResult)
             {
                 case ContentDialogResult.Primary:
