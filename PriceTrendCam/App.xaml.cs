@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Activation;
+using PriceTrendCam.Contracts;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
@@ -73,9 +74,10 @@ public partial class App : Application
             services.AddSingleton<IAppNotificationService, AppNotificationService>();
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
-            services.AddTransient<IWebViewService, WebViewService>();
-            services.AddTransient<INavigationViewService, NavigationViewService>();
-            services.AddTransient<IClipboardSelectorService, ClipboardSelectorService>();
+            services.AddSingleton<IWebViewService, WebViewService>();
+            services.AddSingleton<INavigationViewService, NavigationViewService>();
+            services.AddSingleton<IClipboardSelectorService, ClipboardSelectorService>();
+            services.AddSingleton<ICrashService, CrashService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IPageService, PageService>();

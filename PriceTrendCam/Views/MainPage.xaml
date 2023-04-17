@@ -9,257 +9,257 @@
     behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     GotFocus="Page_GotFocus"
     mc:Ignorable="d">
-    
+
     <ScrollViewer>
         <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid
-            Grid.Row="0"
-            Height="300"
-            VerticalAlignment="Top"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1,1,1,1"
-            CornerRadius="6,0,6,6">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                    <GradientStop Offset="0" Color="#0065FF" />
-                    <GradientStop Offset="0.5" Color="#0BE1FF" />
-                    <GradientStop Offset="1" Color="#00FF98" />
-                    <LinearGradientBrush.RelativeTransform>
-                        <RotateTransform Angle="120" />
-                    </LinearGradientBrush.RelativeTransform>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Grid VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="*" MaxWidth="500" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Margin="{StaticResource SmallTopBottomMargin}"
-                    VerticalAlignment="Center"
-                    FontSize="32"
-                    Style="{StaticResource TitleTextBlockStyle}"
-                    Text="Your ideal price is here"
-                    TextAlignment="Center" />
-                <AutoSuggestBox
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    MaxWidth="600"
-                    Margin="{StaticResource MediumLeftRightMargin}"
-                    VerticalAlignment="Center"
-                    Background="#18191b"
-                    CornerRadius="20"
-                    FontSize="20"
-                    PlaceholderText="Search for products, brands or paste a link"
-                    QueryIcon="Find"
-                    QuerySubmitted="{x:Bind ViewModel.AdvancedSearch}"
-                    Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                    Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            </Grid>
-        </Grid>
-        <TabView
-            Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            IsAddTabButtonVisible="False"
-            TabWidthMode="Equal">
-            <TabViewItem Header="My Products" IsClosable="False">
-                <TabViewItem.IconSource>
-                    <SymbolIconSource Symbol="List" />
-                </TabViewItem.IconSource>
-                <Grid
-                    Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-                    Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
-                    BorderThickness="1,0,1,1"
-                    CornerRadius="0,0,5,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid
+                Grid.Row="0"
+                Height="300"
+                VerticalAlignment="Top"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1,1,1,1"
+                CornerRadius="6,0,6,6">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="#0065FF" />
+                        <GradientStop Offset="0.5" Color="#0BE1FF" />
+                        <GradientStop Offset="1" Color="#00FF98" />
+                        <LinearGradientBrush.RelativeTransform>
+                            <RotateTransform Angle="120" />
+                        </LinearGradientBrush.RelativeTransform>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <Grid VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250" />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="*" MaxWidth="500" />
                     </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        Margin="{StaticResource SmallTopBottomMargin}"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="Your ideal price is here"
+                        TextAlignment="Center" />
                     <AutoSuggestBox
-                        Grid.Column="0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="center"
-                        PlaceholderText="Search"
-                        QueryIcon="Find"
-                        QuerySubmitted="{x:Bind ViewModel.SearchInListView}"
-                        Text="{x:Bind ViewModel.TextBoxSearchListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        TextChanged="{x:Bind ViewModel.SearchInListView}" />
-                    <CommandBar Grid.Row="0" Grid.Column="1">
-                        <AppBarToggleButton
-                            x:Name="SelectAllCheckBox"
-                            Checked="CheckBox_Checked"
-                            IsChecked="False"
-                            Label="Select all"
-                            Unchecked="CheckBox_Unchecked"
-                            Visibility="{Binding IsCheckedAllVisibility}">
-                            <AppBarToggleButton.Icon>
-                                <FontIcon
-                                    x:Name="SelectAllCheckBoxIcon"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xe739;" />
-                            </AppBarToggleButton.Icon>
-                        </AppBarToggleButton>
-                        <AppBarButton
-                            Command="{Binding DeleteProductCommand}"
-                            Icon="Delete"
-                            Label="Delete"
-                            Visibility="{Binding DeleteProductVisibility}" />
-                        <AppBarButton Command="{x:Bind ViewModel.SelectMultipleCommand}" Label="Select">
-                            <AppBarButton.Icon>
-
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-
-                        <AppBarSeparator />
-
-                        <AppBarButton
-                            Command="{x:Bind ViewModel.FilterListCommand}"
-                            Icon="Filter"
-                            Label="Filter" />
-
-                        <AppBarButton
-                            Command="{x:Bind ViewModel.OrderListCommand}"
-                            Icon="Sort"
-                            Label="Order list" />
-
-                        <AppBarSeparator />
-
-                        <AppBarButton
-                            Command="{Binding UpdateListCommand}"
-                            Icon="RepeatAll"
-                            Label="Reload" />
-                        <AppBarSeparator />
-                    </CommandBar>
-                    <ListView
-                        x:Name="ListViewProducts"
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
-                        MinWidth="550"
-                        ItemsSource="{Binding ListViewCollection, Mode=TwoWay}"
-                        SelectionChanged="ListViewProducts_SelectionChanged">
-                        <!--  Data Template Used:  -->
-                        <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
-                        <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local2:ProductListItem">
-                                <Grid Margin="0,12,0,12" AutomationProperties.Name="{Binding Title}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" MinWidth="150" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Stretch"
-                                        Background="White"
-                                        CornerRadius="6">
-                                        <Image
-                                            Height="100"
-                                            MaxWidth="150"
-                                            Source="{Binding ImageLocation}"
-                                            Stretch="Uniform" />
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                        <TextBlock
-                                            Margin="0,0,0,6"
-                                            HorizontalAlignment="Left"
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            LineHeight="20"
-                                            Style="{ThemeResource BaseTextBlockStyle}"
-                                            Text="{Binding Title}" />
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon
-                                                HorizontalAlignment="Left"
-                                                FontFamily="{StaticResource BootstrapIcons}"
-                                                FontSize="12"
-                                                Foreground="#0BE1FF"
-                                                Glyph="&#xF5B0;" />
-                                            <TextBlock
-                                                Margin="5,0,0,0"
-                                                HorizontalAlignment="Left"
-                                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text=" " />
-                                            <TextBlock
-                                                Margin="0,0,0,0"
-                                                HorizontalAlignment="Left"
-                                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{Binding Price}" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon
-                                                HorizontalAlignment="Left"
-                                                FontFamily="{StaticResource BootstrapIcons}"
-                                                FontSize="12"
-                                                Foreground="Green"
-                                                Glyph="&#xF5EA;" />
-                                            <TextBlock
-                                                Margin="5,0,0,0"
-                                                HorizontalAlignment="Left"
-                                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{Binding Shipping}" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <FontIcon
-                                                HorizontalAlignment="Left"
-                                                FontFamily="{StaticResource BootstrapIcons}"
-                                                FontSize="12"
-                                                Foreground="Orange"
-                                                Glyph="&#xF685;" />
-                                            <TextBlock
-                                                Margin="5,0,0,0"
-                                                HorizontalAlignment="Left"
-                                                Style="{ThemeResource CaptionTextBlockStyle}"
-                                                Text="{Binding Stock}" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.Footer>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="Mostrar" />
-                            </StackPanel>
-                        </ListView.Footer>
-                    </ListView>
+                        MaxWidth="600"
+                        Margin="{StaticResource MediumLeftRightMargin}"
+                        VerticalAlignment="Center"
+                        Background="#18191b"
+                        CornerRadius="20"
+                        FontSize="20"
+                        PlaceholderText="Search for products, brands or paste a link"
+                        QueryIcon="Find"
+                        QuerySubmitted="{x:Bind ViewModel.AdvancedSearch}"
+                        Style="{StaticResource DefaultAutoSuggestBoxStyle}"
+                        Text="{x:Bind ViewModel.TextBoxSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
-            </TabViewItem>
-            <TabViewItem Header="Top 100" IsClosable="False">
-                <TabViewItem.IconSource>
-                    <FontIconSource FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF476;" />
-                </TabViewItem.IconSource>
-                <Grid
-                    Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-                    Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
-                    BorderThickness="1,0,1,1"
-                    CornerRadius="0,0,5,5" />
-            </TabViewItem>
-            <TabViewItem Header="Hot Offers" IsClosable="False">
-                <TabViewItem.IconSource>
-                    <FontIconSource FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF7F6;" />
-                </TabViewItem.IconSource>
-                <Grid
-                    Padding="{StaticResource MediumLeftTopRightBottomMargin}"
-                    Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
-                    BorderThickness="1,0,1,1"
-                    CornerRadius="0,0,5,5" />
-            </TabViewItem>
-        </TabView>
-    </Grid>
+            </Grid>
+            <TabView
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                IsAddTabButtonVisible="False"
+                TabWidthMode="Equal">
+                <TabViewItem Header="My Products" IsClosable="False">
+                    <TabViewItem.IconSource>
+                        <SymbolIconSource Symbol="List" />
+                    </TabViewItem.IconSource>
+                    <Grid
+                        Padding="{StaticResource MediumLeftTopRightBottomMargin}"
+                        Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <AutoSuggestBox
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="center"
+                            PlaceholderText="Search"
+                            QueryIcon="Find"
+                            QuerySubmitted="{x:Bind ViewModel.SearchInListView}"
+                            Text="{x:Bind ViewModel.TextBoxSearchListView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextChanged="{x:Bind ViewModel.SearchInListView}" />
+                        <CommandBar Grid.Row="0" Grid.Column="1">
+                            <AppBarToggleButton
+                                x:Name="SelectAllCheckBox"
+                                Checked="CheckBox_Checked"
+                                IsChecked="False"
+                                Label="Select all"
+                                Unchecked="CheckBox_Unchecked"
+                                Visibility="{Binding IsCheckedAllVisibility}">
+                                <AppBarToggleButton.Icon>
+                                    <FontIcon
+                                        x:Name="SelectAllCheckBoxIcon"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Glyph="&#xe739;" />
+                                </AppBarToggleButton.Icon>
+                            </AppBarToggleButton>
+                            <AppBarButton
+                                Command="{Binding DeleteProductCommand}"
+                                Icon="Delete"
+                                Label="Delete"
+                                Visibility="{Binding DeleteProductVisibility}" />
+                            <AppBarButton Command="{x:Bind ViewModel.SelectMultipleCommand}" Label="Select">
+                                <AppBarButton.Icon>
+
+                                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;" />
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+
+                            <AppBarSeparator />
+
+                            <AppBarButton
+                                Command="{x:Bind ViewModel.FilterListCommand}"
+                                Icon="Filter"
+                                Label="Filter" />
+
+                            <AppBarButton
+                                Command="{x:Bind ViewModel.OrderListCommand}"
+                                Icon="Sort"
+                                Label="Order list" />
+
+                            <AppBarSeparator />
+
+                            <AppBarButton
+                                Command="{Binding UpdateListCommand}"
+                                Icon="RepeatAll"
+                                Label="Reload" />
+                            <AppBarSeparator />
+                        </CommandBar>
+                        <ListView
+                            x:Name="ListViewProducts"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            MinWidth="550"
+                            ItemsSource="{Binding ListViewCollection, Mode=TwoWay}"
+                            SelectionChanged="ListViewProducts_SelectionChanged">
+                            <!--  Data Template Used:  -->
+                            <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
+                            <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local2:ProductListItem">
+                                    <Grid Margin="0,12,0,12" AutomationProperties.Name="{Binding Title}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" MinWidth="150" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Stretch"
+                                            Background="White"
+                                            CornerRadius="6">
+                                            <Image
+                                                Height="100"
+                                                MaxWidth="150"
+                                                Source="{Binding ImageLocation}"
+                                                Stretch="Uniform" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                            <TextBlock
+                                                Margin="0,0,0,6"
+                                                HorizontalAlignment="Left"
+                                                FontSize="14"
+                                                FontWeight="SemiBold"
+                                                LineHeight="20"
+                                                Style="{ThemeResource BaseTextBlockStyle}"
+                                                Text="{Binding Title}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon
+                                                    HorizontalAlignment="Left"
+                                                    FontFamily="{StaticResource BootstrapIcons}"
+                                                    FontSize="12"
+                                                    Foreground="#0BE1FF"
+                                                    Glyph="&#xF5B0;" />
+                                                <TextBlock
+                                                    Margin="5,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text=" " />
+                                                <TextBlock
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Price}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon
+                                                    HorizontalAlignment="Left"
+                                                    FontFamily="{StaticResource BootstrapIcons}"
+                                                    FontSize="12"
+                                                    Foreground="Green"
+                                                    Glyph="&#xF5EA;" />
+                                                <TextBlock
+                                                    Margin="5,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Shipping}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon
+                                                    HorizontalAlignment="Left"
+                                                    FontFamily="{StaticResource BootstrapIcons}"
+                                                    FontSize="12"
+                                                    Foreground="Orange"
+                                                    Glyph="&#xF685;" />
+                                                <TextBlock
+                                                    Margin="5,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Stock}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Footer>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Text="Mostrar" />
+                                </StackPanel>
+                            </ListView.Footer>
+                        </ListView>
+                    </Grid>
+                </TabViewItem>
+                <TabViewItem Header="Top 100" IsClosable="False">
+                    <TabViewItem.IconSource>
+                        <FontIconSource FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF476;" />
+                    </TabViewItem.IconSource>
+                    <Grid
+                        Padding="{StaticResource MediumLeftTopRightBottomMargin}"
+                        Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5" />
+                </TabViewItem>
+                <TabViewItem Header="Hot Offers" IsClosable="False">
+                    <TabViewItem.IconSource>
+                        <FontIconSource FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF7F6;" />
+                    </TabViewItem.IconSource>
+                    <Grid
+                        Padding="{StaticResource MediumLeftTopRightBottomMargin}"
+                        Background="{ThemeResource SolidBackgroundFillColorTertiaryBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,5,5" />
+                </TabViewItem>
+            </TabView>
+        </Grid>
     </ScrollViewer>
 </Page>
