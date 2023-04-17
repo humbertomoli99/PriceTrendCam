@@ -119,7 +119,7 @@
                                 IsChecked="False"
                                 Label="Select all"
                                 Unchecked="CheckBox_Unchecked"
-                                Visibility="{Binding IsCheckedAllVisibility}">
+                                Visibility="{x:Bind ViewModel.IsCheckedAllVisibility, Mode=TwoWay}">
                                 <AppBarToggleButton.Icon>
                                     <FontIcon
                                         x:Name="SelectAllCheckBoxIcon"
@@ -128,10 +128,10 @@
                                 </AppBarToggleButton.Icon>
                             </AppBarToggleButton>
                             <AppBarButton
-                                Command="{Binding DeleteProductCommand}"
+                                Command="{x:Bind ViewModel.DeleteProductCommand}"
                                 Icon="Delete"
                                 Label="Delete"
-                                Visibility="{Binding DeleteProductVisibility}" />
+                                Visibility="{x:Bind ViewModel.DeleteProductVisibility, Mode=TwoWay}" />
                             <AppBarButton Command="{x:Bind ViewModel.SelectMultipleCommand}" Label="Select">
                                 <AppBarButton.Icon>
 
@@ -154,7 +154,7 @@
                             <AppBarSeparator />
 
                             <AppBarButton
-                                Command="{Binding UpdateListCommand}"
+                                Command="{x:Bind ViewModel.UpdateListCommand}"
                                 Icon="RepeatAll"
                                 Label="Reload" />
                             <AppBarSeparator />
@@ -176,15 +176,15 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="local2:ProductListItem">
                                     <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
-                                        <Grid Padding="12" AutomationProperties.Name="{Binding Title}">
+                                        <Grid Padding="12" AutomationProperties.Name="{x:Bind Title}">
                                             <SwipeControl x:Name="ListViewSwipeContainer">
                                                 <SwipeControl.RightItems>
                                                     <SwipeItems Mode="Execute">
                                                         <SwipeItem
                                                             x:Name="DeleteSwipeItem"
                                                             Background="Red"
-                                                            Command="{Binding Command}"
-                                                            CommandParameter="{Binding Id}" />
+                                                            Command="{x:Bind Command}"
+                                                            CommandParameter="{x:Bind Id}" />
                                                     </SwipeItems>
                                                 </SwipeControl.RightItems>
                                                 <Grid Margin="0,0,0,0" VerticalAlignment="Center">
@@ -201,7 +201,7 @@
                                                         <Image
                                                             Height="100"
                                                             MaxWidth="150"
-                                                            Source="{Binding ImageLocation}"
+                                                            Source="{x:Bind ImageLocation}"
                                                             Stretch="Uniform" />
                                                     </StackPanel>
                                                     <StackPanel Grid.Column="1" Margin="12,0,0,0">
@@ -212,7 +212,7 @@
                                                             FontWeight="SemiBold"
                                                             LineHeight="20"
                                                             Style="{ThemeResource BaseTextBlockStyle}"
-                                                            Text="{Binding Title}" />
+                                                            Text="{x:Bind Title}" />
                                                         <StackPanel Orientation="Horizontal">
                                                             <FontIcon
                                                                 HorizontalAlignment="Left"
@@ -229,7 +229,7 @@
                                                                 Margin="0,0,0,0"
                                                                 HorizontalAlignment="Left"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                                Text="{Binding Price}" />
+                                                                Text="{x:Bind Price}" />
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
                                                             <FontIcon
@@ -242,7 +242,7 @@
                                                                 Margin="5,0,0,0"
                                                                 HorizontalAlignment="Left"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                                Text="{Binding Shipping}" />
+                                                                Text="{x:Bind Shipping}" />
                                                         </StackPanel>
                                                         <StackPanel Orientation="Horizontal">
                                                             <FontIcon
@@ -255,7 +255,7 @@
                                                                 Margin="5,0,0,0"
                                                                 HorizontalAlignment="Left"
                                                                 Style="{ThemeResource CaptionTextBlockStyle}"
-                                                                Text="{Binding Stock}" />
+                                                                Text="{x:Bind Stock}" />
                                                         </StackPanel>
                                                     </StackPanel>
                                                     <StackPanel Grid.Column="2" VerticalAlignment="Center">
