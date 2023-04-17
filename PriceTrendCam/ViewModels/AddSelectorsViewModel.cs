@@ -244,7 +244,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             Store = store,
             RegexMethods = new List<RegexMethod>(),
             Attribute = getAttributeComboBox,
-            NotNull = isNotNullCheckBox
+            NotNull = IsNotNullCheckBox
         };
 
         // Agregar los objetos RegexMethod a la lista RegexMethods

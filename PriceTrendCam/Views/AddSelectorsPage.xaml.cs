@@ -31,6 +31,10 @@ public class SelectorListItem
     {
         get; set;
     }
+    public bool IsNotNull
+    {
+        get; set;
+    }
     public string Attribute
     {
         get; set;
@@ -681,6 +685,7 @@ public sealed partial class AddSelectorsPage : Page
 
             GetAttributeComboBox.Text = selector.Attribute;
             GetTypeDataComboBox.SelectedItem = selector.Type;
+            IsNotNullCheckBox.IsChecked = selector.IsNotNull;
             _showElementPreview = true;
         }
     }
@@ -747,6 +752,7 @@ public sealed partial class AddSelectorsPage : Page
                     CssSelector = item.CssSelector,
                     RegexMethods = item.RegexMethods,
                     Type = item.Type,
+                    IsNotNull = item.NotNull,
                     Command = deleteCommand
                 };
 
@@ -764,6 +770,7 @@ public sealed partial class AddSelectorsPage : Page
                     CssSelector = item.CssSelector,
                     RegexMethods = item.RegexMethods,
                     Type = item.Type,
+                    IsNotNull = item.NotNull,
                     Command = null
                 };
 
