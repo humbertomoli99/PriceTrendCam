@@ -8,72 +8,59 @@ using Microsoft.UI.Xaml;
 using Microsoft.AppCenter.Crashes;
 
 namespace PriceTrendCam.Helpers;
-public class ContentDialogHelper<T>
+public class ContentDialogHelper<T> where T : ContentDialog
 {
-    private static ContentDialogHelper<T> _instance;
-    private static ContentDialog _currentDialog;
-    private static readonly object _lock = new object();
-
-    private ContentDialogHelper()
-    {
-    }
+    private static ContentDialogHelper<T> instance;
 
     public static ContentDialogHelper<T> Instance
     {
         get
         {
-            lock (_lock)
+            if (instance == null)
             {
-                if (_instance == null)
-                {
-                    _instance = new ContentDialogHelper<T>();
-                }
-                return _instance;
+                instance = new ContentDialogHelper<T>();
             }
+            return instance;
         }
     }
 
-    public async Task<ContentDialogResult> ShowContentDialog(ContentDialog dialog, XamlRoot xamlRoot)
+    private bool isDialogOpen = false;
+
+    public async Task<ContentDialogResult> ShowContentDialog(T dialog, XamlRoot xamlRoot)
     {
-        if (_currentDialog != null)
+        if (isDialogOpen)
         {
-            // A dialog is already open, so we don't need to show another one
             return ContentDialogResult.None;
         }
 
+        isDialogOpen = true;
         dialog.XamlRoot = xamlRoot;
-        _currentDialog = dialog;
-
-        ContentDialogResult result = await _currentDialog.ShowAsync();
-        _currentDialog = null;
+        ContentDialogResult result = await dialog.ShowAsync();
+        isDialogOpen = false;
 
         return result;
     }
-    public static async Task ShowErrorDialog(Exception ex, XamlRoot xamlRoot)
-    {
-        ContentDialog dialog = new ContentDialog
-        {
-            Title = "Ocurrió un error",
-            Content = "Se ha producido un error. ¿Desea enviar información del error a App Center para ayudarnos a solucionarlo?",
-            PrimaryButtonText = "Enviar",
-            SecondaryButtonText = "No enviar",
-            CloseButtonText = "Cancelar"
-        };
 
-        ContentDialogHelper<ContentDialog> dialogHelper = ContentDialogHelper<ContentDialog>.Instance;
-        ContentDialogResult result = await dialogHelper.ShowContentDialog(dialog, xamlRoot);
+    public async Task ShowErrorDialog(Exception ex, XamlRoot xamlRoot)
+    {
+        T dialog = Activator.CreateInstance<T>();
+        dialog.Title = "Ocurrió un error";
+        dialog.Content = "Se ha producido un error. ¿Desea enviar información del error a App Center para ayudarnos a solucionarlo?";
+        dialog.PrimaryButtonText = "Enviar";
+        dialog.SecondaryButtonText = "No enviar";
+        dialog.CloseButtonText = "Cancelar";
+
+        ContentDialogResult result = await ShowContentDialog(dialog, xamlRoot);
 
         if (result == ContentDialogResult.Primary)
         {
-            ContentDialog alwaysSendDialog = new ContentDialog
-            {
-                Title = "Enviar siempre",
-                Content = "¿Desea enviar automáticamente información del error a App Center en el futuro?",
-                PrimaryButtonText = "Si",
-                SecondaryButtonText = "No"
-            };
+            T alwaysSendDialog = Activator.CreateInstance<T>();
+            alwaysSendDialog.Title = "Enviar siempre";
+            alwaysSendDialog.Content = "¿Desea enviar automáticamente información del error a App Center en el futuro?";
+            alwaysSendDialog.PrimaryButtonText = "Si";
+            alwaysSendDialog.SecondaryButtonText = "No";
 
-            ContentDialogResult alwaysSendResult = await dialogHelper.ShowContentDialog(alwaysSendDialog, xamlRoot);
+            ContentDialogResult alwaysSendResult = await ShowContentDialog(alwaysSendDialog, xamlRoot);
             switch (alwaysSendResult)
             {
                 case ContentDialogResult.Primary:
@@ -89,5 +76,4 @@ public class ContentDialogHelper<T>
             Crashes.NotifyUserConfirmation(UserConfirmation.DontSend);
         }
     }
-
 }
