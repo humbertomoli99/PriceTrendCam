@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
@@ -11,6 +12,7 @@ using PriceTrendCam.Core.Services;
 using PriceTrendCam.Helpers;
 using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Metadata;
 
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : ObservableObject
@@ -273,23 +275,68 @@ public partial class MainViewModel : ObservableObject
             }
         }
     }
+    private async void DeleteCommand_ExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+    {
+        if (args.Parameter != null)
+        {
+            foreach (var i in ListViewCollection)
+            {
+                if (i.Id == (args.Parameter as int?))
+                {
+                    ListViewCollection.Remove(i);
+                    _ = await App.PriceTrackerService.DeleteAsync<ProductInfo>(i.Id);
+                    return;
+                }
+            }
+        }
+        if (ListViewProducts.SelectedIndex != -1)
+        {
+            ListViewCollection.RemoveAt(ListViewProducts.SelectedIndex);
+        }
+    }
     public async void InsertProductsIntoList(List<ProductInfo> Products)
     {
         try
         {
             ListViewCollection.Clear();
-            foreach (var item in Products)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
             {
-                var listProductsItem = new ProductListItem()
+                var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
+                deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
+
+                foreach (var item in Products)
                 {
-                    Id = item.Id,
-                    Title = item.Name,
-                    ImageLocation = item.Image,
-                    Price = item.Price.ToString(),
-                    Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
-                    Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
-                };
-                ListViewCollection.Add(listProductsItem);
+                    var listItemData = new ProductListItem
+                    {
+                        Id = item.Id,
+                        Title = item.Name,
+                        ImageLocation = item.Image,
+                        Price = item.Price.ToString(),
+                        Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
+                        Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
+                        Command = deleteCommand
+                    };
+
+                    ListViewCollection.Add(listItemData);
+                }
+            }
+            else
+            {
+                foreach (var item in Products)
+                {
+                    var listItemData = new ProductListItem
+                    {
+                        Id = item.Id,
+                        Title = item.Name,
+                        ImageLocation = item.Image,
+                        Price = item.Price.ToString(),
+                        Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
+                        Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
+                        Command = null
+                    };
+
+                    ListViewCollection.Add(listItemData);
+                }
             }
         }
         catch (Exception ex)

@@ -1,8 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using PriceTrendCam.Core.Models;
 using PriceTrendCam.Helpers;
 using PriceTrendCam.ViewModels;
+using Windows.Foundation.Metadata;
 
 namespace PriceTrendCam.Views;
 
@@ -49,6 +55,12 @@ public class ProductListItem : ObservableObject
         get => _stock;
         set => SetProperty(ref _stock, value);
     }
+    private ICommand _command;
+    public ICommand Command
+    {
+        get => _command;
+        set => SetProperty(ref _command, value);
+    }
 }
 
 public sealed partial class MainPage : Page
@@ -57,6 +69,7 @@ public sealed partial class MainPage : Page
     {
         get; set;
     }
+
     public ContentDialogHelper<ContentDialog> ContentDialogHelper
     {
         get; set;
@@ -78,6 +91,8 @@ public sealed partial class MainPage : Page
 
             // Cargar los productos en la lista
             await ViewModel.UpdateList();
+
+            ViewModel.InsertProductsIntoList(ViewModel.ProductsList);
 
             // Establecer el contexto de datos del ListView
             DataContext = ViewModel;
@@ -146,5 +161,32 @@ public sealed partial class MainPage : Page
         {
             await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
+    }
+    private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+    {
+        MenuFlyout flyout = new MenuFlyout();
+        ProductListItem data = (ProductListItem)args.Item;
+        MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
+        flyout.Opened += delegate (object element, object e)
+        {
+            MenuFlyout flyoutElement = element as MenuFlyout;
+            ListViewItem elementToHighlight = flyoutElement.Target as ListViewItem;
+            elementToHighlight.IsSelected = true;
+        };
+        flyout.Items.Add(item);
+        args.ItemContainer.ContextFlyout = flyout;
+    }
+
+    private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse || e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen)
+        {
+            VisualStateManager.GoToState(sender as Control, "HoverButtonsShown", true);
+        }
+    }
+
+    private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
     }
 }

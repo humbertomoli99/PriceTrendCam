@@ -10,6 +10,19 @@
     GotFocus="Page_GotFocus"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style
+            x:Key="HorizontalSwipe"
+            BasedOn="{StaticResource DefaultListViewItemStyle}"
+            TargetType="ListViewItem">
+            <Setter Property="Height" Value="auto" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </Page.Resources>
+
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
@@ -151,84 +164,123 @@
                             Grid.Row="1"
                             Grid.ColumnSpan="2"
                             MinWidth="550"
-                            ItemsSource="{Binding ListViewCollection, Mode=TwoWay}"
-                            SelectionChanged="ListViewProducts_SelectionChanged">
+                            ContainerContentChanging="ListViewRight_ContainerContentChanging"
+                            IsItemClickEnabled="True"
+                            ItemContainerStyle="{StaticResource HorizontalSwipe}"
+                            ItemsSource="{x:Bind ViewModel.ListViewCollection}"
+                            SelectionChanged="ListViewProducts_SelectionChanged"
+                            SelectionMode="Single">
                             <!--  Data Template Used:  -->
                             <!--  The data template is bound to a custom-created data type called CustomDataObject.  -->
                             <!--  The full code for the class can be found in this page's source code, but its attributes are referenced/bound below.  -->
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="local2:ProductListItem">
-                                    <Grid Margin="0,12,0,12" AutomationProperties.Name="{Binding Title}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" MinWidth="150" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel
-                                            Grid.Column="0"
-                                            HorizontalAlignment="Stretch"
-                                            Background="White"
-                                            CornerRadius="6">
-                                            <Image
-                                                Height="100"
-                                                MaxWidth="150"
-                                                Source="{Binding ImageLocation}"
-                                                Stretch="Uniform" />
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                            <TextBlock
-                                                Margin="0,0,0,6"
-                                                HorizontalAlignment="Left"
-                                                FontSize="14"
-                                                FontWeight="SemiBold"
-                                                LineHeight="20"
-                                                Style="{ThemeResource BaseTextBlockStyle}"
-                                                Text="{Binding Title}" />
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon
-                                                    HorizontalAlignment="Left"
-                                                    FontFamily="{StaticResource BootstrapIcons}"
-                                                    FontSize="12"
-                                                    Foreground="#0BE1FF"
-                                                    Glyph="&#xF5B0;" />
-                                                <TextBlock
-                                                    Margin="5,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text=" " />
-                                                <TextBlock
-                                                    Margin="0,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Price}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon
-                                                    HorizontalAlignment="Left"
-                                                    FontFamily="{StaticResource BootstrapIcons}"
-                                                    FontSize="12"
-                                                    Foreground="Green"
-                                                    Glyph="&#xF5EA;" />
-                                                <TextBlock
-                                                    Margin="5,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Shipping}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon
-                                                    HorizontalAlignment="Left"
-                                                    FontFamily="{StaticResource BootstrapIcons}"
-                                                    FontSize="12"
-                                                    Foreground="Orange"
-                                                    Glyph="&#xF685;" />
-                                                <TextBlock
-                                                    Margin="5,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Stock}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
+                                    <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                                        <Grid Padding="12" AutomationProperties.Name="{Binding Title}">
+                                            <SwipeControl x:Name="ListViewSwipeContainer">
+                                                <SwipeControl.RightItems>
+                                                    <SwipeItems Mode="Execute">
+                                                        <SwipeItem
+                                                            x:Name="DeleteSwipeItem"
+                                                            Background="Red"
+                                                            Command="{Binding Command}"
+                                                            CommandParameter="{Binding Id}" />
+                                                    </SwipeItems>
+                                                </SwipeControl.RightItems>
+                                                <Grid Margin="0,0,0,0" VerticalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" MinWidth="150" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel
+                                                        Grid.Column="0"
+                                                        HorizontalAlignment="Stretch"
+                                                        Background="White"
+                                                        CornerRadius="6">
+                                                        <Image
+                                                            Height="100"
+                                                            MaxWidth="150"
+                                                            Source="{Binding ImageLocation}"
+                                                            Stretch="Uniform" />
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                                        <TextBlock
+                                                            Margin="0,0,0,6"
+                                                            HorizontalAlignment="Left"
+                                                            FontSize="14"
+                                                            FontWeight="SemiBold"
+                                                            LineHeight="20"
+                                                            Style="{ThemeResource BaseTextBlockStyle}"
+                                                            Text="{Binding Title}" />
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <FontIcon
+                                                                HorizontalAlignment="Left"
+                                                                FontFamily="{StaticResource BootstrapIcons}"
+                                                                FontSize="12"
+                                                                Foreground="#0BE1FF"
+                                                                Glyph="&#xF5B0;" />
+                                                            <TextBlock
+                                                                Margin="5,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                                Text=" " />
+                                                            <TextBlock
+                                                                Margin="0,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                                Text="{Binding Price}" />
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <FontIcon
+                                                                HorizontalAlignment="Left"
+                                                                FontFamily="{StaticResource BootstrapIcons}"
+                                                                FontSize="12"
+                                                                Foreground="Green"
+                                                                Glyph="&#xF5EA;" />
+                                                            <TextBlock
+                                                                Margin="5,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                                Text="{Binding Shipping}" />
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <FontIcon
+                                                                HorizontalAlignment="Left"
+                                                                FontFamily="{StaticResource BootstrapIcons}"
+                                                                FontSize="12"
+                                                                Foreground="Orange"
+                                                                Glyph="&#xF685;" />
+                                                            <TextBlock
+                                                                Margin="5,0,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                                                Text="{Binding Stock}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                                        <AppBarButton
+                                                            x:Name="HoverButton"
+                                                            HorizontalAlignment="Stretch"
+                                                            Command="{x:Bind Command}"
+                                                            CommandParameter="{x:Bind Id}"
+                                                            IsTabStop="False"
+                                                            Visibility="Collapsed" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </SwipeControl>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="HoveringStates">
+                                                    <VisualState x:Name="HoverButtonsHidden" />
+                                                    <VisualState x:Name="HoverButtonsShown">
+                                                        <VisualState.Setters>
+                                                            <Setter Target="HoverButton.Visibility" Value="Visible" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                        </Grid>
+                                    </UserControl>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.Footer>
