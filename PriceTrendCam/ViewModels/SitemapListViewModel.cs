@@ -7,6 +7,7 @@ using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
+using PriceTrendCam.Helpers;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -76,10 +77,10 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
             PrimaryButtonText = "Delete",
             SecondaryButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-        Content = "Are you sure you want to delete the store?"
+            Content = "Are you sure you want to delete the store?"
         };
 
-        ContentDialogResult dialogResult = await deleteStoreDialog.ShowAsync();
+        ContentDialogResult dialogResult = await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteStoreDialog);
 
         if (dialogResult == ContentDialogResult.Primary)
         {
