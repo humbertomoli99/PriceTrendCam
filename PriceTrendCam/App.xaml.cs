@@ -138,7 +138,8 @@ public partial class App : Application
     {
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
-        await ContentDialogHelper<ContentDialog>.Instance.ShowExceptionDialog(e.Exception, Window.Current.Content.XamlRoot);
+        // Enviar informe de error al servidor de App Center
+        Crashes.TrackError(e.Exception);
         e.Handled = true;
     }
 
