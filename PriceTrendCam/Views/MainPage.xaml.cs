@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using PriceTrendCam.Helpers;
@@ -85,7 +84,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -98,7 +97,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
     private async void CheckBox_Checked(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -114,7 +113,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -131,7 +130,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 
@@ -145,7 +144,7 @@ public sealed partial class MainPage : Page
         }
         catch (Exception ex)
         {
-                    await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
 }
