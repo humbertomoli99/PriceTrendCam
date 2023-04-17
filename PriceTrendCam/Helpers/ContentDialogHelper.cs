@@ -41,7 +41,7 @@ public class ContentDialogHelper<T> where T : ContentDialog
         return result;
     }
 
-    public async Task ShowErrorDialog(Exception ex, XamlRoot xamlRoot)
+    public async Task ShowExceptionDialog(Exception ex, XamlRoot xamlRoot)
     {
         T dialog = Activator.CreateInstance<T>();
         dialog.Title = "Ocurrió un error";
