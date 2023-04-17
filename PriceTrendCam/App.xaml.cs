@@ -4,7 +4,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
-
+using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Activation;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Contracts.Services;
@@ -137,7 +137,7 @@ public partial class App : Application
     {
         // TODO: Log and handle exceptions as appropriate.
         // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
-        await AppCenterHelper.ShowErrorDialog(e.Exception, Window.Current.Content.XamlRoot);
+        await ContentDialogHelper<ContentDialog>.Instance.ShowExceptionDialog(e.Exception, Window.Current.Content.XamlRoot);
         e.Handled = true;
     }
 
