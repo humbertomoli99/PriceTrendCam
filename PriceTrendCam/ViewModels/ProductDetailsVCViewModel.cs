@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Contracts.Services;
 using PriceTrendCam.Core.Models;
+using PriceTrendCam.Helpers;
 
 namespace PriceTrendCam.ViewModels;
 
@@ -14,7 +15,10 @@ public partial class ProductDetailsVCViewModel : ObservableRecipient, INavigatio
 {
     private readonly ISampleDataService<ProductInfo> _sampleDataService;
     private ProductInfo? _selected;
-
+    public XamlRoot XamlRoot
+    {
+        get; set;
+    }
     public ProductInfo? Selected
     {
         get => _selected;
@@ -73,19 +77,19 @@ public partial class ProductDetailsVCViewModel : ObservableRecipient, INavigatio
         }
     }
     [RelayCommand]
-    private async void DeleteProduct(XamlRoot root)
+    private async void DeleteProduct()
     {
         ContentDialog deleteProductDialog = new()
         {
             Title = "Delete Store",
-            XamlRoot = root,
+            XamlRoot = XamlRoot,
             PrimaryButtonText = "Delete",
             SecondaryButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
             Content = "Are you sure you want to delete the Product?"
         };
 
-        ContentDialogResult dialogResult = await deleteProductDialog.ShowAsync();
+        ContentDialogResult dialogResult = await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteProductDialog);
 
         if (dialogResult == ContentDialogResult.Primary)
         {

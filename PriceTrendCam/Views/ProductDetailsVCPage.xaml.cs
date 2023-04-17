@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.WinUI.UI.Controls;
-
-using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.UI.Xaml.Controls;
 
 using PriceTrendCam.ViewModels;
 
@@ -16,6 +14,12 @@ public sealed partial class ProductDetailsVCPage : Page
     public ProductDetailsVCPage()
     {
         ViewModel = App.GetService<ProductDetailsVCViewModel>();
+        Loaded += ProductDetailsVCPage_Loaded;
         InitializeComponent();
+    }
+
+    private void ProductDetailsVCPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        ViewModel.XamlRoot = XamlRoot;
     }
 }
