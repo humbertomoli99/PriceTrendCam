@@ -35,7 +35,16 @@ public class ContentDialogHelper<T> where T : ContentDialog
 
         isDialogOpen = true;
         dialog.XamlRoot = xamlRoot;
-        ContentDialogResult result = await dialog.ShowAsync();
+        ContentDialogResult result;
+        try
+        {
+            result = await dialog.ShowAsync();
+        }
+        catch (Exception)
+        {
+            dialog.Hide();
+            result = ContentDialogResult.None;
+        }
         isDialogOpen = false;
 
         return result;
