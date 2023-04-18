@@ -501,6 +501,8 @@ public partial class MainViewModel : ObservableObject
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(previousSelectedSortBy, isAscending);
+
+        OnPropertyChanged(nameof(PageSummary));
     }
     [RelayCommand]
     public async Task AdvancedSearch()
