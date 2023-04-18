@@ -15,7 +15,7 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
 {
     private readonly ISampleDataService<Store> _sampleDataService;
     private Store? _selected;
-    private readonly INavigationService navigationService;
+    private readonly INavigationService _navigationService;
 
     public Store? Selected
     {
@@ -34,7 +34,7 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
     public SitemapListViewModel(ISampleDataService<Store> sampleDataService, INavigationService navigationService)
     {
         _sampleDataService = sampleDataService;
-        this.navigationService = navigationService;
+        _navigationService = navigationService;
         StartIndex = 0;
     }
     public async Task OnNavigatedTo(object parameter)
@@ -65,7 +65,7 @@ public partial class SitemapListViewModel : ObservableRecipient, INavigationAwar
     [RelayCommand]
     private async void EditStore()
     {
-        navigationService.NavigateTo(typeof(AddSelectorsViewModel).FullName!, Selected.Id);
+        _navigationService.NavigateTo(typeof(AddSelectorsViewModel).FullName!, Selected.Id);
     }
     [RelayCommand]
     private async void DeleteStore(XamlRoot root)
