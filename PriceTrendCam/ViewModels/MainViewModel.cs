@@ -25,7 +25,25 @@ public partial class MainViewModel : ObservableObject
     {
         get; set;
     }
-
+    private int _totalItemsCount;
+    private int _currentPageIndex;
+    private int _rowsPerPage;
+    public int TotalItemsCount => ListViewCollection.Count;
+    public int TotalPagesCount;
+    public string PageSummary => $"Página {_currentPageIndex + 1} de {TotalPagesCount}";
+    public ObservableCollection<int> RowsPerPageOptions
+    {
+        get; set;
+    }
+    public int SelectedRowsPerPageOption
+    {
+        get; set;
+    }
+    public int CurrentPageIndex
+    {
+        get => _currentPageIndex;
+        set => SetProperty(ref _currentPageIndex, value);
+    }
     [ObservableProperty]
     private string textBoxSearch;
 
@@ -96,6 +114,22 @@ public partial class MainViewModel : ObservableObject
     private string previousSelectedSortBy;
     private string previousSelectedSortDirection;
 
+    public IAsyncRelayCommand MoveToFirstPageCommand
+    {
+        get;
+    }
+    public IAsyncRelayCommand MoveToPreviousPageCommand
+    {
+        get;
+    }
+    public IAsyncRelayCommand MoveToNextPageCommand
+    {
+        get;
+    }
+    public IAsyncRelayCommand MoveToLastPageCommand
+    {
+        get;
+    }
     public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
     {
         _clipboardSelectorService = clipboardSelectorService;
@@ -108,6 +142,63 @@ public partial class MainViewModel : ObservableObject
 
         ListViewCollection = new ObservableCollection<ProductListItem>();
         _ = HideButtons();
+
+        MoveToFirstPageCommand = new AsyncRelayCommand(MoveToFirstPage,CanMoveToFirstPage);
+        MoveToPreviousPageCommand = new AsyncRelayCommand(MoveToPreviousPage, CanMoveToPreviousPage);
+        MoveToNextPageCommand = new AsyncRelayCommand(MoveToNextPage, CanMoveToNextPage);
+        MoveToLastPageCommand = new AsyncRelayCommand(MoveToLastPage, CanMoveToLastPage);
+    }
+
+    public void Pagination(int totalItemsCount, int defaultRowsPerPage = 10)
+    {
+        _totalItemsCount = totalItemsCount;
+        _rowsPerPage = defaultRowsPerPage;
+
+        RowsPerPageOptions = new ObservableCollection<int> { 10, 25, 50, 100 };
+        SelectedRowsPerPageOption = defaultRowsPerPage;
+    }
+
+    private async Task MoveToFirstPage()
+    {
+        CurrentPageIndex = 0;
+        await UpdatePageCommands();
+    }
+
+    private async Task MoveToPreviousPage()
+    {
+        CurrentPageIndex--;
+        await UpdatePageCommands();
+    }
+
+    private async Task MoveToNextPage()
+    {
+        CurrentPageIndex++;
+        await UpdatePageCommands();
+    }
+
+    private async Task MoveToLastPage()
+    {
+        CurrentPageIndex = TotalPagesCount - 1;
+        await UpdatePageCommands();
+    }
+
+
+    private bool CanMoveToFirstPage() => CurrentPageIndex > 0;
+    private bool CanMoveToPreviousPage() => CurrentPageIndex > 0;
+    private bool CanMoveToNextPage() => CurrentPageIndex < TotalPagesCount - 1;
+    private bool CanMoveToLastPage() => CurrentPageIndex != TotalPagesCount - 1;
+
+    private async Task UpdatePageCommands()
+    {
+        OnPropertyChanged(nameof(PageSummary));
+
+        MoveToPreviousPageCommand.NotifyCanExecuteChanged();
+        MoveToNextPageCommand.NotifyCanExecuteChanged();
+        MoveToLastPageCommand.NotifyCanExecuteChanged();
+        MoveToFirstPageCommand.NotifyCanExecuteChanged();
+
+        var isAscending = (previousSelectedSortDirection == "Ascending");
+        await GetOrderedList(OrderBy, isAscending, CurrentPageIndex);
     }
 
     [RelayCommand]
@@ -173,12 +264,12 @@ public partial class MainViewModel : ObservableObject
         await GetOrderedList(previousSelectedSortBy, isAscending);
     }
 
-
     [RelayCommand]
     private async Task FilterList()
     {
         await HideButtons();
     }
+
     [RelayCommand]
     private async Task OrderList()
     {
@@ -220,7 +311,7 @@ public partial class MainViewModel : ObservableObject
         }
         return null;
     }
-    public async Task GetOrderedList(string order = "id", bool Ascendant = false)
+    public async Task GetOrderedList(string order = "id", bool Ascendant = false, int page = 0, int pageSize = 10)
     {
         try
         {
@@ -249,8 +340,21 @@ public partial class MainViewModel : ObservableObject
                     break;
             }
 
+            // Calcular el número de páginas y elementos por página
+            int totalItemsCount = ProductsList.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+
+            // Obtener los elementos correspondientes a la página actual
+            List<ProductInfo> itemsOnPage = ProductsList.Skip((page) * pageSize).Take(pageSize).ToList();
+
             // Insertar los productos en la lista
-            InsertProductsIntoList(ProductsList);
+            InsertProductsIntoList(itemsOnPage);
+
+            // Actualizar el número total de páginas
+            TotalPagesCount = totalPages;
+
+            // Actualizar la página actual
+            CurrentPageIndex = page;
         }
         catch (Exception ex)
         {
@@ -338,6 +442,9 @@ public partial class MainViewModel : ObservableObject
                     ListViewCollection.Add(listItemData);
                 }
             }
+            // Actualizar el total de ítems en la lista
+            OnPropertyChanged(nameof(TotalItemsCount));
+            Pagination(TotalItemsCount);
         }
         catch (Exception ex)
         {
