@@ -286,7 +286,10 @@
                             <ListView.Footer>
                                 <Grid HorizontalAlignment="Right">
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                        <TextBlock Margin="0,0,10,0" Text="Mostrar filas:" />
+                                        <TextBlock
+                                            Margin="0,0,10,0"
+                                            VerticalAlignment="Center"
+                                            Text="Mostrar filas:" />
                                         <ComboBox
                                             Margin="0,0,10,0"
                                             IsEditable="True"
