@@ -302,8 +302,6 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
-                                                FontWeight="Bold"
-                                                Foreground="White"
                                                 Glyph="&#xF276;" />
                                         </Button>
                                         <Button Margin="0,0,5,0" Command="{Binding MoveToPreviousPageCommand}">
@@ -311,8 +309,6 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
-                                                FontWeight="Bold"
-                                                Foreground="White"
                                                 Glyph="&#xF284;" />
                                         </Button>
                                         <Button Margin="0,0,5,0" Command="{Binding MoveToNextPageCommand}">
@@ -320,8 +316,6 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
-                                                FontWeight="Bold"
-                                                Foreground="White"
                                                 Glyph="&#xF285;" />
                                         </Button>
                                         <Button Margin="0,0,0,0" Command="{Binding MoveToLastPageCommand}">
@@ -329,8 +323,6 @@
                                                 HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
-                                                FontWeight="Bold"
-                                                Foreground="White"
                                                 Glyph="&#xF277;" />
                                         </Button>
                                     </StackPanel>
