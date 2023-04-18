@@ -302,28 +302,24 @@
                                             Text="{Binding PageSummary}" />
                                         <Button Margin="0,0,5,0" Command="{Binding MoveToFirstPageCommand}">
                                             <FontIcon
-                                                HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF276;" />
                                         </Button>
                                         <Button Margin="0,0,5,0" Command="{Binding MoveToPreviousPageCommand}">
                                             <FontIcon
-                                                HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF284;" />
                                         </Button>
                                         <Button Margin="0,0,5,0" Command="{Binding MoveToNextPageCommand}">
                                             <FontIcon
-                                                HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF285;" />
                                         </Button>
                                         <Button Margin="0,0,0,0" Command="{Binding MoveToLastPageCommand}">
                                             <FontIcon
-                                                HorizontalAlignment="Left"
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF277;" />
