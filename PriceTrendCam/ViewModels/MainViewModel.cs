@@ -53,6 +53,7 @@ public partial class MainViewModel : ObservableObject
         if (ProductsList == null) return;
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        await UpdatePageCommands();
     }
 
     public int CurrentPageIndex
