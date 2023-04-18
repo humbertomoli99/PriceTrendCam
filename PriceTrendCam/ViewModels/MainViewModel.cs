@@ -35,10 +35,26 @@ public partial class MainViewModel : ObservableObject
     {
         get; set;
     }
+    private int _selectedRowsPerPageOption;
     public int SelectedRowsPerPageOption
     {
-        get; set;
+        get => _selectedRowsPerPageOption;
+        set
+        {
+            if (SetProperty(ref _selectedRowsPerPageOption, value))
+            {
+                _ = OnSelectedItemChanged();
+            }
+        }
     }
+
+    private async Task OnSelectedItemChanged()
+    {
+        if (ProductsList == null) return;
+        var isAscending = (previousSelectedSortDirection == "Ascending");
+        await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+    }
+
     public int CurrentPageIndex
     {
         get => _currentPageIndex;
@@ -147,6 +163,8 @@ public partial class MainViewModel : ObservableObject
         MoveToPreviousPageCommand = new AsyncRelayCommand(MoveToPreviousPage, CanMoveToPreviousPage);
         MoveToNextPageCommand = new AsyncRelayCommand(MoveToNextPage, CanMoveToNextPage);
         MoveToLastPageCommand = new AsyncRelayCommand(MoveToLastPage, CanMoveToLastPage);
+
+        SelectedRowsPerPageOption = 10;
     }
 
     public void Pagination(int totalItemsCount, int defaultRowsPerPage = 10)
@@ -190,15 +208,13 @@ public partial class MainViewModel : ObservableObject
 
     private async Task UpdatePageCommands()
     {
-        OnPropertyChanged(nameof(PageSummary));
-
         MoveToPreviousPageCommand.NotifyCanExecuteChanged();
         MoveToNextPageCommand.NotifyCanExecuteChanged();
         MoveToLastPageCommand.NotifyCanExecuteChanged();
         MoveToFirstPageCommand.NotifyCanExecuteChanged();
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(OrderBy, isAscending, CurrentPageIndex);
+        await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
 
     [RelayCommand]
@@ -261,7 +277,7 @@ public partial class MainViewModel : ObservableObject
         ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isAscending = (previousSelectedSortDirection == "Ascending");
 
-        await GetOrderedList(previousSelectedSortBy, isAscending);
+        await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
 
     [RelayCommand]
@@ -294,7 +310,7 @@ public partial class MainViewModel : ObservableObject
 
         var isAscending = (selectedSortDirection == "Ascending");
 
-        await GetOrderedList(selectedSortBy, isAscending);
+        await GetOrderedList(selectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
 
         previousSelectedSortBy = selectedSortBy;
         previousSelectedSortDirection = selectedSortDirection;
@@ -355,6 +371,9 @@ public partial class MainViewModel : ObservableObject
 
             // Actualizar la página actual
             CurrentPageIndex = page;
+
+            OnPropertyChanged(nameof(PageSummary));
+            OnPropertyChanged(nameof(TotalItemsCount));
         }
         catch (Exception ex)
         {
@@ -443,8 +462,10 @@ public partial class MainViewModel : ObservableObject
                 }
             }
             // Actualizar el total de ítems en la lista
+            OnPropertyChanged(nameof(PageSummary));
             OnPropertyChanged(nameof(TotalItemsCount));
-            Pagination(TotalItemsCount);
+
+            Pagination(TotalItemsCount, SelectedRowsPerPageOption);
         }
         catch (Exception ex)
         {
@@ -500,9 +521,10 @@ public partial class MainViewModel : ObservableObject
         InsertProductsIntoList(ProductsList);
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(previousSelectedSortBy, isAscending);
+        await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
 
         OnPropertyChanged(nameof(PageSummary));
+        OnPropertyChanged(nameof(TotalItemsCount));
     }
     [RelayCommand]
     public async Task AdvancedSearch()

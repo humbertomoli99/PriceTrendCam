@@ -92,8 +92,6 @@ public sealed partial class MainPage : Page
             // Cargar los productos en la lista
             await ViewModel.UpdateList();
 
-            ViewModel.InsertProductsIntoList(ViewModel.ProductsList);
-
             // Establecer el contexto de datos del ListView
             DataContext = ViewModel;
         }
