@@ -304,26 +304,7 @@
                                 Name="textBoxesStackPanel"
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch" />
-                            <!--<Grid.RowDefinitions>
-                                <RowDefinition
-                                    Height="Auto" />
-                                <RowDefinition
-                                    Height="Auto" />
-                            </Grid.RowDefinitions>-->
-                            <!--<TextBox
-                                Header="Regex"
-                                x:Name="PatternTextBox"
-                                Text="{x:Bind ViewModel.PatternTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                PlaceholderText="Pattern"
-                                Grid.Row="0"
-                                Margin="0,5" />
 
-                            <TextBox
-                                x:Name="ReplacementTextBox"
-                                PlaceholderText="Replacement"
-                                Text="{x:Bind ViewModel.ReplacementTextBox, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Grid.Row="1"
-                                Margin="0,5" />-->
                         </Grid>
                     </TabViewItem>
                     <TabViewItem Header="Data Preview" IsClosable="False">
@@ -418,17 +399,7 @@
                             <ListBox
                                 x:Name="LBStoreUrls"
                                 Grid.Row="2"
-                                ItemsSource="{x:Bind ViewModel.StoreUrls}">
-                                <!--<ListBox.ItemTemplate>
-                                    <DataTemplate
-                                        x:DataType="models:StoreUrl">
-                                        <StackPanel>
-                                            <TextBlock
-                                                Text="{x:Bind Url}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>-->
-                            </ListBox>
+                                ItemsSource="{x:Bind ViewModel.StoreUrls}" />
                         </Grid>
                     </TabViewItem>
                 </TabView>
