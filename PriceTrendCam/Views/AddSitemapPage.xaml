@@ -66,11 +66,6 @@
                                     Header="Sitemap Name"
                                     PlaceholderText="Sitemap Name(Optional)"
                                     Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                <!--<controls:ValidationTextBox
-                                    HeaderText="Sitemap Name"
-                                    PropertyName="StoreName"
-                                    PlaceholderText="Sitemap Name"
-                                    Text="{x:Bind ViewModel.TextBoxStoreName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />-->
                             </StackPanel>
                             <StackPanel Margin="0,6">
                                 <StackPanel
