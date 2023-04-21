@@ -277,6 +277,8 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
             await webview.EnsureCoreWebView2Async(); // Asegura que la instancia de CoreWebView2 esté inicializada.
 
+            webview.CoreWebView2.Settings.IsScriptEnabled = true;
+
             if (CurrentUrlStore.DriveWebBrowser == WebBrowsers.HtmlAgilityPack)
             {
                 webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
