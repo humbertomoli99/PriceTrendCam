@@ -5,6 +5,5 @@
     GoogleChrome,
     Safari,
     Opera,
-    MicrosoftEdge,
-    HtmlAgilityPack
+    MicrosoftEdge
 }
