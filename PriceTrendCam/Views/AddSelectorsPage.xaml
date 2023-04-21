@@ -154,6 +154,11 @@
                         </Grid>
                     </Grid>
                 </PivotItem>
+                <PivotItem
+                    Header="Source">
+                    <!--  treeview source  -->
+
+                </PivotItem>
                 <PivotItem Header="Elements">
                     <!--  treeview elements  -->
 
