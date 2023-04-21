@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Microsoft.UI.Xaml;
@@ -531,6 +533,40 @@ public sealed partial class AddSelectorsPage : Page
 
         AddressBar.Text = sender.Source.ToString();
 
+        var html = await ExecuteScriptAsync("document.documentElement.outerHTML;");
+
+        // Expresión regular para reemplazar caracteres Unicode y saltos de línea
+        Regex regex = new Regex(@"\\u(?<code>[0-9a-fA-F]{4})|[\r\n]+");
+
+        // Función de reemplazo para convertir los caracteres Unicode a su equivalente en HTML
+        string reemplazo(Match m)
+        {
+            // Si el valor coincide con un carácter Unicode, lo convertimos a su equivalente en HTML
+            if (m.Groups["code"].Success)
+            {
+                int code = int.Parse(m.Groups["code"].Value, NumberStyles.HexNumber);
+                return ((char)code).ToString();
+            }
+            // Si el valor coincide con un salto de línea, lo reemplazamos por la etiqueta <br>
+            else
+            {
+                return "<br>";
+            }
+        }
+        // Aplicamos la función de reemplazo a la expresión regular para obtener el texto HTML normalizado
+        var htmlNormalizado = regex.Replace(html, reemplazo);
+
+        ViewModel.HtmlContent = htmlNormalizado;
+
+        // Crear un objeto de tipo System.Drawing.Size
+        Size drawingSize = new Size(100, 100);
+
+        // Convertir el objeto System.Drawing.Size a Windows.Foundation.Size
+        Windows.Foundation.Size foundationSize = new Windows.Foundation.Size((float)drawingSize.Width, (float)drawingSize.Height);
+
+        // Pasar el objeto Windows.Foundation.Size al método que lo espera como argumento
+        TBHtmlContent.Measure(foundationSize);
+
         // Establecer la variable de estado en verdadero
         isWebViewReady = true;
 
@@ -777,5 +813,23 @@ public sealed partial class AddSelectorsPage : Page
                 collection.Add(listItemData);
             }
         }
+    }
+
+    private void TextBlock_Loaded(object sender, RoutedEventArgs e)
+    {
+        MeasureTextBlockHeight();
+    }
+    private void MeasureTextBlockHeight()
+    {
+        // Medir la altura del control TextBlock
+        TBHtmlContent.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+
+        // Establecer la altura del control TextBlock al tamaño medido
+        TBHtmlContent.Height = TBHtmlContent.DesiredSize.Height;
+    }
+
+    private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        MeasureTextBlockHeight();
     }
 }

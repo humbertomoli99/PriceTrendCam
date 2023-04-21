@@ -154,10 +154,17 @@
                         </Grid>
                     </Grid>
                 </PivotItem>
-                <PivotItem
-                    Header="Source">
-                    <!--  treeview source  -->
-
+                <PivotItem Header="Source">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <TextBlock
+                            x:Name="TBHtmlContent"
+                            FontSize="14"
+                            LineHeight="20"
+                            MaxLines="500"
+                            Text="{x:Bind ViewModel.HtmlContent, Mode=TwoWay}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                    </ScrollViewer>
                 </PivotItem>
                 <PivotItem Header="Elements">
                     <!--  treeview elements  -->

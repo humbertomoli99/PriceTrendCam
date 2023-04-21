@@ -103,11 +103,17 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     [ObservableProperty]
     private string? driverBrowser;
+    private string _htmlContent;
 
     public ObservableCollection<string>? StoreUrls
     {
         get;
         set;
+    }
+    public string HtmlContent
+    {
+        get => _htmlContent;
+        set => SetProperty(ref _htmlContent, value);
     }
 
     public AddSelectorsViewModel(IWebViewService webViewService)
