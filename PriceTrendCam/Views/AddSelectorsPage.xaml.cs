@@ -539,12 +539,12 @@ public sealed partial class AddSelectorsPage : Page
         Regex regex = new Regex(@"\\u(?<code>[0-9a-fA-F]{4})|[\r\n]+");
 
         // Función de reemplazo para convertir los caracteres Unicode a su equivalente en HTML
-        string reemplazo(Match m)
+        static string reemplazo(Match m)
         {
             // Si el valor coincide con un carácter Unicode, lo convertimos a su equivalente en HTML
             if (m.Groups["code"].Success)
             {
-                int code = int.Parse(m.Groups["code"].Value, NumberStyles.HexNumber);
+                var code = int.Parse(m.Groups["code"].Value, NumberStyles.HexNumber);
                 return ((char)code).ToString();
             }
             // Si el valor coincide con un salto de línea, lo reemplazamos por la etiqueta <br>
