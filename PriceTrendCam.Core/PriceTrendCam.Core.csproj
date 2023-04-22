@@ -20,4 +20,7 @@
     <PackageReference Include="SQLite.Net.Extensions.Async" Version="3.0.1" />
     <PackageReference Include="WebDriverManager" Version="2.16.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WebAutomationTools\" />
+  </ItemGroup>
 </Project>
