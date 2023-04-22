@@ -1,4 +1,4 @@
-﻿enum WebScrapingTools
+﻿public enum WebScrapingTools
 {
     SeleniumWebDriver,
     HtmlAgilityPack,

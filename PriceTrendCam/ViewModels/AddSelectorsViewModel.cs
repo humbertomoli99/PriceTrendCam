@@ -102,7 +102,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     private BitmapImage? faviconStore;
 
     [ObservableProperty]
-    private string? driverBrowser;
+    private string? webScrapingTool;
     private string _htmlContent;
 
     public ObservableCollection<string>? StoreUrls
@@ -145,7 +145,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         StoreName = partnerStore.Name;
         FaviconStore = new BitmapImage(new Uri(partnerStore.Favicon));
-        DriverBrowser = partnerStore.DriveWebBrowser.ToString();
+        WebScrapingTool = partnerStore.WebScrapingTool.ToString();
 
         StoreUrls.Clear();
         foreach (var url1 in partnerStore.Urls.ToList().Select(e => new StoreUrl { Url = e.Url }))
@@ -285,7 +285,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
             webview.CoreWebView2.Settings.IsScriptEnabled = true;
 
-            if (CurrentUrlStore.DriveWebBrowser == WebBrowsers.HtmlAgilityPack)
+            if (CurrentUrlStore.WebScrapingTool == WebScrapingTools.HtmlAgilityPack)
             {
                 webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
                 webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;

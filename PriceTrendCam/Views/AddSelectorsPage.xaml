@@ -415,7 +415,7 @@
                             <TextBlock
                                 x:Name="TxtDriveBrowserStore"
                                 Grid.Row="1"
-                                Text="{x:Bind ViewModel.DriverBrowser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{x:Bind ViewModel.WebScrapingTool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <ListBox
                                 x:Name="LBStoreUrls"
                                 Grid.Row="2"

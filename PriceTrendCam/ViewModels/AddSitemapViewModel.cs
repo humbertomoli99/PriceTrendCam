@@ -49,7 +49,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     private string decompresionMethod;
 
     [ObservableProperty]
-    private string selectedWebBrowserDrive;
+    private string selectedWebAutomationTools;
 
     private string message;
 
@@ -82,7 +82,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var FirstUrl = ListUrls.First().Url;
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
-        WebBrowsers selectedWebBrowser = (WebBrowsers)Enum.Parse(typeof(WebBrowsers), SelectedWebBrowserDrive);
+        WebScrapingTools selectedWebBrowser = (WebScrapingTools)Enum.Parse(typeof(WebScrapingTools), selectedWebAutomationTools);
 
         // Crear objeto Store y guardarlo en la base de datos
         ObjectStore = new Store
@@ -91,7 +91,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             Favicon = favicon,
             Selectors = new List<Selector>(),
             Urls = ListUrls,
-            DriveWebBrowser = selectedWebBrowser
+            WebScrapingTool = selectedWebBrowser
         };
         await App.PriceTrackerService.InsertWithChildrenAsync<Store>(ObjectStore, true);
 
@@ -114,7 +114,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var hasEmptyName = string.IsNullOrEmpty(TextBoxStoreName);
         var hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
 
-        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || SelectedWebBrowserDrive == null)
+        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || selectedWebAutomationTools == null)
         {
             if (hasEmptyName)
             {
@@ -128,7 +128,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             {
                 message += "Invalid Url\n";
             }
-            if (SelectedWebBrowserDrive == null)
+            if (selectedWebAutomationTools == null)
             {
                 message += "Select a web browser to track your product information\n";
             }

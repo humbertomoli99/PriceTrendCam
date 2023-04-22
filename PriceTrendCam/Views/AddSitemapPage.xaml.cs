@@ -19,7 +19,7 @@ public sealed partial class AddSitemapPage : Page
         get;
         set;
     }
-    public ObservableCollection<string> SelectedWebBrowserDrive
+    public ObservableCollection<string> SelectedWebAutomationTools
     {
         get;
         set;
@@ -32,7 +32,7 @@ public sealed partial class AddSitemapPage : Page
         Agregar_Click1(null, null);
         Loaded += AddSitemapPage_Loaded;
         InitializeDecompresionMethodComboBox();
-        InitializeWebBrowserDriveComboBox();
+        InitializeWebAutomationToolsComboBox();
     }
 
     private void AddSitemapPage_Loaded(object sender, RoutedEventArgs e)
@@ -45,9 +45,9 @@ public sealed partial class AddSitemapPage : Page
     {
         DecompresionMethodComboBox = new ObservableCollection<string>(Enum.GetNames(typeof(DecompressionMethods)));
     }
-    private void InitializeWebBrowserDriveComboBox()
+    private void InitializeWebAutomationToolsComboBox()
     {
-        SelectedWebBrowserDrive = new ObservableCollection<string>(Enum.GetNames(typeof(WebBrowsers)));
+        SelectedWebAutomationTools = new ObservableCollection<string>(Enum.GetNames(typeof(WebScrapingTools)));
     }
     private int textBoxCount = 0;
     private void Eliminar_Click1(object sender, RoutedEventArgs e)

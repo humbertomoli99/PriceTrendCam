@@ -21,7 +21,7 @@ public class Store
         get; set;
     }
 
-    public WebBrowsers DriveWebBrowser
+    public WebScrapingTools WebScrapingTool
     {
         get;set;
     }

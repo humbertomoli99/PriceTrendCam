@@ -76,10 +76,10 @@
                             <StackPanel Margin="0,6">
                                 <ComboBox
                                     Width="200"
-                                    Header="Web Browser Drive"
-                                    ItemsSource="{x:Bind SelectedWebBrowserDrive, Mode=TwoWay}"
+                                    Header="Web Automation Tool"
+                                    ItemsSource="{x:Bind SelectedWebAutomationTools, Mode=TwoWay}"
                                     PlaceholderText="Pick a Web Drive"
-                                    SelectedItem="{x:Bind ViewModel.SelectedWebBrowserDrive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    SelectedItem="{x:Bind ViewModel.SelectedWebAutomationTools, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
                             <StackPanel Margin="0,6">
                                 <TextBox
