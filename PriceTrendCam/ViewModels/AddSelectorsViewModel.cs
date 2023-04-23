@@ -344,14 +344,14 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         OnPropertyChanged(nameof(BrowserForward));
         if (webErrorStatus != default)
         {
-            hasFailures = true;
+            HasFailures = true;
         }
     }
 
     [RelayCommand]
     private void OnRetry()
     {
-        hasFailures = false;
+        HasFailures = false;
         IsLoading = true;
         WebViewService?.Reload();
     }
