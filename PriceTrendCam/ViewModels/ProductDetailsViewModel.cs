@@ -51,8 +51,6 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     private string productHistory;
 
     private ObservableCollection<string> _listImages;
-    
-
     public ObservableCollection<string> ListImages
     {
         get => _listImages;
