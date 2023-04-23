@@ -52,18 +52,11 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         get;
     }
+    [ObservableProperty]
+    public Uri? source;
 
-    public Uri? Source
-    {
-        get => _source;
-        set => SetProperty(ref _source, value);
-    }
-
-    public bool IsLoading
-    {
-        get => _isLoading;
-        set => SetProperty(ref _isLoading, value);
-    }
+    [ObservableProperty]
+    public bool isLoading;
 
     public string selectedCssSelector
     {
@@ -103,17 +96,14 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
 
     [ObservableProperty]
     private string? webScrapingTool;
-    private string _htmlContent;
+
+    [ObservableProperty]
+    private string? htmlContent;
 
     public ObservableCollection<string>? StoreUrls
     {
         get;
         set;
-    }
-    public string HtmlContent
-    {
-        get => _htmlContent;
-        set => SetProperty(ref _htmlContent, value);
     }
 
     public AddSelectorsViewModel(IWebViewService webViewService)
