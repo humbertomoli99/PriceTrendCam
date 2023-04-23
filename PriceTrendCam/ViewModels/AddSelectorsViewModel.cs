@@ -19,7 +19,6 @@ namespace PriceTrendCam.ViewModels;
 public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAware
 {
     // TODO: Set the default URL to display.
-    private bool _isLoading = true;
     private int _newstoreId;
 
     [ObservableProperty]
@@ -54,7 +53,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     public Uri? source = new("https://pricetrendcam.blogspot.com/");
 
     [ObservableProperty]
-    public bool isLoading;
+    public bool isLoading = true;
 
     public string selectedCssSelector
     {
