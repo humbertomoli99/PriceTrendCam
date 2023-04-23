@@ -6,105 +6,49 @@ using PriceTrendCam.Core.Models;
 
 namespace PriceTrendCam.ViewModels;
 
-public class ProductDetailsViewModel : ObservableRecipient, INavigationAware
+public partial class ProductDetailsViewModel : ObservableRecipient, INavigationAware
 {
-    private int _id;
-    public int Id
-    {
-        get => _id;
-        set => SetProperty(ref _id, value);
-    }
+    [ObservableProperty]
+    private int id;
 
-    private int _idProduct;
-    public int Id_Product
-    {
-        get => _idProduct;
-        set => SetProperty(ref _idProduct, value);
-    }
+    [ObservableProperty]
+    private int id_Product;
 
-    private string _productName;
-    public string ProductName
-    {
-        get => _productName;
-        set => SetProperty(ref _productName, value);
-    }
+    [ObservableProperty]
+    private string productName;
 
-    private string _productDescription;
-    public string ProductDescription
-    {
-        get => _productDescription;
-        set => SetProperty(ref _productDescription, value);
-    }
+    [ObservableProperty]
+    private string productDescription;
 
-    private string _priceTag;
-    public string PriceTag
-    {
-        get => _priceTag;
-        set => SetProperty(ref _priceTag, value);
-    }
+    [ObservableProperty]
+    private string priceTag;
 
-    private string _shippingPrice;
-    public string ShippingPrice
-    {
-        get => _shippingPrice;
-        set => SetProperty(ref _shippingPrice, value);
-    }
+    [ObservableProperty]
+    private string shippingPrice;
 
-    private string _shippingCurrency;
-    public string ShippingCurrency
-    {
-        get => _shippingCurrency;
-        set => SetProperty(ref _shippingCurrency, value);
-    }
+    [ObservableProperty]
+    private string shippingCurrency;
 
-    private string? _priceCurrency;
-    public string? PriceCurrency
-    {
-        get => _priceCurrency;
-        set => SetProperty(ref _priceCurrency, value);
-    }
+    [ObservableProperty]
+    private string priceCurrency;
 
-    private string _productUrl;
-    public string ProductUrl
-    {
-        get => _productUrl;
-        set => SetProperty(ref _productUrl, value);
-    }
+    [ObservableProperty]
+    private string productUrl;
 
-    private string _stock;
-    public string Stock
-    {
-        get => _stock;
-        set => SetProperty(ref _stock, value);
-    }
+    [ObservableProperty]
+    private string stock;
 
-    private string _showMinProductPrice;
-    public string ShowMinProductPrice
-    {
-        get => _showMinProductPrice;
-        set => SetProperty(ref _showMinProductPrice, value);
-    }
+    [ObservableProperty]
+    private string showMinProductPrice;
 
-    private string _showAvgProductPrice;
-    public string ShowAvgProductPrice
-    {
-        get => _showAvgProductPrice;
-        set => SetProperty(ref _showAvgProductPrice, value);
-    }
+    [ObservableProperty]
+    private string showAvgProductPrice;
 
-    private string _showMaxProductPrice;
-    public string ShowMaxProductPrice
-    {
-        get => _showMaxProductPrice;
-        set => SetProperty(ref _showMaxProductPrice, value);
-    }
+    [ObservableProperty]
+    private string showMaxProductPrice;
 
-    private string _productHistory;
-    public string ProductHistory
-    {
-        get => _productHistory;
-        set => SetProperty(ref _productHistory, value);
-    }
+    [ObservableProperty]
+    private string productHistory;
 
     private ObservableCollection<string> _listImages;
     
