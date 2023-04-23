@@ -5,7 +5,6 @@ using HtmlAgilityPack;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Web.WebView2.Core;
-using Newtonsoft.Json;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Models;
@@ -85,7 +84,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     public Store? CurrentUrlStore
     {
         get;
-        private set;
+        set;
     }
     //tab store data
     [ObservableProperty]
@@ -100,11 +99,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty]
     private string? htmlContent;
 
-    public ObservableCollection<string>? StoreUrls
-    {
-        get;
-        set;
-    }
+    public ObservableCollection<string>? StoreUrls { get; set; } = new ObservableCollection<string>();
 
     public AddSelectorsViewModel(IWebViewService webViewService)
     {
