@@ -258,7 +258,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     }
     public async Task OnNavigatedTo(object parameter)
     {
-        if (parameter != null && parameter is int)
+        if (parameter is not null and int)
         {
             _newstoreId = (int)parameter;
             CurrentUrlStore = await GetStoreByIdAsync(_newstoreId);
