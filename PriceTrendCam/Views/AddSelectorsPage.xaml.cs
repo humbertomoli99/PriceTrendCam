@@ -103,9 +103,8 @@ public sealed partial class AddSelectorsPage : Page
         {
             foreach (var element in textBoxesStackPanel.Children)
             {
-                if (element is Grid)
+                if (element is Grid g)
                 {
-                    var g = (Grid)element;
                     var button = (Button)g.Children[0];
                     button.IsEnabled = false;
                     break;
