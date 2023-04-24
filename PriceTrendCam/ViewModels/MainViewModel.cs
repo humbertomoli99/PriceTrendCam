@@ -223,7 +223,7 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            IList<object> itemsSelected = ListViewProducts.SelectedItems;
+            var itemsSelected = ListViewProducts.SelectedItems;
             if (itemsSelected.Count > 0)
             {
                 var itemsS = itemsSelected.Count.ToString();
@@ -253,7 +253,7 @@ public partial class MainViewModel : ObservableObject
                 {
                     foreach (var item in itemsSelected)
                     {
-                        ProductListItem data = (ProductListItem)item;
+                        var data = (ProductListItem)item;
                         await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
                     }
                     await UpdateList();
@@ -290,7 +290,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task OrderList()
     {
-        OrderListContentDialog dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection)
+        var dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection)
         {
             XamlRoot = XamlRoot,
             Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
@@ -358,11 +358,11 @@ public partial class MainViewModel : ObservableObject
             }
 
             // Calcular el número de páginas y elementos por página
-            int totalItemsCount = ProductsList.Count;
-            int totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+            var totalItemsCount = ProductsList.Count;
+            var totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
 
             // Obtener los elementos correspondientes a la página actual
-            List<ProductInfo> itemsOnPage = ProductsList.Skip((page) * pageSize).Take(pageSize).ToList();
+            var itemsOnPage = ProductsList.Skip((page) * pageSize).Take(pageSize).ToList();
 
             // Insertar los productos en la lista
             InsertProductsIntoList(itemsOnPage);
@@ -516,7 +516,7 @@ public partial class MainViewModel : ObservableObject
         var Products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         if (TextBoxSearchListView == null) return;
 
-        CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
+        var compareInfo = CultureInfo.InvariantCulture.CompareInfo;
         ProductsList = Products.Where(p => compareInfo.IndexOf(p.Name, TextBoxSearchListView, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0).ToList();
 
         InsertProductsIntoList(ProductsList);
@@ -748,7 +748,7 @@ public partial class MainViewModel : ObservableObject
             }
             if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && selectedItems.Count > 0)
             {
-                ProductListItem obj = (ProductListItem)ListViewProducts.SelectedItem;
+                var obj = (ProductListItem)ListViewProducts.SelectedItem;
                 _navigationService.NavigateTo(typeof(ProductDetailsViewModel).FullName!, obj.Id);
             }
         }
