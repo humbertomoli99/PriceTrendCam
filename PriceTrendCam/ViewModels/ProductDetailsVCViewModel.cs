@@ -14,22 +14,16 @@ namespace PriceTrendCam.ViewModels;
 public partial class ProductDetailsVCViewModel : ObservableRecipient, INavigationAware
 {
     private readonly ISampleDataService<ProductInfo> _sampleDataService;
-    private ProductInfo? _selected;
     public XamlRoot XamlRoot
     {
         get; set;
     }
-    public ProductInfo? Selected
-    {
-        get => _selected;
-        set => SetProperty(ref _selected, value);
-    }
-    private int _startIndex;
-    public int StartIndex
-    {
-        get => _startIndex;
-        set => SetProperty(ref _startIndex, value);
-    }
+    [ObservableProperty]
+    private ProductInfo? selected;
+
+    [ObservableProperty]
+    private int startIndex;
+
     public ObservableCollection<ProductInfo> SampleItems { get; private set; } = new ObservableCollection<ProductInfo>();
 
     public ProductDetailsVCViewModel(ISampleDataService<ProductInfo> sampleDataService)
