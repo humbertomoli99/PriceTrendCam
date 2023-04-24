@@ -93,20 +93,20 @@ public sealed partial class AddSelectorsPage : Page
     }
     private void Eliminar_Click(object sender, RoutedEventArgs e)
     {
-        Button? deleteButton = (Button)sender;
-        Grid? grid = (Grid)deleteButton.Tag;
+        var deleteButton = (Button)sender;
+        var grid = (Grid)deleteButton.Tag;
         textBoxesStackPanel.Children.Remove(grid);
 
         textBoxCount--;
 
         if (textBoxCount == 0)
         {
-            foreach (UIElement element in textBoxesStackPanel.Children)
+            foreach (var element in textBoxesStackPanel.Children)
             {
                 if (element is Grid)
                 {
-                    Grid g = (Grid)element;
-                    Button button = (Button)g.Children[0];
+                    var g = (Grid)element;
+                    var button = (Button)g.Children[0];
                     button.IsEnabled = false;
                     break;
                 }
@@ -116,30 +116,30 @@ public sealed partial class AddSelectorsPage : Page
     private void AddNewControlsRegex(string regex = "", string replace = "")
     {
         // Crear un nuevo grid para cada TextBox y botón
-        Grid newGrid = new Grid();
+        var newGrid = new Grid();
 
-        ColumnDefinition column1 = new ColumnDefinition();
+        var column1 = new ColumnDefinition();
         column1.Width = new GridLength(1, GridUnitType.Star);
         newGrid.ColumnDefinitions.Add(column1);
 
-        ColumnDefinition column2 = new ColumnDefinition();
+        var column2 = new ColumnDefinition();
         column2.Width = GridLength.Auto;
         newGrid.ColumnDefinitions.Add(column2);
 
-        RowDefinition row1 = new RowDefinition();
+        var row1 = new RowDefinition();
         row1.Height = GridLength.Auto;
         newGrid.RowDefinitions.Add(row1);
 
-        RowDefinition row2 = new RowDefinition();
+        var row2 = new RowDefinition();
         row2.Height = GridLength.Auto;
         newGrid.RowDefinitions.Add(row2);
 
-        RowDefinition row3 = new RowDefinition();
+        var row3 = new RowDefinition();
         row3.Height = GridLength.Auto;
         newGrid.RowDefinitions.Add(row3);
 
         // Crear un nuevo botón
-        Button deleteButton = new Button()
+        var deleteButton = new Button()
         {
             Content = "🗑",
             Margin = new Thickness(6, 6, 0, 0),
@@ -151,7 +151,7 @@ public sealed partial class AddSelectorsPage : Page
 
         // Agregar el botón a la segunda columna del nuevo Grid
 
-        TextBox patternTextBox = new TextBox
+        var patternTextBox = new TextBox
         {
             Text = regex,
             Name = "PatternTextBox",
@@ -159,7 +159,7 @@ public sealed partial class AddSelectorsPage : Page
             Margin = new Thickness(0, 5, 0, 0)
         };
 
-        TextBox replacementTextBox = new TextBox
+        var replacementTextBox = new TextBox
         {
             Text = replace,
             Name = "ReplacementTextBox",
@@ -188,7 +188,7 @@ public sealed partial class AddSelectorsPage : Page
             deleteButton.Visibility = Visibility.Collapsed;
 
             // Crear un nuevo botón Añadir junto al primer textbox
-            Button addButton = new Button();
+            var addButton = new Button();
             addButton.VerticalAlignment = VerticalAlignment.Bottom;
             addButton.Margin = new Thickness(6, 0, 0, 0);
 
@@ -280,17 +280,17 @@ public sealed partial class AddSelectorsPage : Page
 
     private List<RegexMethod> GetRegexDataList()
     {
-        List<RegexMethod> textBoxDataList = new List<RegexMethod>();
+        var textBoxDataList = new List<RegexMethod>();
 
         foreach (Grid grid in textBoxesStackPanel.Children)
         {
             var pattern = "";
             var Replacement = "";
-            foreach (UIElement control in grid.Children)
+            foreach (var control in grid.Children)
             {
                 if (control is TextBox)
                 {
-                    TextBox textBox = control as TextBox;
+                    var textBox = control as TextBox;
 
                     if (textBox.Name == "PatternTextBox")
                     {
@@ -377,7 +377,7 @@ public sealed partial class AddSelectorsPage : Page
 
         if (pattern.Count > 0)
         {
-            for (int i = 0; i < pattern.Count; i++)
+            for (var i = 0; i < pattern.Count; i++)
             {
                 //pattern2[i] = Regex.Replace(pattern2[i], @"\""", "");
 
@@ -536,7 +536,7 @@ public sealed partial class AddSelectorsPage : Page
         var html = await ExecuteScriptAsync("document.documentElement.outerHTML;");
 
         // Expresión regular para reemplazar caracteres Unicode y saltos de línea
-        Regex regex = new Regex(@"\\u(?<code>[0-9a-fA-F]{4})|[\r\n]+");
+        var regex = new Regex(@"\\u(?<code>[0-9a-fA-F]{4})|[\r\n]+");
 
         // Función de reemplazo para convertir los caracteres Unicode a su equivalente en HTML
         static string reemplazo(Match m)
@@ -559,10 +559,10 @@ public sealed partial class AddSelectorsPage : Page
         ViewModel.HtmlContent = htmlNormalizado;
 
         // Crear un objeto de tipo System.Drawing.Size
-        Size drawingSize = new Size(100, 100);
+        var drawingSize = new Size(100, 100);
 
         // Convertir el objeto System.Drawing.Size a Windows.Foundation.Size
-        Windows.Foundation.Size foundationSize = new Windows.Foundation.Size((float)drawingSize.Width, (float)drawingSize.Height);
+        var foundationSize = new Windows.Foundation.Size((float)drawingSize.Width, (float)drawingSize.Height);
 
         // Pasar el objeto Windows.Foundation.Size al método que lo espera como argumento
         TBHtmlContent.Measure(foundationSize);
@@ -727,13 +727,13 @@ public sealed partial class AddSelectorsPage : Page
     }
     private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
     {
-        MenuFlyout flyout = new MenuFlyout();
-        SelectorListItem data = (SelectorListItem)args.Item;
-        MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
+        var flyout = new MenuFlyout();
+        var data = (SelectorListItem)args.Item;
+        var item = new MenuFlyoutItem() { Command = data.Command };
         flyout.Opened += delegate (object element, object e)
         {
-            MenuFlyout flyoutElement = element as MenuFlyout;
-            ListViewItem elementToHighlight = flyoutElement.Target as ListViewItem;
+            var flyoutElement = element as MenuFlyout;
+            var elementToHighlight = flyoutElement.Target as ListViewItem;
             elementToHighlight.IsSelected = true;
         };
         flyout.Items.Add(item);
