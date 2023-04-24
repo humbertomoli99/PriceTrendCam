@@ -390,7 +390,7 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void ElementPreviewButton_Click(object sender, RoutedEventArgs e)
     {
-        if ((bool)ElementPreviewButton.IsChecked || _showElementPreview)
+        if (ElementPreviewButton.IsChecked.HasValue || _showElementPreview)
         {
             await AddSelectorMargin();
         }
