@@ -226,13 +226,13 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         var store = await App.PriceTrackerService.GetAsync<Store>(_newstoreId);
         var newSelector = new Selector
         {
-            CssSelector = selectorTextBox,
-            Command = selectorTextBox,
-            Type = typeDataComboBox,
+            CssSelector = SelectorTextBox,
+            Command = SelectorTextBox,
+            Type = TypeDataComboBox,
             StoreId = _newstoreId,
             Store = store,
             RegexMethods = new List<RegexMethod>(),
-            Attribute = getAttributeComboBox,
+            Attribute = GetAttributeComboBox,
             NotNull = IsNotNullCheckBox
         };
 
