@@ -49,7 +49,7 @@ public sealed class DocumentationBlock : ContentControl
     /// <param name="e">The input arguments.</param>
     private void MarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
     {
-        if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result) ||
+        if (Uri.TryCreate(e.Link, UriKind.Absolute, out var result) ||
             (e.Link.StartsWith("/dotnet") &&
              Uri.TryCreate($"https://docs.microsoft.com{e.Link}", UriKind.Absolute, out result)))
         {

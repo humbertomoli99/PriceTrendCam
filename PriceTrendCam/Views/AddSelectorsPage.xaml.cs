@@ -662,7 +662,7 @@ public sealed partial class AddSelectorsPage : Page
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             // Obtener el texto actual del AutoSuggestBox
-            string currentText = SelectorAutoSuggestBox.Text;
+            var currentText = SelectorAutoSuggestBox.Text;
             await GetAttributes();
         }
     }
@@ -707,7 +707,7 @@ public sealed partial class AddSelectorsPage : Page
             textBoxCount = 0;
             if (listPattern.Count == listReplacement.Count)
             {
-                for (int i = 0; i < listPattern.Count; i++)
+                for (var i = 0; i < listPattern.Count; i++)
                 {
                     // Agregar controles de patrón y reemplazo
                     AddNewControlsRegex(listPattern[i], listReplacement[i]);
