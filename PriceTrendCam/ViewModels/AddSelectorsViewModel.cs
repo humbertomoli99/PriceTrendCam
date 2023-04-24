@@ -210,7 +210,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     public async Task<bool> ValidateSelectorData()
     {
         var store = await App.PriceTrackerService.GetAsync<Store>(_newstoreId);
-        if (store == null || string.IsNullOrEmpty(selectorTextBox) || string.IsNullOrEmpty(typeDataComboBox) || _newstoreId <= 0 || string.IsNullOrEmpty(getAttributeComboBox))
+        if (store == null || string.IsNullOrEmpty(SelectorTextBox) || string.IsNullOrEmpty(TypeDataComboBox) || _newstoreId <= 0 || string.IsNullOrEmpty(GetAttributeComboBox))
         {
             return false;
         }
