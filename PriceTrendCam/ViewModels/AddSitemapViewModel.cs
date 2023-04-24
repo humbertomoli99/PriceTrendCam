@@ -82,7 +82,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var FirstUrl = ListUrls.First().Url;
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
-        var selectedWebBrowser = (WebScrapingTools)Enum.Parse(typeof(WebScrapingTools), selectedWebAutomationTools);
+        var selectedWebBrowser = (WebScrapingTools)Enum.Parse(typeof(WebScrapingTools), SelectedWebAutomationTools);
 
         // Crear objeto Store y guardarlo en la base de datos
         ObjectStore = new Store
@@ -114,7 +114,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var hasEmptyName = string.IsNullOrEmpty(TextBoxStoreName);
         var hasEmptyUrls = TextBoxUrls.Any(string.IsNullOrEmpty);
 
-        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || selectedWebAutomationTools == null)
+        if (hasEmptyName || hasEmptyUrls || hasInvalidUrls || SelectedWebAutomationTools == null)
         {
             if (hasEmptyName)
             {
@@ -128,7 +128,7 @@ public partial class AddSitemapViewModel : ObservableValidator
             {
                 message += "Invalid Url\n";
             }
-            if (selectedWebAutomationTools == null)
+            if (SelectedWebAutomationTools == null)
             {
                 message += "Select a web browser to track your product information\n";
             }
