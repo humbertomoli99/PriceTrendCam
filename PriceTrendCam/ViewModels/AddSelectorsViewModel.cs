@@ -55,15 +55,15 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     [ObservableProperty]
     public bool isLoading = true;
 
-    public string selectedCssSelector
+    public string SelectedCssSelector
     {
         get; set;
     }
-    public List<RegexMethod> textBoxDataArray
+    public List<RegexMethod> TextBoxDataArray
     {
         get; set;
     }
-    public WebView2 webview
+    public WebView2 Webview
     {
         get;
         set;
@@ -237,7 +237,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
         };
 
         // Agregar los objetos RegexMethod a la lista RegexMethods
-        foreach (var regexMethod in textBoxDataArray)
+        foreach (var regexMethod in TextBoxDataArray)
         {
             var newRegexMethod = new RegexMethod
             {
@@ -264,20 +264,20 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
             CurrentUrlStore = await GetStoreByIdAsync(_newstoreId);
             var firstUrl = CurrentUrlStore.Urls.First().Url.ToString();
 
-            await webview.EnsureCoreWebView2Async(); // Asegura que la instancia de CoreWebView2 esté inicializada.
+            await Webview.EnsureCoreWebView2Async(); // Asegura que la instancia de CoreWebView2 esté inicializada.
 
-            webview.CoreWebView2.Settings.IsScriptEnabled = true;
+            Webview.CoreWebView2.Settings.IsScriptEnabled = true;
 
             if (CurrentUrlStore.WebScrapingTool == WebScrapingTools.HtmlAgilityPack)
             {
-                webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
-                webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
-                webview.CoreWebView2.Settings.IsZoomControlEnabled = true;
-                webview.CoreWebView2.Settings.IsStatusBarEnabled = true;
-                webview.CoreWebView2.Settings.AreDevToolsEnabled = true;
-                webview.CoreWebView2.Settings.IsScriptEnabled = true;
-                webview.CoreWebView2.Settings.AreHostObjectsAllowed = true;
-                webview.CoreWebView2.Settings.IsWebMessageEnabled = true; // Habilita el modo sin conexión
+                Webview.CoreWebView2.Settings.IsBuiltInErrorPageEnabled = true;
+                Webview.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true;
+                Webview.CoreWebView2.Settings.IsZoomControlEnabled = true;
+                Webview.CoreWebView2.Settings.IsStatusBarEnabled = true;
+                Webview.CoreWebView2.Settings.AreDevToolsEnabled = true;
+                Webview.CoreWebView2.Settings.IsScriptEnabled = true;
+                Webview.CoreWebView2.Settings.AreHostObjectsAllowed = true;
+                Webview.CoreWebView2.Settings.IsWebMessageEnabled = true; // Habilita el modo sin conexión
 
                 //WebViewService.Initialize(webview);
 

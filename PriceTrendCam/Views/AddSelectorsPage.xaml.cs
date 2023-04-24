@@ -87,7 +87,7 @@ public sealed partial class AddSelectorsPage : Page
         InitializeComponent();
 
         ViewModel.WebViewService.Initialize(WebView);
-        ViewModel.webview = WebView;
+        ViewModel.Webview = WebView;
         InitializeVariables();
         AgregarControlesButton_Click(null, null);
     }
@@ -256,7 +256,7 @@ public sealed partial class AddSelectorsPage : Page
 
     private async void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.textBoxDataArray = GetRegexDataList();
+        ViewModel.TextBoxDataArray = GetRegexDataList();
 
         if (ViewModel.isRegistrationSuccessful)
         {
@@ -618,7 +618,7 @@ public sealed partial class AddSelectorsPage : Page
 
         SelectorAutoSuggestBox.Text = _selectorsTree[_activeSelection];
         _selectedCssSelector = _selectorsTree[_activeSelection];
-        ViewModel.selectedCssSelector = _selectedCssSelector;
+        ViewModel.SelectedCssSelector = _selectedCssSelector;
 
 
         SelectButton.IsChecked = false;
