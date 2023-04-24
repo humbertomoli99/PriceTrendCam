@@ -82,7 +82,7 @@ public partial class AddSitemapViewModel : ObservableValidator
         var FirstUrl = ListUrls.First().Url;
         var favicon = await HtmlDocumentService.GetFaviconUrlAsync(FirstUrl);
 
-        WebScrapingTools selectedWebBrowser = (WebScrapingTools)Enum.Parse(typeof(WebScrapingTools), selectedWebAutomationTools);
+        var selectedWebBrowser = (WebScrapingTools)Enum.Parse(typeof(WebScrapingTools), selectedWebAutomationTools);
 
         // Crear objeto Store y guardarlo en la base de datos
         ObjectStore = new Store
