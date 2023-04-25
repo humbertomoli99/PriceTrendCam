@@ -370,7 +370,7 @@ public sealed partial class AddSelectorsPage : Page
         }
     }
 
-    private string? ApplyRegex(string input, List<string> pattern, List<string> replace)
+    private static string ApplyRegex(string input, List<string> pattern, List<string> replace)
     {
         if (pattern.Count == 0 || replace.Count == 0) return input;
 
