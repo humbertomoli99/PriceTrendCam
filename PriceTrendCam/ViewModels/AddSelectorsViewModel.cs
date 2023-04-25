@@ -40,7 +40,7 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     private bool isNotNullCheckBox;
 
     [ObservableProperty]
-    private bool? hasFailures;
+    private bool hasFailures;
 
     public bool isRegistrationSuccessful;
     public bool isSelectorDeleted;
