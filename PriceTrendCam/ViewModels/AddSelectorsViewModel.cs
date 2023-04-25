@@ -22,25 +22,25 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     private int _newstoreId;
 
     [ObservableProperty]
-    private string typeDataComboBox;
+    private string? typeDataComboBox;
 
     [ObservableProperty]
-    private string selectorTextBox;
+    private string? selectorTextBox;
 
     [ObservableProperty]
-    private string getAttributeComboBox;
+    private string? getAttributeComboBox;
 
     [ObservableProperty]
-    private string patternTextBox;
+    private string? patternTextBox;
 
     [ObservableProperty]
-    private string replacementTextBox;
+    private string? replacementTextBox;
 
     [ObservableProperty]
     private bool isNotNullCheckBox;
 
     [ObservableProperty]
-    private bool hasFailures;
+    private bool? hasFailures;
 
     public bool isRegistrationSuccessful;
     public bool isSelectorDeleted;
@@ -49,27 +49,28 @@ public partial class AddSelectorsViewModel : ObservableRecipient, INavigationAwa
     {
         get;
     }
+
     [ObservableProperty]
     public Uri? source = new("https://pricetrendcam.blogspot.com/");
 
     [ObservableProperty]
     public bool isLoading = true;
 
-    public string SelectedCssSelector
+    public string? SelectedCssSelector
     {
         get; set;
     }
-    public List<RegexMethod> TextBoxDataArray
+    public List<RegexMethod>? TextBoxDataArray
     {
         get; set;
     }
-    public WebView2 Webview
+    public WebView2? Webview
     {
         get;
         set;
     }
     public ObservableCollection<Selector> ListOfSelectors { get; set; } = new ObservableCollection<Selector>();
-    public HtmlNode HtmlDocumentStore
+    public HtmlNode? HtmlDocumentStore
     {
         get;
         set;
