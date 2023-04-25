@@ -17,7 +17,6 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid
                 Grid.Row="0"
@@ -122,23 +121,28 @@
                     <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMaxProductPrice}" />
                 </StackPanel>
             </Grid>
-            <TextBlock
-                Grid.Row="2"
-                Margin="5,20,0,5"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="Price History" />
 
             <Grid
                 Grid.Row="3"
+                Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="6">
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
                 <TextBlock
                     Grid.Row="0"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="Price History" />
+
+                <TextBlock
+                    Grid.Row="1"
                     Style="{StaticResource BodyTextBlockStyle}"
                     Text="{Binding ProductHistory}" />
             </Grid>
@@ -175,20 +179,24 @@
                 </FlipView>
                 <!--  TextWrapping="Wrap"  -->
             </Grid>
-            <TextBlock
-                Grid.Row="5"
-                Margin="5,20,0,5"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="Description" />
             <Grid
-                Grid.Row="6"
+                Grid.Row="5"
+                Margin="0,20,0,5"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
                 <TextBlock
                     Grid.Row="0"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="Description" />
+                <TextBlock
+                    Grid.Row="1"
                     Style="{StaticResource BodyTextBlockStyle}"
                     Text="{Binding ProductDescription}" />
                 <!--  TextWrapping="Wrap"  -->
