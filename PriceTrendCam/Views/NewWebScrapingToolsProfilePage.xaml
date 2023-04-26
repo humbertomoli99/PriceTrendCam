@@ -7,37 +7,44 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea" Margin="{StaticResource NavigationViewPageContentMargin}">
-        <StackPanel>
-            <TextBlock Text="Profile Name:" />
-            <TextBox x:Name="tbProfileName" />
+        <Grid
+            MaxWidth="800"
+            Background="{ThemeResource LayerFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1,1,1,1"
+            CornerRadius="5,5,5,5">
+            <StackPanel Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+                <TextBlock Text="Profile Name:" />
+                <TextBox x:Name="tbProfileName" />
 
-            <TextBlock Text="Web Automation Tool:" />
-            <ComboBox
-                x:Name="cmbWebAutomationTool"
-                ItemsSource="{x:Bind SelectedWebAutomationTools, Mode=TwoWay}"
-                SelectionChanged="cmbWebAutomationTool_SelectionChanged" />
+                <TextBlock Text="Web Automation Tool:" />
+                <ComboBox
+                    x:Name="cmbWebAutomationTool"
+                    ItemsSource="{x:Bind SelectedWebAutomationTools, Mode=TwoWay}"
+                    SelectionChanged="cmbWebAutomationTool_SelectionChanged" />
 
-            <StackPanel x:Name="stackHtmlAgilityPackConfig" Visibility="Collapsed">
-                <TextBlock Text="Decompression Method:" />
-                <ComboBox x:Name="cmbDecompressionMethod">
-                    <ComboBoxItem Content="None" />
-                    <ComboBoxItem Content="Gzip" />
-                    <ComboBoxItem Content="Deflate" />
-                    <ComboBoxItem Content="Brotli" />
-                    <ComboBoxItem Content="All" />
-                </ComboBox>
+                <StackPanel x:Name="stackHtmlAgilityPackConfig" Visibility="Collapsed">
+                    <TextBlock Text="Decompression Method:" />
+                    <ComboBox x:Name="cmbDecompressionMethod">
+                        <ComboBoxItem Content="None" />
+                        <ComboBoxItem Content="Gzip" />
+                        <ComboBoxItem Content="Deflate" />
+                        <ComboBoxItem Content="Brotli" />
+                        <ComboBoxItem Content="All" />
+                    </ComboBox>
+                </StackPanel>
+
+                <TextBlock Text="Encoding:" />
+                <TextBox x:Name="tbEncoding" />
+
+                <TextBlock Text="User Agent:" />
+                <TextBox x:Name="tbUserAgent" />
+
+                <TextBlock Text="Cookie:" />
+                <TextBox x:Name="tbCookie" />
+
+                <Button Click="Guardar_Click" Content="Guardar perfil" />
             </StackPanel>
-
-            <TextBlock Text="Encoding:" />
-            <TextBox x:Name="tbEncoding" />
-
-            <TextBlock Text="User Agent:" />
-            <TextBox x:Name="tbUserAgent" />
-
-            <TextBlock Text="Cookie:" />
-            <TextBox x:Name="tbCookie" />
-
-            <Button Click="Guardar_Click" Content="Guardar perfil" />
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>
