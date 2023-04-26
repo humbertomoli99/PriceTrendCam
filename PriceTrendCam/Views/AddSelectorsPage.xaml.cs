@@ -553,9 +553,12 @@ public sealed partial class AddSelectorsPage : Page
             }
         }
         // Aplicamos la función de reemplazo a la expresión regular para obtener el texto HTML normalizado
-        var htmlNormalizado = regex.Replace(html, reemplazo);
+        var htmlNormalizado = regex.Replace(html, reemplazo).Trim('\"');
 
-        ViewModel.HtmlContent = htmlNormalizado;
+        // Removemos las comillas escapadas
+        var htmlSinComillas = htmlNormalizado.Replace("\\\"", "\"");
+
+        ViewModel.HtmlContent = htmlSinComillas;
 
         // Crear un objeto de tipo System.Drawing.Size
         var drawingSize = new Size(100, 100);
