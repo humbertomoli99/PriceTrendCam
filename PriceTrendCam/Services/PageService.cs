@@ -29,6 +29,7 @@ public class PageService : IPageService
         Configure<SettingsViewModel, SettingsPage>();
         Configure<PostManFormViewModel, PostManFormPage>();
         Configure<ProductDetailsViewModel, ProductDetailsPage>();
+        Configure<NewWebScrapingToolsProfileViewModel, NewWebScrapingToolsProfilePage>();
     }
 
     public Type GetPageType(string key)

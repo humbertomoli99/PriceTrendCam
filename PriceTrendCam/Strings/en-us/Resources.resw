@@ -248,4 +248,7 @@
   <data name="Shell_OrderListContentDialog.Content" xml:space="preserve">
     <value>OrderListContentDialog</value>
   </data>
+  <data name="Shell_NewWebScrapingToolsProfile.Content" xml:space="preserve">
+    <value>NewWebScrapingToolsProfile</value>
+  </data>
 </root>
