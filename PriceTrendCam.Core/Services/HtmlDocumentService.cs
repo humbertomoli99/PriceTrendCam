@@ -10,6 +10,37 @@ using PriceTrendCam.Core.Models;
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
 {
+    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, IEnumerable<Cookie> cookies, DecompressionMethods decompressionMethods)
+    {
+        var handler = new HttpClientHandler();
+        handler.UseCookies = useCookies;
+
+        if (useCookies && cookies != null)
+        {
+            var cookieContainer = new CookieContainer();
+            foreach (var cookie in cookies)
+            {
+                cookieContainer.Add(cookie);
+            }
+            handler.CookieContainer = cookieContainer;
+        }
+
+        handler.AutomaticDecompression = decompressionMethods;
+
+        return handler;
+    }
+    public static HttpClient CreateHttpClient(HttpClientHandler handler, string userAgent = null)
+    {
+        var client = new HttpClient(handler);
+
+        if (!string.IsNullOrEmpty(userAgent))
+        {
+            client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+        }
+
+        return client;
+    }
+
     /// <summary>
     /// Carga una página web en forma asíncrona y devuelve el nodo HTML raíz.
     /// </summary>
@@ -17,15 +48,24 @@ public class HtmlDocumentService
     /// <returns>Nodo HTML raíz de la página web cargada.</returns>
     public static async Task<HtmlNode> LoadPageAsync(string RequestUri)
     {
-        HtmlWeb web = new HtmlWeb();
-        web.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
-        web.AutomaticDecompression = DecompressionMethods.GZip;
-        web.UseCookies = true;
-        web.AutoDetectEncoding = true;
-        web.OverrideEncoding = System.Text.Encoding.UTF8;
-        web.UsingCacheIfExists = true;
+        // Crear una instancia de HttpClientHandler con las configuraciones deseadas
+        var handler = CreateHttpClientHandler(true, new List<Cookie>
+        {
+            new Cookie("nombre_cookie", "valor_cookie")
+        }, DecompressionMethods.GZip);
 
-        var htmlDoc = web.Load(RequestUri);
+        // Crear una instancia de HttpClient utilizando el HttpClientHandler y el User Agent
+        var client = CreateHttpClient(handler, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+
+        // Realizar una solicitud HTTP GET utilizando HttpClient
+        var response = await client.GetAsync(RequestUri);
+
+        // Leer el contenido de la respuesta
+        var htmlContent = await response.Content.ReadAsStringAsync();
+
+        // Crear una instancia de HtmlDocument utilizando HtmlAgilityPack
+        var htmlDoc = new HtmlDocument();
+        htmlDoc.LoadHtml(htmlContent);
 
         return htmlDoc.DocumentNode;
     }
