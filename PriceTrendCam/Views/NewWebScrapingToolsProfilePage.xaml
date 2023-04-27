@@ -23,6 +23,17 @@
                     ItemsSource="{x:Bind SelectedWebAutomationTools, Mode=TwoWay}"
                     SelectionChanged="cmbWebAutomationTool_SelectionChanged" />
 
+
+
+                <TextBlock Text="Encoding:" />
+                <TextBox x:Name="tbEncoding" />
+
+                <TextBlock Text="User Agent:" />
+                <TextBox x:Name="tbUserAgent" />
+
+                <TextBlock Text="Cookie:" />
+                <TextBox x:Name="tbCookie" />
+
                 <StackPanel x:Name="stackHtmlAgilityPackConfig" Visibility="Collapsed">
                     <TextBlock Text="Decompression Method:" />
                     <ComboBox x:Name="cmbDecompressionMethod">
@@ -33,15 +44,6 @@
                         <ComboBoxItem Content="All" />
                     </ComboBox>
                 </StackPanel>
-
-                <TextBlock Text="Encoding:" />
-                <TextBox x:Name="tbEncoding" />
-
-                <TextBlock Text="User Agent:" />
-                <TextBox x:Name="tbUserAgent" />
-
-                <TextBlock Text="Cookie:" />
-                <TextBox x:Name="tbCookie" />
 
                 <Button Click="Guardar_Click" Content="Guardar perfil" />
             </StackPanel>
