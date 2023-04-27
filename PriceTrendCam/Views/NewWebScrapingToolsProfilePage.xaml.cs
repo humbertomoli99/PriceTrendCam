@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.ViewModels;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
+using System.Net;
 
 namespace PriceTrendCam.Views;
 
@@ -19,12 +20,32 @@ public sealed partial class NewWebScrapingToolsProfilePage : Page
         get;
         set;
     }
+    public ObservableCollection<string> SelectedWebBrowsers
+    {
+        get;
+        set;
+    }
+    public ObservableCollection<string> DecompresionMethodComboBox
+    {
+        get;
+        set;
+    }
 
     public NewWebScrapingToolsProfilePage()
     {
         ViewModel = App.GetService<NewWebScrapingToolsProfileViewModel>();
         InitializeComponent();
         InitializeWebAutomationToolsComboBox();
+        InitializeWebBrowserComboBox();
+        InitializeDecompresionMethodComboBox();
+    }
+    private void InitializeDecompresionMethodComboBox()
+    {
+        DecompresionMethodComboBox = new ObservableCollection<string>(Enum.GetNames(typeof(DecompressionMethods)));
+    }
+    private void InitializeWebBrowserComboBox()
+    {
+        SelectedWebBrowsers = new ObservableCollection<string>(Enum.GetNames(typeof(WebBrowsers)));
     }
     private void InitializeWebAutomationToolsComboBox()
     {
@@ -36,9 +57,16 @@ public sealed partial class NewWebScrapingToolsProfilePage : Page
         if (selectedItem.ToString() == "HtmlAgilityPack")
         {
             stackHtmlAgilityPackConfig.Visibility = Visibility.Visible;
+            stackWebBrowsers.Visibility = Visibility.Collapsed;
+        }
+        else if(selectedItem.ToString() == "SeleniumWebDriver")
+        {
+            stackWebBrowsers.Visibility = Visibility.Visible;
+            stackHtmlAgilityPackConfig.Visibility = Visibility.Collapsed;
         }
         else
         {
+            stackWebBrowsers.Visibility = Visibility.Collapsed;
             stackHtmlAgilityPackConfig.Visibility = Visibility.Collapsed;
         }
     }
