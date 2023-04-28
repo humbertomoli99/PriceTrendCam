@@ -91,7 +91,7 @@ public class HtmlDocumentService
         };
 
         var httpClient = CreateHttpClient(handler, defaultHeaders);
-
+        
         Dictionary<string, string> parameters = new Dictionary<string, string>
         {
             { "param1", "value1" },
