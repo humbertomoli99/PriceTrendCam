@@ -56,8 +56,7 @@ public class HtmlDocumentService
     {
         var cookies = new Dictionary<string, (string cookieName, string cookieValue)>
         {
-            { "https://example.com", ("cookie1", "value1") },
-            { "https://example.com", ("cookie2", "value2") },
+            { RequestUri, ("cookie1", "value1") },
             // Agrega más cookies según tus necesidades
         };
 
