@@ -19,13 +19,16 @@ public class HtmlDocumentService
 
         return handler;
     }
-    public static HttpClient CreateHttpClient(HttpClientHandler handler, string userAgent = null)
+    public static HttpClient CreateHttpClient(HttpClientHandler handler, Dictionary<string, string> defaultHeaders = null)
     {
         var client = new HttpClient(handler);
 
-        if (!string.IsNullOrEmpty(userAgent))
+        if (defaultHeaders != null && defaultHeaders.Count > 0)
         {
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+            foreach (var header in defaultHeaders)
+            {
+                client.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
         }
 
         return client;
@@ -42,10 +45,18 @@ public class HtmlDocumentService
         var handler = CreateHttpClientHandler(true, DecompressionMethods.GZip);
 
         // Crear una instancia de HttpClient utilizando el HttpClientHandler y el User Agent
-        var client = CreateHttpClient(handler, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+        var defaultHeaders = new Dictionary<string, string>
+        {
+            { "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3" },
+            { "Accept-Language", "es-ES" },
+            // Agrega más encabezados según tus necesidades
+        };
+
+        var httpClient = CreateHttpClient(handler, defaultHeaders);
+
 
         // Realizar una solicitud HTTP GET utilizando HttpClient
-        var response = await client.GetAsync(RequestUri);
+        var response = await httpClient.GetAsync(RequestUri);
 
         // Leer el contenido de la respuesta
         var htmlContent = await response.Content.ReadAsStringAsync();
