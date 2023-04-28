@@ -10,15 +10,28 @@ using PriceTrendCam.Core.Models;
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
 {
-    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, DecompressionMethods decompressionMethods)
+    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, DecompressionMethods decompressionMethods, Dictionary<string, (string cookieName, string cookieValue)> cookies = null)
     {
         var handler = new HttpClientHandler();
         handler.UseCookies = useCookies;
+
+        if (cookies != null && cookies.Count > 0)
+        {
+            foreach (var cookie in cookies)
+            {
+                var cookieUrl = cookie.Key;
+                var cookieName = cookie.Value.cookieName;
+                var cookieValue = cookie.Value.cookieValue;
+
+                handler.CookieContainer.Add(new Uri(cookieUrl), new Cookie(cookieName, cookieValue));
+            }
+        }
 
         handler.AutomaticDecompression = decompressionMethods;
 
         return handler;
     }
+
     public static HttpClient CreateHttpClient(HttpClientHandler handler, Dictionary<string, string> defaultHeaders = null)
     {
         var client = new HttpClient(handler);
@@ -41,8 +54,16 @@ public class HtmlDocumentService
     /// <returns>Nodo HTML raíz de la página web cargada.</returns>
     public static async Task<HtmlNode> LoadPageAsync(string RequestUri)
     {
+        var cookies = new Dictionary<string, (string cookieName, string cookieValue)>
+        {
+            { "https://example.com", ("cookie1", "value1") },
+            { "https://example.com", ("cookie2", "value2") },
+            // Agrega más cookies según tus necesidades
+        };
+
         // Crear una instancia de HttpClientHandler con las configuraciones deseadas
-        var handler = CreateHttpClientHandler(true, DecompressionMethods.GZip);
+        var handler = CreateHttpClientHandler(true, DecompressionMethods.GZip, cookies);
+
 
         // Crear una instancia de HttpClient utilizando el HttpClientHandler y el User Agent
         var defaultHeaders = new Dictionary<string, string>
