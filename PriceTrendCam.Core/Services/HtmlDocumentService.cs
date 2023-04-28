@@ -10,20 +10,20 @@ using PriceTrendCam.Core.Models;
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
 {
-    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, IEnumerable<Cookie> cookies, DecompressionMethods decompressionMethods)
+    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, /*IEnumerable<Cookie> cookies,*/ DecompressionMethods decompressionMethods)
     {
         var handler = new HttpClientHandler();
-        handler.UseCookies = useCookies;
+        //handler.UseCookies = useCookies;
 
-        if (useCookies && cookies != null)
-        {
-            var cookieContainer = new CookieContainer();
-            foreach (var cookie in cookies)
-            {
-                cookieContainer.Add(cookie);
-            }
-            handler.CookieContainer = cookieContainer;
-        }
+        //if (useCookies && cookies != null)
+        //{
+        //    var cookieContainer = new CookieContainer();
+        //    foreach (var cookie in cookies)
+        //    {
+        //        cookieContainer.Add(cookie);
+        //    }
+        //    handler.CookieContainer = cookieContainer;
+        //}
 
         handler.AutomaticDecompression = decompressionMethods;
 
@@ -49,10 +49,7 @@ public class HtmlDocumentService
     public static async Task<HtmlNode> LoadPageAsync(string RequestUri)
     {
         // Crear una instancia de HttpClientHandler con las configuraciones deseadas
-        var handler = CreateHttpClientHandler(true, new List<Cookie>
-        {
-            new Cookie("nombre_cookie", "valor_cookie")
-        }, DecompressionMethods.GZip);
+        var handler = CreateHttpClientHandler(true, DecompressionMethods.GZip);
 
         // Crear una instancia de HttpClient utilizando el HttpClientHandler y el User Agent
         var client = CreateHttpClient(handler, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
