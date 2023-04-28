@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using AngleSharp.Dom;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using JavaScriptEngineSwitcher.Jint;
@@ -46,6 +47,24 @@ public class HtmlDocumentService
 
         return client;
     }
+    public static async Task<HttpResponseMessage> SendRequestAsync(HttpClient client, string url, HttpMethod httpMethod, Dictionary<string, string> parameters = null)
+    {
+        // Crear una instancia de HttpContent con los parámetros
+        HttpContent content = null;
+        if (parameters != null)
+        {
+            content = new FormUrlEncodedContent(parameters);
+        }
+
+        // Crear una instancia de HttpRequestMessage con el método HTTP y URL
+        var request = new HttpRequestMessage(httpMethod, url);
+        request.Content = content;
+
+        // Enviar la solicitud HTTP
+        var response = await client.SendAsync(request);
+
+        return response;
+    }
 
     /// <summary>
     /// Carga una página web en forma asíncrona y devuelve el nodo HTML raíz.
@@ -74,9 +93,14 @@ public class HtmlDocumentService
 
         var httpClient = CreateHttpClient(handler, defaultHeaders);
 
+        Dictionary<string, string> parameters = new Dictionary<string, string>
+        {
+            { "param1", "value1" },
+            { "param2", "value2" }
+        };
 
-        // Realizar una solicitud HTTP GET utilizando HttpClient
-        var response = await httpClient.GetAsync(RequestUri);
+        // Realizar una solicitud HTTP GET
+        var response = await SendRequestAsync(httpClient, RequestUri, HttpMethod.Get, parameters);
 
         // Leer el contenido de la respuesta
         var htmlContent = await response.Content.ReadAsStringAsync();
