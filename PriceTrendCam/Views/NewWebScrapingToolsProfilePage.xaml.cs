@@ -56,18 +56,24 @@ public sealed partial class NewWebScrapingToolsProfilePage : Page
         var selectedItem = cmbWebAutomationTool.SelectedItem;
         if (selectedItem.ToString() == "HtmlAgilityPack")
         {
-            stackHtmlAgilityPackConfig.Visibility = Visibility.Visible;
+            spHttpClientHandler.Visibility = Visibility.Visible;
+            spHttpClient.Visibility = Visibility.Visible;
+
             stackWebBrowsers.Visibility = Visibility.Collapsed;
         }
         else if(selectedItem.ToString() == "SeleniumWebDriver")
         {
+            spHttpClientHandler.Visibility = Visibility.Collapsed;
+            spHttpClient.Visibility = Visibility.Collapsed;
+
             stackWebBrowsers.Visibility = Visibility.Visible;
-            stackHtmlAgilityPackConfig.Visibility = Visibility.Collapsed;
         }
         else
         {
+            spHttpClientHandler.Visibility = Visibility.Collapsed;
+            spHttpClient.Visibility = Visibility.Collapsed;
+
             stackWebBrowsers.Visibility = Visibility.Collapsed;
-            stackHtmlAgilityPackConfig.Visibility = Visibility.Collapsed;
         }
     }
     private void Guardar_Click(object sender, RoutedEventArgs e)
@@ -75,11 +81,15 @@ public sealed partial class NewWebScrapingToolsProfilePage : Page
         // Aquí puedes guardar los datos del formulario según tus necesidades
         string profileName = tbProfileName.Text;
         string webAutomationTool = cmbWebAutomationTool.SelectedItem as string;
-        string encoding = tbEncoding.Text;
         string userAgent = tbUserAgent.Text;
         string cookie = tbCookie.Text;
         string decompressionMethod = cmbDecompressionMethod.SelectedItem as string;
 
         // Realiza la lógica de guardado de datos aquí
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }

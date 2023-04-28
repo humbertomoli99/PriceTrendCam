@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid
+    <ScrollViewer
         x:Name="ContentArea"
         MaxWidth="800"
         Margin="{StaticResource NavigationViewPageContentMargin}"
@@ -14,66 +14,98 @@
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
         BorderThickness="1,1,1,1"
         CornerRadius="5,5,5,5">
-        <StackPanel Margin="{StaticResource MediumLeftTopRightBottomMargin}">
-            <StackPanel Margin="{StaticResource SmallTopMargin}">
-                <TextBlock Text="Profile Name:" />
-                <TextBox x:Name="tbProfileName" />
+        <Grid>
+
+            <StackPanel Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+                <StackPanel Margin="{StaticResource SmallTopMargin}">
+                    <TextBlock Text="Profile Name:" />
+                    <TextBox x:Name="tbProfileName" />
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource SmallTopMargin}">
+                    <TextBlock Text="Web Automation Tool:" />
+                    <ComboBox
+                        x:Name="cmbWebAutomationTool"
+                        ItemsSource="{x:Bind SelectedWebAutomationTools, Mode=TwoWay}"
+                        SelectionChanged="cmbWebAutomationTool_SelectionChanged" />
+                </StackPanel>
+
+                <StackPanel
+                    x:Name="stackWebBrowsers"
+                    Margin="{StaticResource SmallTopMargin}"
+                    Visibility="Collapsed">
+                    <TextBlock Text="Web browser:" />
+                    <ComboBox x:Name="cmbWebBrowser" ItemsSource="{x:Bind SelectedWebBrowsers, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource SmallTopMargin}">
+                    <TextBlock Text="User Agent:" />
+                    <TextBox x:Name="tbUserAgent" />
+                </StackPanel>
+
+                <StackPanel Margin="{StaticResource SmallTopMargin}">
+                    <TextBlock Text="Cookie:" />
+                    <TextBox x:Name="tbCookie" />
+                </StackPanel>
+
+
+
+                <StackPanel
+                    x:Name="spHttpClientHandler"
+                    Margin="{StaticResource SmallTopMargin}"
+                    Visibility="Collapsed">
+                    <TextBlock
+                        Style="{StaticResource SubtitleTextBlockStyle}">Configure HttpClientHandler</TextBlock>
+
+                    <CheckBox
+                        x:Name="AutoDetectEncodingCheckBox"
+                        Margin="{StaticResource SmallTopMargin}"
+                        Content="Auto Detect Encoding" />
+
+                    <CheckBox
+                        x:Name="UseCookiesCheckBox"
+                        Margin="{StaticResource SmallTopMargin}"
+                        Content="Use Cookies" />
+
+                    <TextBlock FontWeight="Bold" Text="Cookies:" />
+                    <TextBox
+                        x:Name="cookieNameTextBox"
+                        Margin="{StaticResource SmallTopMargin}"
+                        PlaceholderText="Cookie name" />
+
+                    <TextBox
+                        x:Name="cookieValueTextBox"
+                        Margin="{StaticResource SmallTopMargin}"
+                        PlaceholderText="Cookie value" />
+                    <Button
+                        Margin="{StaticResource SmallTopMargin}"
+                        Click="Button_Click"
+                        Content="Add cookie" />
+
+                    <ListBox
+                        x:Name="cookiesListBox"
+                        Height="100"
+                        Margin="{StaticResource SmallTopMargin}" />
+
+                    <TextBlock Margin="{StaticResource SmallTopMargin}" Text="Decompression Method:" />
+                    <ComboBox
+                        x:Name="cmbDecompressionMethod"
+                        Margin="{StaticResource SmallTopMargin}"
+                        ItemsSource="{x:Bind DecompresionMethodComboBox, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel x:Name="spHttpClient" Visibility="Collapsed">
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Configure HttpClient</TextBlock>
+
+                </StackPanel>
+
+                <Button
+                    Margin="{StaticResource SmallTopMargin}"
+                    Click="Guardar_Click"
+                    Content="Save Profile"
+                    Style="{StaticResource AccentButtonStyle}" />
             </StackPanel>
 
-            <StackPanel Margin="{StaticResource SmallTopMargin}">
-                <TextBlock Text="Web Automation Tool:" />
-                <ComboBox
-                    x:Name="cmbWebAutomationTool"
-                    ItemsSource="{x:Bind SelectedWebAutomationTools, Mode=TwoWay}"
-                    SelectionChanged="cmbWebAutomationTool_SelectionChanged" />
-            </StackPanel>
-
-            <StackPanel
-                x:Name="stackWebBrowsers"
-                Margin="{StaticResource SmallTopMargin}"
-                Visibility="Collapsed">
-                <TextBlock Text="Web browser:" />
-                <ComboBox x:Name="cmbWebBrowser" ItemsSource="{x:Bind SelectedWebBrowsers, Mode=TwoWay}" />
-            </StackPanel>
-
-            <StackPanel Margin="{StaticResource SmallTopMargin}">
-                <TextBlock Text="Encoding:" />
-                <TextBox x:Name="tbEncoding" />
-            </StackPanel>
-
-            <StackPanel Margin="{StaticResource SmallTopMargin}">
-                <TextBlock Text="User Agent:" />
-                <TextBox x:Name="tbUserAgent" />
-            </StackPanel>
-
-            <StackPanel Margin="{StaticResource SmallTopMargin}">
-                <TextBlock Text="Cookie:" />
-                <TextBox x:Name="tbCookie" />
-            </StackPanel>
-
-            <StackPanel
-                x:Name="stackHtmlAgilityPackConfig"
-                Margin="{StaticResource SmallTopMargin}"
-                Visibility="Collapsed">
-                <TextBlock Text="Decompression Method:" />
-                <ComboBox x:Name="cmbDecompressionMethod" ItemsSource="{x:Bind DecompresionMethodComboBox, Mode=TwoWay}" />
-            </StackPanel>
-
-            <CheckBox
-                x:Name="UseCookiesCheckBox"
-                Margin="{StaticResource SmallTopMargin}"
-                Content="Use Cookies" />
-
-            <CheckBox
-                x:Name="AutoDetectEncodingCheckBox"
-                Margin="{StaticResource SmallTopMargin}"
-                Content="Auto Detect Encoding" />
-
-            <Button
-                Margin="{StaticResource SmallTopMargin}"
-                Click="Guardar_Click"
-                Content="Save Profile"
-                Style="{StaticResource AccentButtonStyle}" />
-        </StackPanel>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>
