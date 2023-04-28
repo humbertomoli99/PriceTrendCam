@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Net;
-using AngleSharp.Dom;
 using Fizzler.Systems.HtmlAgilityPack;
 using HtmlAgilityPack;
 using JavaScriptEngineSwitcher.Jint;
