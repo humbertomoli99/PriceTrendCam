@@ -10,20 +10,10 @@ using PriceTrendCam.Core.Models;
 namespace PriceTrendCam.Core.Services;
 public class HtmlDocumentService
 {
-    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, /*IEnumerable<Cookie> cookies,*/ DecompressionMethods decompressionMethods)
+    public static HttpClientHandler CreateHttpClientHandler(bool useCookies, DecompressionMethods decompressionMethods)
     {
         var handler = new HttpClientHandler();
-        //handler.UseCookies = useCookies;
-
-        //if (useCookies && cookies != null)
-        //{
-        //    var cookieContainer = new CookieContainer();
-        //    foreach (var cookie in cookies)
-        //    {
-        //        cookieContainer.Add(cookie);
-        //    }
-        //    handler.CookieContainer = cookieContainer;
-        //}
+        handler.UseCookies = useCookies;
 
         handler.AutomaticDecompression = decompressionMethods;
 
