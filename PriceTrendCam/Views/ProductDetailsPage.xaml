@@ -17,6 +17,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid
                 Grid.Row="0"
@@ -204,6 +205,40 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="Notifications" />
+                <TextBlock
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="Always notify me when the price changes" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="120"
+                    HorizontalAlignment="Right"
+                    Content="Edit" />
+            </Grid>
+
+            <Grid
+                Grid.Row="4"
+                Margin="0,20,0,0"
+                Padding="16"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -222,7 +257,7 @@
             </Grid>
 
             <Grid
-                Grid.Row="4"
+                Grid.Row="5"
                 Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -254,7 +289,7 @@
                 <!--  TextWrapping="Wrap"  -->
             </Grid>
             <Grid
-                Grid.Row="5"
+                Grid.Row="6"
                 Margin="0,20,0,5"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
