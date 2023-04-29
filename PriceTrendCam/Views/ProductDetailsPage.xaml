@@ -51,7 +51,8 @@
                     <StackPanel
                         Grid.Row="1"
                         Grid.Column="0"
-                        HorizontalAlignment="Left"
+                        Margin="{StaticResource MediumBottomMargin}"
+                        HorizontalAlignment="Center"
                         Orientation="Horizontal">
                         <FontIcon
                             FontFamily="{StaticResource BootstrapIcons}"
@@ -60,7 +61,7 @@
                             Glyph="&#xF5B0;" />
                         <TextBlock
                             Margin="5,0,0,0"
-                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
                             Text="{Binding PriceTag}" />
                     </StackPanel>
 
@@ -68,7 +69,11 @@
                     <StackPanel
                         Grid.Row="1"
                         Grid.Column="1"
-                        HorizontalAlignment="Left"
+                        Margin="{StaticResource MediumBottomMargin}"
+                        Padding="{StaticResource LargeLeftRightMargin}"
+                        HorizontalAlignment="Center"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="2,0,2,0"
                         Orientation="Horizontal">
 
                         <FontIcon
@@ -85,7 +90,8 @@
                     <StackPanel
                         Grid.Row="1"
                         Grid.Column="2"
-                        HorizontalAlignment="Left"
+                        Margin="{StaticResource MediumBottomMargin}"
+                        HorizontalAlignment="Center"
                         Orientation="Horizontal">
 
                         <FontIcon
@@ -95,7 +101,6 @@
                             Glyph="&#xF685;" />
                         <TextBlock
                             Margin="5,0,0,0"
-                            HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
                             Text="{Binding Stock}" />
