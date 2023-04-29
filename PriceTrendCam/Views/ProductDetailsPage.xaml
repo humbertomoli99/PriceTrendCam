@@ -87,8 +87,44 @@
 
                 </Grid>
             </Grid>
+
             <Grid
                 Grid.Row="1"
+                Margin="0,20,0,0"
+                Padding="16"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    BorderBrush="{ThemeResource CardStrokeColorDefault}"
+                    BorderThickness="0,0,2,0">
+                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Previous Price</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMinProductPrice}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
+                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Current Price</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding PriceTag}" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Stretch"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="2,0,0,0">
+                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Price Difference</TextBlock>
+                    <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMaxProductPrice}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid
+                Grid.Row="2"
                 Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
