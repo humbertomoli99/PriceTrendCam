@@ -214,21 +214,21 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock
+                    x:Uid="txtNotifications"
                     Grid.Row="0"
                     HorizontalAlignment="Stretch"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="Notifications" />
+                    Style="{StaticResource SubtitleTextBlockStyle}" />
                 <TextBlock
+                    x:Uid="txtNotificationsMessage"
                     Grid.Row="1"
                     HorizontalAlignment="Stretch"
-                    Style="{StaticResource BodyTextBlockStyle}"
-                    Text="Always notify me when the price changes" />
+                    Style="{StaticResource BodyTextBlockStyle}" />
                 <Button
+                    x:Uid="btnEditNotification"
                     Grid.Row="1"
                     Grid.Column="1"
                     Width="120"
-                    HorizontalAlignment="Right"
-                    Content="Edit" />
+                    HorizontalAlignment="Right" />
             </Grid>
 
             <Grid

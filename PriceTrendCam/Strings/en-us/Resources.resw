@@ -260,4 +260,13 @@
   <data name="PriceDifference.Text" xml:space="preserve">
     <value>Price Difference</value>
   </data>
+  <data name="btnEditNotification.Content" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="txtNotifications.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="txtNotificationsMessage.Text" xml:space="preserve">
+    <value>Always notify me when the price changes</value>
+  </data>
 </root>
