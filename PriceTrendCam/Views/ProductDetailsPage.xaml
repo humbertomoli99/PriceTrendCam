@@ -33,12 +33,26 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
                     <TextBlock
                         Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Margin="{StaticResource MediumBottomMargin}"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{Binding ProductName}" />
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
                         <FontIcon
                             FontFamily="{StaticResource BootstrapIcons}"
                             FontSize="18"
@@ -51,7 +65,11 @@
                     </StackPanel>
 
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
 
                         <FontIcon
                             FontFamily="{StaticResource BootstrapIcons}"
@@ -64,7 +82,11 @@
                             Text="{Binding ShippingPrice}" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
 
                         <FontIcon
                             FontFamily="{StaticResource BootstrapIcons}"
@@ -81,6 +103,8 @@
 
                     <HyperlinkButton
                         Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
                         HorizontalAlignment="Right"
                         Content="Open in browser"
                         NavigateUri="{Binding ProductUrl}" />
