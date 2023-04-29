@@ -106,11 +106,17 @@
                     HorizontalAlignment="Stretch"
                     BorderBrush="{ThemeResource CardStrokeColorDefault}"
                     BorderThickness="0,0,2,0">
-                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Previous Price</TextBlock>
+                    <TextBlock
+                        x:Uid="PreviousPrice"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource BodyStrongTextBlockStyle}" />
                     <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMinProductPrice}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
-                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Current Price</TextBlock>
+                    <TextBlock
+                        x:Uid="CurrentPrice"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource BodyStrongTextBlockStyle}" />
                     <TextBlock HorizontalTextAlignment="Center" Text="{Binding PriceTag}" />
                 </StackPanel>
                 <StackPanel
@@ -118,7 +124,10 @@
                     HorizontalAlignment="Stretch"
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="2,0,0,0">
-                    <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Price Difference</TextBlock>
+                    <TextBlock
+                        x:Uid="PriceDifference"
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource BodyStrongTextBlockStyle}" />
                     <TextBlock HorizontalTextAlignment="Center" Text="{Binding ShowMaxProductPrice}" />
                 </StackPanel>
             </Grid>

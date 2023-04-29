@@ -251,4 +251,13 @@
   <data name="Shell_NewWebScrapingToolsProfile.Content" xml:space="preserve">
     <value>NewWebScrapingToolsProfile</value>
   </data>
+  <data name="CurrentPrice.Text" xml:space="preserve">
+    <value>Current Price</value>
+  </data>
+  <data name="PreviousPrice.Text" xml:space="preserve">
+    <value>Previous Price</value>
+  </data>
+  <data name="PriceDifference.Text" xml:space="preserve">
+    <value>Price Difference</value>
+  </data>
 </root>
