@@ -48,16 +48,32 @@ public class HtmlDocumentService
     }
     public static async Task<HttpResponseMessage> SendRequestAsync(HttpClient client, string url, HttpMethod httpMethod, Dictionary<string, string> parameters = null)
     {
-        // Crear una instancia de HttpContent con los parámetros
-        HttpContent content = null;
-        if (parameters != null)
+        // Modificar la URL si se proporcionaron parámetros
+        if (parameters != null && parameters.Count > 0)
         {
-            content = new FormUrlEncodedContent(parameters);
+            var queryString = string.Join("&", parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+
+            if (httpMethod == HttpMethod.Get)
+            {
+                url = $"{url}?{queryString}";
+            }
+            else if (httpMethod == HttpMethod.Post)
+            {
+                var existingUri = new Uri(url);
+                var uriBuilder = new UriBuilder(existingUri);
+                uriBuilder.Query = queryString;
+                url = uriBuilder.ToString();
+            }
+            else
+            {
+                // Para otros métodos HTTP, agregar los parámetros al cuerpo de la solicitud
+                var content = new FormUrlEncodedContent(parameters);
+                url = $"{url}?{queryString}";
+            }
         }
 
         // Crear una instancia de HttpRequestMessage con el método HTTP y URL
         var request = new HttpRequestMessage(httpMethod, url);
-        request.Content = content;
 
         // Enviar la solicitud HTTP
         var response = await client.SendAsync(request);
@@ -91,15 +107,9 @@ public class HtmlDocumentService
         };
 
         var httpClient = CreateHttpClient(handler, defaultHeaders);
-        
-        Dictionary<string, string> parameters = new Dictionary<string, string>
-        {
-            { "param1", "value1" },
-            { "param2", "value2" }
-        };
 
         // Realizar una solicitud HTTP GET
-        var response = await SendRequestAsync(httpClient, RequestUri, HttpMethod.Get, parameters);
+        var response = await SendRequestAsync(httpClient, RequestUri, HttpMethod.Get);
 
         // Leer el contenido de la respuesta
         var htmlContent = await response.Content.ReadAsStringAsync();
