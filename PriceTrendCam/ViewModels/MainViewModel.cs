@@ -72,19 +72,11 @@ public partial class MainViewModel : ObservableObject
     private string content;
     public bool OrderDescen;
 
-    private Visibility _isCheckedAllVisibility;
-    private Visibility _deleteProductVisibility;
+    [ObservableProperty]
+    public Visibility isCheckedAllVisibility;
 
-    public Visibility IsCheckedAllVisibility
-    {
-        get => _isCheckedAllVisibility;
-        set => SetProperty(ref _isCheckedAllVisibility, value);
-    }
-    public Visibility DeleteProductVisibility
-    {
-        get => _deleteProductVisibility;
-        set => SetProperty(ref _deleteProductVisibility, value);
-    }
+    [ObservableProperty]
+    public Visibility deleteProductVisibility;
 
     public bool ClipboardAutomatically
     {
