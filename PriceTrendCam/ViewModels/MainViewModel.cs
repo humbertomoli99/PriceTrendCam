@@ -56,11 +56,9 @@ public partial class MainViewModel : ObservableObject
         await UpdatePageCommands();
     }
 
-    public int CurrentPageIndex
-    {
-        get => _currentPageIndex;
-        set => SetProperty(ref _currentPageIndex, value);
-    }
+    [ObservableProperty]
+    public int currentPageIndex;
+
     [ObservableProperty]
     private string textBoxSearch;
 
