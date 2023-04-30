@@ -26,11 +26,11 @@ public partial class MainViewModel : ObservableObject
         get; set;
     }
     private int _totalItemsCount;
-    private int _currentPageIndex;
+
     private int _rowsPerPage;
     public int TotalItemsCount => ListViewCollection.Count;
     public int TotalPagesCount;
-    public string PageSummary => $"Página {_currentPageIndex + 1} de {TotalPagesCount}";
+    public string PageSummary => $"Página {CurrentPageIndex + 1} de {TotalPagesCount}";
     public ObservableCollection<int> RowsPerPageOptions
     {
         get; set;
