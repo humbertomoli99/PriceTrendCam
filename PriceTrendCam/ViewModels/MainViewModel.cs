@@ -87,13 +87,8 @@ public partial class MainViewModel : ObservableObject
     private readonly IClipboardSelectorService _clipboardSelectorService;
     private readonly INavigationService _navigationService;
 
-    private ObservableCollection<ProductListItem> _listViewCollection;
+    public ObservableCollection<ProductListItem> ListViewCollection;
 
-    public ObservableCollection<ProductListItem> ListViewCollection
-    {
-        get => _listViewCollection;
-        set => SetProperty(ref _listViewCollection, value);
-    }
     public ListView ListViewProducts
     {
         get;
