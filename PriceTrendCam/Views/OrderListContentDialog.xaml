@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Sort list"
+    DefaultButton="Primary"
     PrimaryButtonText="Accept"
     SecondaryButtonText="Cancel"
-    DefaultButton="Primary"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -24,9 +24,7 @@
                 GroupName="SortBy"
                 Tag="Id">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <FontIcon
-                        FontFamily="{StaticResource BootstrapIcons}"
-                        Glyph="&#xF44F;" />
+                    <FontIcon FontFamily="{StaticResource BootstrapIcons}" Glyph="&#xF44F;" />
                     <TextBlock Margin="6,0" Text="Id" />
                 </StackPanel>
             </RadioButton>

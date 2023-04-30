@@ -31,6 +31,7 @@
     <None Remove="Assets\Fonts\bootstrap-icons.ttf" />
     <None Remove="Scripts\getSelector.js" />
     <None Remove="Views\Controls\AddSitemapControl.xaml" />
+    <None Remove="Views\NotificationSettingsContentDialog.xaml" />
     <None Remove="Views\SitemapDetailsDetailControl.xaml" />
   </ItemGroup>
 
@@ -58,6 +59,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\NotificationSettingsContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Controls\DocumentationBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

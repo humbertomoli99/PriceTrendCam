@@ -94,6 +94,8 @@ public partial class App : Application
             services.AddTransient<NewWebScrapingToolsProfileViewModel>();
             services.AddTransient<NewWebScrapingToolsProfilePage>();
             services.AddTransient<OrderListContentDialog>();
+            services.AddTransient<NotificationSettingsContentDialog>();
+            services.AddTransient<NotificationSettingsContentDialogViewModel>();
             services.AddTransient<ProductDetailsViewModel>();
             services.AddTransient<ProductDetailsPage>();
             services.AddTransient<PostManFormViewModel>();

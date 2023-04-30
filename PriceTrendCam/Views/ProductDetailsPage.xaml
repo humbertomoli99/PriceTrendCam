@@ -225,10 +225,12 @@
                     Style="{StaticResource BodyTextBlockStyle}" />
                 <Button
                     x:Uid="btnEditNotification"
-                    Grid.Row="1"
-                    Grid.Column="1"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="2"
                     Width="120"
-                    HorizontalAlignment="Right" />
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Click="BtnEditNotification_Click" />
             </Grid>
 
             <Grid

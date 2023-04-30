@@ -54,8 +54,7 @@
                     x:Name="spHttpClientHandler"
                     Margin="{StaticResource SmallTopMargin}"
                     Visibility="Collapsed">
-                    <TextBlock
-                        Style="{StaticResource SubtitleTextBlockStyle}">Configure HttpClientHandler</TextBlock>
+                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}">Configure HttpClientHandler</TextBlock>
 
                     <CheckBox
                         x:Name="AutoDetectEncodingCheckBox"
