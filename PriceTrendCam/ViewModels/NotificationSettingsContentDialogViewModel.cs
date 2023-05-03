@@ -21,6 +21,7 @@ public partial class NotificationSettingsContentDialogViewModel : ObservableObje
     public NotificationSettingsContentDialogViewModel()
     {
         SetTextBoxVisibility(false);
+        isNotificationsAlwaysSelected = true;
     }
 
     public void SetTextBoxVisibility(bool isVisible)

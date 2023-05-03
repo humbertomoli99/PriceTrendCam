@@ -296,4 +296,13 @@
   <data name="txtNotificationsSchedule.SecondaryButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="btnUpdateProduct.Content" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="txtLastUpdated.Text" xml:space="preserve">
+    <value>Last Updated</value>
+  </data>
+  <data name="txtLastUpdatedTimeMessage.Text" xml:space="preserve">
+    <value>Not available</value>
+  </data>
 </root>

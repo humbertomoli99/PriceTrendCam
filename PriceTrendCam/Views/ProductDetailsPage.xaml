@@ -18,6 +18,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid
                 Grid.Row="0"
@@ -126,6 +127,42 @@
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Uid="txtLastUpdated"
+                    Grid.Row="0"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock
+                    x:Uid="txtLastUpdatedTimeMessage"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{x:Bind ViewModel.ProductDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="btnUpdateProduct"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="2"
+                    Width="120"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid
+                Grid.Row="2"
+                Margin="0,20,0,0"
+                Padding="16"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -163,7 +200,7 @@
             </Grid>
 
             <Grid
-                Grid.Row="2"
+                Grid.Row="3"
                 Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -198,7 +235,7 @@
             </Grid>
 
             <Grid
-                Grid.Row="3"
+                Grid.Row="4"
                 Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -234,7 +271,7 @@
             </Grid>
 
             <Grid
-                Grid.Row="4"
+                Grid.Row="5"
                 Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -259,7 +296,7 @@
             </Grid>
 
             <Grid
-                Grid.Row="5"
+                Grid.Row="6"
                 Margin="0,20,0,0"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -291,7 +328,7 @@
                 <!--  TextWrapping="Wrap"  -->
             </Grid>
             <Grid
-                Grid.Row="6"
+                Grid.Row="7"
                 Margin="0,20,0,5"
                 Padding="16"
                 Background="{ThemeResource LayerFillColorDefaultBrush}"

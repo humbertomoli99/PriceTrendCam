@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.ViewModels;
 using PriceTrendCam.Core.Models;
 
@@ -50,6 +49,9 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     [ObservableProperty]
     private string productHistory;
 
+    [ObservableProperty]
+    private string productDate;
+
     private ObservableCollection<string> _listImages;
     public ObservableCollection<string> ListImages
     {
@@ -71,6 +73,49 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
         var idProduct = int.Parse(parameter.ToString());
         await LoadProductsAsync(idProduct);
     }
+    /*
+   This method shows the text for the last edition based on the provided product date.
+   It calculates the time difference between the current time and the product date,
+   and assigns the appropriate text to the variable ProductDate.
+*/
+
+    private async Task ShowTextLastEdition(DateTime productDate)
+    {
+        DateTime currentTime = DateTime.Now;
+
+        TimeSpan timeDifference = currentTime - productDate;
+
+        if (timeDifference.TotalMinutes < 1)
+        {
+            ProductDate = "Less than a minute ago";
+        }
+        else if (timeDifference.TotalHours < 1)
+        {
+            var minutes = (int)timeDifference.TotalMinutes;
+            ProductDate = $"About {minutes} {(minutes == 1 ? "minute" : "minutes")} ago";
+        }
+        else if (timeDifference.TotalDays < 1)
+        {
+            var hours = (int)timeDifference.TotalHours;
+            ProductDate = $"About {hours} {(hours == 1 ? "hour" : "hours")} ago";
+        }
+        else if (timeDifference.TotalDays < 7)
+        {
+            var days = (int)timeDifference.TotalDays;
+            ProductDate = $"About {days} {(days == 1 ? "day" : "days")} ago";
+        }
+        else if (timeDifference.TotalDays < 30)
+        {
+            var weeks = (int)(timeDifference.TotalDays / 7);
+            ProductDate = $"About {weeks} {(weeks == 1 ? "week" : "weeks")} ago";
+        }
+        else
+        {
+            var months = (int)(timeDifference.TotalDays / 30);
+            ProductDate = $"Last edited: {months} {(months == 1 ? "month" : "months")} ago";
+        }
+    }
+
     public async Task LoadProductsAsync(int id)
     {
         // Obtener los productos de alguna fuente de datos
@@ -86,9 +131,11 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
         var Histories = await App.PriceTrackerService.GetAllAsync<History>();
         var ProductHistoryList = Histories.Where(u => u.ProductInfoId.Equals(Product.Id)).ToList();
 
-        var NumberOfRecords = ProductHistoryList.Count;
+        var NumberOfRecords = ProductHistoryList.Count - 1;
 
-        var SumProductPrice = new double?[NumberOfRecords];
+        var SumProductPrice = new double?[ProductHistoryList.Count];
+
+        await ShowTextLastEdition(ProductHistoryList[NumberOfRecords].Date);
 
         var i = 0;
         foreach (var item in ProductHistoryList)
