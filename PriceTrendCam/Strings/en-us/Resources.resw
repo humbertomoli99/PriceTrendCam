@@ -305,4 +305,7 @@
   <data name="txtLastUpdatedTimeMessage.Text" xml:space="preserve">
     <value>Not available</value>
   </data>
+  <data name="txtShowRows.Text" xml:space="preserve">
+    <value>Show rows:</value>
+  </data>
 </root>
