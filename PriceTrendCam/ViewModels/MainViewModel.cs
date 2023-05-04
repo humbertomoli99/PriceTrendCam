@@ -116,22 +116,6 @@ public partial class MainViewModel : ObservableObject
     private string previousSelectedSortBy;
     private string previousSelectedSortDirection;
 
-    public IAsyncRelayCommand MoveToFirstPageCommand
-    {
-        get;
-    }
-    public IAsyncRelayCommand MoveToPreviousPageCommand
-    {
-        get;
-    }
-    public IAsyncRelayCommand MoveToNextPageCommand
-    {
-        get;
-    }
-    public IAsyncRelayCommand MoveToLastPageCommand
-    {
-        get;
-    }
     public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
     {
         _clipboardSelectorService = clipboardSelectorService;
@@ -145,11 +129,6 @@ public partial class MainViewModel : ObservableObject
         ListViewCollection = new ObservableCollection<ProductListItem>();
         _ = HideButtons();
 
-        MoveToFirstPageCommand = new AsyncRelayCommand(MoveToFirstPage,CanMoveToFirstPage);
-        MoveToPreviousPageCommand = new AsyncRelayCommand(MoveToPreviousPage, CanMoveToPreviousPage);
-        MoveToNextPageCommand = new AsyncRelayCommand(MoveToNextPage, CanMoveToNextPage);
-        MoveToLastPageCommand = new AsyncRelayCommand(MoveToLastPage, CanMoveToLastPage);
-
         SelectedRowsPerPageOption = 10;
     }
 
@@ -162,24 +141,28 @@ public partial class MainViewModel : ObservableObject
         SelectedRowsPerPageOption = defaultRowsPerPage;
     }
 
+    [RelayCommand(CanExecute = nameof(CanMoveToFirstPage))]
     private async Task MoveToFirstPage()
     {
         CurrentPageIndex = 0;
         await UpdatePageCommands();
     }
 
+    [RelayCommand(CanExecute = nameof(CanMoveToPreviousPage))]
     private async Task MoveToPreviousPage()
     {
         CurrentPageIndex--;
         await UpdatePageCommands();
     }
 
+    [RelayCommand(CanExecute = nameof(CanMoveToNextPage))]
     private async Task MoveToNextPage()
     {
         CurrentPageIndex++;
         await UpdatePageCommands();
     }
 
+    [RelayCommand(CanExecute = nameof(CanMoveToLastPage))]
     private async Task MoveToLastPage()
     {
         CurrentPageIndex = TotalPagesCount - 1;

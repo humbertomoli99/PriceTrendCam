@@ -300,25 +300,25 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Text="{Binding PageSummary}" />
-                                        <Button Margin="0,0,5,0" Command="{Binding MoveToFirstPageCommand}">
+                                        <Button Margin="0,0,5,0" Command="{x:Bind ViewModel.MoveToFirstPageCommand}">
                                             <FontIcon
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF276;" />
                                         </Button>
-                                        <Button Margin="0,0,5,0" Command="{Binding MoveToPreviousPageCommand}">
+                                        <Button Margin="0,0,5,0" Command="{x:Bind ViewModel.MoveToPreviousPageCommand}">
                                             <FontIcon
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF284;" />
                                         </Button>
-                                        <Button Margin="0,0,5,0" Command="{Binding MoveToNextPageCommand}">
+                                        <Button Margin="0,0,5,0" Command="{x:Bind ViewModel.MoveToNextPageCommand}">
                                             <FontIcon
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
                                                 Glyph="&#xF285;" />
                                         </Button>
-                                        <Button Margin="0,0,0,0" Command="{Binding MoveToLastPageCommand}">
+                                        <Button Margin="0,0,0,0" Command="{x:Bind ViewModel.MoveToLastPageCommand}">
                                             <FontIcon
                                                 FontFamily="{StaticResource BootstrapIcons}"
                                                 FontSize="18"
