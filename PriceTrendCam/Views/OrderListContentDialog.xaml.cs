@@ -11,13 +11,13 @@ namespace PriceTrendCam.Views;
 public sealed partial class OrderListContentDialog : ContentDialog
 {
     // Propiedad pública SelectedSortBy
-    public string SelectedSortBy
+    private string SelectedSortBy
     {
         get; set;
     }
 
     // Propiedad pública SelectedSortDirection
-    public string SelectedSortDirection
+    private string SelectedSortDirection
     {
         get; set;
     }

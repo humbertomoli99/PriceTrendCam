@@ -261,9 +261,7 @@ public partial class MainViewModel : ObservableObject
         var dialogOrderList = new OrderListContentDialog(previousSelectedSortBy, previousSelectedSortDirection)
         {
             XamlRoot = XamlRoot,
-            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-            SelectedSortBy = previousSelectedSortBy, // establecer valores previos
-            SelectedSortDirection = previousSelectedSortDirection
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style
         };
 
         var dialogResult = await ContentDialogHelper.ShowContentDialog(dialogOrderList);
