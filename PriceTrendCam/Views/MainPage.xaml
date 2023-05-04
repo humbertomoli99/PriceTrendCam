@@ -289,7 +289,7 @@
                                         <TextBlock
                                             Margin="0,0,10,0"
                                             VerticalAlignment="Center"
-                                            Text="Mostrar filas:" />
+                                            Text="Show rows:" />
                                         <ComboBox
                                             Margin="0,0,10,0"
                                             IsEditable="True"
