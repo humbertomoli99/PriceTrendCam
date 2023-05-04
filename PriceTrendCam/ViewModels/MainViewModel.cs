@@ -30,7 +30,7 @@ public partial class MainViewModel : ObservableObject
     private int _rowsPerPage;
     public int TotalItemsCount => ListViewCollection.Count;
     public int TotalPagesCount;
-    public string PageSummary => $"Página {CurrentPageIndex + 1} de {TotalPagesCount}";
+    public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
     public ObservableCollection<int> RowsPerPageOptions
     {
         get; set;
