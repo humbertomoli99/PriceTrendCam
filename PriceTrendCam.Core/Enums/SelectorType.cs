@@ -1,6 +1,7 @@
 ﻿[Flags]
 public enum SelectorType
 {
+    Id_item,
     Name,
     Description,
     Image,

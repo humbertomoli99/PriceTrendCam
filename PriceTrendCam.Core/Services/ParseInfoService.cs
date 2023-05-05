@@ -48,6 +48,7 @@ public class ParseInfoService
         newProduct.ShippingPrice = ConvertValue<double?>(values.GetValueOrDefault("Shipping")?.ToString(), null);
         newProduct.Stock = ConvertValue<double?>(values.GetValueOrDefault("Stock")?.ToString(), null);
 
+        newProduct.Id_item = values.GetValueOrDefault("Id_item")?.ToString();
         newProduct.Name = values.GetValueOrDefault("Name")?.ToString();
         newProduct.Description = values.GetValueOrDefault("Description")?.ToString();
         newProduct.Image = values.GetValueOrDefault("Image")?.ToString();

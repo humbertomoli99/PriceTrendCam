@@ -16,6 +16,11 @@ public class ProductInfo
         get; set;
     }
 
+    public string? Id_item
+    {
+        get; set;
+    }
+
     public string? Name
     {
         get; set;
