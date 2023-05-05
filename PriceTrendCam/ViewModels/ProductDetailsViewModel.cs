@@ -52,6 +52,9 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     [ObservableProperty]
     private string productDate;
 
+    [ObservableProperty]
+    private string productId;
+
     private ObservableCollection<string> _listImages;
     public ObservableCollection<string> ListImages
     {
@@ -127,6 +130,7 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
         PriceCurrency = Product.PriceCurrency;
         ProductUrl = Product.Url;
         Id_Product = Product.Id;
+        ProductId = Product.Id_item;
 
         var Histories = await App.PriceTrackerService.GetAllAsync<History>();
         var ProductHistoryList = Histories.Where(u => u.ProductInfoId.Equals(Product.Id)).ToList();
