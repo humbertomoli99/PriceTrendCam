@@ -55,16 +55,12 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     [ObservableProperty]
     private string productId;
 
-    private ObservableCollection<string> _listImages;
-    public ObservableCollection<string> ListImages
-    {
-        get => _listImages;
-        set => SetProperty(ref _listImages, value);
-    }
+    [ObservableProperty]
+    private ObservableCollection<string> listImages;
 
     public ProductDetailsViewModel()
     {
-
+        ListImages = new ObservableCollection<string>();
     }
 
     public void OnNavigatedFrom()
