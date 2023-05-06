@@ -48,7 +48,7 @@
                         Grid.ColumnSpan="3"
                         Margin="{StaticResource MediumBottomMargin}"
                         Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{x:Bind ViewModel.ProductName}" />
+                        Text="{x:Bind ViewModel.ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <StackPanel
                         Grid.Row="1"
@@ -64,7 +64,7 @@
                         <TextBlock
                             Margin="5,0,0,0"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{x:Bind ViewModel.PriceTag}" />
+                            Text="{x:Bind ViewModel.PriceTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
 
@@ -86,7 +86,7 @@
                         <TextBlock
                             Margin="5,0,0,0"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{x:Bind ViewModel.ShippingPrice}" />
+                            Text="{x:Bind ViewModel.ShippingPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <StackPanel
@@ -105,20 +105,20 @@
                             Margin="5,0,0,0"
                             VerticalAlignment="Center"
                             Style="{StaticResource BodyStrongTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Stock}" />
+                            Text="{x:Bind ViewModel.Stock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
 
                     <TextBlock
                         Grid.Row="3"
                         HorizontalAlignment="Left"
-                        Text="{x:Bind ViewModel.ProductId}" />
+                        Text="{x:Bind ViewModel.ProductId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <HyperlinkButton
                         Grid.Row="3"
                         Grid.ColumnSpan="3"
                         HorizontalAlignment="Right"
                         Content="Open in browser"
-                        NavigateUri="{x:Bind ViewModel.ProductUrl}" />
+                        NavigateUri="{x:Bind ViewModel.ProductUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 </Grid>
             </Grid>
@@ -181,14 +181,14 @@
                         x:Uid="PreviousPrice"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource BodyStrongTextBlockStyle}" />
-                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMinProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMinProductPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
                     <TextBlock
                         x:Uid="CurrentPrice"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource BodyStrongTextBlockStyle}" />
-                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.PriceTag}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.PriceTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel
                     Grid.Column="2"
@@ -199,7 +199,7 @@
                         x:Uid="PriceDifference"
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource BodyStrongTextBlockStyle}" />
-                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMaxProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMaxProductPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
 
@@ -222,11 +222,11 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefault}"
                     BorderThickness="0,0,2,0">
                     <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Lowest Price</TextBlock>
-                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMinProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMinProductPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
                     <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Averange Price</TextBlock>
-                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowAvgProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowAvgProductPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel
                     Grid.Column="2"
@@ -234,7 +234,7 @@
                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="2,0,0,0">
                     <TextBlock HorizontalTextAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}">Highest Price</TextBlock>
-                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMaxProductPrice}" />
+                    <TextBlock HorizontalTextAlignment="Center" Text="{x:Bind ViewModel.ShowMaxProductPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
 
@@ -296,7 +296,7 @@
                 <TextBlock
                     Grid.Row="1"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind ViewModel.ProductHistory}" />
+                    Text="{x:Bind ViewModel.ProductHistory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
 
             <Grid
@@ -350,7 +350,7 @@
                 <TextBlock
                     Grid.Row="1"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind ViewModel.ProductDescription}" />
+                    Text="{x:Bind ViewModel.ProductDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <!--  TextWrapping="Wrap"  -->
             </Grid>
         </Grid>
