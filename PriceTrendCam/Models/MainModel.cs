@@ -13,13 +13,13 @@ public partial class MainModel : ObservableObject
     [ObservableProperty]
     public int currentPageIndex;
 
+    public int TotalPagesCount;
     public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
 
     public int _totalItemsCount;
+    public int TotalItemsCount => ListViewCollection.Count;
 
     public int _rowsPerPage;
-    public int TotalItemsCount => ListViewCollection.Count;
-    public int TotalPagesCount;
 
     public ObservableCollection<int> RowsPerPageOptions
     {
