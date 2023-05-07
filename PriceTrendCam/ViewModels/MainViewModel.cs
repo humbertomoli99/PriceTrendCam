@@ -18,17 +18,10 @@ using Windows.Foundation.Metadata;
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : MainModel
 {
-    private int _selectedRowsPerPageOption;
     public int SelectedRowsPerPageOption
     {
-        get => _selectedRowsPerPageOption;
-        set
-        {
-            if (SetProperty(ref _selectedRowsPerPageOption, value))
-            {
-                _ = OnSelectedItemChanged();
-            }
-        }
+        get;
+        set;
     }
 
     public async Task OnSelectedItemChanged()

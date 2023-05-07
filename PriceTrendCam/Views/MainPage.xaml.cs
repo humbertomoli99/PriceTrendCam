@@ -187,4 +187,17 @@ public sealed partial class MainPage : Page
     {
         VisualStateManager.GoToState(sender as Control, "HoverButtonsHidden", true);
     }
+
+    private async void RowsPerPageOptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (DataContext is MainViewModel viewModel)
+        {
+            if (int.TryParse(RowsPerPageOptions.SelectedItem as string, out int selectedValue))
+            {
+                viewModel.SelectedRowsPerPageOption = selectedValue;
+                await ViewModel.OnSelectedItemChanged();
+
+            }
+        }
+    }
 }
