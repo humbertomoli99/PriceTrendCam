@@ -5,59 +5,50 @@ using Microsoft.UI.Xaml.Controls;
 using PriceTrendCam.Contracts.Services;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Helpers;
-using PriceTrendCam.Views;
 
 namespace PriceTrendCam.Models;
 public partial class MainModel : ObservableObject
 {
+    //Paginacion
     [ObservableProperty]
     public int currentPageIndex;
 
+    public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
+
+    public int _totalItemsCount;
+
+    public int _rowsPerPage;
+    public int TotalItemsCount => ListViewCollection.Count;
+    public int TotalPagesCount;
+
+    public ObservableCollection<int> RowsPerPageOptions
+    {
+        get; set;
+    }
+
+    //busqueda
     [ObservableProperty]
     public string textBoxSearch;
 
     [ObservableProperty]
     public string textBoxSearchListView;
 
-    [ObservableProperty]
-    public Visibility isCheckedAllVisibility;
-
-    [ObservableProperty]
-    public Visibility deleteProductVisibility;
-
-    public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
-
-    public ContentDialogHelper<ContentDialog> ContentDialogHelper
-    {
-        get; set;
-    }
-    public XamlRoot XamlRoot
-    {
-        get; set;
-    }
-    public int _totalItemsCount;
-
-    public int _rowsPerPage;
-    public int TotalItemsCount => ListViewCollection.Count;
-    public int TotalPagesCount;
-    public ObservableCollection<int> RowsPerPageOptions
-    {
-        get; set;
-    }
-
-    public bool SelectMultipleIsEnabled;
-    public string message;
-    public string content;
-    public bool OrderDescen;
-
-    public bool ClipboardAutomatically
+    //Order List By
+    public string previousSelectedSortBy;
+    public string previousSelectedSortDirection;
+    public string OrderBy
     {
         get;
         set;
     }
+    public bool OrderDescen;
 
-    public IClipboardSelectorService _clipboardSelectorService;
-    public INavigationService _navigationService;
+    //lista de productos
+    public List<ProductInfo> ProductsList
+    {
+        get;
+        set;
+    }
 
     public ObservableCollection<ProductListItem> ListViewCollection;
 
@@ -66,27 +57,52 @@ public partial class MainModel : ObservableObject
         get;
         set;
     }
-    public AppBarToggleButton SelectAllCheckBox
+
+    //Message dialog
+    public XamlRoot XamlRoot
     {
-        get;
-        set;
+        get; set;
     }
-    public FontIcon SelectAllCheckBoxIcon
+
+    public string message;
+    public string content;
+
+    public ContentDialogHelper<ContentDialog> ContentDialogHelper
     {
-        get;
-        set;
+        get; set;
     }
-    public string OrderBy
-    {
-        get;
-        set;
-    }
-    public List<ProductInfo> ProductsList
+
+    //navegacion servicio
+    public INavigationService _navigationService;
+
+    //Clipboard service
+    public IClipboardSelectorService _clipboardSelectorService;
+
+    public bool ClipboardAutomatically
     {
         get;
         set;
     }
 
-    public string previousSelectedSortBy;
-    public string previousSelectedSortDirection;
+    //Seleccion de productos
+    [ObservableProperty]
+    public Visibility isCheckedAllVisibility;
+
+    public FontIcon SelectAllCheckBoxIcon
+    {
+        get;
+        set;
+    }
+
+    public bool SelectMultipleIsEnabled;
+
+    public AppBarToggleButton SelectAllCheckBox
+    {
+        get;
+        set;
+    }
+
+    //eliminacion de productos
+    [ObservableProperty]
+    public Visibility deleteProductVisibility;
 }
