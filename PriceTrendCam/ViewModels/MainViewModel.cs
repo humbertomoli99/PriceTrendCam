@@ -10,31 +10,14 @@ using PriceTrendCam.Core.Helpers;
 using PriceTrendCam.Core.Models;
 using PriceTrendCam.Core.Services;
 using PriceTrendCam.Helpers;
+using PriceTrendCam.Models;
 using PriceTrendCam.Views;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 
 namespace PriceTrendCam.ViewModels;
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel : MainModel
 {
-    public ContentDialogHelper<ContentDialog> ContentDialogHelper
-    {
-        get; set;
-    }
-    public XamlRoot XamlRoot
-    {
-        get; set;
-    }
-    private int _totalItemsCount;
-
-    private int _rowsPerPage;
-    public int TotalItemsCount => ListViewCollection.Count;
-    public int TotalPagesCount;
-    public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
-    public ObservableCollection<int> RowsPerPageOptions
-    {
-        get; set;
-    }
     private int _selectedRowsPerPageOption;
     public int SelectedRowsPerPageOption
     {
@@ -48,73 +31,13 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    private async Task OnSelectedItemChanged()
+    public async Task OnSelectedItemChanged()
     {
         if (ProductsList == null) return;
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
         await UpdatePageCommands();
     }
-
-    [ObservableProperty]
-    public int currentPageIndex;
-
-    [ObservableProperty]
-    private string textBoxSearch;
-
-    [ObservableProperty]
-    private string textBoxSearchListView;
-
-    private bool SelectMultipleIsEnabled;
-    private string message;
-    private string content;
-    public bool OrderDescen;
-
-    [ObservableProperty]
-    public Visibility isCheckedAllVisibility;
-
-    [ObservableProperty]
-    public Visibility deleteProductVisibility;
-
-    public bool ClipboardAutomatically
-    {
-        get;
-        set;
-    }
-
-    private readonly IClipboardSelectorService _clipboardSelectorService;
-    private readonly INavigationService _navigationService;
-
-    public ObservableCollection<ProductListItem> ListViewCollection;
-
-    public ListView ListViewProducts
-    {
-        get;
-        set;
-    }
-    public AppBarToggleButton SelectAllCheckBox
-    {
-        get;
-        set;
-    }
-    public FontIcon SelectAllCheckBoxIcon
-    {
-        get;
-        set;
-    }
-    public string OrderBy
-    {
-        get;
-        private set;
-    }
-    public List<ProductInfo> ProductsList
-    {
-        get;
-        private set;
-    }
-
-    private string previousSelectedSortBy;
-    private string previousSelectedSortDirection;
 
     public MainViewModel(INavigationService navigationService, IClipboardSelectorService clipboardSelectorService = null)
     {
