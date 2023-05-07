@@ -1,40 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using PriceTrendCam.Core.Models;
 using PriceTrendCam.Helpers;
+using PriceTrendCam.Models;
 using PriceTrendCam.ViewModels;
-using Windows.Foundation.Metadata;
 
 namespace PriceTrendCam.Views;
-
-public partial class ProductListItem : ObservableObject
-{
-    [ObservableProperty]
-    private int id;
-
-    [ObservableProperty]
-    private string? title;
-
-    [ObservableProperty]
-    private string? imageLocation;
-
-    [ObservableProperty]
-    private string? price;
-
-    [ObservableProperty]
-    private string? shipping;
-
-    [ObservableProperty]
-    private string? stock;
-
-    [ObservableProperty]
-    private ICommand? command;
-}
 
 public sealed partial class MainPage : Page
 {
