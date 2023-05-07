@@ -289,7 +289,7 @@
                                         <TextBlock
                                             x:Uid="txtShowRows"
                                             Margin="0,0,10,0"
-                                            VerticalAlignment="Center"/>
+                                            VerticalAlignment="Center" />
                                         <ComboBox
                                             Margin="0,0,10,0"
                                             IsEditable="True"
