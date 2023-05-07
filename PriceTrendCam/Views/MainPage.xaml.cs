@@ -12,55 +12,28 @@ using Windows.Foundation.Metadata;
 
 namespace PriceTrendCam.Views;
 
-public class ProductListItem : ObservableObject
+public partial class ProductListItem : ObservableObject
 {
-    private int _id;
-    public int Id
-    {
-        get => _id;
-        set => SetProperty(ref _id, value);
-    }
+    [ObservableProperty]
+    private int id;
 
-    private string _title;
-    public string Title
-    {
-        get => _title;
-        set => SetProperty(ref _title, value);
-    }
+    [ObservableProperty]
+    private string? title;
 
-    private string _imageLocation;
-    public string ImageLocation
-    {
-        get => _imageLocation;
-        set => SetProperty(ref _imageLocation, value);
-    }
+    [ObservableProperty]
+    private string? imageLocation;
 
-    private string _price;
-    public string Price
-    {
-        get => _price;
-        set => SetProperty(ref _price, value);
-    }
+    [ObservableProperty]
+    private string? price;
 
-    private string _shipping;
-    public string Shipping
-    {
-        get => _shipping;
-        set => SetProperty(ref _shipping, value);
-    }
+    [ObservableProperty]
+    private string? shipping;
 
-    private string _stock;
-    public string Stock
-    {
-        get => _stock;
-        set => SetProperty(ref _stock, value);
-    }
-    private ICommand _command;
-    public ICommand Command
-    {
-        get => _command;
-        set => SetProperty(ref _command, value);
-    }
+    [ObservableProperty]
+    private string? stock;
+
+    [ObservableProperty]
+    private ICommand? command;
 }
 
 public sealed partial class MainPage : Page
