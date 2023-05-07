@@ -26,6 +26,12 @@ public partial class MainModel : ObservableObject
         get; set;
     }
 
+    public int SelectedRowsPerPageOption
+    {
+        get;
+        set;
+    }
+
     //busqueda
     [ObservableProperty]
     public string textBoxSearch;

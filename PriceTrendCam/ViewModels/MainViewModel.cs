@@ -18,12 +18,6 @@ using Windows.Foundation.Metadata;
 namespace PriceTrendCam.ViewModels;
 public partial class MainViewModel : MainModel
 {
-    public int SelectedRowsPerPageOption
-    {
-        get;
-        set;
-    }
-
     public async Task OnSelectedItemChanged()
     {
         if (ProductsList == null) return;
