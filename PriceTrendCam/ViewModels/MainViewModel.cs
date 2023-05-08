@@ -41,14 +41,14 @@ public partial class MainViewModel : MainModel
 
         SelectedRowsPerPageOption = 10;
 
+        RowsPerPageOptions = new ObservableCollection<int> { 10, 25, 50, 100 };
+
         _ = UpdateList();
     }
 
     public void Pagination(int totalItemsCount, int defaultRowsPerPage = 10)
     {
         TotalItemsCount = totalItemsCount;
-
-        RowsPerPageOptions = new ObservableCollection<int> { 10, 25, 50, 100 };
         SelectedRowsPerPageOption = defaultRowsPerPage;
     }
 
