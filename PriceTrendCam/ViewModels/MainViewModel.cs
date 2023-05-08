@@ -40,7 +40,6 @@ public partial class MainViewModel : MainModel
         _ = HideButtons();
 
         SelectedRowsPerPageOption = 10;
-        CurrentPageIndex = 0;
 
         _ = UpdateList();
     }
