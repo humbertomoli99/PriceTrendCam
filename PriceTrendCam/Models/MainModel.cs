@@ -101,8 +101,6 @@ public partial class MainModel : ObservableObject
 
     public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
 
-    public int _rowsPerPage;
-
     public ObservableCollection<int> RowsPerPageOptions
     {
         get; set;
