@@ -137,11 +137,10 @@ public sealed partial class MainPage : Page
     {
         if (DataContext is MainViewModel viewModel)
         {
-            if (int.TryParse(RowsPerPageOptions.SelectedItem as string, out int selectedValue))
+            if (RowsPerPageOptions.SelectedItem != null && int.TryParse(RowsPerPageOptions.SelectedItem as string, out int selectedValue))
             {
                 viewModel.SelectedRowsPerPageOption = selectedValue;
                 await ViewModel.OnSelectedItemChanged();
-
             }
         }
     }
