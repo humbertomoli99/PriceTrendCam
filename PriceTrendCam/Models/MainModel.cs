@@ -9,29 +9,6 @@ using PriceTrendCam.Helpers;
 namespace PriceTrendCam.Models;
 public partial class MainModel : ObservableObject
 {
-    //Paginacion
-    [ObservableProperty]
-    public int currentPageIndex;
-
-    public int TotalPagesCount;
-    public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
-
-    public int _totalItemsCount;
-    public int TotalItemsCount => ListViewCollection.Count;
-
-    public int _rowsPerPage;
-
-    public ObservableCollection<int> RowsPerPageOptions
-    {
-        get; set;
-    }
-
-    public int SelectedRowsPerPageOption
-    {
-        get;
-        set;
-    }
-
     //busqueda
     [ObservableProperty]
     public string textBoxSearch;
@@ -111,4 +88,29 @@ public partial class MainModel : ObservableObject
     //eliminacion de productos
     [ObservableProperty]
     public Visibility deleteProductVisibility;
+
+    //Paginacion
+    [ObservableProperty]
+    public int currentPageIndex;
+
+    [ObservableProperty]
+    public int totalPagesCount;
+
+    [ObservableProperty]
+    public int totalItemsCount;
+
+    public string PageSummary => $"Page {CurrentPageIndex + 1} of {TotalPagesCount}";
+
+    public int _rowsPerPage;
+
+    public ObservableCollection<int> RowsPerPageOptions
+    {
+        get; set;
+    }
+
+    public int SelectedRowsPerPageOption
+    {
+        get;
+        set;
+    }
 }

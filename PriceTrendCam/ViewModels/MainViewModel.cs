@@ -40,11 +40,15 @@ public partial class MainViewModel : MainModel
         _ = HideButtons();
 
         SelectedRowsPerPageOption = 10;
+        CurrentPageIndex = 0;
+
+        TotalItemsCount = ListViewCollection.Count;
+        _ = UpdateList();
     }
 
     public void Pagination(int totalItemsCount, int defaultRowsPerPage = 10)
     {
-        _totalItemsCount = totalItemsCount;
+        TotalItemsCount = totalItemsCount;
         _rowsPerPage = defaultRowsPerPage;
 
         RowsPerPageOptions = new ObservableCollection<int> { 10, 25, 50, 100 };

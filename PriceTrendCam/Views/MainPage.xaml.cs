@@ -35,7 +35,7 @@ public sealed partial class MainPage : Page
             ViewModel.XamlRoot = XamlRoot;
 
             // Cargar los productos en la lista
-            await ViewModel.UpdateList();
+            //await ViewModel.UpdateList();
 
             // Establecer el contexto de datos del ListView
             DataContext = ViewModel;
