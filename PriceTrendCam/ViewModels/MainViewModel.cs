@@ -158,6 +158,7 @@ public partial class MainViewModel : MainModel
     {
         ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         var isAscending = (previousSelectedSortDirection == "Ascending");
+        TotalItemsCount = ProductsList.Count;
 
         await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
