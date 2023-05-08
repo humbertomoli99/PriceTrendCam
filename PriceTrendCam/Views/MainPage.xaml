@@ -294,8 +294,8 @@
                                             x:Name="RowsPerPageOptions"
                                             Margin="0,0,10,0"
                                             IsEditable="True"
-                                            ItemsSource="{Binding RowsPerPageOptions}"
-                                            SelectedItem="{Binding SelectedRowsPerPageOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            ItemsSource="{x:Bind ViewModel.RowsPerPageOptions}"
+                                            SelectedItem="{x:Bind ViewModel.SelectedRowsPerPageOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             SelectionChanged="RowsPerPageOptions_SelectionChanged" />
                                         <TextBlock
                                             Grid.Column="1"

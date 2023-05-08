@@ -93,6 +93,8 @@ public partial class MainViewModel : MainModel
         MoveToLastPageCommand.NotifyCanExecuteChanged();
         MoveToFirstPageCommand.NotifyCanExecuteChanged();
 
+        await UpdateList();
+
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
