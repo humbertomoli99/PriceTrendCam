@@ -42,7 +42,6 @@ public partial class MainViewModel : MainModel
         SelectedRowsPerPageOption = 10;
         CurrentPageIndex = 0;
 
-        TotalItemsCount = ListViewCollection.Count;
         _ = UpdateList();
     }
 
