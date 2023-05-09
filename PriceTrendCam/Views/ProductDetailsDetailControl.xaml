@@ -8,68 +8,62 @@
     <ScrollViewer
         Name="ForegroundElement"
         HorizontalAlignment="Stretch"
-        VerticalScrollMode="Enabled"
-        IsTabStop="True">
+        IsTabStop="True"
+        VerticalScrollMode="Enabled">
         <StackPanel HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Image
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
                     Width="200"
                     Height="200"
-                    Source="{x:Bind ListDetailsMenuItem.Image, Mode=OneWay}"
-                    AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Image, Mode=OneWay}"  />
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Image, Mode=OneWay}"
+                    Source="{x:Bind ListDetailsMenuItem.Image, Mode=OneWay}" />
                 <TextBlock
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center"
-                    Text="{x:Bind ListDetailsMenuItem.Name, Mode=OneWay}"
-                    Style="{ThemeResource TitleTextBlockStyle}" />
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="{x:Bind ListDetailsMenuItem.Name, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Padding="0,15,0,0">
-                <TextBlock Text="Description" Style="{StaticResource DetailSubTitleStyle}" />
+                <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Description" />
 
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.Description, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Text="Date"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.Date, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Text="Store Name"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.StoreName, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Text="Price"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock
-                    Text="{x:Bind ListDetailsMenuItem.Price, Mode=OneWay}"
-                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
-                
-                <TextBlock
-                    Margin="{StaticResource SmallTopMargin}"
-                    Text="Shipping Price"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                <TextBlock Text="{x:Bind ListDetailsMenuItem.ShippingPrice, Mode=OneWay}" Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.Description, Mode=OneWay}" />
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
-                    Text="Stock"
-                    Style="{StaticResource DetailSubTitleStyle}" />
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Date" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.Date, Mode=OneWay}" />
                 <TextBlock
-                    Text="{x:Bind ListDetailsMenuItem.Stock, Mode=OneWay}"
-                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Store Name" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.StoreName, Mode=OneWay}" />
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
-                    Text="Status"
-                    Style="{StaticResource DetailSubTitleStyle}" />
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Price" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.Price, Mode=OneWay}" />
+
                 <TextBlock
-                    Text="{x:Bind ListDetailsMenuItem.Status, Mode=OneWay}"
-                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Shipping Price" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.ShippingPrice, Mode=OneWay}" />
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Stock" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.Stock, Mode=OneWay}" />
+
+                <TextBlock
+                    Margin="{StaticResource SmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Status" />
+                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{x:Bind ListDetailsMenuItem.Status, Mode=OneWay}" />
 
             </StackPanel>
         </StackPanel>
