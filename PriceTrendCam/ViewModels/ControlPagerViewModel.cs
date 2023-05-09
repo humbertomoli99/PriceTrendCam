@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,26 @@ using PriceTrendCam.Models;
 namespace PriceTrendCam.ViewModels;
 public partial class ControlPagerViewModel : ControlPagerModel
 {
+    private readonly IEnumerable<ProductListItem> _products;
+    private readonly int _defaultRowsPerPage;
+
+    public ControlPagerViewModel(IEnumerable<ProductListItem> products, int defaultRowsPerPage)
+    {
+        _products = products;
+        _defaultRowsPerPage = defaultRowsPerPage;
+
+        // Inicializar propiedades y opciones de paginación
+        TotalItemsCount = products.Count();
+        RowsPerPageOptions = new ObservableCollection<int>(new[] { 5, 10, 20, 50 });
+        SelectedRowsPerPageOption = defaultRowsPerPage;
+
+        // Calcular número total de páginas
+        TotalPagesCount = (int)Math.Ceiling((double)TotalItemsCount / SelectedRowsPerPageOption);
+
+        // Establecer la página actual en la primera página
+        CurrentPageIndex = 0;
+    }
+
     public void Pagination(int totalItemsCount, int defaultRowsPerPage = 10)
     {
         TotalItemsCount = totalItemsCount;
