@@ -3,43 +3,38 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:PriceTrendCam.Core.Models"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <ScrollViewer
         Name="ForegroundElement"
         HorizontalAlignment="Stretch"
-        VerticalScrollMode="Enabled"
-        IsTabStop="True">
+        IsTabStop="True"
+        VerticalScrollMode="Enabled">
         <StackPanel HorizontalAlignment="Stretch">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                 <Image
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
                     Width="50"
                     Height="50"
-                    Source="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"
-                    AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"  />
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}"
+                    Source="{x:Bind ListDetailsMenuItem.Favicon, Mode=OneWay}" />
                 <TextBlock
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Center"
-                    Text="{x:Bind ListDetailsMenuItem.Name, Mode=OneWay}"
-                    Style="{ThemeResource TitleTextBlockStyle}" />
+                    Style="{ThemeResource TitleTextBlockStyle}"
+                    Text="{x:Bind ListDetailsMenuItem.Name, Mode=OneWay}" />
             </StackPanel>
             <StackPanel Padding="0,15,0,0">
 
-                <TextBlock
-                    Text="Urls"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                
-                <ListView
-                    ItemsSource="{x:Bind ListDetailsMenuItem.Urls, Mode=OneWay}">
+                <TextBlock Style="{StaticResource DetailSubTitleStyle}" Text="Urls" />
+
+                <ListView ItemsSource="{x:Bind ListDetailsMenuItem.Urls, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock
-                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
-                                    Text="{Binding Url}" />
+                                <TextBlock Style="{StaticResource DetailBodyBaseMediumStyle}" Text="{Binding Url}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -47,82 +42,71 @@
 
                 <TextBlock
                     Margin="{StaticResource SmallTopMargin}"
-                    Text="Selectors"
-                    Style="{StaticResource DetailSubTitleStyle}" />
-                <ListView
-                    ItemsSource="{x:Bind ListDetailsMenuItem.Selectors, Mode=OneWay}">
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Selectors" />
+                <ListView ItemsSource="{x:Bind ListDetailsMenuItem.Selectors, Mode=OneWay}">
                     <ListView.Header>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="*"
-                                    MaxWidth="80" />
-                                <ColumnDefinition
-                                    Width="*"
-                                    MaxWidth="100" />
-                                <ColumnDefinition
-                                    Width="*" />
+                                <ColumnDefinition Width="*" MaxWidth="80" />
+                                <ColumnDefinition Width="*" MaxWidth="100" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
                                 Grid.Column="0"
-                                Text="Type"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
-                                TextAlignment="Left"
-                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                Text="Type"
+                                TextAlignment="Left" />
                             <TextBlock
                                 Grid.Column="1"
-                                Text="Attribute"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
-                                TextAlignment="Left"
-                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                Text="Attribute"
+                                TextAlignment="Left" />
                             <TextBlock
                                 Grid.Column="2"
-                                Text="CSS Selector"
                                 Margin="6"
                                 HorizontalAlignment="Stretch"
-                                TextAlignment="Left"
-                                Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                Text="CSS Selector"
+                                TextAlignment="Left" />
                         </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition
-                                        Width="*"
-                                        MaxWidth="80" />
-                                    <ColumnDefinition
-                                        Width="*"
-                                        MaxWidth="100" />
-                                    <ColumnDefinition
-                                        Width="*" />
+                                    <ColumnDefinition Width="*" MaxWidth="80" />
+                                    <ColumnDefinition Width="*" MaxWidth="100" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
                                     Grid.Column="0"
                                     Margin="6"
-                                    Text="{Binding Type}"
-                                    TextAlignment="Left"
                                     HorizontalAlignment="Stretch"
                                     FontSize="{StaticResource SmallFontSize}"
-                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                    Text="{Binding Type}"
+                                    TextAlignment="Left" />
                                 <TextBlock
                                     Grid.Column="1"
                                     Margin="6"
-                                    TextAlignment="Left"
-                                    Text="{Binding Attribute}"
                                     HorizontalAlignment="Stretch"
                                     FontSize="{StaticResource SmallFontSize}"
-                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                    Text="{Binding Attribute}"
+                                    TextAlignment="Left" />
                                 <TextBlock
                                     Grid.Column="2"
                                     Margin="6"
-                                    TextAlignment="Left"
-                                    Text="{Binding CssSelector}"
                                     HorizontalAlignment="Stretch"
                                     FontSize="{StaticResource SmallFontSize}"
-                                    Style="{StaticResource DetailBodyBaseMediumStyle}" />
+                                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                                    Text="{Binding CssSelector}"
+                                    TextAlignment="Left" />
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

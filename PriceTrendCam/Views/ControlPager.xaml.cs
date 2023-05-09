@@ -13,6 +13,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using PriceTrendCam.Core.Models;
+using PriceTrendCam.Models;
 using PriceTrendCam.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -27,6 +29,20 @@ public sealed partial class ControlPager : UserControl
     {
         get;
     }
+    public static readonly DependencyProperty ControlPagerControlProperty =
+        DependencyProperty.Register(
+            "ControlPagerControl",
+            typeof(ControlPagerModel),
+            typeof(ControlPager),
+            new PropertyMetadata(null)
+        );
+
+    public ControlPagerModel ControlPagerControl
+    {
+        get => (ControlPagerModel)GetValue(ControlPagerControlProperty);
+        set => SetValue(ControlPagerControlProperty, value);
+    }
+
     public ControlPager()
     {
         this.InitializeComponent();
