@@ -69,8 +69,15 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     }
     public async Task OnNavigatedTo(object parameter)
     {
-        var idProduct = int.Parse(parameter.ToString());
-        await LoadProductsAsync(idProduct);
+        if (parameter is string stringValue && !string.IsNullOrEmpty(stringValue))
+        {
+            var idProduct = int.Parse(stringValue);
+            await LoadProductsAsync(idProduct);
+        }
+        else
+        {
+            // Manejar el caso cuando el parámetro no es un string válido
+        }
     }
     /*
    This method shows the text for the last edition based on the provided product date.
