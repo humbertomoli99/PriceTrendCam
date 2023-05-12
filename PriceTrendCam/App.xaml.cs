@@ -17,6 +17,7 @@ using PriceTrendCam.Models;
 using PriceTrendCam.Notifications;
 using PriceTrendCam.Services;
 using PriceTrendCam.Services.DataService;
+using PriceTrendCam.UserControls;
 using PriceTrendCam.ViewModels;
 using PriceTrendCam.Views;
 
@@ -91,6 +92,8 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<EverydayPhrasesUserControlViewModel>();
+            services.AddTransient<EverydayPhrasesUserControl>();
             services.AddTransient<NewWebScrapingToolsProfileViewModel>();
             services.AddTransient<NewWebScrapingToolsProfilePage>();
             services.AddTransient<OrderListContentDialog>();

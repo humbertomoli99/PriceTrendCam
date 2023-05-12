@@ -19,12 +19,25 @@ public sealed partial class MainPage : Page
     {
         get; set;
     }
+    public Dictionary<string, string> Phrases
+    {
+        get; set;
+    }
+
     public MainPage()
     {
         InitializeComponent();
         ViewModel = App.GetService<MainViewModel>();
         ContentDialogHelper = ContentDialogHelper<ContentDialog>.Instance;
         Loaded += MainPage_Loaded;
+        Phrases = new()
+            {
+                { "Who you gonna call?", "Ghostbusters!" },
+                { "I collect spores, ", "molds and fungus." },
+                { "He ", "slimed me." },
+                { "Ray, when someone asks you if you are a god, ", "you say YES!" },
+                { "See you on the other side, Ray.", "Nice working with you, Dr.Venkman." },
+            };
     }
 
     private async void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

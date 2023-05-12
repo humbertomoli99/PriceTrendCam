@@ -1,0 +1,41 @@
+﻿<UserControl
+    x:Class="PriceTrendCam.UserControls.EverydayPhrasesUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid BorderBrush="{x:Bind BorderBrush}" BorderThickness="{x:Bind BorderThickness}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Margin="{x:Bind Margin}"
+            Text="{x:Bind Header}" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                x:Name="PhraseStart"
+                Grid.Column="0"
+                Margin="{x:Bind Margin}"
+                PlaceholderText="Start a phrase..." />
+            <Button
+                Grid.Column="1"
+                Margin="{x:Bind Margin}"
+                Command="{x:Bind CompletePhraseCommand}"
+                Content="Enter" />
+            <TextBox
+                x:Name="PhraseEnd"
+                Grid.Column="2"
+                Margin="{x:Bind Margin}"
+                IsReadOnly="True" />
+        </Grid>
+    </Grid>
+</UserControl>

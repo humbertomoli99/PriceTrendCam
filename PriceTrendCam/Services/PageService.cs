@@ -3,6 +3,7 @@
 using Microsoft.UI.Xaml.Controls;
 
 using PriceTrendCam.Contracts.Services;
+using PriceTrendCam.UserControls;
 using PriceTrendCam.ViewModels;
 using PriceTrendCam.Views;
 

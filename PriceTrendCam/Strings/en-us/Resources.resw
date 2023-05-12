@@ -308,4 +308,7 @@
   <data name="txtShowRows.Text" xml:space="preserve">
     <value>Show rows:</value>
   </data>
+  <data name="Shell_EverydayPhrasesUserControl.Content" xml:space="preserve">
+    <value>EverydayPhrasesUserControl</value>
+  </data>
 </root>
