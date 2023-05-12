@@ -69,14 +69,13 @@ public partial class ProductDetailsViewModel : ObservableRecipient, INavigationA
     }
     public async Task OnNavigatedTo(object parameter)
     {
-        if (parameter is string stringValue && !string.IsNullOrEmpty(stringValue))
+        if (parameter != null && int.TryParse(parameter.ToString(), out int idProduct))
         {
-            var idProduct = int.Parse(stringValue);
             await LoadProductsAsync(idProduct);
         }
         else
         {
-            // Manejar el caso cuando el parámetro no es un string válido
+            // Manejar el caso cuando el parámetro no se puede convertir a int
         }
     }
     /*
