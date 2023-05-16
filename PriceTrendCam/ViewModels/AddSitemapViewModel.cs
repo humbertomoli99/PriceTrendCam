@@ -107,12 +107,7 @@ public partial class AddSitemapViewModel : ObservableValidator
     {
         message = string.Empty;
 
-        var tasks = TextBoxUrls.Select(async url =>
-        {
-            Uri uri;
-            var isValid = Url.TryCreateUri(url, out uri);
-            return isValid;
-        }).ToList();
+        var tasks = TextBoxUrls.Select(async url => await Url.IsValid(url)).ToList();
 
         await Task.WhenAll(tasks);
 
