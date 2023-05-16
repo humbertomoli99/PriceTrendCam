@@ -412,12 +412,20 @@ public partial class MainViewModel : MainModel
     {
         try
         {
-            if (await Url.IsValid(TextBoxSearch))
+            Uri createdUri;
+
+            var success = Url.TryCreateUri(TextBoxSearch, out createdUri);
+
+            if (success)
             {
+                // El Uri se creó exitosamente
+                Console.WriteLine("Uri creado: " + createdUri.ToString());
                 await SearchUrlAsync(TextBoxSearch);
             }
             else
             {
+                // La creación del Uri falló
+                Console.WriteLine("No se pudo crear el Uri.");
                 await SearchTermAsync();
             }
         }

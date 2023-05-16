@@ -44,6 +44,21 @@ public class Url
 
         return false;
     }
+    public static bool TryCreateUri(String potentialUri, out Uri result)
+    {
+        Uri uri;
+        if ((Uri.TryCreate(potentialUri, UriKind.Absolute, out uri) || Uri.TryCreate("http://" + potentialUri, UriKind.Absolute, out uri)) &&
+            (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
+        {
+            result = uri;
+            return true;
+        }
+        else
+        {
+            result = null;
+            return false;
+        }
+    }
     public static string LimpiarUrl(string url)
     {
         var uri = new Uri(url);
