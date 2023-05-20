@@ -8,34 +8,55 @@ public class Url
 {
     public static async Task<bool> IsValid(string url)
     {
-        if (string.IsNullOrEmpty(url)) { return false; }
+        if (string.IsNullOrEmpty(url))
+        {
+            return false;
+        }
 
         url = await NormalizeUrl(url);
 
-        // Comprobar si la URL es válida según la sintaxis de una URL
-        var regex = new Regex(@"^(https?://)?([\w-]+\.)+[\w-]+(/[^\s]*)?$");
-
-        if (!regex.IsMatch(url))
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
         {
-            Debug.WriteLine($"La URL no es válida según la expresión regular: {url}");
+            // Intenta agregar el esquema HTTP si falta
+            if (Uri.TryCreate("http://" + url, UriKind.Absolute, out uri))
+            {
+                url = uri.AbsoluteUri;
+            }
+            else
+            {
+                Debug.WriteLine($"La URL no es válida: {url}");
+                return false;
+            }
+        }
+
+        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
+        {
+            Debug.WriteLine($"El esquema de la URL no es HTTP o HTTPS: {url}");
             return false;
         }
 
         try
         {
-            // Enviar una solicitud HTTP GET a la URL
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
-            var response = await client.GetAsync(url);
+                using (var response = await client.GetAsync(uri))
+                {
+                    Debug.WriteLine($"Código de estado de la respuesta: {response.StatusCode}");
 
-            // Imprimir el código de estado de la respuesta
-            Debug.WriteLine($"Código de estado de la respuesta: {response.StatusCode}");
+                    if (response.StatusCode == HttpStatusCode.OK ||
+                        response.StatusCode == HttpStatusCode.MovedPermanently)
+                    {
+                        return true;
+                    }
 
-            // Comprobar si la respuesta tiene un código de estado válido
-            if (response.StatusCode == HttpStatusCode.OK) { return true; }
-            if (response.StatusCode == HttpStatusCode.MovedPermanently) { return true; }
-            if (response.StatusCode == HttpStatusCode.Forbidden) { return false; }
+                    if (response.StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        return false;
+                    }
+                }
+            }
         }
         catch (HttpRequestException ex)
         {
