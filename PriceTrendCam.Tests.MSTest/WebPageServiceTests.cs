@@ -1,5 +1,6 @@
 ﻿using PriceTrendCam.Core.Services;
 
+namespace PriceTrendCam.Tests.MSTest;
 [TestClass]
 public class WebPageServiceTests
 {
