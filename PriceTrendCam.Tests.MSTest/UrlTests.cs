@@ -14,7 +14,7 @@ public class UrlTests
     {
         validUrl = "https://www.example.com";
         invalidUrl = "invalidurl";
-        redirectingUrl = "https://www.example.com/redirect";
+        redirectingUrl = "https://articulo.mercadolibre.com.mx/";
     }
 
     [TestMethod]
@@ -44,7 +44,7 @@ public class UrlTests
         string finalUrl = Url.GetRedirectUrl(redirectingUrl).Result;
 
         // Assert
-        Assert.AreEqual("https://www.example.com/final", finalUrl, "The final URL should be correct.");
+        Assert.AreEqual("http://www.mercadolibre.com.mx/", finalUrl, "The final URL should be correct.");
     }
 
     [TestMethod]
