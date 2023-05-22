@@ -21,7 +21,7 @@ public class UrlTests
     public void IsValid_ValidUrl_ReturnsTrue()
     {
         // Act
-        bool isValid = Url.IsValid(validUrl).Result;
+        var isValid = Url.IsValid(validUrl).Result;
 
         // Assert
         Assert.IsTrue(isValid, "The URL should be valid.");
@@ -31,7 +31,7 @@ public class UrlTests
     public void IsValid_InvalidUrl_ReturnsFalse()
     {
         // Act
-        bool isValid = Url.IsValid(invalidUrl).Result;
+        var isValid = Url.IsValid(invalidUrl).Result;
 
         // Assert
         Assert.IsFalse(isValid, "The URL should be invalid.");
@@ -41,7 +41,7 @@ public class UrlTests
     public void GetRedirectUrl_RedirectingUrl_ReturnsFinalUrl()
     {
         // Act
-        string finalUrl = Url.GetRedirectUrl(redirectingUrl).Result;
+        var finalUrl = Url.GetRedirectUrl(redirectingUrl).Result;
 
         // Assert
         Assert.AreEqual("https://www.mercadolibre.com.mx/", finalUrl, "The final URL should be correct.");
@@ -51,10 +51,10 @@ public class UrlTests
     public void LimpiarUrl_UrlWithQueryString_ReturnsCleanedUrl()
     {
         // Arrange
-        string urlWithQuery = "https://www.example.com/product?id=123";
+        var urlWithQuery = "https://www.example.com/product?id=123";
 
         // Act
-        string cleanedUrl = Url.LimpiarUrl(urlWithQuery);
+        var cleanedUrl = Url.LimpiarUrl(urlWithQuery);
 
         // Assert
         Assert.AreEqual("https://www.example.com/product", cleanedUrl, "The cleaned URL should not include the query string.");
