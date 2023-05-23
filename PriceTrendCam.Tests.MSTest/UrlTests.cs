@@ -72,4 +72,24 @@ public class UrlTests
         // Assert
         Assert.AreEqual("https://www.mercadolibre.com.mx/memoria-ram-fury-impact-gamer-color-negro-16gb-1-kingston-kf432s20ib16/p/MLM18931517", cleanedUrl, "The cleaned URL should not include the query string.");
     }
+    [TestMethod]
+    public async Task GetRedirectUrl_WithTryCreateUriAndNormalizeUrl_ReturnsRedirectedUrl()
+    {
+        // Arrange
+        var originalUrl = "http://google.com";
+        var expectedRedirectUrl = "https://www.google.com/";
+
+        // Act
+        Uri uri;
+        var isValidUri = Url.TryCreateUri(originalUrl, out uri);
+        Assert.IsTrue(isValidUri, "Failed to create URI from the original URL.");
+
+        var normalizedUrl = await Url.NormalizeUrl(uri.AbsoluteUri);
+        Assert.IsNotNull(normalizedUrl, "Failed to normalize the URL.");
+
+        var redirectedUrl = await Url.GetRedirectUrl(normalizedUrl);
+
+        // Assert
+        Assert.AreEqual(expectedRedirectUrl, redirectedUrl);
+    }
 }
