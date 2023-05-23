@@ -137,7 +137,7 @@ public class Url
         }
 
         // 1. Crear un cliente HTTP
-        using (var client = new HttpClient())
+        using (var client = new HttpClient(new HttpClientHandler() { AllowAutoRedirect = false }))
         {
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
