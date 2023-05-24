@@ -65,6 +65,13 @@ public class Url
 
         return false;
     }
+
+    public static string GetBaseUrl(string url)
+    {
+        var uri = new Uri(url);
+        return uri.GetLeftPart(UriPartial.Path);
+    }
+
     public static bool TryCreateUri(String potentialUri, out Uri result)
     {
         Uri uri;
