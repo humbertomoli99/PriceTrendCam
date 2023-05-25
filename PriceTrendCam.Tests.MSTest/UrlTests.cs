@@ -77,7 +77,7 @@ public class UrlTests
     {
         // Arrange
         var originalUrl = "http://google.com";
-        var expectedRedirectUrl = "https://www.google.com/";
+        var expectedRedirectUrl = "https://www.google.com/?gws_rd=ssl";
 
         // Act
         Uri uri;

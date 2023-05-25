@@ -143,49 +143,54 @@ public class Url
             return null;
         }
 
-        //Crear un controlador con AllowAutoRedirect en true
-        var handler = new HttpClientHandler();
-        handler.AllowAutoRedirect = true;
+        var maxRedirections = 10;
+        var currentRedirections = 0;
 
-        // 1. Crear un cliente HTTP
-        using (var client = new HttpClient(handler))
+        while (currentRedirections < maxRedirections)
         {
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
+            // Crear un cliente HTTP con AllowAutoRedirect en false
+            var handler = new HttpClientHandler();
+            handler.AllowAutoRedirect = false;
 
-            // 2. Enviar una solicitud HTTP GET a la URL original
-            HttpResponseMessage response;
-            try
+            using (var client = new HttpClient(handler))
             {
-                response = await client.GetAsync(url);
-            }
-            catch (HttpRequestException ex)
-            {
-                Debug.WriteLine($"Se produjo una excepción al enviar la solicitud HTTP a {url}: {ex.Message}");
-                return null;
-            }
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
-            // 3. Verificar el código de estado de la respuesta
-            if (response.StatusCode == HttpStatusCode.Redirect ||
-                response.StatusCode == HttpStatusCode.MovedPermanently)
-            {
-                // 4. Obtener la URL a la que se redirecciona
-                var locationHeader = response.Headers.Location?.ToString();
-
-                if (!string.IsNullOrEmpty(locationHeader))
+                // Enviar una solicitud HTTP GET a la URL
+                HttpResponseMessage response;
+                try
                 {
-                    // 5. Modificar manualmente la URL final con esquema "https" y eliminar el puerto
-                    var finalUri = new UriBuilder(locationHeader);
-                    finalUri.Scheme = "https";
-                    finalUri.Port = -1;
-
-                    return finalUri.Uri.AbsoluteUri;
+                    response = await client.GetAsync(url);
                 }
+                catch (HttpRequestException ex)
+                {
+                    Debug.WriteLine($"Se produjo una excepción al enviar la solicitud HTTP a {url}: {ex.Message}");
+                    return null;
+                }
+
+                if (response.StatusCode == HttpStatusCode.Redirect ||
+                    response.StatusCode == HttpStatusCode.MovedPermanently)
+                {
+                    var locationHeader = response.Headers.Location?.ToString();
+
+                    if (!string.IsNullOrEmpty(locationHeader))
+                    {
+                        // Actualizar la URL con la ubicación de redirección
+                        url = locationHeader;
+                        currentRedirections++;
+                        continue;
+                    }
+                }
+
+                // Si no hay redirecciones, devolver la URL actual
+                return url;
             }
         }
 
-        // 6. Si no se produjo una redirección, devolver la URL original
+        // Si se alcanza el límite máximo de redirecciones, devolver la URL actual
         return url;
     }
+
 
 
 }
