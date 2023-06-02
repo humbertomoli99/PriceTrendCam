@@ -39,9 +39,9 @@ public partial class MainViewModel : MainModel
         ListViewCollection = new ObservableCollection<ProductListItem>();
         _ = HideButtons();
 
-        SelectedRowsPerPageOption = 10;
+        SelectedRowsPerPageOption = 5;
 
-        RowsPerPageOptions = new ObservableCollection<int> { 10, 25, 50, 100 };
+        RowsPerPageOptions = new ObservableCollection<int> { 5, 10, 25, 50, 100 };
 
         _ = UpdateList();
     }
