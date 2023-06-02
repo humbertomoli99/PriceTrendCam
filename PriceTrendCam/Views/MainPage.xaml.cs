@@ -139,7 +139,7 @@ public sealed partial class MainPage : Page
         {
             if (RowsPerPageOptions.SelectedItem != null)
             {
-                if (int.TryParse(RowsPerPageOptions.SelectedItem.ToString(), out int selectedOption))
+                if (int.TryParse(RowsPerPageOptions.SelectedItem.ToString(), out var selectedOption))
                 {
                     viewModel.SelectedRowsPerPageOption = selectedOption;
                     await ViewModel.OnSelectedItemChanged();
