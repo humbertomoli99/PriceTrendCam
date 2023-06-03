@@ -289,6 +289,7 @@ public partial class MainViewModel : MainModel
                 {
                     ListViewCollection.Remove(i);
                     _ = await App.PriceTrackerService.DeleteAsync<ProductInfo>(i.Id);
+                    await UpdateList();
                     return;
                 }
             }
