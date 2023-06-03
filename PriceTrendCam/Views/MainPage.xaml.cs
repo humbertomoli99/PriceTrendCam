@@ -34,9 +34,6 @@ public sealed partial class MainPage : Page
             ViewModel.ListViewProducts = ListViewProducts;
             ViewModel.XamlRoot = XamlRoot;
 
-            // Cargar los productos en la lista
-            //await ViewModel.UpdateList();
-
             // Establecer el contexto de datos del ListView
             DataContext = ViewModel;
         }
@@ -110,12 +107,14 @@ public sealed partial class MainPage : Page
         MenuFlyout flyout = new MenuFlyout();
         ProductListItem data = (ProductListItem)args.Item;
         MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
-        flyout.Opened += delegate (object element, object e)
+        flyout.Opened += delegate (object? element, object e)
         {
-            MenuFlyout flyoutElement = element as MenuFlyout;
-            ListViewItem elementToHighlight = flyoutElement.Target as ListViewItem;
-            elementToHighlight.IsSelected = true;
+            if (element is MenuFlyout flyoutElement && flyoutElement.Target is ListViewItem elementToHighlight)
+            {
+                elementToHighlight.IsSelected = true;
+            }
         };
+
         flyout.Items.Add(item);
         args.ItemContainer.ContextFlyout = flyout;
     }
