@@ -284,6 +284,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.Footer>
+                                <!--#region Paginacion-->
                                 <Grid HorizontalAlignment="Right">
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                         <TextBlock
@@ -328,7 +329,7 @@
                                         </Button>
                                     </StackPanel>
                                 </Grid>
-
+                                <!--#endregion Paginacion-->
                             </ListView.Footer>
                         </ListView>
                     </Grid>
