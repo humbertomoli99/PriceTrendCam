@@ -7,16 +7,17 @@
   xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/templatestudio"
   xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-  IgnorableNamespaces="uap rescap genTemplate">
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  IgnorableNamespaces="uap rescap genTemplate mp">
 
   <Identity
-    Name="5F0BDD47-3323-4D23-87E2-10643AB2F138"
-    Publisher="CN=humbe"
-    Version="1.0.0.0" />
+    Name="28981bertomolina.GraphPriceOne"
+    Publisher="CN=07B7D03B-E0D7-4267-BD21-005497AB4FCB"
+    Version="0.0.1.0" />
 
   <Properties>
     <DisplayName>PriceTrendCam</DisplayName>
-    <PublisherDisplayName>humbe</PublisherDisplayName>
+    <PublisherDisplayName>Humberto Molina</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -72,4 +73,6 @@
     <genTemplate:Item Name="platform" Value="WinUI" />
     <genTemplate:Item Name="appmodel" Value="Desktop" />
   </genTemplate:Metadata>
+
+  <mp:PhoneIdentity PhoneProductId="228262d4-4510-4185-9beb-31c441e16c66"/>
 </Package>
