@@ -42,6 +42,7 @@ public partial class MainViewModel : MainModel
         SelectedRowsPerPageOption = 5;
 
         RowsPerPageOptions = new ObservableCollection<int> { 5, 10, 25, 50, 100 };
+        ProductsList = new List<ProductInfo>();
 
         _ = UpdateList();
     }
