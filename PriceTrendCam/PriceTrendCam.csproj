@@ -20,6 +20,7 @@
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
+    <PackageIcon>BadgeLogo.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\BadgeLogo.scale-100.png" />
@@ -65,6 +66,10 @@
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\BadgeLogo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
     <Page Update="Controls\ControlPager.xaml">
       <Generator>MSBuild:Compile</Generator>
