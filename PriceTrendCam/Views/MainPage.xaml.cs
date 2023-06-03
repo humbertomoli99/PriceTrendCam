@@ -104,9 +104,9 @@ public sealed partial class MainPage : Page
     }
     private void ListViewRight_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
     {
-        MenuFlyout flyout = new MenuFlyout();
-        ProductListItem data = (ProductListItem)args.Item;
-        MenuFlyoutItem item = new MenuFlyoutItem() { Command = data.Command };
+        var flyout = new MenuFlyout();
+        var data = (ProductListItem)args.Item;
+        var item = new MenuFlyoutItem() { Command = data.Command };
         flyout.Opened += delegate (object? element, object e)
         {
             if (element is MenuFlyout flyoutElement && flyoutElement.Target is ListViewItem elementToHighlight)
