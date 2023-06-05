@@ -28,17 +28,10 @@ public partial class MainModel : ObservableObject
 
     //lista de productos
     private List<ProductInfo> _productsList;
-
     public List<ProductInfo> ProductsList
     {
-        get
-        {
-            return _productsList ?? new List<ProductInfo>();
-        }
-        set
-        {
-            _productsList = value;
-        }
+        get => _productsList ?? new List<ProductInfo>();
+        set => _productsList = value;
     }
 
     public ObservableCollection<ProductListItem> ListViewCollection;
