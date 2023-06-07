@@ -209,49 +209,18 @@ public partial class MainViewModel : MainModel
         }
         return null;
     }
-    public async Task GetOrderedList(string order = "id", bool Ascendant = false, int page = 0, int pageSize = 10)
+    public async Task GetOrderedList(string order = "id", bool ascendant = false, int page = 0, int pageSize = 10)
     {
         try
         {
-            // Ordenar la lista de productos en función de la columna de ordenamiento y el orden ascendente/descendente
-            switch (order)
-            {
-                case "Status":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Status).ToList() : ProductsList.OrderByDescending(o => o.Status).ToList();
-                    break;
-                case "Name":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
-                    break;
-                case "Id":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Id).ToList() : ProductsList.OrderByDescending(o => o.Id).ToList();
-                    break;
-                case "Price":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
-                    break;
-                case "ShippingPrice":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.ShippingPrice).ToList() : ProductsList.OrderByDescending(o => o.ShippingPrice).ToList();
-                    break;
-                case "Stock":
-                    ProductsList = Ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
-                    break;
-                default:
-                    break;
-            }
+            OrderList(order, ascendant);
 
-            // Calcular el número de páginas y elementos por página
-            var totalItemsCount = ProductsList.Count;
-            var totalPages = (int)Math.Ceiling((double)totalItemsCount / pageSize);
+            var totalPages = CalculateTotalPages(pageSize);
+            var itemsOnPage = GetItemsForPage(page, pageSize);
 
-            // Obtener los elementos correspondientes a la página actual
-            var itemsOnPage = ProductsList.Skip((page) * pageSize).Take(pageSize).ToList();
-
-            // Insertar los productos en la lista
             InsertProductsIntoList(itemsOnPage);
 
-            // Actualizar el número total de páginas
             TotalPagesCount = totalPages;
-
-            // Actualizar la página actual
             CurrentPageIndex = page;
 
             OnPropertyChanged(nameof(PageSummary));
@@ -262,6 +231,75 @@ public partial class MainViewModel : MainModel
             await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
+
+    private void OrderList(string order, bool ascendant)
+    {
+        switch (order)
+        {
+            case "Status":
+                OrderByStatus(ascendant);
+                break;
+            case "Name":
+                OrderByName(ascendant);
+                break;
+            case "Id":
+                OrderById(ascendant);
+                break;
+            case "Price":
+                OrderByPrice(ascendant);
+                break;
+            case "ShippingPrice":
+                OrderByShippingPrice(ascendant);
+                break;
+            case "Stock":
+                OrderByStock(ascendant);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OrderByStatus(bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Status).ToList() : ProductsList.OrderByDescending(o => o.Status).ToList();
+    }
+
+    private void OrderByName(bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
+    }
+
+    private void OrderById(bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Id).ToList() : ProductsList.OrderByDescending(o => o.Id).ToList();
+    }
+
+    private void OrderByPrice(bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
+    }
+
+    private void OrderByShippingPrice(bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(o => o.ShippingPrice).ToList() : ProductsList.OrderByDescending(o => o.ShippingPrice).ToList();
+    }
+
+    private void OrderByStock(bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
+    }
+
+    private int CalculateTotalPages(int pageSize)
+    {
+        var totalItemsCount = ProductsList.Count;
+        return (int)Math.Ceiling((double)totalItemsCount / pageSize);
+    }
+
+    private List<ProductInfo> GetItemsForPage(int page, int pageSize)
+    {
+        return ProductsList.Skip(page * pageSize).Take(pageSize).ToList();
+    }
+
     [RelayCommand]
     private async void SelectMultiple()
     {
