@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
@@ -243,62 +244,36 @@ public partial class MainViewModel : MainModel
             await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
+    private void OrderList<T>(Func<ProductInfo, T> propertySelector, bool ascendant)
+    {
+        ProductsList = ascendant ? ProductsList.OrderBy(propertySelector).ToList() : ProductsList.OrderByDescending(propertySelector).ToList();
+    }
 
     private void OrderList(string order, bool ascendant)
     {
         switch (order)
         {
             case "Status":
-                OrderByStatus(ascendant);
+                OrderList(p => p.Status, ascendant);
                 break;
             case "Name":
-                OrderByName(ascendant);
+                OrderList(p => p.Name, ascendant);
                 break;
             case "Id":
-                OrderById(ascendant);
+                OrderList(p => p.Id, ascendant);
                 break;
             case "Price":
-                OrderByPrice(ascendant);
+                OrderList(p => p.Price, ascendant);
                 break;
             case "ShippingPrice":
-                OrderByShippingPrice(ascendant);
+                OrderList(p => p.ShippingPrice, ascendant);
                 break;
             case "Stock":
-                OrderByStock(ascendant);
+                OrderList(p => p.Stock, ascendant);
                 break;
             default:
                 break;
         }
-    }
-
-    private void OrderByStatus(bool ascendant)
-    {
-        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Status).ToList() : ProductsList.OrderByDescending(o => o.Status).ToList();
-    }
-
-    private void OrderByName(bool ascendant)
-    {
-        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Name).ToList() : ProductsList.OrderByDescending(o => o.Name).ToList();
-    }
-
-    private void OrderById(bool ascendant)
-    {
-        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Id).ToList() : ProductsList.OrderByDescending(o => o.Id).ToList();
-    }
-
-    private void OrderByPrice(bool ascendant)
-    {
-        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Price).ToList() : ProductsList.OrderByDescending(o => o.Price).ToList();
-    }
-
-    private void OrderByShippingPrice(bool ascendant)
-    {
-        ProductsList = ascendant ? ProductsList.OrderBy(o => o.ShippingPrice).ToList() : ProductsList.OrderByDescending(o => o.ShippingPrice).ToList();
-    }
-
-    private void OrderByStock(bool ascendant)
-    {
-        ProductsList = ascendant ? ProductsList.OrderBy(o => o.Stock).ToList() : ProductsList.OrderByDescending(o => o.Stock).ToList();
     }
 
     private int CalculateTotalPages(int pageSize)
