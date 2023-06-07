@@ -99,7 +99,6 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
-
     [RelayCommand]
     private async Task DeleteProduct()
     {
@@ -108,36 +107,13 @@ public partial class MainViewModel : MainModel
             var itemsSelected = ListViewProducts.SelectedItems;
             if (itemsSelected.Count > 0)
             {
-                var itemsS = itemsSelected.Count.ToString();
-                string content;
-                if (itemsSelected.Count == 1)
-                {
-                    content = $"Esta seguro de eliminar el registro?\nSe dejaran de seguir los productos relacionados con la tienda";
-                }
-                else
-                {
-                    content = $"Esta seguro de eliminar los {itemsS} registros?\nSe dejaran de seguir los productos relacionados con las tiendas";
-                }
+                string content = GetDeleteDialogContent(itemsSelected.Count);
 
-                var deleteFileDialog = new ContentDialog
-                {
-                    Title = "Delete Product",
-                    XamlRoot = XamlRoot,
-                    Content = content,
-                    DefaultButton = ContentDialogButton.Primary,
-                    PrimaryButtonText = "Delete",
-                    CloseButtonText = "Cancel"
-                };
-
-                var result = await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteFileDialog);
+                var result = await ShowDeleteConfirmationDialog(content);
 
                 if (result == ContentDialogResult.Primary)
                 {
-                    foreach (var item in itemsSelected)
-                    {
-                        var data = (ProductListItem)item;
-                        await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
-                    }
+                    await DeleteSelectedProducts(itemsSelected);
                     await UpdateList();
                     await HideButtons();
                 }
@@ -145,15 +121,51 @@ public partial class MainViewModel : MainModel
                 {
                     await HideButtons();
                 }
-
             }
-
         }
         catch (Exception ex)
         {
-            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            // Manejar la excepción de acuerdo a tus necesidades
+            Console.WriteLine($"Error al eliminar el producto: {ex.Message}");
         }
     }
+
+    private string GetDeleteDialogContent(int itemsCount)
+    {
+        if (itemsCount == 1)
+        {
+            return "¿Está seguro de eliminar el registro?\nSe dejarán de seguir los productos relacionados con la tienda.";
+        }
+        else
+        {
+            return $"¿Está seguro de eliminar los {itemsCount} registros?\nSe dejarán de seguir los productos relacionados con las tiendas.";
+        }
+    }
+
+    private async Task<ContentDialogResult> ShowDeleteConfirmationDialog(string content)
+    {
+        var deleteFileDialog = new ContentDialog
+        {
+            Title = "Delete Product",
+            XamlRoot = XamlRoot,
+            Content = content,
+            DefaultButton = ContentDialogButton.Primary,
+            PrimaryButtonText = "Delete",
+            CloseButtonText = "Cancel"
+        };
+
+        return await ContentDialogHelper<ContentDialog>.Instance.ShowContentDialog(deleteFileDialog);
+    }
+
+    private async Task DeleteSelectedProducts(IList<object> itemsSelected)
+    {
+        foreach (var item in itemsSelected)
+        {
+            var data = (ProductListItem)item;
+            await App.PriceTrackerService.DeleteAsync<ProductInfo>(data.Id);
+        }
+    }
+
     [RelayCommand]
     public async Task UpdateList()
     {
