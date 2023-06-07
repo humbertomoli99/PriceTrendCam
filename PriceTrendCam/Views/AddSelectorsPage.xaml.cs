@@ -776,44 +776,25 @@ public sealed partial class AddSelectorsPage : Page
     public void LoadSelectorsIntoList(List<Selector> selectors)
     {
         collection.Clear();
-        if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+
+        var deleteCommand = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7)
+            ? new StandardUICommand(StandardUICommandKind.Delete)
+            : null;
+
+        foreach (var item in selectors)
         {
-            var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
-            deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
-
-            foreach (var item in selectors)
+            var listItemData = new SelectorListItem
             {
-                var listItemData = new SelectorListItem
-                {
-                    Id = item.Id,
-                    Attribute = item.Attribute,
-                    CssSelector = item.CssSelector,
-                    RegexMethods = item.RegexMethods,
-                    Type = item.Type,
-                    IsNotNull = item.NotNull,
-                    Command = deleteCommand
-                };
+                Id = item.Id,
+                Attribute = item.Attribute,
+                CssSelector = item.CssSelector,
+                RegexMethods = item.RegexMethods,
+                Type = item.Type,
+                IsNotNull = item.NotNull,
+                Command = deleteCommand
+            };
 
-                collection.Add(listItemData);
-            }
-        }
-        else
-        {
-            foreach (var item in selectors)
-            {
-                var listItemData = new SelectorListItem
-                {
-                    Id = item.Id,
-                    Attribute = item.Attribute,
-                    CssSelector = item.CssSelector,
-                    RegexMethods = item.RegexMethods,
-                    Type = item.Type,
-                    IsNotNull = item.NotNull,
-                    Command = null
-                };
-
-                collection.Add(listItemData);
-            }
+            collection.Add(listItemData);
         }
     }
 
