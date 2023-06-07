@@ -305,46 +305,25 @@ public partial class MainViewModel : MainModel
         try
         {
             ListViewCollection.Clear();
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
+            deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
+
+            foreach (var item in Products)
             {
-                var deleteCommand = new StandardUICommand(StandardUICommandKind.Delete);
-                deleteCommand.ExecuteRequested += DeleteCommand_ExecuteRequested;
-
-                foreach (var item in Products)
+                var listItemData = new ProductListItem
                 {
-                    var listItemData = new ProductListItem
-                    {
-                        Id = item.Id,
-                        Title = item.Name,
-                        ImageLocation = item.Image == string.Empty ? "ms-appx:///Assets/Mountain_Monochromatic.png" : item.Image,
-                        Price = item.Price.ToString(),
-                        Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
-                        Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
-                        Command = deleteCommand
-                    };
+                    Id = item.Id,
+                    Title = item.Name,
+                    ImageLocation = string.IsNullOrEmpty(item.Image) ? "ms-appx:///Assets/Mountain_Monochromatic.png" : item.Image,
+                    Price = item.Price.ToString(),
+                    Stock = item.Stock == 0 ? "Stock Empty" : (item.Stock == null ? "Not available" : item.Stock.ToString()),
+                    Shipping = item.ShippingPrice == 0 ? "Free shipping" : (item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString()),
+                    Command = (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7) ? deleteCommand : null)
+                };
 
-                    ListViewCollection.Add(listItemData);
-                }
+                ListViewCollection.Add(listItemData);
             }
-            else
-            {
-                foreach (var item in Products)
-                {
-                    var listItemData = new ProductListItem
-                    {
-                        Id = item.Id,
-                        Title = item.Name,
-                        ImageLocation = item.Image == string.Empty ? "ms-appx:///Assets/Mountain_Monochromatic.png" : item.Image,
-                        Price = item.Price.ToString(),
-                        Stock = item.Stock == 0 ? "Stock Empty" : item.Stock == null ? "Not available" : item.Stock.ToString(),
-                        Shipping = item.ShippingPrice == 0 ? "Free shipping" : item.ShippingPrice == null ? "Not available" : item.ShippingPrice.ToString(),
-                        Command = null
-                    };
 
-                    ListViewCollection.Add(listItemData);
-                }
-            }
-            // Actualizar el total de ítems en la lista
             OnPropertyChanged(nameof(PageSummary));
             OnPropertyChanged(nameof(TotalItemsCount));
 
@@ -355,6 +334,7 @@ public partial class MainViewModel : MainModel
             await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
         }
     }
+
     public async Task ShowMessageAddProductFromClipboard()
     {
         ClipboardAutomatically = await _clipboardSelectorService.LoadClipboardSettingFromSettingsAsync();
