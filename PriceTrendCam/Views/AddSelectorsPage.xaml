@@ -160,7 +160,9 @@
                             x:Name="TBHtmlContent"
                             FontSize="14"
                             LineHeight="20"
+                            Loaded="TBHtmlContent_Loaded"
                             MaxLines="500"
+                            SizeChanged="TBHtmlContent_SizeChanged"
                             Text="{x:Bind ViewModel.HtmlContent, Mode=TwoWay}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="Wrap" />

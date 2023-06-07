@@ -817,10 +817,6 @@ public sealed partial class AddSelectorsPage : Page
         }
     }
 
-    private void TextBlock_Loaded(object sender, RoutedEventArgs e)
-    {
-        MeasureTextBlockHeight();
-    }
     private void MeasureTextBlockHeight()
     {
         // Medir la altura del control TextBlock
@@ -830,7 +826,12 @@ public sealed partial class AddSelectorsPage : Page
         TBHtmlContent.Height = TBHtmlContent.DesiredSize.Height;
     }
 
-    private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void TBHtmlContent_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        MeasureTextBlockHeight();
+    }
+
+    private void TBHtmlContent_Loaded(object sender, RoutedEventArgs e)
     {
         MeasureTextBlockHeight();
     }
