@@ -222,7 +222,7 @@ public partial class MainViewModel : MainModel
         }
         return null;
     }
-    public async Task GetOrderedList(string order = "id", bool ascendant = false, int page = 0, int pageSize = 10)
+    public async Task GetOrderedList(string order = "Id", bool ascendant = false, int page = 0, int pageSize = 10)
     {
         try
         {
@@ -251,28 +251,24 @@ public partial class MainViewModel : MainModel
 
     private void OrderList(string order, bool ascendant)
     {
-        switch (order)
+        if (order == null)
         {
-            case "Status":
-                OrderList(p => p.Status, ascendant);
-                break;
-            case "Name":
-                OrderList(p => p.Name, ascendant);
-                break;
-            case "Id":
-                OrderList(p => p.Id, ascendant);
-                break;
-            case "Price":
-                OrderList(p => p.Price, ascendant);
-                break;
-            case "ShippingPrice":
-                OrderList(p => p.ShippingPrice, ascendant);
-                break;
-            case "Stock":
-                OrderList(p => p.Stock, ascendant);
-                break;
-            default:
-                break;
+            return; // No se realiza ninguna acción si el parámetro order es null
+        }
+
+        var propertySelectors = new Dictionary<string, Func<ProductInfo, object>>
+        {
+            { "Status", p => p.Status },
+            { "Name", p => p.Name },
+            { "Id", p => p.Id },
+            { "Price", p => p.Price },
+            { "ShippingPrice", p => p.ShippingPrice },
+            { "Stock", p => p.Stock }
+        };
+
+        if (propertySelectors.ContainsKey(order))
+        {
+            OrderList(propertySelectors[order], ascendant);
         }
     }
 
