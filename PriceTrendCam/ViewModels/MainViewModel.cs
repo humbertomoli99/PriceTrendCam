@@ -286,21 +286,21 @@ public partial class MainViewModel : MainModel
     [RelayCommand]
     private async void SelectMultiple()
     {
-        if (ListViewProducts == null) return;
-
-        var AllItems = ListViewProducts.Items.Count;
-        if (AllItems > 0)
+        if (ListViewProducts == null || ListViewProducts.Items.Count == 0)
         {
-            if (SelectMultipleIsEnabled == false)
-            {
-                await ShowButtons();
-            }
-            else if (SelectMultipleIsEnabled == true)
-            {
-                await HideButtons();
-            }
+            return;
+        }
+
+        if (SelectMultipleIsEnabled)
+        {
+            await HideButtons();
+        }
+        else
+        {
+            await ShowButtons();
         }
     }
+
     private async void DeleteCommand_ExecuteRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
     {
         if (args.Parameter != null)
