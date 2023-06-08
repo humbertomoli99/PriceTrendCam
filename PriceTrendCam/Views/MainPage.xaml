@@ -160,7 +160,7 @@
                             <AppBarSeparator />
                         </CommandBar>
                         <ListView
-                            x:Name="ListViewProducts"
+                            x:Name="ListViewProductsControl"
                             Grid.Row="1"
                             Grid.ColumnSpan="2"
                             MinWidth="550"

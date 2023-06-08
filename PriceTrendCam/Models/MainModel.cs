@@ -36,7 +36,7 @@ public partial class MainModel : ObservableObject
 
     public ObservableCollection<ProductListItem> ListViewCollection;
 
-    public ListView ListViewProducts
+    public ListView ListViewProductsControl
     {
         get;
         set;

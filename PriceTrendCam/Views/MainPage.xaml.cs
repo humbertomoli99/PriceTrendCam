@@ -31,7 +31,7 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            ViewModel.ListViewProducts = ListViewProducts;
+            ViewModel.ListViewProductsControl = ListViewProductsControl;
             ViewModel.XamlRoot = XamlRoot;
 
             // Establecer el contexto de datos del ListView
@@ -59,11 +59,11 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
+            if (ListViewProductsControl.SelectionMode == ListViewSelectionMode.Multiple || ListViewProductsControl.SelectionMode == ListViewSelectionMode.Extended)
             {
                 SelectAllCheckBox.IsChecked = true;
                 SelectAllCheckBoxIcon.Glyph = "\ue73a";
-                ListViewProducts.SelectAll();
+                ListViewProductsControl.SelectAll();
             }
         }
         catch (Exception ex)
@@ -76,11 +76,11 @@ public sealed partial class MainPage : Page
     {
         try
         {
-            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
+            if (ListViewProductsControl.SelectionMode == ListViewSelectionMode.Multiple || ListViewProductsControl.SelectionMode == ListViewSelectionMode.Extended)
             {
                 SelectAllCheckBox.IsChecked = false;
                 SelectAllCheckBoxIcon.Glyph = "\ue739";
-                ListViewProducts.DeselectRange(new ItemIndexRange(0, (uint)ListViewProducts.Items.Count));
+                ListViewProductsControl.DeselectRange(new ItemIndexRange(0, (uint)ListViewProductsControl.Items.Count));
             }
         }
         catch (Exception ex)

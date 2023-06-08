@@ -105,7 +105,7 @@ public partial class MainViewModel : MainModel
     {
         try
         {
-            var itemsSelected = ListViewProducts.SelectedItems;
+            var itemsSelected = ListViewProductsControl.SelectedItems;
             if (itemsSelected.Count > 0)
             {
                 string content = GetDeleteDialogContent(itemsSelected.Count);
@@ -286,7 +286,7 @@ public partial class MainViewModel : MainModel
     [RelayCommand]
     private async void SelectMultiple()
     {
-        if (ListViewProducts == null || ListViewProducts.Items.Count == 0)
+        if (ListViewProductsControl == null || ListViewProductsControl.Items.Count == 0)
         {
             return;
         }
@@ -316,9 +316,9 @@ public partial class MainViewModel : MainModel
                 }
             }
         }
-        if (ListViewProducts.SelectedIndex != -1)
+        if (ListViewProductsControl.SelectedIndex != -1)
         {
-            ListViewCollection.RemoveAt(ListViewProducts.SelectedIndex);
+            ListViewCollection.RemoveAt(ListViewProductsControl.SelectedIndex);
         }
     }
     public async void InsertProductsIntoList(List<ProductInfo> Products)
@@ -592,10 +592,10 @@ public partial class MainViewModel : MainModel
     {
         try
         {
-            if (ListViewProducts != null)
+            if (ListViewProductsControl != null)
             {
-                ListViewProducts.SelectedItem = null;
-                ListViewProducts.SelectionMode = ListViewSelectionMode.Single;
+                ListViewProductsControl.SelectedItem = null;
+                ListViewProductsControl.SelectionMode = ListViewSelectionMode.Single;
             }
             SelectMultipleIsEnabled = false;
             IsCheckedAllVisibility = Visibility.Collapsed;
@@ -610,9 +610,9 @@ public partial class MainViewModel : MainModel
     {
         try
         {
-            if (ListViewProducts != null)
+            if (ListViewProductsControl != null)
             {
-                ListViewProducts.SelectionMode = ListViewSelectionMode.Multiple;
+                ListViewProductsControl.SelectionMode = ListViewSelectionMode.Multiple;
             }
             SelectMultipleIsEnabled = true;
             IsCheckedAllVisibility = Visibility.Visible;
@@ -629,8 +629,8 @@ public partial class MainViewModel : MainModel
         try
         {
             var itemsSelected = selectedItems.Count;
-            var AllItems = ListViewProducts.Items.Count;
-            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Multiple || ListViewProducts.SelectionMode == ListViewSelectionMode.Extended)
+            var AllItems = ListViewProductsControl.Items.Count;
+            if (ListViewProductsControl.SelectionMode == ListViewSelectionMode.Multiple || ListViewProductsControl.SelectionMode == ListViewSelectionMode.Extended)
             {
                 if (itemsSelected == AllItems)
                 {
@@ -648,9 +648,9 @@ public partial class MainViewModel : MainModel
                     SelectAllCheckBoxIcon.Glyph = "\uf16e";
                 }
             }
-            if (ListViewProducts.SelectionMode == ListViewSelectionMode.Single && selectedItems.Count > 0)
+            if (ListViewProductsControl.SelectionMode == ListViewSelectionMode.Single && selectedItems.Count > 0)
             {
-                var obj = (ProductListItem)ListViewProducts.SelectedItem;
+                var obj = (ProductListItem)ListViewProductsControl.SelectedItem;
                 _navigationService.NavigateTo(typeof(ProductDetailsViewModel).FullName!, obj.Id);
             }
         }
