@@ -358,18 +358,29 @@ public partial class MainViewModel : MainModel
 
     public async Task ShowMessageAddProductFromClipboard()
     {
+        // Cargar la configuración del portapapeles automáticamente
         ClipboardAutomatically = await _clipboardSelectorService.LoadClipboardSettingFromSettingsAsync();
 
-        if (!await IsUrlClipboardValid() && !ClipboardAutomatically) return;
+        // Comprobar si el portapapeles es válido o si está habilitada la opción de portapapeles automático
+        if (await IsUrlClipboardValid() || ClipboardAutomatically)
+            return; // No hacer nada si no se cumple la condición
 
+        // Obtener el contenido del portapapeles
         var urlClipboard = await GetClipboardTextAsync();
-        if (await IsRegistered(urlClipboard)) return;
 
+        // Comprobar si la URL del portapapeles ya está registrada
+        if (await IsRegistered(urlClipboard))
+            return; // No hacer nada si ya está registrada
+
+        // Obtener las URL de la tienda correspondientes a la URL del portapapeles
         var urlShop = await GetStoreUrlsByUrl(urlClipboard);
-        if (urlShop.Count == 0 || urlShop == null) return;
 
-        //mensaje de si desea añadir el producto en contrado
-        await SearchUrlAsync(await GetClipboardTextAsync());
+        // Comprobar si se encontraron URLs de tiendas y si no es nulo
+        if (urlShop == null || urlShop.Count == 0)
+            return; // No hacer nada si no se encontraron URLs de tiendas o si es nulo
+
+        // Realizar la búsqueda de la URL del portapapeles
+        await SearchUrlAsync(urlClipboard);
     }
 
     public async Task<bool> IsUrlClipboardValid()
