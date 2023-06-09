@@ -180,7 +180,9 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         TotalItemsCount = UnsortedProducts.Count;
 
-        await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(sortedProducts);
     }
 
     [RelayCommand]
@@ -211,7 +213,9 @@ public partial class MainViewModel : MainModel
 
         var isAscending = (selectedSortDirection == "Ascending");
 
-        await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(sortedProducts);
 
         previousSelectedSortBy = selectedSortBy;
         previousSelectedSortDirection = selectedSortDirection;
@@ -237,15 +241,13 @@ public partial class MainViewModel : MainModel
             var totalPages = CalculateTotalPages(pageSize);
             var itemsOnPage = GetItemsForPage(page, pageSize);
 
-            InsertProductsIntoList(itemsOnPage);
-
             TotalPagesCount = totalPages;
             CurrentPageIndex = page;
 
             OnPropertyChanged(nameof(PageSummary));
             OnPropertyChanged(nameof(TotalItemsCount));
 
-            return UnsortedProducts;
+            return itemsOnPage;
         }
         catch (Exception ex)
         {
