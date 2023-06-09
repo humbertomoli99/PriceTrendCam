@@ -255,9 +255,9 @@ public partial class MainViewModel : MainModel
         UnsortedProducts = ascendant ? UnsortedProducts.OrderBy(propertySelector).ToList() : UnsortedProducts.OrderByDescending(propertySelector).ToList();
     }
 
-    private void OrderListByProperty(string order, bool ascendant)
+    private void OrderListByProperty(string property, bool ascendant)
     {
-        if (order == null)
+        if (property == null)
         {
             return; // No se realiza ninguna acción si el parámetro order es null
         }
@@ -272,9 +272,9 @@ public partial class MainViewModel : MainModel
             { "Stock", p => p.Stock }
         };
 
-        if (propertySelectors.ContainsKey(order))
+        if (propertySelectors.ContainsKey(property))
         {
-            OrderList(propertySelectors[order], ascendant);
+            OrderList(propertySelectors[property], ascendant);
         }
     }
 
