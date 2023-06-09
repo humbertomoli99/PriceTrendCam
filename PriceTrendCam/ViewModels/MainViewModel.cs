@@ -228,11 +228,11 @@ public partial class MainViewModel : MainModel
         }
         return null;
     }
-    public async Task GetOrderedList(string order = "Id", bool ascendant = false, int page = 0, int pageSize = 10)
+    public async Task GetOrderedList(string property = "Id", bool ascendant = false, int page = 0, int pageSize = 10)
     {
         try
         {
-            OrderList(order, ascendant);
+            OrderListByProperty(property, ascendant);
 
             var totalPages = CalculateTotalPages(pageSize);
             var itemsOnPage = GetItemsForPage(page, pageSize);
@@ -255,7 +255,7 @@ public partial class MainViewModel : MainModel
         UnsortedProducts = ascendant ? UnsortedProducts.OrderBy(propertySelector).ToList() : UnsortedProducts.OrderByDescending(propertySelector).ToList();
     }
 
-    private void OrderList(string order, bool ascendant)
+    private void OrderListByProperty(string order, bool ascendant)
     {
         if (order == null)
         {
