@@ -23,7 +23,7 @@ public partial class MainViewModel : MainModel
     {
         if (UnsortedProducts == null) return;
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        await GetOrderedList(UnsortedProducts, OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
         await UpdatePageCommands();
     }
 
@@ -104,7 +104,7 @@ public partial class MainViewModel : MainModel
         await UpdateList();
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        await GetOrderedList(UnsortedProducts, OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
     [RelayCommand]
     private async Task DeleteProduct()
@@ -180,7 +180,7 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         TotalItemsCount = UnsortedProducts.Count;
 
-        await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
 
     [RelayCommand]
@@ -211,7 +211,7 @@ public partial class MainViewModel : MainModel
 
         var isAscending = (selectedSortDirection == "Ascending");
 
-        await GetOrderedList(selectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
 
         previousSelectedSortBy = selectedSortBy;
         previousSelectedSortDirection = selectedSortDirection;
@@ -228,11 +228,11 @@ public partial class MainViewModel : MainModel
         }
         return null;
     }
-    public async Task GetOrderedList(string property = "Id", bool ascendant = false, int page = 0, int pageSize = 10)
+    public async Task<List<ProductInfo>> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false, int page = 0, int pageSize = 10)
     {
         try
         {
-            OrderListByProperty(property, ascendant);
+            UnsortedProducts = OrderListByProperty(unsortedProducts, property, ascendant);
 
             var totalPages = CalculateTotalPages(pageSize);
             var itemsOnPage = GetItemsForPage(page, pageSize);
@@ -244,10 +244,13 @@ public partial class MainViewModel : MainModel
 
             OnPropertyChanged(nameof(PageSummary));
             OnPropertyChanged(nameof(TotalItemsCount));
+
+            return UnsortedProducts;
         }
         catch (Exception ex)
         {
             await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            return null;
         }
     }
     private void OrderList<T>(Func<ProductInfo, T> propertySelector, bool ascendant)
@@ -255,11 +258,11 @@ public partial class MainViewModel : MainModel
         UnsortedProducts = ascendant ? UnsortedProducts.OrderBy(propertySelector).ToList() : UnsortedProducts.OrderByDescending(propertySelector).ToList();
     }
 
-    private void OrderListByProperty(string property, bool ascendant)
+    private List<ProductInfo> OrderListByProperty(List<ProductInfo> unsortedProducts, string property, bool ascendant)
     {
         if (property == null)
         {
-            return; // No se realiza ninguna acción si el parámetro order es null
+            return unsortedProducts; // Retorna la lista desordenada si el parámetro property es null
         }
 
         var propertySelectors = new Dictionary<string, Func<ProductInfo, object>>
@@ -274,8 +277,10 @@ public partial class MainViewModel : MainModel
 
         if (propertySelectors.ContainsKey(property))
         {
-            OrderList(propertySelectors[property], ascendant);
+            return ascendant ? unsortedProducts.OrderBy(propertySelectors[property]).ToList() : unsortedProducts.OrderByDescending(propertySelectors[property]).ToList();
         }
+
+        return unsortedProducts; // Retorna la lista desordenada si el parámetro property no coincide con ninguna propiedad válida
     }
 
     private int CalculateTotalPages(int pageSize)
@@ -422,7 +427,7 @@ public partial class MainViewModel : MainModel
         InsertProductsIntoList(UnsortedProducts);
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
 
         OnPropertyChanged(nameof(PageSummary));
         OnPropertyChanged(nameof(TotalItemsCount));
