@@ -21,7 +21,7 @@ public partial class MainViewModel : MainModel
 {
     public async Task OnSelectedItemChanged()
     {
-        if (ProductsList == null) return;
+        if (UnsortedProducts == null) return;
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
         await UpdatePageCommands();
@@ -43,9 +43,15 @@ public partial class MainViewModel : MainModel
         SelectedRowsPerPageOption = 5;
 
         RowsPerPageOptions = new ObservableCollection<int> { 5, 10, 25, 50, 100 };
-        ProductsList = new List<ProductInfo>();
+        UnsortedProducts = new List<ProductInfo>();
 
         _ = UpdateList();
+    }
+
+    public async Task<List<ProductInfo>> GetUnsortedProducts()
+    {
+        List<ProductInfo> unsortedProducts = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        return unsortedProducts;
     }
 
     public void Pagination(int totalItemsCount, int defaultRowsPerPage = 10)
@@ -170,9 +176,9 @@ public partial class MainViewModel : MainModel
     [RelayCommand]
     public async Task UpdateList()
     {
-        ProductsList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        UnsortedProducts = await GetUnsortedProducts();
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        TotalItemsCount = ProductsList.Count;
+        TotalItemsCount = UnsortedProducts.Count;
 
         await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
     }
@@ -246,7 +252,7 @@ public partial class MainViewModel : MainModel
     }
     private void OrderList<T>(Func<ProductInfo, T> propertySelector, bool ascendant)
     {
-        ProductsList = ascendant ? ProductsList.OrderBy(propertySelector).ToList() : ProductsList.OrderByDescending(propertySelector).ToList();
+        UnsortedProducts = ascendant ? UnsortedProducts.OrderBy(propertySelector).ToList() : UnsortedProducts.OrderByDescending(propertySelector).ToList();
     }
 
     private void OrderList(string order, bool ascendant)
@@ -274,13 +280,13 @@ public partial class MainViewModel : MainModel
 
     private int CalculateTotalPages(int pageSize)
     {
-        var totalItemsCount = ProductsList.Count;
+        var totalItemsCount = UnsortedProducts.Count;
         return (int)Math.Ceiling((double)totalItemsCount / pageSize);
     }
 
     private List<ProductInfo> GetItemsForPage(int page, int pageSize)
     {
-        return ProductsList.Skip(page * pageSize).Take(pageSize).ToList();
+        return UnsortedProducts.Skip(page * pageSize).Take(pageSize).ToList();
     }
 
     [RelayCommand]
@@ -407,13 +413,13 @@ public partial class MainViewModel : MainModel
     [RelayCommand]
     public async Task SearchInListView()
     {
-        var Products = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        var UnsortedProducts = await GetUnsortedProducts();
         if (TextBoxSearchListView == null) return;
 
         var compareInfo = CultureInfo.InvariantCulture.CompareInfo;
-        ProductsList = Products.Where(p => compareInfo.IndexOf(p.Name, TextBoxSearchListView, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0).ToList();
+        UnsortedProducts = UnsortedProducts.Where(p => compareInfo.IndexOf(p.Name, TextBoxSearchListView, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0).ToList();
 
-        InsertProductsIntoList(ProductsList);
+        InsertProductsIntoList(UnsortedProducts);
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
         await GetOrderedList(previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
@@ -454,7 +460,7 @@ public partial class MainViewModel : MainModel
         try
         {
             // Buscar si la URL tiene un sitemap y selectores asignados
-            var productList = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+            var productList = await GetUnsortedProducts();
             var isRegistered = ((productList?.Where(s => s?.Url?.Equals(url) ?? false)?.ToList().Count ?? 0) > 0);
             return isRegistered;
         }

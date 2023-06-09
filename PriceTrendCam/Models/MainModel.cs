@@ -27,11 +27,11 @@ public partial class MainModel : ObservableObject
     public bool OrderDescen;
 
     //lista de productos
-    private List<ProductInfo> _productsList;
-    public List<ProductInfo> ProductsList
+    private List<ProductInfo> _unsortedProductst;
+    public List<ProductInfo> UnsortedProducts
     {
-        get => _productsList ?? new List<ProductInfo>();
-        set => _productsList = value;
+        get => _unsortedProductst ?? new List<ProductInfo>();
+        set => _unsortedProductst = value;
     }
 
     public ObservableCollection<ProductListItem> ListViewCollection;
