@@ -23,7 +23,10 @@ public partial class MainViewModel : MainModel
     {
         if (UnsortedProducts == null) return;
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(UnsortedProducts, OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, OrderBy, isAscending);
+
+        InsertProductsIntoList(sortedProducts);
+
         await UpdatePageCommands();
     }
 
@@ -104,7 +107,9 @@ public partial class MainViewModel : MainModel
         await UpdateList();
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(UnsortedProducts, OrderBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, OrderBy, isAscending);
+
+        InsertProductsIntoList(sortedProducts);
     }
     [RelayCommand]
     private async Task DeleteProduct()
@@ -180,7 +185,7 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         TotalItemsCount = UnsortedProducts.Count;
 
-        var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
 
         InsertProductsIntoList(sortedProducts);
     }
@@ -213,7 +218,7 @@ public partial class MainViewModel : MainModel
 
         var isAscending = (selectedSortDirection == "Ascending");
 
-        var sortedProducts = await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending);
 
         InsertProductsIntoList(sortedProducts);
 
@@ -232,22 +237,12 @@ public partial class MainViewModel : MainModel
         }
         return null;
     }
-    public async Task<List<ProductInfo>> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false, int page = 0, int pageSize = 10)
+    public async Task<List<ProductInfo>> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false)
     {
         try
         {
-            UnsortedProducts = OrderListByProperty(unsortedProducts, property, ascendant);
-
-            var totalPages = CalculateTotalPages(pageSize);
-            var itemsOnPage = GetItemsForPage(page, pageSize);
-
-            TotalPagesCount = totalPages;
-            CurrentPageIndex = page;
-
-            OnPropertyChanged(nameof(PageSummary));
-            OnPropertyChanged(nameof(TotalItemsCount));
-
-            return itemsOnPage;
+            var sortedProducts = OrderListByProperty(unsortedProducts, property, ascendant);
+            return sortedProducts;
         }
         catch (Exception ex)
         {
@@ -426,10 +421,10 @@ public partial class MainViewModel : MainModel
         var compareInfo = CultureInfo.InvariantCulture.CompareInfo;
         UnsortedProducts = UnsortedProducts.Where(p => compareInfo.IndexOf(p.Name, TextBoxSearchListView, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0).ToList();
 
-        InsertProductsIntoList(UnsortedProducts);
-
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending, CurrentPageIndex, SelectedRowsPerPageOption);
+        var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
+
+        InsertProductsIntoList(sortedProducts);
 
         OnPropertyChanged(nameof(PageSummary));
         OnPropertyChanged(nameof(TotalItemsCount));
