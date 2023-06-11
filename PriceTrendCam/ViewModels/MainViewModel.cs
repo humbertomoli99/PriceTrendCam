@@ -245,19 +245,6 @@ public partial class MainViewModel : MainModel
         }
         return null;
     }
-    public async Task<List<ProductInfo>> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false)
-    {
-        try
-        {
-            var sortedProducts = OrderListByProperty(unsortedProducts, property, ascendant);
-            return sortedProducts;
-        }
-        catch (Exception ex)
-        {
-            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
-            return null;
-        }
-    }
     public async Task<List<ProductInfo>> GetPagedItems(List<ProductInfo> orderedProducts, int page = 0, int pageSize = 10)
     {
         try
@@ -277,7 +264,7 @@ public partial class MainViewModel : MainModel
             return null;
         }
     }
-    private List<ProductInfo> OrderListByProperty(List<ProductInfo> unsortedProducts, string property, bool ascendant)
+    private async Task<List<ProductInfo>> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false)
     {
         if (property == null)
         {
