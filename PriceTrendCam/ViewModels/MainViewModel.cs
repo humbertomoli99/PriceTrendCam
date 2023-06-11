@@ -93,7 +93,6 @@ public partial class MainViewModel : MainModel
         await UpdatePageCommands();
     }
 
-
     private bool CanMoveToFirstPage() => CurrentPageIndex > 0;
     private bool CanMoveToPreviousPage() => CurrentPageIndex > 0;
     private bool CanMoveToNextPage() => CurrentPageIndex < TotalPagesCount - 1;
