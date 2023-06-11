@@ -25,7 +25,9 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         var sortedProducts = await GetOrderedList(UnsortedProducts, OrderBy, isAscending);
 
-        InsertProductsIntoList(sortedProducts);
+        var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(pagedItems);
 
         await UpdatePageCommands();
     }
@@ -109,7 +111,9 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         var sortedProducts = await GetOrderedList(UnsortedProducts, OrderBy, isAscending);
 
-        InsertProductsIntoList(sortedProducts);
+        var pagedItems  = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(pagedItems);
     }
     [RelayCommand]
     private async Task DeleteProduct()
@@ -187,7 +191,9 @@ public partial class MainViewModel : MainModel
 
         var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
 
-        InsertProductsIntoList(sortedProducts);
+        var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(pagedItems);
     }
 
     [RelayCommand]
@@ -220,7 +226,9 @@ public partial class MainViewModel : MainModel
 
         var sortedProducts = await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending);
 
-        InsertProductsIntoList(sortedProducts);
+        var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(pagedItems);
 
         previousSelectedSortBy = selectedSortBy;
         previousSelectedSortDirection = selectedSortDirection;
@@ -250,6 +258,26 @@ public partial class MainViewModel : MainModel
             return null;
         }
     }
+    public async Task<List<ProductInfo>> GetPagedItems(List<ProductInfo> orderedProducts, int page = 0, int pageSize = 10)
+    {
+        try
+        {
+            var itemsOnPage = orderedProducts.Skip(page * pageSize).Take(pageSize).ToList();
+            TotalPagesCount = CalculateTotalPages(orderedProducts.Count, pageSize);
+            CurrentPageIndex = page;
+
+            OnPropertyChanged(nameof(PageSummary));
+            OnPropertyChanged(nameof(TotalItemsCount));
+
+            return itemsOnPage;
+        }
+        catch (Exception ex)
+        {
+            await ContentDialogHelper.ShowExceptionDialog(ex, XamlRoot);
+            return null;
+        }
+    }
+
     private void OrderList<T>(Func<ProductInfo, T> propertySelector, bool ascendant)
     {
         UnsortedProducts = ascendant ? UnsortedProducts.OrderBy(propertySelector).ToList() : UnsortedProducts.OrderByDescending(propertySelector).ToList();
@@ -280,10 +308,12 @@ public partial class MainViewModel : MainModel
         return unsortedProducts; // Retorna la lista desordenada si el parámetro property no coincide con ninguna propiedad válida
     }
 
-    private int CalculateTotalPages(int pageSize)
+    private int CalculateTotalPages(int totalItems, int pageSize)
     {
-        var totalItemsCount = UnsortedProducts.Count;
-        return (int)Math.Ceiling((double)totalItemsCount / pageSize);
+        // Implementa la lógica para calcular el número total de páginas en función del tamaño de página
+        // Puedes usar matemáticas básicas para realizar el cálculo, por ejemplo:
+        var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+        return totalPages;
     }
 
     private List<ProductInfo> GetItemsForPage(int page, int pageSize)
@@ -424,7 +454,9 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
 
-        InsertProductsIntoList(sortedProducts);
+        var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
+
+        InsertProductsIntoList(pagedItems);
 
         OnPropertyChanged(nameof(PageSummary));
         OnPropertyChanged(nameof(TotalItemsCount));
