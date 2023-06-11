@@ -277,12 +277,6 @@ public partial class MainViewModel : MainModel
             return null;
         }
     }
-
-    private void OrderList<T>(Func<ProductInfo, T> propertySelector, bool ascendant)
-    {
-        UnsortedProducts = ascendant ? UnsortedProducts.OrderBy(propertySelector).ToList() : UnsortedProducts.OrderByDescending(propertySelector).ToList();
-    }
-
     private List<ProductInfo> OrderListByProperty(List<ProductInfo> unsortedProducts, string property, bool ascendant)
     {
         if (property == null)
