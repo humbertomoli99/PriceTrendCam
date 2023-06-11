@@ -23,7 +23,7 @@ public partial class MainViewModel : MainModel
     {
         if (UnsortedProducts == null) return;
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        var sortedProducts = await GetOrderedList(UnsortedProducts, OrderBy, isAscending);
+        var sortedProducts = GetOrderedList(UnsortedProducts, OrderBy, isAscending);
 
         var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
 
@@ -109,7 +109,7 @@ public partial class MainViewModel : MainModel
         await UpdateList();
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        var sortedProducts = await GetOrderedList(UnsortedProducts, OrderBy, isAscending);
+        var sortedProducts = GetOrderedList(UnsortedProducts, OrderBy, isAscending);
 
         var pagedItems  = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
 
@@ -189,7 +189,7 @@ public partial class MainViewModel : MainModel
         var isAscending = (previousSelectedSortDirection == "Ascending");
         TotalItemsCount = UnsortedProducts.Count;
 
-        var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
+        var sortedProducts = GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
 
         var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
 
@@ -224,7 +224,7 @@ public partial class MainViewModel : MainModel
 
         var isAscending = (selectedSortDirection == "Ascending");
 
-        var sortedProducts = await GetOrderedList(UnsortedProducts, selectedSortBy, isAscending);
+        var sortedProducts = GetOrderedList(UnsortedProducts, selectedSortBy, isAscending);
 
         var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
 
@@ -264,7 +264,7 @@ public partial class MainViewModel : MainModel
             return null;
         }
     }
-    private async Task<List<ProductInfo>> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false)
+    private List<ProductInfo> GetOrderedList(List<ProductInfo> unsortedProducts, string property = "Id", bool ascendant = false)
     {
         if (property == null)
         {
@@ -433,7 +433,7 @@ public partial class MainViewModel : MainModel
         UnsortedProducts = UnsortedProducts.Where(p => compareInfo.IndexOf(p.Name, TextBoxSearchListView, CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase) >= 0).ToList();
 
         var isAscending = (previousSelectedSortDirection == "Ascending");
-        var sortedProducts = await GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
+        var sortedProducts = GetOrderedList(UnsortedProducts, previousSelectedSortBy, isAscending);
 
         var pagedItems = await GetPagedItems(sortedProducts, CurrentPageIndex, SelectedRowsPerPageOption);
 
