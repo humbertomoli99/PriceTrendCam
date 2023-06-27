@@ -53,7 +53,7 @@ public partial class MainViewModel : MainModel
 
     public async Task<List<ProductInfo>> GetUnsortedProducts()
     {
-        List<ProductInfo> unsortedProducts = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
+        var unsortedProducts = await App.PriceTrackerService.GetAllWithChildrenAsync<ProductInfo>();
         return unsortedProducts;
     }
 
