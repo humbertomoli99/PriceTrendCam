@@ -120,7 +120,7 @@ public partial class MainViewModel : MainModel
             var itemsSelected = ListViewProductsControl.SelectedItems;
             if (itemsSelected.Count > 0)
             {
-                string content = GetDeleteDialogContent(itemsSelected.Count);
+                var content = GetDeleteDialogContent(itemsSelected.Count);
 
                 var result = await ShowDeleteConfirmationDialog(content);
 
