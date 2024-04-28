@@ -144,18 +144,36 @@ public class HtmlDocumentService
         return result ?? string.Empty;
     }
 
+    /// <summary>
+    /// Obtiene el título de la página web.
+    /// </summary>
+    /// <param name="DocumentNode">El nodo raíz del documento HTML.</param>
+    /// <returns>El valor del atributo title o una cadena vacía en caso de no existir.</returns>
     public static string GetMetaTitle(HtmlNode DocumentNode)
     {
+        // Obtiene el valor del atributo "title" del nodo "head > title"
         return GetMetaValue(DocumentNode, "head > title", "innerHTML");
     }
 
+    /// <summary>
+    /// Obtiene la descripción de la página web.
+    /// </summary>
+    /// <param name="DocumentNode">El nodo raíz del documento HTML.</param>
+    /// <returns>El valor del atributo "content" o una cadena vacía en caso de no existir.</returns>
     public static string GetMetaDescription(HtmlNode DocumentNode)
     {
+        // Obtiene el valor del atributo "content" del nodo "head > meta[name='description']"
         return GetMetaValue(DocumentNode, "head > meta[name='description']", "content");
     }
 
+    /// <summary>
+    /// Obtiene la imagen principal de la página web.
+    /// </summary>
+    /// <param name="DocumentNode">El nodo raíz del documento HTML.</param>
+    /// <returns>El valor del atributo "content" o una cadena vacía en caso de no existir.</returns>
     public static string GetMetaImage(HtmlNode DocumentNode)
     {
+        // Obtiene el valor del atributo "content" del nodo "head > meta[property='og:image']"
         return GetMetaValue(DocumentNode, "head > meta[property='og:image']", "content");
     }
 
@@ -172,5 +190,5 @@ public class HtmlDocumentService
 
         //Retorna la lista de URLs sin duplicados
         return allUrls;
-    }
+    }    
 }
